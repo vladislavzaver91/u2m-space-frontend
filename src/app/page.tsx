@@ -1,13 +1,15 @@
 'use client'
 
 import { Logo } from './components/ui/logo'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { useState } from 'react'
+import './globals.css'
+import { useRef, useState } from 'react'
 import { ButtonWithIcon } from './components/ui/button-with-icon'
 import { MdArrowForward } from 'react-icons/md'
+import { SwiperPaginationManager } from './lib/swiper-pagination-manager'
 
 const ITEMS = [
 	'Give your things a second life',
@@ -17,6 +19,7 @@ const ITEMS = [
 
 export default function Home() {
 	const [currentSlide, setCurrentSlide] = useState(0)
+	const swiperRef = useRef<SwiperClass | null>(null)
 
 	return (
 		<div className='flex flex-col w-full overflow-hidden h-screen relative'>
@@ -47,7 +50,12 @@ export default function Home() {
 								modules={[Pagination]}
 								spaceBetween={0}
 								slidesPerView={1}
-								onSlideChange={swiper => setCurrentSlide(swiper.activeIndex)}
+								pagination={SwiperPaginationManager.pagination}
+								onSwiper={swiper => (swiperRef.current = swiper)}
+								onSlideChange={swiper => {
+									setCurrentSlide(swiper.activeIndex)
+									SwiperPaginationManager.updateBase(swiper)
+								}}
 							>
 								{ITEMS.map((item, index) => (
 									<SwiperSlide key={index}>
@@ -57,20 +65,6 @@ export default function Home() {
 									</SwiperSlide>
 								))}
 							</Swiper>
-
-							{/* Кастомная пагинация */}
-							<div className='flex justify-center mt-24'>
-								{ITEMS.map((_, index) => (
-									<span
-										key={index}
-										className={`inline-block mx-2 transition-all duration-300 ${
-											currentSlide === index
-												? 'w-6 h-2 bg-pink-500 rounded-full'
-												: 'w-2 h-2 bg-blue-500 rounded-full'
-										}`}
-									></span>
-								))}
-							</div>
 						</div>
 					</div>
 				</div>

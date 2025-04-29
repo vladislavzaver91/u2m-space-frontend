@@ -3,9 +3,13 @@
 import { useState, useEffect, useRef } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
+import 'swiper/css/pagination'
+import '../globals.css'
 import { SearchInput } from '../components/ui/search-input'
 import { CategoryTabs } from '../components/ui/category-tabs'
 import { ClassifiedCard } from '../components/ui/classified-card'
+import { Pagination } from 'swiper/modules'
+import { SwiperPaginationManager } from '../lib/swiper-pagination-manager'
 
 interface Classified {
 	id: number
@@ -69,7 +73,7 @@ export default function SellingClassifieds() {
 		<div className='min-h-screen flex flex-col'>
 			<div className='flex-1 pt-20'>
 				{/* Поиск и категории */}
-				<div className='py-6 flex flex-col gap-8 items-center justify-between'>
+				<div className='py-6 px-8 flex flex-col gap-8 items-center justify-between'>
 					<SearchInput className='max-w-[770px]' disabled />
 					<CategoryTabs
 						categories={['Selling', 'Category 1', 'Category 2']}
@@ -91,14 +95,25 @@ export default function SellingClassifieds() {
 							/>
 						))}
 					</div>
-					<div className='max-sm:px-8 xl:hidden'>
+					<div className='slider-for-card max-sm:px-8 xl:hidden'>
 						<Swiper
 							slidesPerView={1}
 							spaceBetween={60}
 							centeredSlides
-							loop={false}
-							onSwiper={swiper => (swiperRef.current = swiper)}
-							onSlideChange={swiper => setCurrentSlide(swiper.activeIndex)}
+							modules={[Pagination]}
+							pagination={SwiperPaginationManager.pagination}
+							onInit={swiper => {
+								swiperRef.current = swiper
+								SwiperPaginationManager.updateForCard(swiper)
+							}}
+							onSwiper={swiper => {
+								swiperRef.current = swiper
+								SwiperPaginationManager.updateForCard(swiper)
+							}}
+							onSlideChange={swiper => {
+								setCurrentSlide(swiper.activeIndex)
+								SwiperPaginationManager.updateForCard(swiper)
+							}}
 							className='w-full !h-auto'
 							breakpoints={{
 								640: {
@@ -115,10 +130,10 @@ export default function SellingClassifieds() {
 								},
 							}}
 						>
-							{classifieds.slice(0, 4).map(item => (
+							{classifieds.slice(0, 4).map((item, index) => (
 								<SwiperSlide
-									key={item.id}
-									className='min-w-[355px] h-auto transition-transform duration-300'
+									key={index}
+									className='min-w-[295px] md:min-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'
 								>
 									<ClassifiedCard
 										id={item.id}
@@ -128,25 +143,6 @@ export default function SellingClassifieds() {
 								</SwiperSlide>
 							))}
 						</Swiper>
-
-						{/* Кастомная пагинация */}
-						<div className='flex justify-center mt-24'>
-							{classifieds.slice(0, 4).map((_, index) => (
-								<span
-									key={index}
-									onClick={() => swiperRef.current?.slideTo(index)}
-									className={`inline-block mx-2 transition-all duration-300 cursor-pointer ${
-										currentSlide === index
-											? 'w-6 h-2 bg-pink-500 rounded-full'
-											: index === 0
-											? 'w-3 h-3 bg-blue-500 rounded-full'
-											: index === 1
-											? 'w-2 h-2 bg-blue-500 rounded-full'
-											: 'w-1.5 h-1.5 bg-gray-500 rounded-full'
-									}`}
-								></span>
-							))}
-						</div>
 					</div>
 				</div>
 

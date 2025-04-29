@@ -21,10 +21,11 @@ export const ClassifiedCard = ({ id, title, price }: ClassifiedCardProps) => {
 
 	return (
 		<Link
-			href={`/classified/${id}`}
-			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-lg hover:border-transparent min-h-full h-[372px]`}
+			href='/selling-classifieds' /* временно */
+			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-custom-xl hover:border-transparent h-[372px] min-w-full`}
 		>
-			<div className='h-2/3 bg-gray-200' /> {/* Заглушка для картинки */}
+			<div className='h-2/3 bg-gray-200 rounded-t-xl' />{' '}
+			{/* Заглушка для картинки */}
 			<div className='p-4 space-y-2'>
 				<div className='flex items-center justify-between'>
 					<h3

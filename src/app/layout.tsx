@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { Header } from './components/header'
+import { AuthProvider } from './helpers/contexts/auth-context'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -23,11 +24,11 @@ export default function RootLayout({
 			<body
 				className={`${montserrat.variable} antialiased flex flex-col min-h-screen`}
 			>
-				<Header />
-				<main className='flex-1'>{children}</main>
+				<AuthProvider>
+					<Header />
+					<main className='flex-1'>{children}</main>
+				</AuthProvider>
 			</body>
 		</html>
 	)
 }
-
-// U2MSpace4321!

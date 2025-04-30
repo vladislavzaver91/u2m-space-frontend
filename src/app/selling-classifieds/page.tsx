@@ -179,7 +179,7 @@ export default function SellingClassifieds() {
 											price={item.price.toFixed(2)}
 											image={item.images[0]}
 											isFavorite={false}
-											href={`/classified/${item.id}`}
+											href={`/selling-classifieds/${item.id}`}
 										/>
 									))}
 								</div>

@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { Header } from './components/header'
 import { AuthProvider } from './helpers/contexts/auth-context'
+import { ModalProvider } from './helpers/contexts/modal-context'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -25,8 +26,10 @@ export default function RootLayout({
 				className={`${montserrat.variable} antialiased flex flex-col min-h-screen`}
 			>
 				<AuthProvider>
-					<Header />
-					<main className='flex-1'>{children}</main>
+					<ModalProvider>
+						<Header />
+						<main className='flex-1'>{children}</main>
+					</ModalProvider>
 				</AuthProvider>
 			</body>
 		</html>

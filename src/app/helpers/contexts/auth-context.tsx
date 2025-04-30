@@ -68,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.setItem('accessToken', accessToken)
 		localStorage.setItem('refreshToken', refreshToken)
 		localStorage.setItem('user', JSON.stringify(user))
-		router.push('/')
+		router.push('/selling-classifieds')
 	}
 
 	// Функция для выхода

@@ -16,7 +16,6 @@ const $api: AxiosInstance = axios.create({
 	headers: {
 		'Content-Type': 'application/json',
 	},
-	withCredentials: true, // Включаем отправку cookie
 })
 
 // Интерцептор запросов для добавления accessToken

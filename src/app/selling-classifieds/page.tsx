@@ -10,6 +10,7 @@ import { CategoryTabs } from '../components/ui/category-tabs'
 import { ClassifiedCard } from '../components/ui/classified-card'
 import { Pagination } from 'swiper/modules'
 import { SwiperPaginationManager } from '../lib/swiper-pagination-manager'
+import { useAuthExchange } from '../helpers/hooks/use-auth-exchange'
 
 interface Classified {
 	id: number
@@ -37,6 +38,7 @@ export default function SellingClassifieds() {
 	const [activeCategory, setActiveCategory] = useState('Selling')
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const swiperRef = useRef<SwiperClass | null>(null)
+	useAuthExchange()
 
 	// Infinite Scroll
 	useEffect(() => {

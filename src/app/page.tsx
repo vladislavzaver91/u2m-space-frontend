@@ -17,6 +17,13 @@ const ITEMS = [
 	'Fast communication for exchange or sale',
 ]
 
+interface User {
+	id: string
+	email: string
+	name: string
+	provider: string
+}
+
 export default function Home() {
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const swiperRef = useRef<SwiperClass | null>(null)

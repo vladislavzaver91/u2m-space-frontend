@@ -11,7 +11,6 @@ import { ClassifiedCard } from '../components/ui/classified-card'
 import { Pagination } from 'swiper/modules'
 import { SwiperPaginationManager } from '../lib/swiper-pagination-manager'
 import { useAuthExchange } from '../helpers/hooks/use-auth-exchange'
-import $api from '../lib/http'
 import { Classified } from '../types'
 import { apiService } from '../services/api.service'
 

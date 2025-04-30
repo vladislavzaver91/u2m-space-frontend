@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
 	images: {
 		domains: ['via.placeholder.com'],
 	},
+	experimental: {
+		forceSwcTransforms: true,
+	},
 }
 
 export default nextConfig

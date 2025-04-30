@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -11,6 +11,11 @@ import { ClassifiedCard } from '../components/ui/classified-card'
 import { Pagination } from 'swiper/modules'
 import { SwiperPaginationManager } from '../lib/swiper-pagination-manager'
 import { useAuthExchange } from '../helpers/hooks/use-auth-exchange'
+
+function AuthExchangeWrapper() {
+	useAuthExchange()
+	return null
+}
 
 interface Classified {
 	id: number
@@ -38,7 +43,6 @@ export default function SellingClassifieds() {
 	const [activeCategory, setActiveCategory] = useState('Selling')
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const swiperRef = useRef<SwiperClass | null>(null)
-	useAuthExchange()
 
 	// Infinite Scroll
 	useEffect(() => {
@@ -73,6 +77,10 @@ export default function SellingClassifieds() {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
+			<Suspense fallback={<div>Loading authentication...</div>}>
+				<AuthExchangeWrapper />
+			</Suspense>
+
 			<div className='flex-1 pt-20'>
 				{/* Поиск и категории */}
 				<div className='py-6 px-8 flex flex-col gap-8 items-center justify-between'>

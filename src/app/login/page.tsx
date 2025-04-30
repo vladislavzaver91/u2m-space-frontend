@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { MdClose } from 'react-icons/md'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useModal } from '../helpers/contexts/modal-context'
 import { ButtonWithIcon } from '../components/ui/button-with-icon'
 
@@ -30,12 +30,28 @@ const AUTH_LINK_ITEMS: AuthLinkItem[] = [
 	},
 ]
 
+function SearchParamsHandler() {
+	const searchParams = useSearchParams()
+	const [error, setError] = useState<string | null>(null)
+
+	useEffect(() => {
+		const errorMsg = searchParams.get('error')
+		if (errorMsg) {
+			setError(errorMsg)
+		}
+	}, [searchParams])
+
+	return error ? (
+		<div className='bg-red-100 text-red-700 p-4 rounded-lg w-full text-center animate-pulse'>
+			{error}
+		</div>
+	) : null
+}
+
 export default function Login() {
 	const router = useRouter()
-	const searchParams = useSearchParams()
 	const { closeLoginModal } = useModal()
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const [error, setError] = useState<string | null>(null)
 
 	const handleClose = () => {
 		closeLoginModal()
@@ -44,16 +60,7 @@ export default function Login() {
 
 	const handleAuthClick = (provider: string) => {
 		setIsLoading(true)
-		setError(null)
 	}
-
-	useEffect(() => {
-		const errorMsg = searchParams.get('error')
-		if (errorMsg) {
-			setError(errorMsg)
-			setIsLoading(false)
-		}
-	}, [searchParams])
 
 	useEffect(() => {
 		const handleEsc = (event: KeyboardEvent) => {
@@ -78,11 +85,9 @@ export default function Login() {
 				</h2>
 
 				{/* Ошибка */}
-				{error && (
-					<div className='bg-red-100 text-red-700 p-4 rounded-lg w-full text-center animate-pulse'>
-						{error}
-					</div>
-				)}
+				<Suspense fallback={<div>Loading...</div>}>
+					<SearchParamsHandler />
+				</Suspense>
 
 				<div>
 					<h3 className='text-[18px] text-[#4f4f4f] text-center mb-4'>

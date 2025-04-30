@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname, useRouter } from 'next/navigation'
 import { createContext, useContext, useState, ReactNode } from 'react'
 
 interface ModalContextType {
@@ -16,9 +17,18 @@ interface ModalProviderProps {
 
 export function ModalProvider({ children }: ModalProviderProps) {
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+	const [previousPath, setPreviousPath] = useState<string>('')
+	const router = useRouter()
+	const pathname = usePathname()
 
-	const openLoginModal = () => setIsLoginModalOpen(true)
-	const closeLoginModal = () => setIsLoginModalOpen(false)
+	const openLoginModal = () => {
+		setPreviousPath(pathname)
+		setIsLoginModalOpen(true)
+	}
+	const closeLoginModal = () => {
+		setIsLoginModalOpen(false)
+		router.replace(previousPath || '/')
+	}
 
 	return (
 		<ModalContext.Provider

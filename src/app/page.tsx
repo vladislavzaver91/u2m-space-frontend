@@ -17,13 +17,6 @@ const ITEMS = [
 	'Fast communication for exchange or sale',
 ]
 
-interface User {
-	id: string
-	email: string
-	name: string
-	provider: string
-}
-
 export default function Home() {
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const swiperRef = useRef<SwiperClass | null>(null)
@@ -47,7 +40,9 @@ export default function Home() {
 						<div className='hidden xl:grid h-full grid-cols-3 gap-[128px]'>
 							{ITEMS.map((item, index) => (
 								<div key={index} className='flex justify-end h-full'>
-									<div className='max-2xl:w-2/3 w-1/2 h-full'>{item}</div>
+									<div className='max-2xl:w-2/3 w-1/2 h-full flex items-center'>
+										{item}
+									</div>
 								</div>
 							))}
 						</div>

@@ -3,14 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '../contexts/auth-context'
-import $api from '@/app/lib/http'
-
-interface User {
-	id: string
-	email: string
-	name: string
-	provider: string
-}
+import { apiService } from '@/app/services/api.service'
 
 export function useAuthExchange() {
 	const { handleAuthSuccess } = useAuth()
@@ -29,14 +22,10 @@ export function useAuthExchange() {
 			if (state) {
 				try {
 					console.log('Fetching auth data with state:', state)
-					const response = await $api.get<{
-						user: User
-						accessToken: string
-						refreshToken: string
-					}>('/api/auth/exchange', { params: { state } })
-					console.log('Auth data received:', response.data)
+					const response = await apiService.exchangeAuthState(state)
+					console.log('Auth data received:', response)
 
-					const { user, accessToken, refreshToken } = response.data
+					const { user, accessToken, refreshToken } = response
 
 					if (!user.id || !user.email || !user.provider) {
 						throw new Error('Incomplete user data')

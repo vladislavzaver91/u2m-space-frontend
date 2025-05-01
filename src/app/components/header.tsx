@@ -34,7 +34,20 @@ export const Header = () => {
 						/>
 					)}
 					{user ? (
-						<p className='font-bold text-[16px] text-[#3486fe]'>{user.name}</p>
+						<ButtonWithIcon
+							href='/my-space'
+							text={user.name.charAt(0).toUpperCase()}
+							icon={
+								<Image
+									src='/avatar.png'
+									alt={`${user.name} avatar`}
+									width={32}
+									height={32}
+									className='rounded-full object-cover'
+								/>
+							}
+							className='px-8 py-7 min-w-[148px] w-fit gap-4'
+						/>
 					) : (
 						<ButtonWithIcon
 							text='Log in'

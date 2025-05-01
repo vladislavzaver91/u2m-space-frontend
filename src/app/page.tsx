@@ -35,7 +35,7 @@ export default function Home() {
 				<div className='max-sm:px-2 max-xl:px-0 px-8 max-xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center justify-between gap-[100px] flex-grow'>
 					<div className='flex flex-col items-center justify-center text-center space-y-8'>
 						<Logo width={150} height={48} />
-						<h1 className='font-bold text-[24px] text-[#4f4f4f]'>
+						<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7'>
 							Hi there, <br /> I’m U2M Space
 						</h1>
 						<p className='font-normal text-[16px] leading-6'>

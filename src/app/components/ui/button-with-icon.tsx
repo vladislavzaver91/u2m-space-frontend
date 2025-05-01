@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 
 interface ButtonWithIconProps {
 	text?: string
-	icon: ReactNode
+	icon?: ReactNode
 	href?: string
 	onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 	className?: string

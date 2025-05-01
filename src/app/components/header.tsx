@@ -46,7 +46,7 @@ export const Header = () => {
 									className='rounded-full object-cover'
 								/>
 							}
-							className='px-8 py-7 min-w-[148px] w-fit gap-4'
+							className='px-8 py-7 min-w-[148px] w-fit gap-4 text-[#3486fe]'
 						/>
 					) : (
 						<ButtonWithIcon

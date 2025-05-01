@@ -73,7 +73,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.removeItem('accessToken')
 		localStorage.removeItem('refreshToken')
 		localStorage.removeItem('user')
-		router.push('/login')
+		router.push('/')
 	}
 
 	return (

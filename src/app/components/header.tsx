@@ -3,10 +3,10 @@
 import { usePathname } from 'next/navigation'
 import { ButtonWithIcon } from './ui/button-with-icon'
 import { Logo } from './ui/logo'
-import { MdOutlineArrowBack } from 'react-icons/md'
 import { useAuth } from '../helpers/contexts/auth-context'
 import { useModal } from '../helpers/contexts/modal-context'
 import { LoginModal } from './login-modal'
+import Image from 'next/image'
 
 export const Header = () => {
 	const { user } = useAuth()
@@ -15,13 +15,22 @@ export const Header = () => {
 
 	return (
 		<>
-			<div className='fixed top-0 left-0 w-full px-8 py-7 flex items-center justify-between bg-white z-10'>
+			<div className='fixed top-0 left-0 w-full px-8 py-7 flex items-center justify-between bg-white/10 backdrop-blur-md z-10'>
 				<Logo width={100} height={32} />
-				<div className='flex items-center gap-8'>
+				<div className='flex items-center absolute top-0 right-0'>
 					{pathname !== '/' && (
 						<ButtonWithIcon
 							text='Add'
-							icon={<MdOutlineArrowBack className='fill-[#3486fe] w-6 h-6' />}
+							icon={
+								<Image
+									src='/icons/add_plus.svg'
+									alt='icon plus'
+									width={24}
+									height={24}
+									className='fill-[#3486fe]'
+								/>
+							}
+							className='p-8 min-w-[139px] w-fit'
 						/>
 					)}
 					{user ? (
@@ -30,7 +39,16 @@ export const Header = () => {
 						<ButtonWithIcon
 							text='Log in'
 							onClick={openLoginModal}
-							icon={<MdOutlineArrowBack className='fill-[#3486fe] w-6 h-6' />}
+							icon={
+								<Image
+									src='/icons/user_square.svg'
+									alt='user icon'
+									width={24}
+									height={24}
+									className='fill-[#3486fe]'
+								/>
+							}
+							className='p-8 min-w-[157px] w-fit'
 						/>
 					)}
 				</div>

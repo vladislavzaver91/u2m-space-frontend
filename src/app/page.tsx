@@ -3,18 +3,26 @@
 import { Logo } from './components/ui/logo'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
 import './globals.css'
 import { useRef, useState } from 'react'
 import { ButtonWithIcon } from './components/ui/button-with-icon'
 import { MdArrowForward } from 'react-icons/md'
 import { SwiperPaginationManager } from './lib/swiper-pagination-manager'
+import { BenefitsItemCard } from './components/ui/benefits-item-card'
 
-const ITEMS = [
-	'Give your things a second life',
-	'We help to find each other',
-	'Fast communication for exchange or sale',
+const BENEFITS_ITEMS = [
+	{
+		label: 'Give your things a second life',
+		img: '/images/item_1.png',
+	},
+	{
+		label: 'We help to find each other',
+		img: '/images/item_2.png',
+	},
+	{
+		label: 'Fast communication for exchange or sale',
+		img: '/images/item_3.png',
+	},
 ]
 
 export default function Home() {
@@ -24,7 +32,7 @@ export default function Home() {
 	return (
 		<div className='flex flex-col w-full overflow-hidden h-screen relative'>
 			<div className='flex-1 flex items-center justify-center pt-20'>
-				<div className='custom-container max-xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center justify-between gap-24 flex-grow'>
+				<div className='max-sm:px-2 max-xl:px-0 px-8 max-xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center justify-between gap-[100px] flex-grow'>
 					<div className='flex flex-col items-center justify-center text-center space-y-8'>
 						<Logo width={150} height={48} />
 						<h1 className='font-bold text-[24px] text-[#4f4f4f]'>
@@ -36,14 +44,15 @@ export default function Home() {
 						</p>
 					</div>
 
-					<div className='text-[24px] font-bold text-[#4f4f4f] min-h-[200px] w-full'>
-						<div className='hidden xl:grid h-full grid-cols-3 gap-[128px]'>
-							{ITEMS.map((item, index) => (
-								<div key={index} className='flex justify-end h-full'>
-									<div className='max-2xl:w-2/3 w-1/2 h-full flex items-center'>
-										{item}
-									</div>
-								</div>
+					<div className='min-h-[200px] w-full'>
+						<div className='hidden xl:grid h-[200px] grid-cols-3 gap-[128px]'>
+							{BENEFITS_ITEMS.map((item, index) => (
+								<BenefitsItemCard
+									key={index}
+									index={index}
+									label={item.label}
+									img={item.img}
+								/>
 							))}
 						</div>
 
@@ -59,11 +68,17 @@ export default function Home() {
 									SwiperPaginationManager.updateBase(swiper)
 								}}
 							>
-								{ITEMS.map((item, index) => (
-									<SwiperSlide key={index}>
-										<div className='flex justify-end'>
-											<div className='w-1/2'>{item}</div>
-										</div>
+								{BENEFITS_ITEMS.map((item, index) => (
+									<SwiperSlide
+										key={index}
+										className='max-sm:flex! flex justify-center items-center h-auto min-h-[200px]'
+									>
+										<BenefitsItemCard
+											index={index}
+											label={item.label}
+											img={item.img}
+											isSlider
+										/>
 									</SwiperSlide>
 								))}
 							</Swiper>
@@ -72,12 +87,12 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className='absolute bottom-4 right-4'>
+			<div className='absolute bottom-0 right-0'>
 				<ButtonWithIcon
 					text="Let's start"
 					icon={<MdArrowForward className='fill-[#3486fe] w-6 h-6' />}
 					href='/selling-classifieds'
-					className='flex-row-reverse'
+					className='flex-row-reverse p-8 min-w-[187px] w-fit'
 				/>
 			</div>
 		</div>

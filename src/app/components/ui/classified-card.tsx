@@ -31,7 +31,7 @@ export const ClassifiedCard = ({
 	return (
 		<Link
 			href={href}
-			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-custom-xl hover:border-transparent h-[372px] min-w-full`}
+			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-custom-xl hover:border-none h-[372px] min-w-full max-[769px]:min-w-[343px] max-[769px]:w-fit`}
 		>
 			<div className='relative h-[253px]'>
 				{image ? (
@@ -45,7 +45,7 @@ export const ClassifiedCard = ({
 					<div className='h-full bg-gray-200 rounded-t-xl' />
 				)}
 			</div>
-			<div className='p-4 space-y-2'>
+			<div className='p-4 flex flex-col justify-between gap-2 h-[119px]'>
 				<div className='flex items-center justify-between'>
 					<h3
 						className={`text-[24px] uppercase font-semibold transition-all ${

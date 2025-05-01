@@ -6,8 +6,10 @@ import { MdClose } from 'react-icons/md'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { ButtonWithIcon } from './ui/button-with-icon'
-import { useModal } from '../helpers/contexts/modal-context'
 import { AuthLinkItem } from '../types'
+import { Loader } from './ui/loader'
+import { useModalLogic } from '../helpers/hooks/use-modal-logic'
+import { useModal } from '../helpers/contexts/modal-context'
 
 const AUTH_LINK_ITEMS: AuthLinkItem[] = [
 	{
@@ -37,6 +39,12 @@ export const LoginModal = () => {
 	const handleClose = () => {
 		closeLoginModal()
 		router.replace(window.location.pathname)
+	}
+
+	const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (e.target === e.currentTarget) {
+			handleClose()
+		}
 	}
 
 	const handleAuthClick = (provider: string) => {
@@ -72,6 +80,7 @@ export const LoginModal = () => {
 				exit={{ opacity: 0 }}
 				transition={{ duration: 0.3 }}
 				className='fixed inset-0 bg-[#3486fe]/60 flex items-center justify-center z-50'
+				onClick={handleOverlayClick}
 			>
 				<motion.div
 					initial={{ scale: 0.8, opacity: 0 }}
@@ -96,35 +105,36 @@ export const LoginModal = () => {
 						<h3 className='text-[18px] text-[#4f4f4f] text-center mb-4'>
 							Log in with
 						</h3>
-						{isLoading ? (
-							<div className='flex justify-center items-center'>
-								<div className='animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#3486fe]'></div>
-							</div>
-						) : (
-							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-								{AUTH_LINK_ITEMS.map((item, index) => (
-									<ButtonWithIcon
-										key={index}
-										text={item.name}
-										icon={
-											<Image
-												src={item.icon}
-												alt={`${item.name} logo`}
-												width={32}
-												height={32}
-											/>
-										}
-										href={item.href}
-										onClick={() => handleAuthClick(item.name)}
-										className='flex items-center gap-4 p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-xl hover:bg-[#f7f7f7] hover:border-[#f9329c] transition-colors w-full justify-center'
-									/>
-								))}
-							</div>
-						)}
+
+						<div className='relative w-full min-h-[64px] flex items-center justify-center'>
+							{isLoading ? (
+								<Loader />
+							) : (
+								<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full'>
+									{AUTH_LINK_ITEMS.map((item, index) => (
+										<ButtonWithIcon
+											key={index}
+											text={item.name}
+											icon={
+												<Image
+													src={item.icon}
+													alt={`${item.name} logo`}
+													width={32}
+													height={32}
+												/>
+											}
+											href={item.href}
+											onClick={() => handleAuthClick(item.name)}
+											className='flex items-center gap-4 p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-xl hover:bg-[#f7f7f7] hover:border-[#f9329c] transition-colors min-w-[162px] w-fit h-[64px] justify-center'
+										/>
+									))}
+								</div>
+							)}
+						</div>
 					</div>
 
 					<ButtonWithIcon
-						onClick={handleClose}
+						onClick={closeLoginModal}
 						className='text-[#4f4f4f] hover:text-gray-700'
 						icon={<MdClose className='w-6 h-6' />}
 					/>

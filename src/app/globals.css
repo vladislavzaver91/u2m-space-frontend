@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import 'swiper/css';
+@import 'swiper/css/pagination';
 
 :root {
 	--background: #ffffff;
@@ -22,14 +24,14 @@ body {
 	margin: 0 auto;
 	padding: 0px 32px 0px 32px;
 
-	@media screen and (min-width: 1920px) {
-		max-width: 1602px;
+	@media screen and (min-width: 1280px) {
+		max-width: 1664px;
 	}
 }
 
 .slider-for-card {
 	& .swiper-wrapper {
-		height: 500px !important;
+		height: 430px !important;
 		align-items: center;
 	}
 
@@ -39,8 +41,10 @@ body {
 	}
 
 	& .swiper-slide-active {
-		transform: scaleY(1.1) scaleX(1) !important;
-		transition: transform 0.3s ease;
+		@media screen and (max-width: 1024px) {
+			transform: scaleY(1.1) scaleX(1) !important;
+			transition: transform 0.3s ease;
+		}
 	}
 
 	& .swiper-pagination {
@@ -53,6 +57,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	gap: 25px;
 	margin-top: 96px;
 }
 
@@ -62,31 +67,75 @@ body {
 	margin-right: 8px;
 	transition: all 0.3s;
 	cursor: pointer;
-	width: 12px;
-	height: 12px;
+	width: 16px;
+	height: 16px;
 	background-color: #3b82f6;
-	border-radius: 9999px;
+	border-radius: 8px;
 	opacity: 1;
 	transition: all 0.3s;
 }
 
 .swiper-pagination-bullet-active {
-	width: 24px;
-	height: 8px;
+	width: 32px;
+	height: 16px;
+	border-radius: 8px;
 	background-color: #ec4899;
 	opacity: 1;
 }
 
 .swiper-pagination-bullet.is-next {
-	width: 12px;
-	height: 12px;
-	background-color: #60a5fa;
+	width: 16px;
+	height: 16px;
+	background-color: #3b82f6;
 	opacity: 1;
 }
 
 .swiper-pagination-bullet.is-far {
-	width: 6px;
-	height: 6px;
+	width: 8px;
+	height: 8px;
+	background-color: #3b82f6;
+	opacity: 1;
+}
+
+.swiper-pagination-bullet.is-even-far {
+	width: 4px;
+	height: 4px;
 	background-color: #9ca3af;
 	opacity: 1;
+}
+
+.animate-spin {
+	width: 3.25em;
+	animation: rotate4 2s linear infinite;
+	transform-origin: center;
+}
+
+.animate-dash4 {
+	fill: none;
+	stroke: hsl(214, 97%, 59%);
+	stroke-width: 8;
+	stroke-dasharray: 1, 200;
+	stroke-dashoffset: 0;
+	stroke-linecap: round;
+	animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dash4 {
+	0% {
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 90, 200;
+		stroke-dashoffset: -35px;
+	}
+	100% {
+		stroke-dashoffset: -125px;
+	}
 }

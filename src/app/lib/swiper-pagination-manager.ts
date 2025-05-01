@@ -17,14 +17,16 @@ export class SwiperPaginationManager {
 		const activeIndex = swiper.activeIndex
 
 		bullets.forEach((bullet, index) => {
-			bullet.classList.remove('is-prev', 'is-next', 'is-far')
+			bullet.classList.remove('is-prev', 'is-next', 'is-far', 'is-even-far')
 
 			if (index === activeIndex - 1) {
 				bullet.classList.add('is-prev')
 			} else if (index === activeIndex + 1) {
 				bullet.classList.add('is-next')
-			} else if (index !== activeIndex) {
+			} else if (index === activeIndex + 2) {
 				bullet.classList.add('is-far')
+			} else if (index !== activeIndex) {
+				bullet.classList.add('is-even-far')
 			}
 		})
 	}

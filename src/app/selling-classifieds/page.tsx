@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/pagination'
 import '../globals.css'
 import { SearchInput } from '../components/ui/search-input'
 import { CategoryTabs } from '../components/ui/category-tabs'
@@ -13,6 +11,7 @@ import { SwiperPaginationManager } from '../lib/swiper-pagination-manager'
 import { useAuthExchange } from '../helpers/hooks/use-auth-exchange'
 import { Classified } from '../types'
 import { apiService } from '../services/api.service'
+import { Loader } from '../components/ui/loader'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -82,9 +81,9 @@ export default function SellingClassifieds() {
 				<AuthExchangeWrapper />
 			</Suspense>
 
-			<div className='flex-1 pt-20'>
+			<div className='flex-1 pt-40'>
 				{/* Поиск и категории */}
-				<div className='py-6 px-8 flex flex-col gap-8 items-center justify-between'>
+				<div className='pb-8 px-8 flex flex-col gap-8 items-center justify-between'>
 					<SearchInput className='max-w-[770px]' disabled />
 					<CategoryTabs
 						categories={['Selling', 'Category 1', 'Category 2']}
@@ -95,9 +94,7 @@ export default function SellingClassifieds() {
 				</div>
 
 				{isLoading ? (
-					<div className='flex justify-center items-center h-64'>
-						<div className='animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#3486fe]'></div>
-					</div>
+					<Loader />
 				) : (
 					<>
 						{/* Первые 8 карточек */}
@@ -139,9 +136,9 @@ export default function SellingClassifieds() {
 											slidesPerView: 2,
 											spaceBetween: 16,
 										},
-										768: {
-											slidesPerView: 2,
-											spaceBetween: 16,
+										769: {
+											slidesPerView: 3,
+											spaceBetween: 60,
 										},
 										1024: {
 											slidesPerView: 4,
@@ -170,7 +167,7 @@ export default function SellingClassifieds() {
 						{/* Остальные карточки */}
 						{classifieds.length > 8 && (
 							<div className='w-full px-0'>
-								<div className='custom-container grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-14'>
+								<div className='custom-container grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 max-[769px]:gap-4 gap-14'>
 									{classifieds.slice(8).map(item => (
 										<ClassifiedCard
 											key={item.id}

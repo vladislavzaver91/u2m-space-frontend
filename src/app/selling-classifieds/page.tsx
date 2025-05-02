@@ -32,13 +32,12 @@ export default function SellingClassifieds() {
 
 	useEffect(() => {
 		const fetchClassifieds = async () => {
-			if (!hasMore || isLoading) return
-
 			try {
 				setIsLoading(true)
-				const res = await apiService.getClassifieds({ page, limit })
-				setClassifieds(prev => [...prev, ...res.classifieds])
-				setHasMore(res.hasMore)
+				const data = await apiService.getClassifieds({ page, limit })
+				console.log(data)
+				setClassifieds(prev => [...prev, ...data.classifieds])
+				setHasMore(data.hasMore)
 			} catch (error) {
 				console.error('Error fetching classifieds:', error)
 			} finally {
@@ -104,6 +103,7 @@ export default function SellingClassifieds() {
 										image={item.images[0]} // Первое изображение для карточки
 										isFavorite={false} // Заглушка для "Избранное"
 										href={`/selling-classifieds/${item.id}`}
+										isSmall={false}
 									/>
 								))}
 							</div>
@@ -112,6 +112,7 @@ export default function SellingClassifieds() {
 									slidesPerView={1}
 									spaceBetween={60}
 									centeredSlides
+									loop
 									modules={[Pagination]}
 									pagination={SwiperPaginationManager.pagination}
 									onInit={swiper => {
@@ -153,6 +154,7 @@ export default function SellingClassifieds() {
 												image={item.images[0]}
 												isFavorite={false}
 												href={`/selling-classifieds/${item.id}`}
+												isSmall={false}
 											/>
 										</SwiperSlide>
 									))}
@@ -172,6 +174,7 @@ export default function SellingClassifieds() {
 											image={item.images[0]}
 											isFavorite={false}
 											href={`/selling-classifieds/${item.id}`}
+											isSmall={true}
 										/>
 									))}
 								</div>

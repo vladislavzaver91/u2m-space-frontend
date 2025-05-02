@@ -34,7 +34,7 @@ export const Header = () => {
 
 				{/* SearchInput в центре */}
 				<div
-					className={`absolute left-1/2 transform -translate-x-1/2 w-full flex justify-center transition-all duration-300 ease-in-out ${
+					className={`absolute left-1/2 transform -translate-x-1/2 w-full max-w-[770px] transition-all duration-300 ease-in-out ${
 						isSearchVisible
 							? 'opacity-100 translate-y-0'
 							: 'opacity-0 -translate-y-4 pointer-events-none'
@@ -69,7 +69,7 @@ export const Header = () => {
 									alt={`${user.name} avatar`}
 									width={32}
 									height={32}
-									className='rounded-[13px] object-cover'
+									className='flex-row-reverse rounded-[13px] object-cover'
 								/>
 							}
 							className='px-8 py-7 min-w-[148px] w-fit text-[#3486fe]'

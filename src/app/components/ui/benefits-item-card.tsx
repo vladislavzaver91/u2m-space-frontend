@@ -13,21 +13,25 @@ export const BenefitsItemCard = ({
 	img,
 	isSlider = false,
 }: ItemCardProps) => {
-	const cardWidthClass = index === 2 ? 'max-w-[404px]' : 'max-w-[442px]'
+	const cardWidthClass = index === 2 ? 'md:max-w-[404px]' : 'md:max-w-[442px]'
 	const imgWidthClass = index === 2 ? '2xl:w-[168px]' : '2xl:w-[206px]'
 	const imgMaxWidthClass =
 		index === 2 ? 'max-2xl:max-w-[168px]' : 'max-2xl:max-w-[206px]'
 
 	return (
 		<div
-			className={`flex items-center gap-4 h-[200px] ${cardWidthClass} ${
+			className={`flex items-center max-md:gap-[50px] gap-4 h-[200px] ${cardWidthClass} ${
 				isSlider
-					? 'max-sm:flex-wrap max-sm:justify-center max-sm:h-auto max-sm:min-h-[200px] max-sm:w-full max-sm:max-w-[300px]'
+					? 'max-md:flex-col max-md:items-center max-md:justify-center max-md:h-auto max-md:min-h-[480px] max-md:min-w-full max-md:max-w-[310px]'
 					: ''
 			}`}
 		>
 			<div
-				className={`${imgWidthClass} ${imgMaxWidthClass} relative w-full h-[200px]`}
+				className={`relative w-full h-[200px] ${
+					isSlider
+						? 'max-md:min-w-[300px] max-md:h-[310px]'
+						: `${imgWidthClass} ${imgMaxWidthClass} max-md:min-w-[310px] max-md:h-[300px]`
+				}`}
 			>
 				<Image
 					src={img}

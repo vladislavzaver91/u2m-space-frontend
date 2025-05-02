@@ -11,6 +11,7 @@ interface ClassifiedCardProps {
 	image?: string
 	isFavorite: boolean
 	href: string
+	isSmall?: boolean
 }
 
 export const ClassifiedCard = ({
@@ -19,6 +20,7 @@ export const ClassifiedCard = ({
 	image,
 	isFavorite: initialIsFavorite,
 	href,
+	isSmall,
 }: ClassifiedCardProps) => {
 	const [isFavorite, setIsFavorite] = useState(initialIsFavorite)
 
@@ -31,9 +33,11 @@ export const ClassifiedCard = ({
 	return (
 		<Link
 			href={href}
-			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-custom-xl hover:border-none h-[372px] min-w-full max-[769px]:min-w-[343px] max-[769px]:w-fit`}
+			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-custom-xl hover:border-none min-w-full max-[769px]:min-w-[343px] max-[769px]:w-fit ${
+				isSmall ? 'min-h-[283px]' : 'h-[372px]'
+			}`}
 		>
-			<div className='relative h-[253px]'>
+			<div className={`relative ${isSmall ? 'h-[154px]' : 'h-[253px]'}`}>
 				{image ? (
 					<Image
 						src={image}
@@ -45,7 +49,11 @@ export const ClassifiedCard = ({
 					<div className='h-full bg-gray-200 rounded-t-xl' />
 				)}
 			</div>
-			<div className='p-4 flex flex-col gap-2 h-[119px]'>
+			<div
+				className={`p-4 flex flex-col gap-2 ${
+					isSmall ? 'min-h-[129px]' : 'h-[119px]'
+				}`}
+			>
 				<div className='flex items-center justify-between'>
 					<h3
 						className={`text-[24px] uppercase font-semibold transition-all ${
@@ -68,7 +76,7 @@ export const ClassifiedCard = ({
 						onClick={handleFavoriteClick}
 					/>
 				</div>
-				<p className='text-[#4f4f4f] text-[16px] font-bold leading-5'>
+				<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 					{title}
 				</p>
 			</div>

@@ -13,6 +13,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
 	title: 'U2M SPACE',
 	description: 'Your new simpler, reliable way to exchange.',
+	icons: {
+		icon: '/favicon.ico',
+		apple: '/favicon.png', // Для Apple Touch Icon (опционально)
+	},
 }
 
 export default function RootLayout({

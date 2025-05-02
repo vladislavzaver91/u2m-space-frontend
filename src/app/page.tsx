@@ -155,8 +155,8 @@ export default function Home() {
 						</p>
 					</div>
 
-					<div className='max-xl:hidden min-h-[200px] w-full'>
-						<div className='grid h-[200px] grid-cols-3 gap-[128px]'>
+					<div className='max-md:min-h-[200px] w-full'>
+						<div className='hidden xl:grid h-[200px] grid-cols-3 gap-[128px]'>
 							{BENEFITS_ITEMS.map((item, index) => (
 								<BenefitsItemCard
 									key={index}

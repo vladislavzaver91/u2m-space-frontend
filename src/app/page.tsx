@@ -9,6 +9,7 @@ import { ButtonWithIcon } from './components/ui/button-with-icon'
 import { MdArrowBack, MdArrowForward } from 'react-icons/md'
 import { SwiperPaginationManager } from './lib/swiper-pagination-manager'
 import { BenefitsItemCard } from './components/ui/benefits-item-card'
+import Image from 'next/image'
 
 const BENEFITS_ITEMS = [
 	{
@@ -67,66 +68,85 @@ export default function Home() {
 	return (
 		<div className='flex flex-col w-full overflow-hidden h-screen relative'>
 			{isSliderOpen && (
-				<div className='fixed inset-0 bg-white z-20 flex flex-col items-center justify-center md:max-w-[768px] mx-auto'>
-					{/* Стрелка назад */}
-					<button
-						onClick={handlePrevSlide}
-						className='absolute top-4 left-4 p-2'
-					>
-						<MdArrowBack className='w-6 h-6 text-[#3486fe]' />
-					</button>
-
-					{/* Слайдер */}
-					<Swiper
-						modules={[Pagination]}
-						spaceBetween={0}
-						slidesPerView={1}
-						pagination={SwiperPaginationManager.pagination}
-						onSwiper={swiper => (swiperRef.current = swiper)}
-						onSlideChange={swiper => {
-							setCurrentSlide(swiper.activeIndex)
-							SwiperPaginationManager.updateBase(swiper)
-						}}
-						className='w-full min-h-[200px] h-auto'
-					>
-						{BENEFITS_ITEMS.map((item, index) => (
-							<SwiperSlide
-								key={index}
-								className='flex justify-center items-center h-auto'
-							>
-								<BenefitsItemCard
-									index={index}
-									label={item.label}
-									img={item.img}
-									isSlider
+				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto'>
+					<div className='flex-1 px-[30px] pt-[30px]'>
+						{/* Стрелка назад */}
+						<ButtonWithIcon
+							icon={
+								<Image
+									src='/icons/arrow-prev.svg'
+									alt='prev icon'
+									width={24}
+									height={24}
+									className='w-6 h-6'
 								/>
-							</SwiperSlide>
-						))}
-					</Swiper>
+							}
+							onClick={handlePrevSlide}
+						/>
 
-					{/* Кнопка Next / Let's start */}
-					<div className='absolute bottom-4 right-4'>
-						{currentSlide === BENEFITS_ITEMS.length - 1 ? (
-							<ButtonWithIcon
-								text="Let's start"
-								icon={<MdArrowForward className='fill-[#3486fe] w-6 h-6' />}
-								href='/selling-classifieds'
-								className='flex-row-reverse p-8 min-w-[187px] w-fit'
-							/>
-						) : (
-							<button onClick={handleNextSlide} className='p-2'>
-								<MdArrowForward className='w-6 h-6 text-[#3486fe]' />
-							</button>
-						)}
+						{/* Слайдер */}
+						<Swiper
+							modules={[Pagination]}
+							spaceBetween={0}
+							slidesPerView={1}
+							pagination={SwiperPaginationManager.pagination}
+							onSwiper={swiper => (swiperRef.current = swiper)}
+							onSlideChange={swiper => {
+								setCurrentSlide(swiper.activeIndex)
+								SwiperPaginationManager.updateBase(swiper)
+							}}
+							className='w-[310px] slider-benefits mt-[26px]'
+						>
+							{BENEFITS_ITEMS.map((item, index) => (
+								<SwiperSlide
+									key={index}
+									className='flex justify-center items-center h-auto min-h-[200px]'
+								>
+									<BenefitsItemCard
+										index={index}
+										label={item.label}
+										img={item.img}
+										isSlider
+									/>
+								</SwiperSlide>
+							))}
+						</Swiper>
+
+						{/* Кнопка Next / Let's start */}
+						<div className='absolute bottom-0 right-0'>
+							{currentSlide === BENEFITS_ITEMS.length - 1 ? (
+								<ButtonWithIcon
+									text="Let's start"
+									icon={<MdArrowForward className='fill-[#3486fe] w-6 h-6' />}
+									href='/selling-classifieds'
+									className='flex-row-reverse p-8 min-w-[187px] w-fit'
+								/>
+							) : (
+								<ButtonWithIcon
+									text='Next'
+									icon={
+										<Image
+											src='/icons/arrow-next.svg'
+											alt='prev icon'
+											width={24}
+											height={24}
+											className='w-6 h-6'
+										/>
+									}
+									onClick={handleNextSlide}
+									className='flex-row-reverse p-[30px] min-w-[140px] w-fit'
+								/>
+							)}
+						</div>
 					</div>
 				</div>
 			)}
 
-			<div className='flex-1 flex items-center justify-center pt-20'>
-				<div className='max-sm:px-2 max-xl:px-0 px-8 max-xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center justify-between gap-[100px] flex-grow'>
-					<div className='flex flex-col items-center justify-center text-center space-y-8'>
+			<div className='flex-1 flex items-center justify-center pt-14 md:pt-20'>
+				<div className='max-sm:px-2 max-xl:px-0 px-8 max-xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
+					<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
 						<Logo width={150} height={48} />
-						<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7'>
+						<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
 							Hi there, <br /> I’m U2M Space
 						</h1>
 						<p className='font-normal text-[16px] leading-6'>
@@ -135,8 +155,8 @@ export default function Home() {
 						</p>
 					</div>
 
-					<div className='min-h-[200px] w-full'>
-						<div className='hidden xl:grid h-[200px] grid-cols-3 gap-[128px]'>
+					<div className='max-xl:hidden min-h-[200px] w-full'>
+						<div className='grid h-[200px] grid-cols-3 gap-[128px]'>
 							{BENEFITS_ITEMS.map((item, index) => (
 								<BenefitsItemCard
 									key={index}

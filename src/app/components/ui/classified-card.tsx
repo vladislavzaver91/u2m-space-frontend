@@ -33,7 +33,7 @@ export const ClassifiedCard = ({
 	return (
 		<Link
 			href={href}
-			className={`block border border-[#bdbdbd] rounded-xl transition-all hover:shadow-custom-xl hover:border-none min-w-full max-[769px]:min-w-[343px] max-[769px]:w-fit ${
+			className={`block border border-[#bdbdbd] rounded-xl transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full ${
 				isSmall ? 'min-h-[283px]' : 'h-[372px]'
 			}`}
 		>
@@ -52,11 +52,11 @@ export const ClassifiedCard = ({
 			<div
 				className={`p-4 flex flex-col gap-2 ${
 					isSmall ? 'min-h-[129px]' : 'h-[119px]'
-				}`}
+				} max-md:min-h-[124px]`}
 			>
 				<div className='flex items-center justify-between'>
 					<h3
-						className={`text-[24px] uppercase font-semibold transition-all ${
+						className={`text-[18px] md:text-[24px] uppercase font-bold transition-all ${
 							isFavorite ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
 						}`}
 					>

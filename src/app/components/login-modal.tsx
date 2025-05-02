@@ -79,7 +79,7 @@ export const LoginModal = () => {
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
 				transition={{ duration: 0.3 }}
-				className='fixed inset-0 bg-[#3486fe]/60 flex items-center justify-center z-50'
+				className='fixed inset-0 bg-[#3486fe]/60 flex items-center justify-center z-50 px-[22px]'
 				onClick={handleOverlayClick}
 			>
 				<motion.div
@@ -87,7 +87,7 @@ export const LoginModal = () => {
 					animate={{ scale: 1, opacity: 1 }}
 					exit={{ scale: 0.8, opacity: 0 }}
 					transition={{ duration: 0.3 }}
-					className='bg-white rounded-xl shadow-lg w-[582px] max-w-[90%] p-8 flex flex-col items-center space-y-8'
+					className='bg-white rounded-xl shadow-lg w-[582px] max-w-full p-8 flex flex-col items-center space-y-8'
 				>
 					{/* Заголовок */}
 					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>

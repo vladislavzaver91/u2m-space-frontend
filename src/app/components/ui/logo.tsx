@@ -6,14 +6,16 @@ import Link from 'next/link'
 interface LogoProps {
 	width: number
 	height: number
+	isSmall?: boolean
+	className?: string
 }
 
-export const Logo = ({ width, height }: LogoProps) => {
+export const Logo = ({ width, height, isSmall, className }: LogoProps) => {
 	return (
-		<div>
+		<div className={className}>
 			<Link href='/'>
 				<Image
-					src='/icons/logo.svg'
+					src={isSmall ? '/icons/logo-sm.svg' : '/icons/logo.svg'}
 					alt='logo image'
 					width={width}
 					height={height}

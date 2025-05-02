@@ -11,7 +11,8 @@
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-montserrat);
-	--shadow-custom-xl: 0 13px 73px 0 rgba(0, 0, 0, 0.13);
+	--shadow-custom-2xl: 0 13px 73px 0 rgba(0, 0, 0, 0.13);
+	--shadow-custom-xl: 0 13px 33px 0 rgba(0, 0, 0, 0.08);
 }
 
 body {
@@ -22,7 +23,11 @@ body {
 
 .custom-container {
 	margin: 0 auto;
-	padding: 0px 32px 0px 32px;
+	padding: 0px 16px 0px 16px;
+
+	@media screen and (min-width: 768px) {
+		padding: 0px 32px 0px 32px;
+	}
 
 	@media screen and (min-width: 1280px) {
 		max-width: 1664px;
@@ -48,7 +53,17 @@ body {
 	}
 
 	& .swiper-pagination {
-		margin-top: 32px;
+		display: none;
+		@media screen and (min-width: 640px) {
+			display: flex;
+			margin-top: 32px;
+		}
+	}
+}
+
+.slider-benefits {
+	& .swiper-pagination {
+		margin-top: 46px;
 	}
 }
 

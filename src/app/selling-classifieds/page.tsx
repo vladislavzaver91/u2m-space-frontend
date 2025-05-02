@@ -76,12 +76,12 @@ export default function SellingClassifieds() {
 				<AuthExchangeWrapper />
 			</Suspense>
 
-			<div className='flex-1 pt-40'>
+			<div className='flex-1 pt-14 md:pt-40'>
 				{/* Поиск и категории */}
-				<div className='pb-8 px-8 flex flex-col gap-8 items-center justify-between'>
-					<SearchInput className='max-w-[770px]' disabled />
+				<div className='pb-8 px-4 md:px-[22px] lg:px-8 flex flex-col gap-4 md:gap-8 items-center justify-between'>
+					<SearchInput className='max-w-[770px] max-md:hidden' disabled />
 					<CategoryTabs
-						categories={['Selling', 'Category 1', 'Category 2']}
+						categories={['Selling', 'Category', 'Category']}
 						activeCategory={activeCategory}
 						onCategoryChange={setActiveCategory}
 						disabled
@@ -94,25 +94,35 @@ export default function SellingClassifieds() {
 					<>
 						{/* Первые 8 карточек */}
 						<div className='w-full px-0 mb-32'>
-							<div className='hidden custom-container xl:grid grid-cols-4 gap-14'>
-								{classifieds.slice(0, 8).map(item => (
-									<ClassifiedCard
-										key={item.id}
-										title={item.title}
-										price={item.price.toFixed(2)}
-										image={item.images[0]} // Первое изображение для карточки
-										isFavorite={false} // Заглушка для "Избранное"
-										href={`/selling-classifieds/${item.id}`}
-										isSmall={false}
-									/>
-								))}
+							<div className='hidden xl:grid'>
+								<div className='custom-container mx-auto'>
+									<div className='grid grid-cols-12 gap-0'>
+										<div className='col-start-1 col-end-13'>
+											<div className='grid grid-cols-12 lg:gap-[60px] gap-4'>
+												{classifieds.slice(0, 8).map(item => (
+													<div key={item.id} className='col-span-3'>
+														<ClassifiedCard
+															title={item.title}
+															price={item.price.toFixed(2)}
+															image={item.images[0]} // Первое изображение для карточки
+															isFavorite={false} // Заглушка для "Избранное"
+															href={`/selling-classifieds/${item.id}`}
+															isSmall={false}
+														/>
+													</div>
+												))}
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div className='slider-for-card max-sm:px-8 xl:hidden'>
+							<div className='slider-for-card xl:hidden'>
 								<Swiper
+									initialSlide={2}
 									slidesPerView={1}
 									spaceBetween={60}
-									centeredSlides
-									loop
+									centeredSlides={true}
+									loop={true}
 									modules={[Pagination]}
 									pagination={SwiperPaginationManager.pagination}
 									onInit={swiper => {
@@ -129,8 +139,16 @@ export default function SellingClassifieds() {
 									}}
 									className='w-full !h-auto'
 									breakpoints={{
+										320: {
+											slidesPerView: 1.2,
+											spaceBetween: 16,
+										},
+										420: {
+											slidesPerView: 1.5,
+											spaceBetween: 16,
+										},
 										640: {
-											slidesPerView: 2,
+											slidesPerView: 2.5,
 											spaceBetween: 16,
 										},
 										769: {
@@ -138,7 +156,7 @@ export default function SellingClassifieds() {
 											spaceBetween: 60,
 										},
 										1024: {
-											slidesPerView: 4,
+											slidesPerView: 5,
 											spaceBetween: 60,
 										},
 									}}
@@ -146,7 +164,7 @@ export default function SellingClassifieds() {
 									{classifieds.slice(0, 4).map((item, index) => (
 										<SwiperSlide
 											key={index}
-											className='min-w-[295px] md:min-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'
+											className='min-w-[295px] max-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'
 										>
 											<ClassifiedCard
 												title={item.title}
@@ -165,25 +183,39 @@ export default function SellingClassifieds() {
 						{/* Остальные карточки */}
 						{classifieds.length > 8 && (
 							<div className='w-full px-0'>
-								<div className='custom-container grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 max-[769px]:gap-4 gap-14'>
-									{classifieds.slice(8).map(item => (
-										<ClassifiedCard
-											key={item.id}
-											title={item.title}
-											price={item.price.toFixed(2)}
-											image={item.images[0]}
-											isFavorite={false}
-											href={`/selling-classifieds/${item.id}`}
-											isSmall={true}
-										/>
-									))}
+								<div className='custom-container mx-auto'>
+									<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
+										<div className='col-start-1 col-end-13'>
+											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-8 lg:gap-[60px] md:gap-8 gap-4'>
+												{classifieds.slice(8).map((item, index) => (
+													<div
+														key={index}
+														className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-2'
+													>
+														<ClassifiedCard
+															title={item.title}
+															price={item.price.toFixed(2)}
+															image={item.images[0]}
+															isFavorite={false}
+															href={`/selling-classifieds/${item.id}`}
+															isSmall={true}
+														/>
+													</div>
+												))}
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						)}
 					</>
 				)}
 
-				{isLoading && classifieds.length > 0 && <Loader />}
+				{isLoading && classifieds.length > 0 && (
+					<div className='my-4'>
+						<Loader />
+					</div>
+				)}
 				<div ref={loaderRef} className='h-10' />
 			</div>
 		</div>

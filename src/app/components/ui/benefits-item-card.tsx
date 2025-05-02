@@ -17,20 +17,22 @@ export const BenefitsItemCard = ({
 	const imgWidthClass = index === 2 ? '2xl:w-[168px]' : '2xl:w-[206px]'
 	const imgMaxWidthClass =
 		index === 2 ? 'max-2xl:max-w-[168px]' : 'max-2xl:max-w-[206px]'
+	const imgWidthClassMaxMd =
+		index === 2 ? 'max-md:w-[253px] ' : 'max-md:w-[310px] '
 
 	return (
 		<div
 			className={`flex items-center max-md:gap-[50px] gap-4 h-[200px] ${cardWidthClass} ${
 				isSlider
-					? 'max-md:flex-col max-md:items-center max-md:justify-center max-md:h-auto max-md:min-h-[480px] max-md:min-w-full max-md:max-w-[310px]'
+					? 'max-md:flex-col max-md:items-center max-md:h-auto max-md:min-w-full max-md:max-w-[310px]'
 					: ''
 			}`}
 		>
 			<div
 				className={`relative w-full h-[200px] ${
 					isSlider
-						? 'max-md:min-w-[300px] max-md:h-[310px]'
-						: `${imgWidthClass} ${imgMaxWidthClass} max-md:min-w-[310px] max-md:h-[300px]`
+						? `max-md:h-[300px] ${imgWidthClassMaxMd}`
+						: `${imgWidthClass} ${imgMaxWidthClass}  max-md:h-[300px]`
 				}`}
 			>
 				<Image
@@ -41,7 +43,7 @@ export const BenefitsItemCard = ({
 				/>
 			</div>
 			<p
-				className={`w-[220px] h-full flex items-center p-2.5 text-[24px] font-bold text-[#4f4f4f] flex-shrink-0`}
+				className={`max-md:w-[300px] max-md:text-center w-[220px] h-full flex items-center max-md:leading-7 md:p-2.5 text-[24px] font-bold text-[#4f4f4f] flex-shrink-0`}
 			>
 				{label}
 			</p>

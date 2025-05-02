@@ -33,8 +33,8 @@ export const SearchInput = ({
 				<Image
 					src='/icons/microphone.svg'
 					alt='Microphone icon'
-					width={24}
-					height={24}
+					width={32}
+					height={32}
 				/>
 				<Image
 					src='/icons/camera.svg'

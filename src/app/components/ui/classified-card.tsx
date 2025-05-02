@@ -45,7 +45,7 @@ export const ClassifiedCard = ({
 					<div className='h-full bg-gray-200 rounded-t-xl' />
 				)}
 			</div>
-			<div className='p-4 flex flex-col justify-between gap-2 h-[119px]'>
+			<div className='p-4 flex flex-col gap-2 h-[119px]'>
 				<div className='flex items-center justify-between'>
 					<h3
 						className={`text-[24px] uppercase font-semibold transition-all ${
@@ -68,7 +68,9 @@ export const ClassifiedCard = ({
 						onClick={handleFavoriteClick}
 					/>
 				</div>
-				<p className='text-[#4f4f4f] text-[16px] font-bold'>{title}</p>
+				<p className='text-[#4f4f4f] text-[16px] font-bold leading-5'>
+					{title}
+				</p>
 			</div>
 		</Link>
 	)

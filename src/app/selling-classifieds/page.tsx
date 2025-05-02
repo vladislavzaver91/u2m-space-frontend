@@ -18,31 +18,27 @@ function AuthExchangeWrapper() {
 	return null
 }
 
-// const mockClassifieds: Classified[] = Array.from(
-// 	{ length: 40 },
-// 	(_, index) => ({
-// 		id: index + 1,
-// 		title: `Item ${index + 1}`,
-// 		price: (100 + index * 10).toFixed(2),
-// 		createdAt: new Date(2025, 3, 28 - index),
-// 	})
-// ).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-
 export default function SellingClassifieds() {
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [page, setPage] = useState(1)
+	const [hasMore, setHasMore] = useState(true)
 	const [activeCategory, setActiveCategory] = useState('Selling')
 	const [isLoading, setIsLoading] = useState(true)
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const swiperRef = useRef<SwiperClass | null>(null)
 
+	const limit = 20
+
 	useEffect(() => {
 		const fetchClassifieds = async () => {
+			if (!hasMore || isLoading) return
+
 			try {
 				setIsLoading(true)
-				const data = await apiService.getClassifieds()
-				setClassifieds(data)
+				const res = await apiService.getClassifieds({ page, limit })
+				setClassifieds(prev => [...prev, ...res.classifieds])
+				setHasMore(res.hasMore)
 			} catch (error) {
 				console.error('Error fetching classifieds:', error)
 			} finally {
@@ -51,13 +47,13 @@ export default function SellingClassifieds() {
 		}
 
 		fetchClassifieds()
-	}, [])
+	}, [page])
 
 	// Infinite Scroll
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			entries => {
-				if (entries[0].isIntersecting && !isLoading) {
+				if (entries[0].isIntersecting && hasMore && !isLoading) {
 					setPage(prev => prev + 1)
 				}
 			},
@@ -73,7 +69,7 @@ export default function SellingClassifieds() {
 				observer.unobserve(loaderRef.current)
 			}
 		}
-	}, [isLoading])
+	}, [hasMore, isLoading])
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -93,7 +89,7 @@ export default function SellingClassifieds() {
 					/>
 				</div>
 
-				{isLoading ? (
+				{isLoading && classifieds.length === 0 ? (
 					<Loader />
 				) : (
 					<>
@@ -184,7 +180,7 @@ export default function SellingClassifieds() {
 					</>
 				)}
 
-				{/* Элемент для Infinite Scroll */}
+				{isLoading && classifieds.length > 0 && <Loader />}
 				<div ref={loaderRef} className='h-10' />
 			</div>
 		</div>

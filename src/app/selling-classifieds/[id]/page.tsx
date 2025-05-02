@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
-import $api from '@/app/lib/http'
 import { Classified } from '@/app/types'
 import { apiService } from '@/app/services/api.service'
+import { Loader } from '@/app/components/ui/loader'
 
 export default function ClassifiedDetail() {
 	const [classified, setClassified] = useState<Classified | null>(null)
@@ -34,11 +32,7 @@ export default function ClassifiedDetail() {
 	}, [id])
 
 	if (isLoading) {
-		return (
-			<div className='flex justify-center items-center h-screen'>
-				<div className='animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#3486fe]'></div>
-			</div>
-		)
+		return <Loader />
 	}
 
 	if (!classified) {
@@ -46,7 +40,7 @@ export default function ClassifiedDetail() {
 	}
 
 	return (
-		<div className='min-h-screen flex flex-col pt-20 px-8'>
+		<div className='min-h-screen flex flex-col pt-40 px-8'>
 			<div className='custom-container mx-auto'>
 				<h1 className='text-3xl font-bold text-[#4f4f4f] mb-6'>
 					{classified.title}

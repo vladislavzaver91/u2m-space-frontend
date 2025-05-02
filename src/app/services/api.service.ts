@@ -7,9 +7,21 @@ interface AuthResponse {
 	refreshToken: string
 }
 
+interface ClassifiedsResponse {
+	classifieds: Classified[]
+	total: number
+	hasMore: boolean
+}
+
 export class ApiService {
-	async getClassifieds(): Promise<Classified[]> {
-		const response = await $api.get('/api/classifieds')
+	async getClassifieds(params: {
+		page: number
+		limit: number
+	}): Promise<ClassifiedsResponse> {
+		const offset = (params.page - 1) * params.limit
+		const response = await $api.get('/api/classifieds', {
+			params: { limit: params.limit, offset },
+		})
 		return response.data
 	}
 

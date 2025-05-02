@@ -124,10 +124,10 @@ export const Header = () => {
 											width={32}
 											height={32}
 											onError={handleImageError}
-											className='flex-row-reverse rounded-[13px] object-cover'
+											className='rounded-[13px] object-cover'
 										/>
 									}
-									className='px-8 py-7 min-w-[148px] w-fit text-[#3486fe]'
+									className='flex-row-reverse px-8 py-7 min-w-[148px] w-fit text-[#3486fe]'
 								/>
 							</div>
 						</>

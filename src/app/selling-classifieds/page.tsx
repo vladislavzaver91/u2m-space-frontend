@@ -93,7 +93,7 @@ export default function SellingClassifieds() {
 				) : (
 					<>
 						{/* Первые 8 карточек */}
-						<div className='w-full px-0 mb-32'>
+						<div className='w-full px-0 mb-4 sm:mb-32'>
 							<div className='hidden xl:grid'>
 								<div className='custom-container mx-auto'>
 									<div className='grid grid-cols-12 gap-0'>

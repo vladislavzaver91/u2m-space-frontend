@@ -2,16 +2,20 @@ interface IconCustomProps {
 	name: string
 	className?: string
 	size?: number
+	hover?: boolean
 }
 
 export const IconCustom = ({
 	name,
 	className = '',
 	size = 24,
+	hover,
 }: IconCustomProps) => {
 	return (
 		<svg
-			className={`${className} group-hover:text-[#F9329C] transition-colors`}
+			className={`${className} ${
+				hover ? 'group-hover:text-[#F9329C]' : ''
+			} transition-colors`}
 			width={size}
 			height={size}
 			fill='currentColor'

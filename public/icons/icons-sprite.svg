@@ -11,4 +11,9 @@
   <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="add_plus">
     <path d="M8 12L12 12M12 12L16 12M12 12L12 16M12 12L12 8M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
   </symbol>
+  <svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" id="heart">
+    <path d="M17.0371 2.73731C18.5837 4.28395 18.643 6.77268 17.1716 8.39114L9.79929 16.5001L2.42792 8.39111C0.956598 6.77265 1.01585 4.2839 2.5625 2.73726C4.28941 1.01034 7.13352 1.16814 8.65917 3.0752L9.7998 4.50045L10.9394 3.07504C12.4651 1.16798 15.3102 1.01039 17.0371 2.73731Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
+</svg>
 </svg>

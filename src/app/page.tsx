@@ -76,6 +76,7 @@ export default function Home() {
 							icon={
 								<IconCustom
 									name='arrow-prev'
+									hover={true}
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 							}
@@ -119,6 +120,7 @@ export default function Home() {
 									icon={
 										<IconCustom
 											name='arrow-next'
+											hover={true}
 											className='w-6 h-6 text-[#3486FE] stroke-none'
 										/>
 									}
@@ -132,6 +134,7 @@ export default function Home() {
 									icon={
 										<IconCustom
 											name='arrow-next'
+											hover={true}
 											className='w-6 h-6 text-[#3486FE] stroke-none'
 										/>
 									}
@@ -207,6 +210,7 @@ export default function Home() {
 					icon={
 						<IconCustom
 							name='arrow-next'
+							hover={true}
 							className='w-6 h-6 text-[#3486FE] stroke-none'
 						/>
 					}
@@ -220,6 +224,7 @@ export default function Home() {
 					icon={
 						<IconCustom
 							name='arrow-next'
+							hover={true}
 							className='w-6 h-6 text-[#3486FE] stroke-none'
 						/>
 					}

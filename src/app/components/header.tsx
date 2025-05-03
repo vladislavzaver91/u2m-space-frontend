@@ -80,6 +80,7 @@ export const Header = () => {
 									icon={
 										<IconCustom
 											name='add_plus'
+											hover={true}
 											className='w-6 h-6 text-[#3486fe] fill-none'
 										/>
 									}
@@ -93,6 +94,7 @@ export const Header = () => {
 									icon={
 										<IconCustom
 											name='add_plus'
+											hover={true}
 											className='w-6 h-6 text-[#3486fe] fill-none'
 										/>
 									}
@@ -147,6 +149,7 @@ export const Header = () => {
 							icon={
 								<IconCustom
 									name='user_square'
+									hover={true}
 									className='w-6 h-6 text-[#3486fe] fill-none'
 								/>
 							}

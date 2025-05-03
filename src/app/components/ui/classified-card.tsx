@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ButtonWithIcon } from './button-with-icon'
 import { useState } from 'react'
+import { IconCustom } from './icon-custom'
 
 interface ClassifiedCardProps {
 	title: string
@@ -65,13 +66,14 @@ export const ClassifiedCard = ({
 					<ButtonWithIcon
 						iconWrapperClass='w-6 h-6'
 						icon={
-							<Image
-								src={
-									isFavorite ? '/icons/heart_active.svg' : '/icons/heart.svg'
-								}
-								alt='Favorite icon'
-								width={24}
-								height={24}
+							<IconCustom
+								name='heart'
+								hover={false}
+								className={`${
+									isFavorite
+										? 'text-[#F9329C] stroke-[#F9329C]'
+										: 'text-[#3486fe] fill-none'
+								} w-6 h-6 `}
 							/>
 						}
 						onClick={handleFavoriteClick}

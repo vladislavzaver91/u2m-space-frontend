@@ -94,7 +94,7 @@ export default function SellingClassifieds() {
 					<>
 						{/* Первые 8 карточек */}
 						<div className='w-full px-0 mb-4 sm:mb-32'>
-							<div className='hidden xl:grid'>
+							<div className='hidden 2xl:grid'>
 								<div className='custom-container mx-auto'>
 									<div className='grid grid-cols-12 gap-0'>
 										<div className='col-start-1 col-end-13'>
@@ -116,7 +116,7 @@ export default function SellingClassifieds() {
 									</div>
 								</div>
 							</div>
-							<div className='slider-for-card xl:hidden'>
+							<div className='slider-for-card 2xl:hidden'>
 								<Swiper
 									initialSlide={2}
 									slidesPerView={1}
@@ -156,6 +156,7 @@ export default function SellingClassifieds() {
 											spaceBetween: 60,
 										},
 										1024: {
+											initialSlide: 1,
 											slidesPerView: 5,
 											spaceBetween: 60,
 										},

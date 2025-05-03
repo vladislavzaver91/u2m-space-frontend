@@ -6,10 +6,9 @@ import { Pagination } from 'swiper/modules'
 import './globals.css'
 import { useEffect, useRef, useState } from 'react'
 import { ButtonWithIcon } from './components/ui/button-with-icon'
-import { MdArrowBack, MdArrowForward } from 'react-icons/md'
 import { SwiperPaginationManager } from './lib/swiper-pagination-manager'
 import { BenefitsItemCard } from './components/ui/benefits-item-card'
-import Image from 'next/image'
+import { IconCustom } from './components/ui/icon-custom'
 
 const BENEFITS_ITEMS = [
 	{
@@ -71,14 +70,13 @@ export default function Home() {
 				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto'>
 					<div className='flex-1 px-[30px] pt-[30px]'>
 						{/* Стрелка назад */}
+
 						<ButtonWithIcon
+							iconWrapperClass='w-6 h-6'
 							icon={
-								<Image
-									src='/icons/arrow-prev.svg'
-									alt='prev icon'
-									width={24}
-									height={24}
-									className='w-6 h-6'
+								<IconCustom
+									name='arrow-prev'
+									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 							}
 							onClick={handlePrevSlide}
@@ -117,20 +115,24 @@ export default function Home() {
 							{currentSlide === BENEFITS_ITEMS.length - 1 ? (
 								<ButtonWithIcon
 									text="Let's start"
-									icon={<MdArrowForward className='fill-[#3486fe] w-6 h-6' />}
+									iconWrapperClass='w-6 h-6'
+									icon={
+										<IconCustom
+											name='arrow-next'
+											className='w-6 h-6 text-[#3486FE] stroke-none'
+										/>
+									}
 									href='/selling-classifieds'
 									className='flex-row-reverse p-8 min-w-[187px] w-fit'
 								/>
 							) : (
 								<ButtonWithIcon
 									text='Next'
+									iconWrapperClass='w-6 h-6'
 									icon={
-										<Image
-											src='/icons/arrow-next.svg'
-											alt='prev icon'
-											width={24}
-											height={24}
-											className='w-6 h-6'
+										<IconCustom
+											name='arrow-next'
+											className='w-6 h-6 text-[#3486FE] stroke-none'
 										/>
 									}
 									onClick={handleNextSlide}
@@ -143,7 +145,7 @@ export default function Home() {
 			)}
 
 			<div className='flex-1 flex items-center justify-center pt-14 md:pt-20'>
-				<div className='max-sm:px-2 max-xl:px-0 px-8 max-xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
+				<div className='max-sm:px-2 max-2xl:px-0 px-8 max-2xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
 					<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
 						<Logo width={150} height={48} />
 						<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
@@ -156,7 +158,7 @@ export default function Home() {
 					</div>
 
 					<div className='max-md:min-h-[200px] w-full'>
-						<div className='hidden xl:grid h-[200px] grid-cols-3 gap-[128px]'>
+						<div className='hidden 2xl:grid h-[200px] grid-cols-3 gap-[128px]'>
 							{BENEFITS_ITEMS.map((item, index) => (
 								<BenefitsItemCard
 									key={index}
@@ -167,7 +169,7 @@ export default function Home() {
 							))}
 						</div>
 
-						<div className='max-md:hidden xl:hidden w-full'>
+						<div className='max-md:hidden 2xl:hidden w-full'>
 							<Swiper
 								modules={[Pagination]}
 								spaceBetween={0}
@@ -201,14 +203,26 @@ export default function Home() {
 			<div className='absolute bottom-0 right-0'>
 				<ButtonWithIcon
 					text="Let's meet"
-					icon={<MdArrowForward className='fill-[#3486fe] w-6 h-6' />}
+					iconWrapperClass='w-6 h-6'
+					icon={
+						<IconCustom
+							name='arrow-next'
+							className='w-6 h-6 text-[#3486FE] stroke-none'
+						/>
+					}
 					onClick={handleOpenSlider}
 					className='flex-row-reverse p-8 min-w-[187px] w-fit md:hidden'
 				/>
 				<ButtonWithIcon
 					text="Let's start"
-					icon={<MdArrowForward className='fill-[#3486fe] w-6 h-6' />}
 					href='/selling-classifieds'
+					iconWrapperClass='w-6 h-6'
+					icon={
+						<IconCustom
+							name='arrow-next'
+							className='w-6 h-6 text-[#3486FE] stroke-none'
+						/>
+					}
 					className='flex-row-reverse p-8 min-w-[187px] w-fit max-md:hidden'
 				/>
 			</div>

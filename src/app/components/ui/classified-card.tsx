@@ -63,6 +63,7 @@ export const ClassifiedCard = ({
 						${price}
 					</h3>
 					<ButtonWithIcon
+						iconWrapperClass='w-6 h-6'
 						icon={
 							<Image
 								src={

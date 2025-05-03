@@ -156,8 +156,13 @@ export default function SellingClassifieds() {
 											spaceBetween: 60,
 										},
 										1024: {
-											initialSlide: 1,
+											initialSlide: 2,
 											slidesPerView: 5,
+											spaceBetween: 60,
+										},
+										1280: {
+											initialSlide: 2,
+											slidesPerView: 'auto',
 											spaceBetween: 60,
 										},
 									}}

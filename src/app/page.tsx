@@ -66,7 +66,7 @@ export default function Home() {
 								setCurrentSlide(swiper.activeIndex)
 								SwiperPaginationManager.updateBase(swiper)
 							}}
-							className='flex-1 pt-[30px] pb-[84px] w-[310px] slider-benefits'
+							className='flex-1 pt-[56px] pb-[84px] w-[310px] slider-benefits'
 						>
 							{BENEFITS_ITEMS.map((item, index) => (
 								<SwiperSlide

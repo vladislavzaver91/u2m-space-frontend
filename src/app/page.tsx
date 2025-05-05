@@ -147,7 +147,7 @@ export default function Home() {
 				</div>
 			)}
 
-			<div className='flex-1 flex items-center justify-center pt-14 md:pt-20'>
+			<div className='flex-1 flex items-center justify-center pt-14 pb-[84px] md:pt-20 md:pb-[88px] '>
 				<div className='max-sm:px-2 max-2xl:px-0 px-8 max-2xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
 					<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
 						<Logo width={150} height={48} />
@@ -160,7 +160,7 @@ export default function Home() {
 						</p>
 					</div>
 
-					<div className='max-md:min-h-[200px] w-full'>
+					<div className='max-md:hidden min-h-[200px] w-full'>
 						<div className='hidden 2xl:grid h-[200px] grid-cols-3 gap-[128px]'>
 							{BENEFITS_ITEMS.map((item, index) => (
 								<BenefitsItemCard
@@ -203,7 +203,7 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className='absolute bottom-0 right-0'>
+			{/* <div className='absolute bottom-0 right-0'>
 				<ButtonWithIcon
 					text="Let's meet"
 					iconWrapperClass='w-6 h-6'
@@ -230,7 +230,7 @@ export default function Home() {
 					}
 					className='flex-row-reverse p-8 min-w-[187px] w-fit max-md:hidden'
 				/>
-			</div>
+			</div> */}
 		</div>
 	)
 }

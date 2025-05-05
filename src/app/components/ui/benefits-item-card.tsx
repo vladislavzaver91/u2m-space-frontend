@@ -22,17 +22,17 @@ export const BenefitsItemCard = ({
 
 	return (
 		<div
-			className={`flex items-center max-md:gap-[50px] gap-4 h-[200px] ${cardWidthClass} ${
+			className={`flex items-center max-md:gap-[50px] gap-4 h-[200px] max-h-[640px]:h-[150px] max-h-[640px]:max-w-[360px]:h-[120px] ${cardWidthClass} ${
 				isSlider
-					? 'max-md:flex-col max-md:items-center max-md:h-auto max-md:min-w-full max-md:max-w-[310px]'
+					? 'max-md:flex-col max-md:items-center max-md:h-auto max-md:min-w-full max-md:max-w-[310px] max-h-[640px]:max-w-[360px]:max-w-[280px]'
 					: ''
 			}`}
 		>
 			<div
-				className={`relative w-full h-[200px] ${
+				className={`relative w-full h-[200px] max-h-[640px]:h-[100px] max-h-[640px]:max-w-[360px]:h-[80px] ${
 					isSlider
-						? `max-md:h-full max-md:max-h-[300px] ${imgWidthClassMaxMd}`
-						: `${imgWidthClass} ${imgMaxWidthClass}  max-md:h-[300px]`
+						? `max-md:h-[300px] max-h-[640px]:h-[150px] max-h-[640px]:max-w-[360px]:h-[120px] ${imgWidthClassMaxMd} max-h-[640px]:max-w-[360px]:w-[200px]`
+						: `${imgWidthClass} ${imgMaxWidthClass} max-md:h-[300px] max-h-[640px]:h-[150px] max-h-[640px]:max-w-[360px]:h-[120px]`
 				}`}
 			>
 				<Image

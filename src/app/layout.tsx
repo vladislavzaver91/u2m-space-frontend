@@ -4,6 +4,7 @@ import './globals.css'
 import { Header } from './components/header'
 import { AuthProvider } from './helpers/contexts/auth-context'
 import { ModalProvider } from './helpers/contexts/modal-context'
+import { BottomButtons } from './components/ui/bottom-buttons'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -34,6 +35,7 @@ export default function RootLayout({
 						<Header />
 						<main className='flex-1'>{children}</main>
 					</ModalProvider>
+					<BottomButtons />
 				</AuthProvider>
 			</body>
 		</html>

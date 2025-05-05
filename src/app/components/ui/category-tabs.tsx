@@ -14,7 +14,7 @@ export const CategoryTabs = ({
 	disabled,
 }: CategoryTabsProps) => {
 	return (
-		<div className='flex flex-wrap gap-4 md:gap-20 px-4 md:px-[22px] py-4 md:py-8'>
+		<div className='flex flex-wrap gap-4 md:gap-20 max-md:px-4 py-4 md:py-8'>
 			{categories.map((category, index) => (
 				<button
 					key={index}

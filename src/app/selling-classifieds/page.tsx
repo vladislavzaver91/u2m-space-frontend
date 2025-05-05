@@ -94,7 +94,7 @@ export default function SellingClassifieds() {
 					<>
 						{/* Первые 8 карточек */}
 						<div className='w-full px-0 mb-4 md:mb-16 2xl:mb-32'>
-							<div className='hidden 2xl:grid'>
+							<div className='hidden min-[1513px]:grid'>
 								<div className='custom-container mx-auto'>
 									<div className='grid grid-cols-12 gap-0'>
 										<div className='col-start-1 col-end-13'>
@@ -116,13 +116,12 @@ export default function SellingClassifieds() {
 									</div>
 								</div>
 							</div>
-							<div className='slider-for-card 2xl:hidden'>
+							<div className='slider-for-card min-[1513px]:hidden'>
 								<Swiper
 									initialSlide={2}
 									slidesPerView={1}
 									spaceBetween={60}
 									centeredSlides
-									loop={true}
 									modules={[Pagination]}
 									pagination={SwiperPaginationService.pagination}
 									onInit={swiper => {
@@ -162,7 +161,7 @@ export default function SellingClassifieds() {
 										},
 										1280: {
 											initialSlide: 2,
-											slidesPerView: 4.5,
+											slidesPerView: 'auto',
 											spaceBetween: 60,
 										},
 									}}

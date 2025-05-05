@@ -121,7 +121,7 @@ export default function SellingClassifieds() {
 									initialSlide={2}
 									slidesPerView={1}
 									spaceBetween={60}
-									centeredSlides={true}
+									centeredSlides
 									loop={true}
 									modules={[Pagination]}
 									pagination={SwiperPaginationManager.pagination}
@@ -162,7 +162,7 @@ export default function SellingClassifieds() {
 										},
 										1280: {
 											initialSlide: 2,
-											slidesPerView: 'auto',
+											slidesPerView: 5,
 											spaceBetween: 60,
 										},
 									}}

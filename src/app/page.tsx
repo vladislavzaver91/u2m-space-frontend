@@ -35,6 +35,7 @@ export default function Home() {
 		setCurrentSlide,
 		currentSlide,
 		handleOpenSlider,
+		handleCloseSlider,
 	} = useSliderHomeLogic()
 
 	return (
@@ -53,7 +54,7 @@ export default function Home() {
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 							}
-							onClick={handlePrevSlide}
+							onClick={handleCloseSlider}
 							className='w-[88px] h-[88px] justify-center'
 						/>
 

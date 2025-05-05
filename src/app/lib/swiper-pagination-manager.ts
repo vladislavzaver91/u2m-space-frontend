@@ -14,7 +14,7 @@ export class SwiperPaginationManager {
 		const bullets = swiper.pagination?.bullets as unknown as HTMLElement[]
 		if (!bullets || !bullets.length) return
 
-		const activeIndex = swiper.activeIndex
+		const activeIndex = swiper.realIndex
 
 		bullets.forEach((bullet, index) => {
 			bullet.classList.remove('is-prev', 'is-next', 'is-far', 'is-even-far')
@@ -27,6 +27,10 @@ export class SwiperPaginationManager {
 				bullet.classList.add('is-far')
 			} else if (index !== activeIndex) {
 				bullet.classList.add('is-even-far')
+			}
+
+			if (bullet.classList.contains('swiper-pagination-bullet-active')) {
+				bullet.classList.remove('is-prev', 'is-next', 'is-far', 'is-even-far')
 			}
 		})
 	}

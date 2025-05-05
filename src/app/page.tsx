@@ -58,7 +58,7 @@ export default function Home() {
 						/>
 
 						{/* Слайдер */}
-						<div className='flex-1 pb-[84px]'>
+						<div className='flex-1 flex items-center pb-[84px]'>
 							<Swiper
 								modules={[Pagination]}
 								spaceBetween={0}

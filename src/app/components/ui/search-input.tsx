@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -8,6 +9,7 @@ interface SearchInputProps {
 	className?: string
 	inputClass?: string
 	smallWidth?: boolean
+	logoActive?: boolean
 }
 
 export const SearchInput = ({
@@ -16,16 +18,28 @@ export const SearchInput = ({
 	className = '',
 	inputClass = '',
 	smallWidth,
+	logoActive = false,
 }: SearchInputProps) => {
 	return (
 		<div className={`relative w-full ${className}`}>
 			<div className='absolute inset-y-0 left-4 flex items-center'>
-				<Image
-					src='/icons/logo_input.svg'
-					alt='logo icon'
-					width={48}
-					height={32}
-				/>
+				{logoActive ? (
+					<Link href='/'>
+						<Image
+							src='/icons/logo_input.svg'
+							alt='logo icon'
+							width={48}
+							height={32}
+						/>
+					</Link>
+				) : (
+					<Image
+						src='/icons/logo_input.svg'
+						alt='logo icon'
+						width={48}
+						height={32}
+					/>
+				)}
 			</div>
 			<input
 				type='text'

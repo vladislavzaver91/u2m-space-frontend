@@ -65,7 +65,7 @@ export default function Home() {
 	}, [isSliderOpen])
 
 	return (
-		<div className='flex flex-col w-full overflow-hidden h-screen relative'>
+		<div className='flex flex-col w-full overflow-hidden min-h-screen relative'>
 			{isSliderOpen && (
 				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto'>
 					<div className='flex-1 px-[30px] pt-[30px]'>

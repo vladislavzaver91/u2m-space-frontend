@@ -39,37 +39,55 @@ export const Header = () => {
 		<>
 			<div className='fixed px-4 md:px-8 min-h-14 md:min-h-[88px] py-3 md:py-7 top-0 left-0 w-full flex items-center bg-white/10 backdrop-blur-md z-10'>
 				<div className={`${isSearchVisible && 'max-lg:hidden'} `}>
-					<div className='flex md:hidden'>
-						<Logo width={48} height={32} isSmall={true} />
-					</div>
+					{pathname === '/' && (
+						<div className='flex md:hidden'>
+							<Logo width={48} height={32} isSmall={true} />
+						</div>
+					)}
 					<div className='hidden md:flex'>
 						<Logo width={100} height={32} />
 					</div>
 				</div>
 
 				{/* SearchInput в центре */}
-				<div
-					className={`absolute md:left-4 lg:left-1/2 lg:transform lg:-translate-x-1/2 w-full max-w-1/2 max-[1120px]:max-w-[430px] min-[1120px]:max-w-[500px] min-[1370px]:max-w-[770px] transition-all duration-300 ease-in-out ${
-						isSearchVisible
-							? 'opacity-100 translate-y-0'
-							: 'max-lg:hidden opacity-0 -translate-y-4 pointer-events-none'
-					}`}
-				>
-					<div className='sm:hidden'>
-						<SearchInput
-							className='max-w-[600px]'
-							smallWidth
-							placeholder='Search'
-						/>
+				{pathname !== '/' && (
+					<div
+						className={`absolute left-0 md:left-4 lg:left-1/2 lg:transform lg:-translate-x-1/2 w-full max-w-[500px] min-[1024px]:max-w-[430px] min-[1120px]:max-w-[500px] min-[1370px]:max-w-[770px] transition-all duration-300 ease-in-out ${
+							isSearchVisible
+								? 'opacity-100 translate-y-0'
+								: 'md:opacity-0 md:-translate-y-4 md:pointer-events-none'
+						}`}
+					>
+						{isSearchVisible ? (
+							<>
+								<div className='md:hidden'>
+									<SearchInput
+										className='max-w-[600px]'
+										smallWidth
+										placeholder='Search'
+									/>
+								</div>
+								<div className='max-md:hidden'>
+									<SearchInput
+										className='lg:max-w-[770px]'
+										inputClass='bg-white'
+										disabled
+									/>
+								</div>
+							</>
+						) : (
+							<div className='md:hidden'>
+								<SearchInput
+									className='max-w-[200px] sm:max-w-[460px]'
+									inputClass='pr-4!'
+									smallWidth
+									logoActive={true}
+									placeholder='Search'
+								/>
+							</div>
+						)}
 					</div>
-					<div className='max-sm:hidden'>
-						<SearchInput
-							className='lg:max-w-[770px]'
-							inputClass='bg-white'
-							disabled
-						/>
-					</div>
-				</div>
+				)}
 
 				<div className='flex items-center absolute top-0 right-0'>
 					{pathname !== '/' && (

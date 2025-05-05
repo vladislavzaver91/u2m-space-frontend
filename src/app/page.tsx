@@ -40,10 +40,9 @@ export default function Home() {
 	return (
 		<div className='flex flex-col w-full overflow-hidden min-h-screen relative'>
 			{isSliderOpen && (
-				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto overflow-y-hidden'>
-					<div className='flex-1 px-[30px] pt-[30px]'>
+				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto overflow-hidden'>
+					<div className='fixed px-[30px] pt-[30px]'>
 						{/* Стрелка назад */}
-
 						<ButtonWithIcon
 							iconWrapperClass='w-6 h-6'
 							icon={
@@ -67,7 +66,7 @@ export default function Home() {
 								setCurrentSlide(swiper.activeIndex)
 								SwiperPaginationManager.updateBase(swiper)
 							}}
-							className='w-[310px] slider-benefits mt-[26px]'
+							className='flex-1 pt-[30px] pb-[84px] w-[310px] slider-benefits'
 						>
 							{BENEFITS_ITEMS.map((item, index) => (
 								<SwiperSlide
@@ -85,7 +84,7 @@ export default function Home() {
 						</Swiper>
 
 						{/* Кнопка Next / Let's start */}
-						<div className='absolute bottom-0 right-0'>
+						<div className='fixed bottom-0 right-0'>
 							{currentSlide === BENEFITS_ITEMS.length - 1 ? (
 								<ButtonWithIcon
 									text="Let's start"

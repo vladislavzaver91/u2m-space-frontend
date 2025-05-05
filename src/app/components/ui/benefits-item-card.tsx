@@ -31,7 +31,7 @@ export const BenefitsItemCard = ({
 			<div
 				className={`relative w-full h-[200px] ${
 					isSlider
-						? `max-md:h-[300px] ${imgWidthClassMaxMd}`
+						? `max-md:h-full max-md:max-h-[300px] ${imgWidthClassMaxMd}`
 						: `${imgWidthClass} ${imgMaxWidthClass}  max-md:h-[300px]`
 				}`}
 			>

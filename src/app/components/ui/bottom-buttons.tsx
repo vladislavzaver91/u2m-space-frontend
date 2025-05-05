@@ -4,16 +4,10 @@ import { useRef, useState } from 'react'
 import { ButtonWithIcon } from './button-with-icon'
 import { IconCustom } from './icon-custom'
 import { SwiperClass } from 'swiper/react'
+import { useSliderHomeLogic } from '@/app/helpers/hooks/use-slider-home-logic'
 
 export const BottomButtons = () => {
-	const [currentSlide, setCurrentSlide] = useState(0)
-	const [isSliderOpen, setIsSliderOpen] = useState(false)
-	const swiperRef = useRef<SwiperClass | null>(null)
-
-	const handleOpenSlider = () => {
-		setIsSliderOpen(true)
-		setCurrentSlide(0) // Сбрасываем слайд на первый
-	}
+	const { handleOpenSlider } = useSliderHomeLogic()
 
 	return (
 		<div className='fixed bottom-0 right-0'>

@@ -9,6 +9,7 @@ import { ButtonWithIcon } from './components/ui/button-with-icon'
 import { SwiperPaginationManager } from './lib/swiper-pagination-manager'
 import { BenefitsItemCard } from './components/ui/benefits-item-card'
 import { IconCustom } from './components/ui/icon-custom'
+import { useSliderHomeLogic } from './helpers/hooks/use-slider-home-logic'
 
 const BENEFITS_ITEMS = [
 	{
@@ -26,43 +27,15 @@ const BENEFITS_ITEMS = [
 ]
 
 export default function Home() {
-	const [currentSlide, setCurrentSlide] = useState(0)
-	const [isSliderOpen, setIsSliderOpen] = useState(false)
-	const swiperRef = useRef<SwiperClass | null>(null)
-
-	const handleOpenSlider = () => {
-		setIsSliderOpen(true)
-		setCurrentSlide(0) // Сбрасываем слайд на первый
-	}
-
-	const handleCloseSlider = () => {
-		setIsSliderOpen(false)
-	}
-
-	const handlePrevSlide = () => {
-		if (currentSlide === 0) {
-			handleCloseSlider()
-		} else {
-			swiperRef.current?.slidePrev()
-		}
-	}
-
-	const handleNextSlide = () => {
-		if (swiperRef.current) {
-			swiperRef.current.slideNext()
-		}
-	}
-
-	useEffect(() => {
-		const handleResize = () => {
-			if (window.innerWidth > 768 && isSliderOpen) {
-				setIsSliderOpen(false)
-			}
-		}
-
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [isSliderOpen])
+	const {
+		isSliderOpen,
+		handlePrevSlide,
+		handleNextSlide,
+		swiperRef,
+		setCurrentSlide,
+		currentSlide,
+		handleOpenSlider,
+	} = useSliderHomeLogic()
 
 	return (
 		<div className='flex flex-col w-full overflow-hidden min-h-screen relative'>
@@ -203,7 +176,7 @@ export default function Home() {
 				</div>
 			</div>
 
-			{/* <div className='absolute bottom-0 right-0'>
+			<div className='fixed bottom-0 right-0'>
 				<ButtonWithIcon
 					text="Let's meet"
 					iconWrapperClass='w-6 h-6'
@@ -230,7 +203,7 @@ export default function Home() {
 					}
 					className='flex-row-reverse p-8 min-w-[187px] w-fit max-md:hidden'
 				/>
-			</div> */}
+			</div>
 		</div>
 	)
 }

@@ -92,7 +92,7 @@ export const Header = () => {
 				<div className='flex items-center absolute top-0 right-0'>
 					{pathname !== '/' && (
 						<>
-							<div className='flex lg:hidden'>
+							<div className='max-md:hidden flex lg:hidden'>
 								<ButtonWithIcon
 									iconWrapperClass='w-6 h-6'
 									icon={
@@ -123,6 +123,17 @@ export const Header = () => {
 					)}
 					{user ? (
 						<>
+							<ButtonWithIcon
+								iconWrapperClass='w-6 h-6'
+								icon={
+									<IconCustom
+										name='add_plus'
+										hover={true}
+										className='w-6 h-6 text-[#3486fe] fill-none'
+									/>
+								}
+								className='md:hidden p-4 md:p-8 min-w-[56px] w-fit'
+							/>
 							<div className='flex md:hidden'>
 								<ButtonWithIcon
 									href='/my-space'

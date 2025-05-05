@@ -78,7 +78,7 @@ export default function SellingClassifieds() {
 
 			<div className='flex-1 pt-14 md:pt-40'>
 				{/* Поиск и категории */}
-				<div className='pb-8 px-4 md:px-[22px] lg:px-8 flex flex-col gap-4 md:gap-8 items-center justify-between'>
+				<div className='pb-4 md:pb-8 lg:px-8 flex flex-col gap-4 md:gap-8 items-center justify-between'>
 					<SearchInput className='max-w-[770px] max-md:hidden' disabled />
 					<CategoryTabs
 						categories={['Selling', 'Category', 'Category']}

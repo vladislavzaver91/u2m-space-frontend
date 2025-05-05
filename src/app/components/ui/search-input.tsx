@@ -49,7 +49,7 @@ export const SearchInput = ({
 					smallWidth
 						? 'border-none bg-transparent'
 						: 'border border-[#bdbdbd] rounded-4xl focus:ring-2 focus:ring-blue-500'
-				} focus:outline-none placeholder:text-[#4f4f4f]`}
+				} focus:outline-none placeholder:text-[#4f4f4f] text-[18px]`}
 			/>
 			<div className='max-md:hidden absolute inset-y-0 right-4 flex items-center gap-4'>
 				<div className='w-8 h-8'>

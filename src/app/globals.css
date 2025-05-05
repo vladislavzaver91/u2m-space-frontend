@@ -36,7 +36,11 @@ body {
 
 .slider-for-card {
 	& .swiper-wrapper {
-		height: 430px !important;
+		height: 406px !important;
+		@media screen and (min-width: 768px) {
+			height: 430px !important;
+		}
+
 		align-items: center;
 	}
 
@@ -47,7 +51,7 @@ body {
 
 	& .swiper-slide-active {
 		@media screen and (max-width: 1024px) {
-			transform: scaleY(1.1) scaleX(1) !important;
+			transform: scaleY(1.09) scaleX(1) !important;
 			transition: transform 0.3s ease;
 		}
 	}

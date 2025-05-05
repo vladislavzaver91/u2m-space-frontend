@@ -41,8 +41,9 @@ export default function Home() {
 		<div className='flex flex-col w-full overflow-hidden min-h-screen relative'>
 			{isSliderOpen && (
 				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto overflow-hidden'>
-					<div className='fixed px-[30px] pt-[30px]'>
+					<div className='relative flex flex-col min-h-screen overflow-hidden'>
 						{/* Стрелка назад */}
+
 						<ButtonWithIcon
 							iconWrapperClass='w-6 h-6'
 							icon={
@@ -53,35 +54,38 @@ export default function Home() {
 								/>
 							}
 							onClick={handlePrevSlide}
+							className='w-[88px] h-[88px] justify-center'
 						/>
 
 						{/* Слайдер */}
-						<Swiper
-							modules={[Pagination]}
-							spaceBetween={0}
-							slidesPerView={1}
-							pagination={SwiperPaginationManager.pagination}
-							onSwiper={swiper => (swiperRef.current = swiper)}
-							onSlideChange={swiper => {
-								setCurrentSlide(swiper.activeIndex)
-								SwiperPaginationManager.updateBase(swiper)
-							}}
-							className='flex-1 pt-[56px] pb-[84px] w-[310px] slider-benefits'
-						>
-							{BENEFITS_ITEMS.map((item, index) => (
-								<SwiperSlide
-									key={index}
-									className='flex justify-center items-center h-auto min-h-[200px]'
-								>
-									<BenefitsItemCard
-										index={index}
-										label={item.label}
-										img={item.img}
-										isSlider
-									/>
-								</SwiperSlide>
-							))}
-						</Swiper>
+						<div className='flex-1 pb-[84px]'>
+							<Swiper
+								modules={[Pagination]}
+								spaceBetween={0}
+								slidesPerView={1}
+								pagination={SwiperPaginationManager.pagination}
+								onSwiper={swiper => (swiperRef.current = swiper)}
+								onSlideChange={swiper => {
+									setCurrentSlide(swiper.activeIndex)
+									SwiperPaginationManager.updateBase(swiper)
+								}}
+								className='w-[310px] slider-benefits'
+							>
+								{BENEFITS_ITEMS.map((item, index) => (
+									<SwiperSlide
+										key={index}
+										className='flex justify-center items-center h-auto min-h-[200px]'
+									>
+										<BenefitsItemCard
+											index={index}
+											label={item.label}
+											img={item.img}
+											isSlider
+										/>
+									</SwiperSlide>
+								))}
+							</Swiper>
+						</div>
 
 						{/* Кнопка Next / Let's start */}
 						<div className='fixed bottom-0 right-0'>

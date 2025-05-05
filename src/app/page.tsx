@@ -6,10 +6,10 @@ import { Pagination } from 'swiper/modules'
 import './globals.css'
 import { useEffect, useRef, useState } from 'react'
 import { ButtonWithIcon } from './components/ui/button-with-icon'
-import { SwiperPaginationManager } from './lib/swiper-pagination-manager'
 import { BenefitsItemCard } from './components/ui/benefits-item-card'
 import { IconCustom } from './components/ui/icon-custom'
 import { useSliderHomeLogic } from './helpers/hooks/use-slider-home-logic'
+import { SwiperPaginationService } from './services/swiper-pagination.service'
 
 const BENEFITS_ITEMS = [
 	{
@@ -64,11 +64,11 @@ export default function Home() {
 								modules={[Pagination]}
 								spaceBetween={0}
 								slidesPerView={1}
-								pagination={SwiperPaginationManager.pagination}
+								pagination={SwiperPaginationService.pagination}
 								onSwiper={swiper => (swiperRef.current = swiper)}
 								onSlideChange={swiper => {
 									setCurrentSlide(swiper.activeIndex)
-									SwiperPaginationManager.updateBase(swiper)
+									SwiperPaginationService.updateBase(swiper)
 								}}
 								className='w-[310px] slider-benefits'
 							>
@@ -154,11 +154,11 @@ export default function Home() {
 								modules={[Pagination]}
 								spaceBetween={0}
 								slidesPerView={1}
-								pagination={SwiperPaginationManager.pagination}
+								pagination={SwiperPaginationService.pagination}
 								onSwiper={swiper => (swiperRef.current = swiper)}
 								onSlideChange={swiper => {
 									setCurrentSlide(swiper.activeIndex)
-									SwiperPaginationManager.updateBase(swiper)
+									SwiperPaginationService.updateBase(swiper)
 								}}
 							>
 								{BENEFITS_ITEMS.map((item, index) => (

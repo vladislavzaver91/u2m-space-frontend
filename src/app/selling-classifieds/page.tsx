@@ -7,11 +7,11 @@ import { SearchInput } from '../components/ui/search-input'
 import { CategoryTabs } from '../components/ui/category-tabs'
 import { ClassifiedCard } from '../components/ui/classified-card'
 import { Pagination } from 'swiper/modules'
-import { SwiperPaginationManager } from '../lib/swiper-pagination-manager'
 import { useAuthExchange } from '../helpers/hooks/use-auth-exchange'
 import { Classified } from '../types'
 import { apiService } from '../services/api.service'
 import { Loader } from '../components/ui/loader'
+import { SwiperPaginationService } from '../services/swiper-pagination.service'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -93,7 +93,7 @@ export default function SellingClassifieds() {
 				) : (
 					<>
 						{/* Первые 8 карточек */}
-						<div className='w-full px-0 mb-4 sm:mb-32'>
+						<div className='w-full px-0 mb-4 md:mb-16 2xl:mb-32'>
 							<div className='hidden 2xl:grid'>
 								<div className='custom-container mx-auto'>
 									<div className='grid grid-cols-12 gap-0'>
@@ -124,18 +124,18 @@ export default function SellingClassifieds() {
 									centeredSlides
 									loop={true}
 									modules={[Pagination]}
-									pagination={SwiperPaginationManager.pagination}
+									pagination={SwiperPaginationService.pagination}
 									onInit={swiper => {
 										swiperRef.current = swiper
-										SwiperPaginationManager.updateForCard(swiper)
+										SwiperPaginationService.updateForCard(swiper)
 									}}
 									onSwiper={swiper => {
 										swiperRef.current = swiper
-										SwiperPaginationManager.updateForCard(swiper)
+										SwiperPaginationService.updateForCard(swiper)
 									}}
 									onSlideChange={swiper => {
 										setCurrentSlide(swiper.activeIndex)
-										SwiperPaginationManager.updateForCard(swiper)
+										SwiperPaginationService.updateForCard(swiper)
 									}}
 									className='w-full !h-auto'
 									breakpoints={{
@@ -152,7 +152,7 @@ export default function SellingClassifieds() {
 											spaceBetween: 16,
 										},
 										769: {
-											slidesPerView: 3,
+											slidesPerView: 4,
 											spaceBetween: 60,
 										},
 										1024: {
@@ -162,12 +162,12 @@ export default function SellingClassifieds() {
 										},
 										1280: {
 											initialSlide: 2,
-											slidesPerView: 5,
+											slidesPerView: 4.5,
 											spaceBetween: 60,
 										},
 									}}
 								>
-									{classifieds.slice(0, 4).map((item, index) => (
+									{classifieds.slice(0, 6).map((item, index) => (
 										<SwiperSlide
 											key={index}
 											className='min-w-[295px] max-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'

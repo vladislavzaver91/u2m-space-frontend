@@ -57,7 +57,7 @@ export default function ClassifiedDetail() {
 								className='w-6 h-6 text-[#3486FE] fill-none'
 							/>
 						}
-						className='px-8 py-2.5 min-w-[147px] w-fit'
+						className='flex px-8 py-2.5 min-w-[147px] w-fit'
 					/>
 					<CategoryTabs
 						categories={['Selling', 'Category', 'Category']}

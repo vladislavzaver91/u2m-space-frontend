@@ -78,7 +78,7 @@ export default function SellingClassifieds() {
 
 			<div className='flex-1 pt-14 md:pt-40'>
 				{/* Поиск и категории */}
-				<div className='pb-4 md:pb-8 lg:px-8 flex flex-col gap-4 md:gap-8 items-center justify-between'>
+				<div className='pb-4 md:pb-8 md:px-[18px] lg:px-8 flex flex-col gap-4 md:gap-8 items-center justify-between'>
 					<SearchInput className='max-w-[770px] max-md:hidden' disabled />
 					<CategoryTabs
 						categories={['Selling', 'Category', 'Category']}
@@ -156,7 +156,7 @@ export default function SellingClassifieds() {
 										},
 										769: {
 											slidesPerView: 4,
-											spaceBetween: 60,
+											spaceBetween: 32,
 										},
 										1024: {
 											initialSlide: 2,
@@ -195,11 +195,11 @@ export default function SellingClassifieds() {
 								<div className='custom-container mx-auto'>
 									<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
 										<div className='col-start-1 col-end-13'>
-											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-8 lg:gap-[60px] md:gap-8 gap-4'>
+											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4'>
 												{classifieds.slice(8).map((item, index) => (
 													<div
 														key={index}
-														className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-2'
+														className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
 													>
 														<ClassifiedCard
 															title={item.title}

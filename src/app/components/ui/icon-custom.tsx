@@ -21,7 +21,7 @@ export const IconCustom = ({
 			fill='currentColor'
 			stroke='currentColor'
 		>
-			<use xlinkHref={`icons/icons-sprite.svg#${name}`} />
+			<use xlinkHref={`/icons/icons-sprite.svg#${name}`} />
 		</svg>
 	)
 }

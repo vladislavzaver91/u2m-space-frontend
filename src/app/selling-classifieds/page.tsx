@@ -94,99 +94,97 @@ export default function SellingClassifieds() {
 					<>
 						{/* Первые 8 карточек */}
 						<div className='w-full px-0 mb-4 md:mb-16 2xl:mb-32'>
-							<div className='hidden min-[1513px]:grid'>
-								<div className='custom-container mx-auto'>
-									<div className='grid grid-cols-12 gap-0'>
-										<div className='col-start-1 col-end-13'>
-											<div className='grid grid-cols-12 lg:gap-[60px] gap-4'>
-												{classifieds.slice(0, 8).map(item => (
-													<div key={item.id} className='col-span-3'>
-														<ClassifiedCard
-															title={item.title}
-															price={item.price.toFixed(2)}
-															image={item.images[0]} // Первое изображение для карточки
-															isFavorite={false} // Заглушка для "Избранное"
-															href={`/selling-classifieds/${item.id}`}
-															isSmall={false}
-														/>
-													</div>
-												))}
-											</div>
+							<div className='hidden min-[1513px]:grid custom-container mx-auto'>
+								<div className='grid grid-cols-12 gap-[60px]'>
+									<div className='col-start-1 col-end-13'>
+										<div className='grid grid-cols-12 lg:gap-[60px] gap-4'>
+											{classifieds.slice(0, 8).map(item => (
+												<div key={item.id} className='col-span-3'>
+													<ClassifiedCard
+														title={item.title}
+														price={item.price.toFixed(2)}
+														image={item.images[0]} // Первое изображение для карточки
+														isFavorite={false} // Заглушка для "Избранное"
+														href={`/selling-classifieds/${item.id}`}
+														isSmall={false}
+													/>
+												</div>
+											))}
 										</div>
 									</div>
 								</div>
 							</div>
-							<div className='slider-for-card min-[1513px]:hidden'>
-								<Swiper
-									initialSlide={2}
-									slidesPerView={1}
-									spaceBetween={60}
-									centeredSlides
-									grabCursor={true}
-									speed={800} // Увеличенная скорость анимации для плавности
-									freeMode={false} // Отключение свободного режима для предотвращения перепрыгивания
-									touchRatio={0.5}
-									modules={[Pagination]}
-									pagination={SwiperPaginationService.pagination}
-									onInit={swiper => {
-										swiperRef.current = swiper
-										SwiperPaginationService.updateForCard(swiper)
-									}}
-									onSwiper={swiper => {
-										swiperRef.current = swiper
-										SwiperPaginationService.updateForCard(swiper)
-									}}
-									onSlideChange={swiper => {
-										setCurrentSlide(swiper.activeIndex)
-										SwiperPaginationService.updateForCard(swiper)
-									}}
-									className='w-full !h-auto'
-									breakpoints={{
-										320: {
-											slidesPerView: 1.2,
-											spaceBetween: 16,
-										},
-										420: {
-											slidesPerView: 1.5,
-											spaceBetween: 16,
-										},
-										640: {
-											slidesPerView: 2.5,
-											spaceBetween: 16,
-										},
-										769: {
-											slidesPerView: 4,
-											spaceBetween: 32,
-										},
-										1024: {
-											initialSlide: 2,
-											slidesPerView: 5,
-											spaceBetween: 60,
-										},
-										1280: {
-											initialSlide: 2,
-											slidesPerView: 'auto',
-											spaceBetween: 60,
-										},
-									}}
-								>
-									{classifieds.slice(0, 6).map((item, index) => (
-										<SwiperSlide
-											key={index}
-											className='min-w-[295px] max-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'
-										>
-											<ClassifiedCard
-												title={item.title}
-												price={item.price.toFixed(2)}
-												image={item.images[0]}
-												isFavorite={false}
-												href={`/selling-classifieds/${item.id}`}
-												isSmall={false}
-											/>
-										</SwiperSlide>
-									))}
-								</Swiper>
-							</div>
+						</div>
+						<div className='slider-for-card mb-4 md:mb-16 min-[1513px]:hidden'>
+							<Swiper
+								initialSlide={2}
+								slidesPerView={1}
+								spaceBetween={60}
+								centeredSlides
+								grabCursor={true}
+								speed={800} // Увеличенная скорость анимации для плавности
+								freeMode={false} // Отключение свободного режима для предотвращения перепрыгивания
+								touchRatio={0.5}
+								modules={[Pagination]}
+								pagination={SwiperPaginationService.pagination}
+								onInit={swiper => {
+									swiperRef.current = swiper
+									SwiperPaginationService.updateForCard(swiper)
+								}}
+								onSwiper={swiper => {
+									swiperRef.current = swiper
+									SwiperPaginationService.updateForCard(swiper)
+								}}
+								onSlideChange={swiper => {
+									setCurrentSlide(swiper.activeIndex)
+									SwiperPaginationService.updateForCard(swiper)
+								}}
+								className='w-full !h-auto'
+								breakpoints={{
+									320: {
+										slidesPerView: 1.2,
+										spaceBetween: 16,
+									},
+									420: {
+										slidesPerView: 1.5,
+										spaceBetween: 16,
+									},
+									640: {
+										slidesPerView: 2.5,
+										spaceBetween: 16,
+									},
+									769: {
+										slidesPerView: 4,
+										spaceBetween: 32,
+									},
+									1024: {
+										initialSlide: 2,
+										slidesPerView: 5,
+										spaceBetween: 60,
+									},
+									1280: {
+										initialSlide: 2,
+										slidesPerView: 'auto',
+										spaceBetween: 60,
+									},
+								}}
+							>
+								{classifieds.slice(0, 6).map((item, index) => (
+									<SwiperSlide
+										key={index}
+										className='min-w-[295px] max-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'
+									>
+										<ClassifiedCard
+											title={item.title}
+											price={item.price.toFixed(2)}
+											image={item.images[0]}
+											isFavorite={false}
+											href={`/selling-classifieds/${item.id}`}
+											isSmall={false}
+										/>
+									</SwiperSlide>
+								))}
+							</Swiper>
 						</div>
 
 						{/* Остальные карточки */}

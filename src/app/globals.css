@@ -75,6 +75,29 @@ body {
 	}
 }
 
+.slider-classified-info {
+	& .swiper-pagination {
+		padding: 32px 0px 40px 0px;
+		display: flex;
+		justify-content: center;
+		margin: 0;
+		position: relative;
+	}
+}
+
+.slider-images-modal {
+	& .swiper {
+		min-height: fit-content;
+	}
+	& .swiper-pagination {
+		padding: 36px 0px 36px 0px;
+		display: flex;
+		justify-content: center;
+		margin: 0;
+		position: relative;
+	}
+}
+
 .swiper-pagination {
 	position: relative;
 	display: flex;

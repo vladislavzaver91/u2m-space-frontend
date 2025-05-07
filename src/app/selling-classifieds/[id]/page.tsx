@@ -136,6 +136,7 @@ export default function ClassifiedDetail() {
 								className='w-6 h-6 text-[#3486FE] fill-none'
 							/>
 						}
+						isHover
 						className='flex justify-start px-8 py-2.5 min-w-[147px] w-fit'
 					/>
 					<div className='max-sm:hidden flex-1 flex justify-center w-full'>

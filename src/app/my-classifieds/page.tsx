@@ -99,12 +99,12 @@ export default function MySpace() {
 					<div className='w-full mt-8'>
 						<div className='custom-container mx-auto'>
 							<div className='grid grid-cols-12 gap-[60px]'>
-								<div className='col-start-1 col-end-13'>
-									<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4'>
+								<div className='col-start-1 col-end-13 2xl:col-start-3! 2xl:col-end-11! 3xl:col-start-1 3xl:col-end-13'>
+									<div className='grid grid-cols-4 sm:grid-cols-12 2xl:grid-cols-8 3xl:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4'>
 										{classifieds.slice(0, 4).map(item => (
 											<div
 												key={item.id}
-												className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+												className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2 3xl:col-span-3'
 											>
 												<MyClassifiedCard
 													title={item.title}

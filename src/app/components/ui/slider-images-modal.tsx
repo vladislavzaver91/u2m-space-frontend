@@ -134,10 +134,17 @@ export const SliderImagesModal = ({
 							</span>
 						</div>
 						<ButtonWithIcon
-							iconWrapperClass='w-6 h-6'
-							className='text-[#4f4f4f] hover:text-gray-700'
-							icon={<MdClose className='w-6 h-6' />}
 							onClick={onClose}
+							iconWrapperClass='w-6 h-6 flex items-center justify-center'
+							icon={
+								<IconCustom
+									name='close'
+									className='w-3 h-3 fill-none text-[#4f4f4f]'
+									hover={true}
+								/>
+							}
+							isHover
+							className='w-10 h-10 flex items-center justify-center rounded-lg'
 						/>
 					</div>
 				</motion.div>

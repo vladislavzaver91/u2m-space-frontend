@@ -13,6 +13,7 @@
 	--font-sans: var(--font-montserrat);
 	--shadow-custom-2xl: 0 13px 73px 0 rgba(0, 0, 0, 0.13);
 	--shadow-custom-xl: 0 13px 33px 0 rgba(0, 0, 0, 0.08);
+	--breakpoint-3xl: 1921px;
 }
 
 body {

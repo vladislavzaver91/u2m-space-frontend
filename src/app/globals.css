@@ -212,3 +212,12 @@ body.has-scroll::-webkit-scrollbar-thumb {
 		stroke-dashoffset: -125px;
 	}
 }
+
+.home-content-wrapper {
+	@media (max-height: 740px) {
+		gap: 60px;
+	}
+	@media (max-height: 660px) {
+		gap: 30px;
+	}
+}

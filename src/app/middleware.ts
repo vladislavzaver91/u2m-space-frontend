@@ -1,29 +1,26 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+// import { NextRequest, NextResponse } from 'next/server'
 
-export function middleware(request: NextRequest) {
-	const hasVisited = request.cookies.get('hasVisited')?.value === 'true'
-	const url = request.nextUrl.clone()
+// export function middleware(request: NextRequest) {
+// 	const accessToken = request.cookies.get('accessToken')?.value
+// 	const { pathname } = request.nextUrl
 
-	// Если пользователь уже посещал сайт и пытается зайти на /home, перенаправляем на /selling-classifieds
-	if (hasVisited && url.pathname === '/') {
-		url.pathname = '/selling-classifieds'
-		return NextResponse.redirect(url)
-	}
+// 	// Если пользователь не авторизован и пытается зайти на защищенные страницы
+// 	if (!accessToken && pathname !== '/login' && !pathname.startsWith('/api')) {
+// 		const url = request.nextUrl.clone()
+// 		url.pathname = '/login'
+// 		return NextResponse.redirect(url)
+// 	}
 
-	// Если пользователь впервые на сайте, устанавливаем куки
-	if (!hasVisited) {
-		const response = NextResponse.next()
-		response.cookies.set('hasVisited', 'true', {
-			path: '/',
-			maxAge: 60 * 60 * 24 * 365, // 1 год
-		})
-		return response
-	}
+// 	// Если пользователь авторизован и пытается зайти на /login, перенаправляем на /selling-classifieds
+// 	if (accessToken && pathname === '/login') {
+// 		const url = request.nextUrl.clone()
+// 		url.pathname = '/selling-classifieds'
+// 		return NextResponse.redirect(url)
+// 	}
 
-	return NextResponse.next()
-}
+// 	return NextResponse.next()
+// }
 
-export const config = {
-	matcher: ['/'], // Применяем middleware к /home и корневому пути
-}
+// export const config = {
+// 	matcher: ['/((?!_next|static|favicon.ico).*)'], // Применяем ко всем маршрутам, кроме статики
+// }

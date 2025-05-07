@@ -21,6 +21,7 @@ export const Logo = ({
 	const router = useRouter()
 
 	const handleClick = () => {
+		localStorage.setItem('manualRedirect', 'true')
 		router.push('/')
 	}
 

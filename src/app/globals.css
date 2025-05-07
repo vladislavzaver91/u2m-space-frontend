@@ -19,6 +19,24 @@ body {
 	background: var(--background);
 	color: var(--foreground);
 	font-family: Montserrat, sans-serif;
+	overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+	width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+	background: transparent;
+}
+
+body.has-scroll::-webkit-scrollbar-thumb {
+	background: #d3d3d3;
+	border-radius: 8px;
 }
 
 .custom-container {

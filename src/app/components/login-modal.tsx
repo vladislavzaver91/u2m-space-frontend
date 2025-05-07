@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MdClose } from 'react-icons/md'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { ButtonWithIcon } from './ui/button-with-icon'
@@ -10,6 +9,7 @@ import { AuthLinkItem } from '../types'
 import { Loader } from './ui/loader'
 import { useModalLogic } from '../helpers/hooks/use-modal-logic'
 import { useModal } from '../helpers/contexts/modal-context'
+import { IconCustom } from './ui/icon-custom'
 
 const AUTH_LINK_ITEMS: AuthLinkItem[] = [
 	{
@@ -125,7 +125,8 @@ export const LoginModal = () => {
 											}
 											href={item.href}
 											onClick={() => handleAuthClick(item.name)}
-											className='flex items-center gap-4 p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-xl hover:bg-[#f7f7f7] hover:border-[#f9329c] transition-colors min-w-[162px] w-fit h-[64px] justify-center'
+											isHover
+											className='flex items-center gap-4 p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-xl hover:border-[#f9329c] transition-colors min-w-[162px] w-fit h-[64px] justify-center'
 										/>
 									))}
 								</div>
@@ -135,8 +136,16 @@ export const LoginModal = () => {
 
 					<ButtonWithIcon
 						onClick={closeLoginModal}
-						className='text-[#4f4f4f] hover:text-gray-700'
-						icon={<MdClose className='w-6 h-6' />}
+						iconWrapperClass='w-6 h-6 flex items-center justify-center'
+						icon={
+							<IconCustom
+								name='close'
+								className='w-3 h-3 fill-none text-[#4f4f4f]'
+								hover={true}
+							/>
+						}
+						isHover
+						className='w-10 h-10 flex items-center justify-center rounded-lg'
 					/>
 				</motion.div>
 			</motion.div>

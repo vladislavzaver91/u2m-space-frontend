@@ -76,7 +76,9 @@ export const ClassifiedCard = ({
 								} w-6 h-6 `}
 							/>
 						}
+						isHover
 						onClick={handleFavoriteClick}
+						className='w-10 h-10 flex items-center justify-center rounded-lg'
 					/>
 				</div>
 				<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>

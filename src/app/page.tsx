@@ -1,10 +1,9 @@
 'use client'
 
 import { Logo } from './components/ui/logo'
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import './globals.css'
-import { useEffect, useRef, useState } from 'react'
 import { ButtonWithIcon } from './components/ui/button-with-icon'
 import { BenefitsItemCard } from './components/ui/benefits-item-card'
 import { IconCustom } from './components/ui/icon-custom'
@@ -40,7 +39,7 @@ export default function Home() {
 
 	return (
 		<div className='flex flex-col w-full overflow-hidden min-h-screen relative'>
-			{isSliderOpen && (
+			{isSliderOpen ? (
 				<div className='fixed inset-0 min-h-screen bg-white z-20 md:max-w-[768px] mx-auto overflow-hidden'>
 					<div className='relative flex flex-col min-h-screen overflow-hidden'>
 						{/* Стрелка назад */}
@@ -50,16 +49,16 @@ export default function Home() {
 							icon={
 								<IconCustom
 									name='arrow-prev'
-									hover={true}
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 							}
 							onClick={handleCloseSlider}
+							isHover
 							className='w-[88px] h-[88px] justify-center'
 						/>
 
 						{/* Слайдер */}
-						<div className='flex-1 flex items-center pb-[84px]'>
+						<div className='flex-1 flex items-center pb-[88px]'>
 							<Swiper
 								modules={[Pagination]}
 								spaceBetween={0}
@@ -70,12 +69,12 @@ export default function Home() {
 									setCurrentSlide(swiper.activeIndex)
 									SwiperPaginationService.updateBase(swiper)
 								}}
-								className='w-[310px] slider-benefits'
+								className='w-[310px] h-auto  slider-benefits'
 							>
 								{BENEFITS_ITEMS.map((item, index) => (
 									<SwiperSlide
 										key={index}
-										className='flex justify-center items-center h-auto min-h-[200px]'
+										className='flex justify-center items-center min-h-[200px] h-auto'
 									>
 										<BenefitsItemCard
 											index={index}
@@ -102,6 +101,7 @@ export default function Home() {
 										/>
 									}
 									href='/selling-classifieds'
+									isHover
 									className='flex-row-reverse p-8 min-w-[187px] w-fit'
 								/>
 							) : (
@@ -116,98 +116,103 @@ export default function Home() {
 										/>
 									}
 									onClick={handleNextSlide}
+									isHover
 									className='flex-row-reverse p-[30px] min-w-[140px] w-fit'
 								/>
 							)}
 						</div>
 					</div>
 				</div>
-			)}
-
-			<div className='flex-1 flex items-center justify-center pt-14 pb-[84px] md:pt-20 md:pb-[88px] '>
-				<div className='max-sm:px-2 max-2xl:px-0 px-8 max-2xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
-					<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
-						<Logo width={150} height={48} />
-						<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
-							Hi there, <br /> I’m U2M Space
-						</h1>
-						<p className='font-normal text-[16px] leading-6'>
-							Your new simpler, reliable way <br />
-							to exchange.
-						</p>
-					</div>
-
-					<div className='max-md:hidden min-h-[200px] w-full'>
-						<div className='hidden 2xl:grid h-[200px] grid-cols-3 gap-[128px]'>
-							{BENEFITS_ITEMS.map((item, index) => (
-								<BenefitsItemCard
-									key={index}
-									index={index}
-									label={item.label}
-									img={item.img}
-								/>
-							))}
+			) : (
+				<div className='flex-1 flex items-center justify-center pt-14 pb-[84px] md:pt-20 md:pb-[88px] '>
+					<div className='max-sm:px-2 max-2xl:px-0 px-8 max-2xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
+						<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
+							<Logo width={150} height={48} />
+							<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
+								Hi there, <br /> I’m U2M Space
+							</h1>
+							<p className='font-normal text-[16px] leading-6'>
+								Your new simpler, reliable way <br />
+								to exchange.
+							</p>
 						</div>
 
-						<div className='max-md:hidden 2xl:hidden w-full'>
-							<Swiper
-								modules={[Pagination]}
-								spaceBetween={0}
-								slidesPerView={1}
-								pagination={SwiperPaginationService.pagination}
-								onSwiper={swiper => (swiperRef.current = swiper)}
-								onSlideChange={swiper => {
-									setCurrentSlide(swiper.activeIndex)
-									SwiperPaginationService.updateBase(swiper)
-								}}
-							>
+						<div className='max-md:hidden min-h-[200px] w-full'>
+							<div className='hidden 2xl:grid h-[200px] grid-cols-3 gap-[128px]'>
 								{BENEFITS_ITEMS.map((item, index) => (
-									<SwiperSlide
+									<BenefitsItemCard
 										key={index}
-										className='max-sm:flex! flex justify-center items-center h-auto min-h-[200px]'
-									>
-										<BenefitsItemCard
-											index={index}
-											label={item.label}
-											img={item.img}
-											isSlider
-										/>
-									</SwiperSlide>
+										index={index}
+										label={item.label}
+										img={item.img}
+									/>
 								))}
-							</Swiper>
+							</div>
+
+							<div className='max-md:hidden 2xl:hidden w-full'>
+								<Swiper
+									modules={[Pagination]}
+									spaceBetween={0}
+									slidesPerView={1}
+									pagination={SwiperPaginationService.pagination}
+									onSwiper={swiper => (swiperRef.current = swiper)}
+									onSlideChange={swiper => {
+										setCurrentSlide(swiper.activeIndex)
+										SwiperPaginationService.updateBase(swiper)
+									}}
+								>
+									{BENEFITS_ITEMS.map((item, index) => (
+										<SwiperSlide
+											key={index}
+											className='max-sm:flex! flex justify-center items-center h-auto min-h-[200px]'
+										>
+											<BenefitsItemCard
+												index={index}
+												label={item.label}
+												img={item.img}
+												isSlider
+											/>
+										</SwiperSlide>
+									))}
+								</Swiper>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 
-			<div className='fixed bottom-0 right-0'>
-				<ButtonWithIcon
-					text="Let's meet"
-					iconWrapperClass='w-6 h-6'
-					icon={
-						<IconCustom
-							name='arrow-next'
-							hover={true}
-							className='w-6 h-6 text-[#3486FE] stroke-none'
-						/>
-					}
-					onClick={handleOpenSlider}
-					className='flex-row-reverse p-8 min-w-[187px] w-fit md:hidden'
-				/>
-				<ButtonWithIcon
-					text="Let's start"
-					href='/selling-classifieds'
-					iconWrapperClass='w-6 h-6'
-					icon={
-						<IconCustom
-							name='arrow-next'
-							hover={true}
-							className='w-6 h-6 text-[#3486FE] stroke-none'
-						/>
-					}
-					className='flex-row-reverse p-8 min-w-[187px] w-fit max-md:hidden'
-				/>
-			</div>
+			{!isSliderOpen && (
+				<div className='fixed bottom-0 right-0'>
+					<ButtonWithIcon
+						text="Let's meet"
+						iconWrapperClass='w-6 h-6'
+						icon={
+							<IconCustom
+								name='arrow-next'
+								hover={true}
+								className='w-6 h-6 text-[#3486FE] stroke-none'
+							/>
+						}
+						onClick={handleOpenSlider}
+						isHover
+						className='flex-row-reverse p-8 min-w-[187px] w-fit md:hidden'
+					/>
+					<ButtonWithIcon
+						text="Let's start"
+						href='/selling-classifieds'
+						iconWrapperClass='w-6 h-6'
+						icon={
+							<IconCustom
+								name='arrow-next'
+								hover={true}
+								className='w-6 h-6 text-[#3486FE] stroke-none'
+							/>
+						}
+						isHover
+						className='flex-row-reverse p-8 min-w-[187px] w-fit max-md:hidden'
+					/>
+				</div>
+			)}
 		</div>
 	)
 }

@@ -14,7 +14,7 @@ export const IconCustom = ({
 	return (
 		<svg
 			className={`${className} ${
-				hover ? 'group-hover:text-[#F9329C]' : ''
+				hover ? 'group-hover:text-[#F9329C] group-focus:text-[#f9329c]' : ''
 			} transition-colors`}
 			width={size}
 			height={size}

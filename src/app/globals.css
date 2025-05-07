@@ -71,7 +71,16 @@ body {
 
 .slider-benefits {
 	& .swiper-pagination {
-		margin-top: 46px;
+		margin-top: 24px;
+	}
+
+	& .benefits-card-image {
+		@media (max-height: 600px) {
+			height: 230px;
+		}
+		@media (max-height: 520px) {
+			height: 170px;
+		}
 	}
 }
 

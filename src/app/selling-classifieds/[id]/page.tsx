@@ -221,7 +221,7 @@ export default function ClassifiedDetail() {
 													</SwiperSlide>
 												))}
 											</Swiper>
-											<div className='max-md:hidden absolute bottom-9 left-0 right-0 flex items-center justify-between w-full z-10'>
+											<div className='max-md:hidden absolute bottom-9 left-0 right-0 flex items-center justify-between w-full z-10 h-10'>
 												<div className='flex items-center'>
 													<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
 														{String(currentImageIndex + 1).padStart(2, '0')}
@@ -245,7 +245,7 @@ export default function ClassifiedDetail() {
 															className='w-6 h-6 text-[#4f4f4f] fill-none'
 														/>
 													}
-													className='p-2 min-w-[40px] w-fit'
+													className='max-[769px]:hidden inline-flex p-2 min-w-[40px] w-fit'
 													onClick={handleOpenModal}
 												/>
 											</div>

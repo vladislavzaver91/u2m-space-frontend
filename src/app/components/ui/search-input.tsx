@@ -52,20 +52,20 @@ export const SearchInput = ({
 				} focus:outline-none placeholder:text-[#4f4f4f] text-[18px]`}
 			/>
 			<div className='max-md:hidden absolute inset-y-0 right-4 flex items-center gap-4'>
-				<div className='w-8 h-8'>
+				<div className='w-10 h-10 flex items-center justify-center'>
 					<Image
 						src='/icons/microphone.svg'
 						alt='Microphone icon'
-						width={32}
-						height={32}
+						width={24}
+						height={24}
 					/>
 				</div>
-				<div className='w-8 h-8'>
+				<div className='w-10 h-10 flex items-center justify-center'>
 					<Image
 						src='/icons/camera.svg'
 						alt='Camera icon'
-						width={32}
-						height={32}
+						width={24}
+						height={24}
 					/>
 				</div>
 			</div>

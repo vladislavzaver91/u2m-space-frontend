@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { IconCustom } from './icon-custom'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -53,19 +54,15 @@ export const SearchInput = ({
 			/>
 			<div className='max-md:hidden absolute inset-y-0 right-4 flex items-center gap-4'>
 				<div className='w-10 h-10 flex items-center justify-center'>
-					<Image
-						src='/icons/microphone.svg'
-						alt='Microphone icon'
-						width={24}
-						height={24}
+					<IconCustom
+						name='microphone'
+						className='w-6 h-6 fill-none text-[#f9329c]'
 					/>
 				</div>
 				<div className='w-10 h-10 flex items-center justify-center'>
-					<Image
-						src='/icons/camera.svg'
-						alt='Camera icon'
-						width={24}
-						height={24}
+					<IconCustom
+						name='camera'
+						className='w-6 h-6 fill-none text-[#3486fe]'
 					/>
 				</div>
 			</div>

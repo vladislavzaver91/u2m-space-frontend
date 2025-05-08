@@ -9,8 +9,9 @@ import { Classified } from '../types'
 import { apiService } from '../services/api.service'
 import { Loader } from '../components/ui/loader'
 import { MyClassifiedCard } from '../components/ui/my-classified-card'
+import { AddClassifiedButton } from '../components/ui/add-classified-button'
 
-export default function MySpace() {
+export default function MyClassifieds() {
 	const [activeCategory, setActiveCategory] = useState('All')
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [page, setPage] = useState(1)
@@ -63,7 +64,7 @@ export default function MySpace() {
 	return (
 		<div className='min-h-screen flex flex-col'>
 			<div className='flex-1 pt-14 pb-10 md:pt-40'>
-				<div className='flex max-xl:items-center max-sm:justify-start max-xl:justify-center max-sm:mb-4 max-xl:mb-8 max-sm:pl-4 max-sm:py-[11px] xl:absolute xl:pl-32 xl:flex-col gap-4'>
+				<div className='flex max-xl:flex-wrap max-xl:items-center max-sm:justify-start max-xl:justify-center max-sm:mb-4 max-xl:mb-8 max-sm:pl-4 max-sm:py-[11px] xl:absolute xl:pl-32 xl:flex-col gap-4'>
 					<ButtonWithIcon
 						text='My Classifieds'
 						iconWrapperClass='w-6 h-6 flex items-center justify-center'
@@ -98,13 +99,16 @@ export default function MySpace() {
 				) : (
 					<div className='w-full mt-8'>
 						<div className='custom-container mx-auto'>
-							<div className='grid grid-cols-12 gap-[60px]'>
-								<div className='col-start-1 col-end-13 2xl:col-start-3! 2xl:col-end-11! 3xl:col-start-1 3xl:col-end-13'>
-									<div className='grid grid-cols-4 sm:grid-cols-12 2xl:grid-cols-8 3xl:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4'>
+							<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
+								<div className='col-start-1 col-end-13 2xl:col-start-3 2xl:col-end-11 3xl:col-start-1! 3xl:col-end-13!'>
+									<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
+										<div className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3'>
+											<AddClassifiedButton />
+										</div>
 										{classifieds.slice(0, 4).map(item => (
 											<div
 												key={item.id}
-												className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2 3xl:col-span-3'
+												className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3!'
 											>
 												<MyClassifiedCard
 													title={item.title}

@@ -30,24 +30,9 @@ export class SwiperPaginationService {
 			// Скрываем всё, что выходит за пределы 5 точек (слева и справа от активной)
 			const distanceFromActive = Math.abs(index - activeIndex)
 
-			if (distanceFromActive > 3) {
-				bullet.classList.add('is-hidden')
-			} else if (index === activeIndex - 3) {
-				bullet.classList.add('is-far')
-			} else if (index === activeIndex - 1) {
-				bullet.classList.add('is-prev')
-			} else if (index === activeIndex + 1) {
-				bullet.classList.add('is-next')
-			} else if (index === activeIndex + 2) {
-				bullet.classList.add('is-far')
-			} else if (index === activeIndex + 3) {
-				bullet.classList.add('is-even-far')
-			}
-
-			// вариант 2
-			// if (distanceFromActive > 2) {
+			// if (distanceFromActive > 3) {
 			// 	bullet.classList.add('is-hidden')
-			// } else if (index === activeIndex - 2) {
+			// } else if (index === activeIndex - 3) {
 			// 	bullet.classList.add('is-far')
 			// } else if (index === activeIndex - 1) {
 			// 	bullet.classList.add('is-prev')
@@ -55,7 +40,22 @@ export class SwiperPaginationService {
 			// 	bullet.classList.add('is-next')
 			// } else if (index === activeIndex + 2) {
 			// 	bullet.classList.add('is-far')
+			// } else if (index === activeIndex + 3) {
+			// 	bullet.classList.add('is-even-far')
 			// }
+
+			// вариант 2
+			if (distanceFromActive > 2) {
+				bullet.classList.add('is-hidden')
+			} else if (index === activeIndex - 2) {
+				bullet.classList.add('is-far')
+			} else if (index === activeIndex - 1) {
+				bullet.classList.add('is-prev')
+			} else if (index === activeIndex + 1) {
+				bullet.classList.add('is-next')
+			} else if (index === activeIndex + 2) {
+				bullet.classList.add('is-far')
+			}
 
 			// Активную не скрываем
 			if (bullet.classList.contains('swiper-pagination-bullet-active')) {

@@ -165,9 +165,9 @@ export default function ClassifiedDetail() {
 												slidesPerView={1}
 												centeredSlides
 												grabCursor={true}
-												speed={800}
+												speed={500}
 												freeMode={false}
-												touchRatio={0.5}
+												touchRatio={1}
 												pagination={SwiperPaginationService.pagination}
 												onInit={swiper => {
 													swiperRef.current = swiper

@@ -8,7 +8,7 @@ import { IconCustom } from './icon-custom'
 
 export const AddPhotoButton = () => {
 	return (
-		<div className='border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:shadow-custom-xl hover:border-[#f9329c] w-full max-sm:h-[84px] sm:h-[294px] 3xl:h-[375px]! space-y-2 cursor-pointer group'>
+		<div className='border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:shadow-custom-xl hover:border-[#f9329c] w-full max-md:h-[84px] md:h-[294px] space-y-2 cursor-pointer group'>
 			<IconCustom
 				name='camera'
 				hover

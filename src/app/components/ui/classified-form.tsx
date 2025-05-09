@@ -15,7 +15,7 @@ export const ClassifiedForm = () => {
 	}
 
 	return (
-		<div className='w-full max-w-[300px] flex flex-col gap-4'>
+		<div className='w-full lg:max-w-[300px] flex flex-col gap-2'>
 			<CustomInput
 				label='Title'
 				value={formData.title}

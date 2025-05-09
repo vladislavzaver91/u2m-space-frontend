@@ -45,11 +45,11 @@ export default function Home() {
 						{/* Стрелка назад */}
 
 						<ButtonWithIcon
-							iconWrapperClass='w-6 h-6'
+							iconWrapperClass='w-6 h-6 flex items-center justify-center'
 							icon={
 								<IconCustom
 									name='arrow-prev'
-									className='w-6 h-6 text-[#4F4F4F] fill-none'
+									className='w-[17px] h-3.5 text-[#4F4F4F] fill-none'
 								/>
 							}
 							onClick={handleCloseSlider}

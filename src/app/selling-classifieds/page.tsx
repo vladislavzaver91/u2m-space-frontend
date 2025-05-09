@@ -122,9 +122,9 @@ export default function SellingClassifieds() {
 								spaceBetween={60}
 								centeredSlides
 								grabCursor={true}
-								speed={800} // Увеличенная скорость анимации для плавности
-								freeMode={false} // Отключение свободного режима для предотвращения перепрыгивания
-								touchRatio={0.5}
+								speed={700}
+								freeMode={false}
+								touchRatio={0.7}
 								modules={[Pagination]}
 								pagination={SwiperPaginationService.pagination}
 								onInit={swiper => {

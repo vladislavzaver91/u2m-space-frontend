@@ -63,8 +63,8 @@ export default function MyClassifieds() {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
-			<div className='flex-1 pt-14 pb-10 md:pt-40'>
-				<div className='flex max-xl:flex-wrap max-xl:items-center max-sm:justify-start max-xl:justify-center max-sm:mb-4 max-xl:mb-8 max-sm:pl-4 max-sm:py-[11px] xl:absolute xl:pl-32 xl:flex-col gap-4'>
+			<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
+				<div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-4 max-sm:py-[11px] max-2-5xl:pl-8 max-2-5xl:py-6 2-5xl:absolute 2-5xl:pl-32 2-5xl:flex-col gap-4'>
 					<ButtonWithIcon
 						text='My Classifieds'
 						iconWrapperClass='w-6 h-6 flex items-center justify-center'
@@ -97,7 +97,7 @@ export default function MyClassifieds() {
 				{isLoading && classifieds.length === 0 ? (
 					<Loader />
 				) : (
-					<div className='w-full mt-8'>
+					<div className='w-full'>
 						<div className='custom-container mx-auto'>
 							<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
 								<div className='col-start-1 col-end-13 2xl:col-start-3 2xl:col-end-11 3xl:col-start-1! 3xl:col-end-13!'>

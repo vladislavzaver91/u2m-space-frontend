@@ -63,7 +63,7 @@ export default function Home() {
 								modules={[Pagination]}
 								spaceBetween={0}
 								slidesPerView={1}
-								pagination={SwiperPaginationService.pagination}
+								pagination={SwiperPaginationService.paginationBase}
 								onSwiper={swiper => (swiperRef.current = swiper)}
 								onSlideChange={swiper => {
 									setCurrentSlide(swiper.activeIndex)
@@ -154,7 +154,7 @@ export default function Home() {
 									modules={[Pagination]}
 									spaceBetween={0}
 									slidesPerView={1}
-									pagination={SwiperPaginationService.pagination}
+									pagination={SwiperPaginationService.paginationBase}
 									onSwiper={swiper => (swiperRef.current = swiper)}
 									onSlideChange={swiper => {
 										setCurrentSlide(swiper.activeIndex)

@@ -76,10 +76,13 @@ export default function SellingClassifieds() {
 				<AuthExchangeWrapper />
 			</Suspense>
 
-			<div className='flex-1 pt-14 md:pt-40'>
+			<div className='flex-1 pt-14 md:pt-[88px] 2-5xl:pt-40!'>
 				{/* Поиск и категории */}
-				<div className='pb-4 md:pb-8 md:px-[18px] lg:px-8 flex flex-col gap-4 md:gap-8 items-center justify-between'>
-					<SearchInput className='max-w-[770px] max-md:hidden' disabled />
+				<div className='pb-4 md:pb-8 md:px-[18px] lg:px-8 flex flex-col 2xl:gap-8 items-center justify-between'>
+					<SearchInput
+						className='w-full max-2xl:py-3 2xl:max-w-[770px] max-md:hidden'
+						disabled
+					/>
 					<CategoryTabs
 						categories={['Selling', 'Category', 'Category']}
 						activeCategory={activeCategory}
@@ -93,7 +96,7 @@ export default function SellingClassifieds() {
 				) : (
 					<>
 						{/* Первые 8 карточек */}
-						<div className='w-full px-0 mb-4 md:mb-16 2xl:mb-32'>
+						<div className='max-[1513px]:hidden w-full px-0 mb-32'>
 							<div className='hidden min-[1513px]:grid custom-container mx-auto'>
 								<div className='grid grid-cols-12 gap-[60px]'>
 									<div className='col-start-1 col-end-13'>
@@ -126,7 +129,7 @@ export default function SellingClassifieds() {
 								freeMode={false}
 								touchRatio={0.7}
 								modules={[Pagination]}
-								pagination={SwiperPaginationService.pagination}
+								pagination={SwiperPaginationService.paginationForCard}
 								onInit={swiper => {
 									swiperRef.current = swiper
 									SwiperPaginationService.updateForCard(swiper)

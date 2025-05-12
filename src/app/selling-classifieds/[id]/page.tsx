@@ -123,8 +123,8 @@ export default function ClassifiedDetail() {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
-			<div className='flex-1 pt-14 pb-10 md:pt-[120px] lg:pt-40'>
-				<div className='flex max-md:flex-col flex-wrap max-md:justify-center items-baseline w-full'>
+			<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
+				<div className='flex max-2-5xl:flex-col flex-wrap max-2-5xl:justify-center items-baseline w-full'>
 					<ButtonWithIcon
 						onClick={handleBack}
 						text='Back'
@@ -137,7 +137,7 @@ export default function ClassifiedDetail() {
 							/>
 						}
 						isHover
-						className='flex justify-start px-8 py-2.5 min-w-[147px] w-fit'
+						className='flex justify-start px-8 py-2.5 min-w-[147px] w-fit h-[88px]'
 					/>
 					<div className='max-sm:hidden flex-1 flex justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
@@ -168,7 +168,7 @@ export default function ClassifiedDetail() {
 												speed={500}
 												freeMode={false}
 												touchRatio={1}
-												pagination={SwiperPaginationService.pagination}
+												pagination={SwiperPaginationService.paginationForCard}
 												onInit={swiper => {
 													swiperRef.current = swiper
 													SwiperPaginationService.updateForCard(swiper)

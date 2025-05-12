@@ -1,40 +1,83 @@
 'use client'
 
-import { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { CustomInput } from './custom-input'
 
-export const ClassifiedForm = () => {
-	const [formData, setFormData] = useState({
-		title: '',
-		description: '',
-		price: '',
+interface ClassifiedFormData {
+	title: string
+	description: string
+	price: string
+}
+
+interface ClassifiedFormProps {
+	initialData?: ClassifiedFormData
+	onSubmit: SubmitHandler<ClassifiedFormData>
+}
+export const ClassifiedForm = ({
+	initialData,
+	onSubmit,
+}: ClassifiedFormProps) => {
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<ClassifiedFormData>({
+		defaultValues: initialData || {
+			title: '',
+			description: '',
+			price: '',
+		},
 	})
 
-	const handleChange = (field: keyof typeof formData) => (value: string) => {
-		setFormData(prev => ({ ...prev, [field]: value }))
-	}
+	const titleValue = watch('title')
+	const descriptionValue = watch('description')
+	const priceValue = watch('price')
 
 	return (
-		<div className='w-full lg:max-w-[300px] flex flex-col gap-2'>
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className='w-full lg:max-w-[300px] flex flex-col gap-2'
+		>
 			<CustomInput
 				label='Title'
-				value={formData.title}
-				onChange={handleChange('title')}
+				register={register('title', {
+					required: 'Title is required',
+					maxLength: {
+						value: 60,
+						message: 'Title must be up to 60 characters',
+					},
+				})}
+				value={titleValue}
+				error={errors.title?.message}
 				maxLength={60}
 			/>
 			<CustomInput
 				label='Description'
-				value={formData.description}
-				onChange={handleChange('description')}
+				register={register('description', {
+					required: 'Description is required',
+					maxLength: {
+						value: 300,
+						message: 'Description must be up to 300 characters',
+					},
+				})}
+				value={descriptionValue}
+				error={errors.description?.message}
 				maxLength={300}
 			/>
 			<CustomInput
 				label='Price'
-				value={formData.price}
-				onChange={handleChange('price')}
-				maxLength={10}
 				type='number'
+				register={register('price', {
+					required: 'Price is required',
+					min: { value: 0, message: 'Price must be a positive number' },
+					validate: value =>
+						!isNaN(parseFloat(value)) || 'Price must be a valid number',
+				})}
+				value={priceValue}
+				error={errors.price?.message}
+				maxLength={10}
 			/>
-		</div>
+		</form>
 	)
 }

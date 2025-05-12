@@ -22,10 +22,7 @@ const INFO_AND_ANALYTICAL_DATA = [
 	},
 	{
 		icon: (
-			<IconCustom
-				name='suitcase'
-				className='w-4 h-4 fill-none text-[#3486FE]'
-			/>
+			<IconCustom name='chat' className='w-4 h-4 fill-none text-[#4F4F4F]' />
 		),
 		data: 356,
 	},

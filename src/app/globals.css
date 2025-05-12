@@ -85,6 +85,7 @@ body.has-scroll::-webkit-scrollbar-thumb {
 			padding: 32px 0px 32px 0px;
 			display: flex;
 			margin: 0;
+			width: 400px !important;
 		}
 	}
 }
@@ -111,6 +112,7 @@ body.has-scroll::-webkit-scrollbar-thumb {
 		justify-content: center;
 		margin: 0;
 		position: relative;
+		width: 400px !important;
 	}
 }
 
@@ -124,6 +126,7 @@ body.has-scroll::-webkit-scrollbar-thumb {
 		justify-content: center;
 		margin: 0;
 		position: relative;
+		width: 400px !important;
 	}
 }
 
@@ -134,7 +137,6 @@ body.has-scroll::-webkit-scrollbar-thumb {
 	justify-content: center;
 	gap: 25px;
 	margin-top: 96px;
-	width: 400px !important;
 }
 
 .swiper-pagination-bullet {

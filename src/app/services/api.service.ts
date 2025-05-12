@@ -13,21 +13,67 @@ interface ClassifiedsResponse {
 	hasMore: boolean
 }
 
+interface ClassifiedData {
+	title: string
+	description: string
+	price: string
+	images: string[]
+	tags: string[]
+}
+
+interface UpdateClassifiedData extends ClassifiedData {
+	isActive?: boolean
+}
+
+interface Tag {
+	id: string
+	name: string
+	createdAt: string
+	updatedAt: string
+}
+
 export class ApiService {
 	async getClassifieds(params: {
 		page: number
 		limit: number
+		tags?: string[]
 	}): Promise<ClassifiedsResponse> {
 		const offset = (params.page - 1) * params.limit
-		const response = await $api.get('/api/classifieds', {
-			params: { limit: params.limit, offset },
+		const res = await $api.get('/api/classifieds', {
+			params: { limit: params.limit, offset, tags: params.tags },
 		})
-		return response.data
+		return res.data
 	}
 
 	async getClassifiedById(id: string): Promise<Classified> {
-		const response = await $api.get(`/api/classifieds/${id}`)
-		return response.data
+		const res = await $api.get(`/api/classifieds/${id}`)
+		return res.data
+	}
+
+	async createClassified(data: ClassifiedData): Promise<Classified> {
+		const res = await $api.post('/api/classifieds', data)
+		return res.data
+	}
+
+	async updateClassified(
+		id: string,
+		data: UpdateClassifiedData
+	): Promise<Classified> {
+		const res = await $api.put(`/api/classifieds/${id}`, data)
+		return res.data
+	}
+
+	async deleteClassified(id: string): Promise<void> {
+		await $api.delete(`/api/classifieds/${id}`)
+	}
+
+	async createTag(name: string): Promise<Tag> {
+		const res = await $api.post('/api/tags', { name })
+		return res.data
+	}
+
+	async deleteTag(id: string): Promise<void> {
+		await $api.delete(`/api/tags/${id}`)
 	}
 
 	async exchangeAuthState(state: string): Promise<AuthResponse> {

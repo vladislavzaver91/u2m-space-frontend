@@ -19,7 +19,7 @@ export const Header = () => {
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
 	const [isMobile, setIsMobile] = useState<boolean>(false)
 
-	const isMyClassifieds = pathname === '/my-classifieds'
+	const isMySpaceLabel = pathname === '/my-classifieds' && '/classifieds-create'
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -56,7 +56,7 @@ export const Header = () => {
 				<div className={`${isSearchVisible && 'max-lg:hidden'}`}>
 					<Logo width={100} height={32} inHeader={true} />
 				</div>
-				{isMyClassifieds && isMobile && (
+				{isMySpaceLabel && isMobile && (
 					<span className='md:hidden text-[#4f4f4f] text-[18px] font-bold uppercase'>
 						My space
 					</span>
@@ -68,7 +68,7 @@ export const Header = () => {
 						isSearchVisible
 							? 'opacity-100 translate-y-0'
 							: 'md:opacity-0 md:-translate-y-4 md:pointer-events-none'
-					} ${isMyClassifieds && isMobile ? 'hidden' : ''}`}
+					} ${isMySpaceLabel && isMobile ? 'hidden' : ''}`}
 				>
 					{isSearchVisible ? (
 						<>
@@ -102,7 +102,7 @@ export const Header = () => {
 
 				{/* Контент справа */}
 				<div className='flex items-center absolute top-0 right-0'>
-					{isMyClassifieds && isMobile && (
+					{isMySpaceLabel && isMobile && (
 						<ButtonWithIcon
 							onClick={() => router.back()}
 							iconWrapperClass='w-6 h-6 flex items-center justify-center'
@@ -116,7 +116,7 @@ export const Header = () => {
 							className='md:hidden p-4 min-w-[56px] w-fit'
 						/>
 					)}
-					{(!isMyClassifieds || !isMobile) && (
+					{(!isMySpaceLabel || !isMobile) && (
 						<>
 							{pathname !== '/' && (
 								<>

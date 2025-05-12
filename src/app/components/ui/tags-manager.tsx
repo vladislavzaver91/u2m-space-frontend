@@ -1,16 +1,19 @@
-'use-client'
+'use client'
 
 import { useState } from 'react'
 import { TagsSection } from './tags-section'
 import { TagsRecommendedSection } from './tags-recommended-section'
 
-export const TagsManager = () => {
-	const [tags, setTags] = useState<string[]>([
-		'Fashion',
-		'Vintage',
-		'Streetwear',
-		'Casual',
-	])
+interface TagsManagerProps {
+	initialTags?: string[]
+	onTagsChange?: (tags: string[]) => void
+}
+
+export const TagsManager = ({
+	initialTags = [],
+	onTagsChange,
+}: TagsManagerProps) => {
+	const [tags, setTags] = useState<string[]>(initialTags)
 	const [recommendedTags, setRecommendedTags] = useState<string[]>([
 		'Minimal',
 		'Bohemian',
@@ -20,20 +23,21 @@ export const TagsManager = () => {
 
 	const handleAddTag = (tag: string) => {
 		if (!tags.includes(tag)) {
-			setTags(prev => [...prev, tag])
+			const newTags = [...tags, tag]
+			setTags(newTags)
+			onTagsChange?.(newTags)
 		}
 		setRecommendedTags(prev => prev.filter(t => t !== tag))
 	}
 
 	const handleRemoveTag = (tag: string) => {
-		setTags(prev => prev.filter(t => t !== tag))
-		if (!recommendedTags.includes(tag)) {
-			setRecommendedTags(prev => [...prev, tag])
-		}
+		const newTags = tags.filter(t => t !== tag)
+		setTags(newTags)
+		onTagsChange?.(newTags)
 	}
 
 	return (
-		<div className='flex flex-col'>
+		<div className='flex flex-col max-sm:gap-4'>
 			<TagsSection
 				tags={tags}
 				onAddTag={handleAddTag}

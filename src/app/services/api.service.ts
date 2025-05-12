@@ -17,7 +17,7 @@ interface ClassifiedData {
 	title: string
 	description: string
 	price: string
-	images: string[]
+	images?: File[] | string[]
 	tags: string[]
 }
 
@@ -50,8 +50,13 @@ export class ApiService {
 		return res.data
 	}
 
-	async createClassified(data: ClassifiedData): Promise<Classified> {
-		const res = await $api.post('/api/classifieds', data)
+	async createClassified(data: ClassifiedData | FormData): Promise<Classified> {
+		const res = await $api.post('/api/classifieds', data, {
+			headers:
+				data instanceof FormData
+					? { 'Content-Type': 'multipart/form-data' }
+					: undefined,
+		})
 		return res.data
 	}
 

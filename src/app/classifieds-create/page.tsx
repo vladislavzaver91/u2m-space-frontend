@@ -10,6 +10,7 @@ import { useAuth } from '../helpers/contexts/auth-context'
 import $api from '../lib/http'
 import { useRouter } from 'next/navigation'
 import { apiService } from '../services/api.service'
+import imageCompression from 'browser-image-compression'
 
 const AddPhotoSmallBtn = ({ onClick }: { onClick: () => void }) => {
 	return (
@@ -28,7 +29,8 @@ const AddPhotoSmallBtn = ({ onClick }: { onClick: () => void }) => {
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
-	const [images, setImages] = useState<string[]>([])
+	const [imagePreviews, setImagePreviews] = useState<string[]>([])
+	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[]>([])
 	const [error, setError] = useState<string>('')
 	const router = useRouter()
@@ -37,27 +39,47 @@ export default function ClassifiedsCreate() {
 		window.history.back()
 	}
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files
 		if (!files) return
 
-		const newImages = Array.from(files).map(file => {
-			return new Promise<string>((resolve, reject) => {
-				const reader = new FileReader()
-				reader.onload = () => resolve(reader.result as string)
-				reader.onerror = reject
-				reader.readAsDataURL(file)
-			})
-		})
+		const maxFileSize = 5 * 1024 * 1024 // 5 МБ
+		const options = {
+			maxSizeMB: 5,
+			maxWidthOrHeight: 1024,
+			useWebWorker: true,
+		}
 
-		Promise.all(newImages).then(results => {
-			if (images.length + results.length > 8) {
-				setError('Maximum 8 images allowed')
+		const newFiles: File[] = []
+		const newPreviews: string[] = []
+
+		for (const file of Array.from(files)) {
+			try {
+				const compressedFile = await imageCompression(file, options)
+				if (compressedFile.size > maxFileSize) {
+					setError(`File ${file.name} exceeds 5MB after compression`)
+					return
+				}
+
+				newFiles.push(compressedFile)
+				const preview = await imageCompression.getDataUrlFromFile(
+					compressedFile
+				)
+				newPreviews.push(preview)
+			} catch (err) {
+				setError(`Failed to compress ${file.name}`)
 				return
 			}
-			setImages(prev => [...prev, ...results])
-			setError('')
-		})
+		}
+
+		if (imageFiles.length + newFiles.length > 8) {
+			setError('Maximum 8 images allowed')
+			return
+		}
+
+		setImageFiles(prev => [...prev, ...newFiles])
+		setImagePreviews(prev => [...prev, ...newPreviews])
+		setError('')
 	}
 
 	const handleSubmit = async (formData: {
@@ -65,18 +87,22 @@ export default function ClassifiedsCreate() {
 		description: string
 		price: string
 	}) => {
-		if (images.length < 1) {
+		if (imageFiles.length < 1) {
 			setError('At least 1 image is required')
 			return
 		}
 
 		try {
-			await apiService.createClassified({
-				...formData,
-				images,
-				tags,
+			const formDataToSend = new FormData()
+			formDataToSend.append('title', formData.title)
+			formDataToSend.append('description', formData.description)
+			formDataToSend.append('price', formData.price)
+			tags.forEach(tag => formDataToSend.append('tags[]', tag))
+			imageFiles.forEach((file, index) => {
+				formDataToSend.append('images', file, `image-${index}.jpg`)
 			})
 
+			await apiService.createClassified(formDataToSend)
 			router.push('/selling-classifieds')
 		} catch (error: any) {
 			setError(error.response?.data?.error || 'Failed to create classified')
@@ -150,19 +176,22 @@ export default function ClassifiedsCreate() {
 												<div className='col-start-1 col-end-5 sm:col-start-3 sm:col-end-11 gap-8 lg:hidden'>
 													<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 md:gap-8'>
 														{Array.from({ length: 8 }).map((_, idx) =>
-															idx < images.length ? (
+															idx < imagePreviews.length ? (
 																<div key={idx} className='relative'>
 																	<img
-																		src={images[idx]}
+																		src={imagePreviews[idx]}
 																		alt={`Image ${idx}`}
 																		className='w-full h-16 object-cover rounded-[13px]'
 																	/>
 																	<button
-																		onClick={() =>
-																			setImages(prev =>
+																		onClick={() => {
+																			setImagePreviews(prev =>
 																				prev.filter((_, i) => i !== idx)
 																			)
-																		}
+																			setImageFiles(prev =>
+																				prev.filter((_, i) => i !== idx)
+																			)
+																		}}
 																		className='absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center'
 																	>
 																		×
@@ -185,19 +214,22 @@ export default function ClassifiedsCreate() {
 												{/* десктоп */}
 												<div className='max-lg:hidden contents'>
 													{Array.from({ length: 8 }).map((_, idx) =>
-														idx < images.length ? (
+														idx < imagePreviews.length ? (
 															<div key={idx} className='relative'>
 																<img
-																	src={images[idx]}
+																	src={imagePreviews[idx]}
 																	alt={`Image ${idx}`}
 																	className='w-20 h-20 object-cover rounded-[13px]'
 																/>
 																<button
-																	onClick={() =>
-																		setImages(prev =>
+																	onClick={() => {
+																		setImagePreviews(prev =>
 																			prev.filter((_, i) => i !== idx)
 																		)
-																	}
+																		setImageFiles(prev =>
+																			prev.filter((_, i) => i !== idx)
+																		)
+																	}}
 																	className='absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center'
 																>
 																	×

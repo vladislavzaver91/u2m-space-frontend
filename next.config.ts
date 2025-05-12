@@ -19,12 +19,18 @@ const nextConfig: NextConfig = {
 				hostname: 'u2m-space-backend-production.up.railway.app',
 				pathname: '/public/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'azmnxvguxjnosdgbkovr.supabase.co',
+				pathname: '/storage/v1/object/public/classified-images/**',
+			},
 		],
 		domains: [
 			'developers.elementor.com',
 			'lh3.googleusercontent.com',
 			'googleusercontent.com',
 			'u2m-space-backend-production.up.railway.app',
+			'azmnxvguxjnosdgbkovr.supabase.co',
 		],
 	},
 }

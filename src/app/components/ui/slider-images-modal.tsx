@@ -91,7 +91,7 @@ export const SliderImagesModal = ({
 						speed={800}
 						freeMode={false}
 						touchRatio={0.5}
-						pagination={SwiperPaginationService.pagination}
+						pagination={SwiperPaginationService.paginationForCard}
 						onInit={swiper => {
 							swiperRef.current = swiper
 							SwiperPaginationService.updateForCard(swiper)

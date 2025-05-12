@@ -102,9 +102,15 @@ export default function ClassifiedsCreate() {
 				formDataToSend.append('images', file, `image-${index}.jpg`)
 			})
 
+			// Логирование FormData для отладки
+			for (const [key, value] of formDataToSend.entries()) {
+				console.log(`FormData: ${key} =`, value)
+			}
+
 			await apiService.createClassified(formDataToSend)
-			router.push('/selling-classifieds')
+			router.push('/classifieds')
 		} catch (error: any) {
+			console.error('Create classified error:', error.response?.data)
 			setError(error.response?.data?.error || 'Failed to create classified')
 		}
 	}

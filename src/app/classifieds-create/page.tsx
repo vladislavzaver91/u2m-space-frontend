@@ -15,12 +15,18 @@ import imageCompression from 'browser-image-compression'
 import { ImageSlider } from '../components/ui/image-slider'
 import { ImagePreview } from '../components/ui/image-preview'
 import { AddPhotoSmallButton } from '../components/ui/add-photo-small-button'
+import { SliderImagesModal } from '../components/ui/slider-images-modal'
+import { Classified } from '../types'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
+	const [classified, setClassified] = useState<Classified | null>(null)
 	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[]>([])
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
+	const [currentSlide, setCurrentSlide] = useState(0)
 	const [error, setError] = useState<string>('')
 	const router = useRouter()
 
@@ -114,11 +120,20 @@ export default function ClassifiedsCreate() {
 
 			const res = await apiService.createClassified(formDataToSend)
 			console.log(res)
+			setClassified(res)
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
 			console.error('Create classified error:', error.response?.data)
 			setError(error.response?.data?.error || 'Failed to create classified')
 		}
+	}
+
+	const handleOpenModal = () => {
+		setIsModalOpen(true)
+	}
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false)
 	}
 
 	if (!user) {
@@ -189,7 +204,12 @@ export default function ClassifiedsCreate() {
 										<div className='grid grid-cols-12 gap-4 lg:grid-cols-6 lg:gap-[60px]'>
 											<div className='col-start-1 col-end-13 w-full lg:col-start-1 lg:col-end-5 lg:max-w-[487px]'>
 												{imagePreviews.length > 0 ? (
-													<ImageSlider images={imagePreviews} title='' />
+													<ImageSlider
+														images={imagePreviews}
+														title=''
+														onOpenModal={handleOpenModal}
+														className='slider-classified-info'
+													/>
 												) : (
 													<AddPhotoButton onChange={handleImageChange} />
 												)}
@@ -276,6 +296,13 @@ export default function ClassifiedsCreate() {
 						</div>
 					</div>
 				</div>
+				<SliderImagesModal
+					isOpen={isModalOpen}
+					onClose={handleCloseModal}
+					images={classified?.images || []}
+					title={classified?.title}
+					onSlideChange={index => setCurrentSlide(index)}
+				/>
 			</div>
 		</DndProvider>
 	)

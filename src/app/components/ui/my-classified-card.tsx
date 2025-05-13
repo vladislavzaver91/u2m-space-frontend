@@ -67,7 +67,7 @@ export const MyClassifiedCard = ({
 			onMouseLeave={handleMouseLeave}
 			className='block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full max-sm:min-h-[396px] sm:h-[294px] 3xl:h-[375px]! min-w-[217px] cursor-pointer'
 		>
-			<div className='relative w-full h-[253px]'>
+			<div className='relative w-full h-[154px] 3xl:h-[253px]'>
 				{image ? (
 					<Image
 						src={image}

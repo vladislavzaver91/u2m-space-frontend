@@ -16,7 +16,7 @@ interface MyClassifiedCardProps {
 	views?: number
 	messages?: number
 	favorites?: number
-	onToggleActive: () => void
+	onToggleActive: () => Promise<void>
 }
 
 export const MyClassifiedCard = ({
@@ -32,9 +32,20 @@ export const MyClassifiedCard = ({
 	onToggleActive,
 }: MyClassifiedCardProps) => {
 	const [isHovered, setIsHovered] = useState(false)
+	const [isToggling, setIsToggling] = useState(false)
 
 	const handleMouseEnter = () => setIsHovered(true)
 	const handleMouseLeave = () => setIsHovered(false)
+
+	const handleToggle = async (e: React.MouseEvent) => {
+		e.preventDefault()
+		setIsToggling(true)
+		try {
+			await onToggleActive()
+		} finally {
+			setIsToggling(false)
+		}
+	}
 
 	const INFO_AND_ANALYTICAL_DATA = [
 		{
@@ -127,10 +138,7 @@ export const MyClassifiedCard = ({
 									className='w-4 h-4 fill-none text-[#4f4f4f] group-focus:text-[#3486fe]!'
 								/>
 							}
-							onClick={e => {
-								e.preventDefault()
-								onToggleActive()
-							}}
+							onClick={handleToggle}
 							isHover
 							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-fit group'
 						/>
@@ -205,10 +213,7 @@ export const MyClassifiedCard = ({
 										className='w-4 h-4 fill-none text-[#4f4f4f] group-hover:text-[#3486fe]! group-focus:text-[#3486fe]!'
 									/>
 								}
-								onClick={e => {
-									e.preventDefault()
-									onToggleActive()
-								}}
+								onClick={handleToggle}
 								isHover
 								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-fit group'
 							/>

@@ -81,10 +81,12 @@ export default function MyClassifieds() {
 	}, [hasMore, isLoading])
 
 	const handleToggleActive = async (id: string, currentIsActive: boolean) => {
+		console.log('Toggling classified:', { id, currentIsActive })
 		try {
 			const updated = await apiService.updateClassified(id, {
 				isActive: !currentIsActive,
 			})
+			console.log('Updated classified:', updated)
 			setClassifieds(prev => prev.map(c => (c.id === id ? updated : c)))
 		} catch (error) {
 			console.error('Error toggling classified:', error)

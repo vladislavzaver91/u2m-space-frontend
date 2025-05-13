@@ -11,6 +11,7 @@ interface ButtonWithIconProps {
 	onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 	className?: string
 	iconWrapperClass?: string
+	disabled?: boolean
 }
 
 export const ButtonWithIcon = ({
@@ -21,6 +22,7 @@ export const ButtonWithIcon = ({
 	onClick,
 	className = '',
 	iconWrapperClass = '',
+	disabled = false,
 }: ButtonWithIconProps) => {
 	const iconStyles = 'gap-4'
 	const hover = 'hover:bg-[#F7F7F7] max-lg:focus:bg-[#F7F7F7]'

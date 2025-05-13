@@ -115,9 +115,9 @@ export default function ClassifiedsCreate() {
 		}
 	}
 
-	// if (!user) {
-	// 	return <div className='text-center mt-20'>Authorization required</div>
-	// }
+	if (!user) {
+		return <div className='text-center mt-20'>Authorization required</div>
+	}
 
 	return (
 		<div className='min-h-screen flex flex-col'>

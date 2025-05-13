@@ -20,6 +20,7 @@ export default function MyClassifieds() {
 	const [page, setPage] = useState(1)
 	const [hasMore, setHasMore] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
+	const [hasHiddenClassifieds, setHasHiddenClassifieds] = useState(false)
 	const { user, logout } = useAuth()
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
@@ -51,6 +52,7 @@ export default function MyClassifieds() {
 
 	// Фильтрация по категориям
 	useEffect(() => {
+		setHasHiddenClassifieds(classifieds.some(item => !item.isActive))
 		if (activeCategory === 'All') {
 			setFilteredClassifieds(classifieds)
 		} else if (activeCategory === 'Active') {
@@ -126,6 +128,7 @@ export default function MyClassifieds() {
 							categories={categories.map(category => category)}
 							activeCategory={activeCategory}
 							onCategoryChange={setActiveCategory}
+							isHideDisabled={!hasHiddenClassifieds}
 						/>
 					</div>
 				</div>

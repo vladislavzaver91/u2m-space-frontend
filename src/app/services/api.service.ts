@@ -82,9 +82,14 @@ export class ApiService {
 
 	async updateClassified(
 		id: string,
-		data: PartialUpdateClassifiedData
+		data: PartialUpdateClassifiedData | FormData
 	): Promise<Classified> {
-		const res = await $api.put(`/api/classifieds/${id}`, data)
+		const res = await $api.put(`/api/classifieds/${id}`, data, {
+			headers:
+				data instanceof FormData
+					? { 'Content-Type': 'multipart/form-data' }
+					: undefined,
+		})
 		return res.data
 	}
 

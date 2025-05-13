@@ -1,19 +1,18 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { AddPhotoButton } from '../components/ui/add-photo-button'
-import { ButtonWithIcon } from '../components/ui/button-with-icon'
-import { ClassifiedForm } from '../components/ui/classified-form'
-import { IconCustom } from '../components/ui/icon-custom'
-import { TagsManager } from '../components/ui/tags-manager'
-import { useAuth } from '../helpers/contexts/auth-context'
-import { useRouter } from 'next/navigation'
-import { apiService } from '../services/api.service'
+import { ButtonWithIcon } from '@/app/components/ui/button-with-icon'
+import { IconCustom } from '@/app/components/ui/icon-custom'
+import { useAuth } from '@/app/helpers/contexts/auth-context'
+import { apiService } from '@/app/services/api.service'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import imageCompression from 'browser-image-compression'
-import { ImageSlider } from '../components/ui/image-slider'
-import { SliderImagesModal } from '../components/ui/slider-images-modal'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { ImageSlider } from '@/app/components/ui/image-slider'
+import { ClassifiedForm } from '@/app/components/ui/classified-form'
+import { TagsManager } from '@/app/components/ui/tags-manager'
+import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
 
 const ItemTypes = {
 	IMAGE: 'image',
@@ -69,12 +68,10 @@ const ImagePreview = ({
 				className='w-full h-16 object-cover rounded-[13px]'
 			/>
 			{index === 0 && (
-				<div className='absolute top-2 right-2 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
-					<IconCustom
-						name='star'
-						className='w-3 h-3 text-[#f9329c] fill-none'
-					/>
-				</div>
+				<IconCustom
+					name='star'
+					className='absolute top-1 right-1 w-3.5 h-3.5 text-[#F9329C] fill-none'
+				/>
 			)}
 			{isHovered && (
 				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
@@ -110,13 +107,40 @@ const AddPhotoSmallBtn = ({ onClick }: { onClick: () => void }) => {
 	)
 }
 
-export default function ClassifiedsCreate() {
+export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [imageFiles, setImageFiles] = useState<File[]>([])
-	const [tags, setTags] = useState<string[]>([])
+	const [tags, setTags] = useState<string[] | undefined>([])
 	const [error, setError] = useState<string>('')
+	const [initialData, setInitialData] = useState<{
+		title: string
+		description: string
+		price: string
+	} | null>(null)
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [currentSlide, setCurrentSlide] = useState(0)
 	const router = useRouter()
+	const params = useParams()
+	const id = params.id as string
+
+	useEffect(() => {
+		const fetchClassified = async () => {
+			try {
+				const classified = await apiService.getClassifiedById(id)
+				setInitialData({
+					title: classified.title,
+					description: classified.description,
+					price: classified.price.toString(),
+				})
+				setImagePreviews(classified.images)
+				setTags(classified.tags)
+			} catch (err) {
+				setError('Не удалось загрузить объявление')
+			}
+		}
+		fetchClassified()
+	}, [id])
 
 	const handleBack = () => {
 		window.history.back()
@@ -140,7 +164,7 @@ export default function ClassifiedsCreate() {
 			try {
 				const compressedFile = await imageCompression(file, options)
 				if (compressedFile.size > maxFileSize) {
-					setError(`File ${file.name} exceeds 5MB after compression`)
+					setError(`Файл ${file.name} превышает 5 МБ после сжатия`)
 					return
 				}
 
@@ -150,13 +174,13 @@ export default function ClassifiedsCreate() {
 				)
 				newPreviews.push(preview)
 			} catch (err) {
-				setError(`Failed to compress ${file.name}`)
+				setError(`Не удалось сжать ${file.name}`)
 				return
 			}
 		}
 
-		if (imageFiles.length + newFiles.length > 8) {
-			setError('Maximum 8 images allowed')
+		if (imageFiles.length + imagePreviews.length + newFiles.length > 8) {
+			setError('Максимум 8 изображений')
 			return
 		}
 
@@ -185,8 +209,8 @@ export default function ClassifiedsCreate() {
 		description: string
 		price: string
 	}) => {
-		if (imageFiles.length < 1) {
-			setError('At least 1 image is required')
+		if (imagePreviews.length < 1) {
+			setError('Требуется хотя бы 1 изображение')
 			return
 		}
 
@@ -195,23 +219,35 @@ export default function ClassifiedsCreate() {
 			formDataToSend.append('title', formData.title)
 			formDataToSend.append('description', formData.description)
 			formDataToSend.append('price', formData.price)
-			tags.forEach(tag => formDataToSend.append('tags[]', tag))
+			tags?.forEach(tag => formDataToSend.append('tags[]', tag))
 			imageFiles.forEach((file, index) => {
 				formDataToSend.append('images', file, `image-${index}.jpg`)
 			})
+			imagePreviews.forEach((url, index) => {
+				if (!imageFiles.some(file => file.name === `image-${index}.jpg`)) {
+					formDataToSend.append('existingImages[]', url)
+				}
+			})
 
-			// Логирование FormData для отладки
 			for (const [key, value] of formDataToSend.entries()) {
 				console.log(`FormData: ${key} =`, value)
 			}
 
-			const res = await apiService.createClassified(formDataToSend)
+			const res = await apiService.updateClassified(id, formDataToSend)
 			console.log(res)
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
-			console.error('Create classified error:', error.response?.data)
-			setError(error.response?.data?.error || 'Failed to create classified')
+			console.error('Ошибка обновления объявления:', error.response?.data)
+			setError(error.response?.data?.error || 'Не удалось обновить объявление')
 		}
+	}
+
+	const handleOpenModal = () => {
+		setIsModalOpen(true)
+	}
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false)
 	}
 
 	if (!user) {
@@ -244,7 +280,7 @@ export default function ClassifiedsCreate() {
 									onClick={() =>
 										document.querySelector('form')?.requestSubmit()
 									}
-									text='Publish'
+									text='Save'
 									className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 								/>
 							</div>
@@ -255,8 +291,8 @@ export default function ClassifiedsCreate() {
 								iconWrapperClass='w-6 h-6 flex items-center justify-center'
 								icon={
 									<IconCustom
-										name='plus'
-										className='w-6 h-6 fill-none text-white'
+										name='note-edit'
+										className='w-5 h-5 fill-none text-white'
 									/>
 								}
 								className='w-fit min-w-[183px] h-10 flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]!'
@@ -281,8 +317,12 @@ export default function ClassifiedsCreate() {
 
 										<div className='grid grid-cols-12 gap-4 lg:grid-cols-6 lg:gap-[60px]'>
 											<div className='col-start-1 col-end-13 w-full lg:col-start-1 lg:col-end-5 lg:max-w-[487px]'>
-												{imagePreviews.length > 0 ? (
-													<ImageSlider images={imagePreviews} title='' />
+												{imagePreviews.length > 0 && initialData ? (
+													<ImageSlider
+														images={imagePreviews}
+														title={initialData.title}
+														onOpenModal={handleOpenModal}
+													/>
 												) : (
 													<div className='relative h-[352px] w-full bg-gray-200 rounded-[13px] flex items-center justify-center'>
 														<input
@@ -368,12 +408,26 @@ export default function ClassifiedsCreate() {
 												</div>
 											</div>
 											<div className='col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 min-w-full lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
-												<ClassifiedForm onSubmit={handleSubmit} />
+												{initialData ? (
+													<ClassifiedForm
+														initialData={initialData}
+														onSubmit={handleSubmit}
+													/>
+												) : (
+													<ClassifiedForm onSubmit={handleSubmit} />
+												)}
 											</div>
 										</div>
 										<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px]'>
 											<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full'>
-												<TagsManager onTagsChange={setTags} />
+												{tags ? (
+													<TagsManager
+														onTagsChange={setTags}
+														initialTags={tags}
+													/>
+												) : (
+													<TagsManager onTagsChange={setTags} />
+												)}
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>
@@ -381,7 +435,7 @@ export default function ClassifiedsCreate() {
 												onClick={() =>
 													document.querySelector('form')?.requestSubmit()
 												}
-												text='Publish'
+												text='Save'
 												className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 											/>
 										</div>
@@ -391,6 +445,13 @@ export default function ClassifiedsCreate() {
 						</div>
 					</div>
 				</div>
+				<SliderImagesModal
+					isOpen={isModalOpen}
+					onClose={handleCloseModal}
+					images={imagePreviews}
+					title={initialData?.title}
+					onSlideChange={index => setCurrentSlide(index)}
+				/>
 			</div>
 		</DndProvider>
 	)

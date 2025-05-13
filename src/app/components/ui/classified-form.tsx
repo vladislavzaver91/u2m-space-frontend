@@ -77,6 +77,7 @@ export const ClassifiedForm = ({
 				value={priceValue}
 				error={errors.price?.message}
 				maxLength={10}
+				prefix='$'
 			/>
 		</form>
 	)

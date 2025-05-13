@@ -10,6 +10,7 @@ interface CustomInputProps {
 	value: string
 	type?: string
 	error?: string
+	prefix?: string
 }
 export const CustomInput = ({
 	label,
@@ -18,6 +19,7 @@ export const CustomInput = ({
 	value,
 	type,
 	error,
+	prefix,
 }: CustomInputProps) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const [isFilled, setIsFilled] = useState<boolean>(false)
@@ -43,20 +45,31 @@ export const CustomInput = ({
 			>
 				{label}
 			</label>
-			<input
-				id={`${label.toLowerCase()}-input`}
-				type={type}
-				{...register}
-				onFocus={handleFocus}
-				onBlur={handleBlur}
-				className={`w-full h-[38px] mt-[22px] text-[#4f4f4f] outline-none border-b ${
-					error ? 'border-red-500' : 'border-[#bdbdbd]'
-				} bg-transparent ${
-					label !== 'Description'
-						? 'text-[16px] font-bold'
-						: 'text-[16px] font-normal'
-				}`}
-			/>
+			<div className='relative'>
+				{prefix && (
+					<span
+						className={`absolute left-0 top-[22px] text-[16px] font-bold text-[#4f4f4f] ${
+							error ? 'text-red-500' : ''
+						}`}
+					>
+						{prefix}
+					</span>
+				)}
+				<input
+					id={`${label.toLowerCase()}-input`}
+					type={type}
+					{...register}
+					onFocus={handleFocus}
+					onBlur={handleBlur}
+					className={`w-full h-[38px] mt-[22px] text-[#4f4f4f] outline-none border-b ${
+						error ? 'border-red-500' : 'border-[#bdbdbd]'
+					} bg-transparent ${
+						label !== 'Description'
+							? 'text-[16px] font-bold'
+							: 'text-[16px] font-normal'
+					} ${prefix ? 'pl-4' : ''}`}
+				/>
+			</div>
 			<div className='absolute bottom-0 right-0 flex items-center gap-2'>
 				{label !== 'Price' && (
 					<span className='text-[13px] font-normal text-[#4f4f4f]'>

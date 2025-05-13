@@ -34,8 +34,11 @@ export default function MyClassifieds() {
 				console.log('User classifieds:', data)
 				setClassifieds(prev => [...prev, ...data.classifieds])
 				setHasMore(data.hasMore)
-			} catch (error) {
+			} catch (error: any) {
 				console.error('Error fetching user classifieds:', error)
+				if (error.response?.status === 404) {
+					setHasMore(false) // Останавливаем загрузку, если данных больше нет
+				}
 			} finally {
 				setIsLoading(false)
 			}

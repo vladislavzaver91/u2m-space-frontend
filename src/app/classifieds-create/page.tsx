@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { AddPhotoButton } from '../components/ui/add-photo-button'
 import { ButtonWithIcon } from '../components/ui/button-with-icon'
 import { ClassifiedForm } from '../components/ui/classified-form'
@@ -9,119 +9,12 @@ import { TagsManager } from '../components/ui/tags-manager'
 import { useAuth } from '../helpers/contexts/auth-context'
 import { useRouter } from 'next/navigation'
 import { apiService } from '../services/api.service'
-import { DndProvider, useDrag, useDrop } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import imageCompression from 'browser-image-compression'
 import { ImageSlider } from '../components/ui/image-slider'
-import { SliderImagesModal } from '../components/ui/slider-images-modal'
-
-const ItemTypes = {
-	IMAGE: 'image',
-}
-
-interface ImagePreviewProps {
-	src: string
-	index: number
-	moveImage: (dragIndex: number, hoverIndex: number) => void
-	onRemove: (index: number) => void
-}
-
-const ImagePreview = ({
-	src,
-	index,
-	moveImage,
-	onRemove,
-}: ImagePreviewProps) => {
-	const [isHovered, setIsHovered] = useState(false)
-	const ref = useRef<HTMLDivElement>(null)
-
-	const [{ isDragging }, drag] = useDrag({
-		type: ItemTypes.IMAGE,
-		item: { index },
-		collect: monitor => ({
-			isDragging: monitor.isDragging(),
-		}),
-	})
-
-	const [, drop] = useDrop({
-		accept: ItemTypes.IMAGE,
-		hover(item: { index: number }) {
-			if (item.index !== index) {
-				moveImage(item.index, index)
-				item.index = index
-			}
-		},
-	})
-
-	drag(drop(ref))
-
-	return (
-		<div
-			ref={ref}
-			className='relative'
-			onMouseEnter={() => setIsHovered(true)}
-			onMouseLeave={() => setIsHovered(false)}
-			style={{ opacity: isDragging ? 0.5 : 1 }}
-		>
-			<img
-				src={src}
-				alt={`Image ${index}`}
-				className='w-full max-sm:h-16 h-20 object-cover rounded-[13px]'
-			/>
-			{index === 0 && (
-				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
-					<IconCustom
-						name='star'
-						className='w-3 h-3 text-[#f9329c] fill-none'
-					/>
-				</div>
-			)}
-			{isHovered && (
-				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
-					<ButtonWithIcon
-						onClick={() => onRemove(index)}
-						iconWrapperClass='w-6 h-6'
-						icon={
-							<IconCustom
-								name='trash'
-								className='w-6 h-6 text-white fill-none'
-							/>
-						}
-						className='w-6 h-6 flex items-center justify-center'
-					/>
-				</div>
-			)}
-		</div>
-	)
-}
-
-const AddPhotoSmallBtn = ({
-	onChange,
-}: {
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}) => {
-	const fileInputRef = useRef<HTMLInputElement>(null)
-	return (
-		<div
-			onClick={() => fileInputRef.current?.click()}
-			className='border-dashed border border-[#4f4f4f] rounded-[13px] bg-transparent hover:bg-[#f7f7f7] hover:border-[#f9329c] group transition-colors flex items-center justify-center max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer max-lg:grid max-sm:col-span-1 max-lg:col-span-3'
-		>
-			<IconCustom
-				name='plus'
-				hover
-				className='w-6 h-6 fill-none text-[#4f4f4f] group'
-			/>
-			<input
-				ref={fileInputRef}
-				type='file'
-				accept='image/*'
-				multiple
-				onChange={onChange}
-				className='hidden'
-			/>
-		</div>
-	)
-}
+import { ImagePreview } from '../components/ui/image-preview'
+import { AddPhotoSmallButton } from '../components/ui/add-photo-small-button'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
@@ -130,7 +23,6 @@ export default function ClassifiedsCreate() {
 	const [tags, setTags] = useState<string[]>([])
 	const [error, setError] = useState<string>('')
 	const router = useRouter()
-	const fileInputRef = useRef<HTMLInputElement>(null)
 
 	const handleBack = () => {
 		window.history.back()
@@ -154,7 +46,7 @@ export default function ClassifiedsCreate() {
 			try {
 				const compressedFile = await imageCompression(file, options)
 				if (compressedFile.size > maxFileSize) {
-					setError(`File ${file.name} exceeds 5MB after compression`)
+					setError(`The file ${file.name} is larger than 5MB after compression`)
 					return
 				}
 
@@ -169,12 +61,13 @@ export default function ClassifiedsCreate() {
 			}
 		}
 
-		if (imageFiles.length + newFiles.length > 8) {
-			setError('Maximum 8 images allowed')
+		const totalImages = imagePreviews.length + newFiles.length
+		if (totalImages > 8) {
+			setError('Maximum 8 images')
 			return
 		}
 
-		setImageFiles(prev => [...prev, ...newFiles])
+		setImageFiles([...newFiles])
 		setImagePreviews(prev => [...prev, ...newPreviews])
 		setError('')
 	}
@@ -322,7 +215,7 @@ export default function ClassifiedsCreate() {
 																		}}
 																	/>
 																) : (
-																	<AddPhotoSmallBtn
+																	<AddPhotoSmallButton
 																		key={`btn-${idx}`}
 																		onChange={handleImageChange}
 																	/>
@@ -350,7 +243,7 @@ export default function ClassifiedsCreate() {
 																	}}
 																/>
 															) : (
-																<AddPhotoSmallBtn
+																<AddPhotoSmallButton
 																	key={`btn-${idx}`}
 																	onChange={handleImageChange}
 																/>

@@ -223,7 +223,7 @@ export default function ClassifiedDetail() {
 											>
 												{classified.images.map((image, index) => (
 													<SwiperSlide key={index}>
-														<div className='relative h-[352px]'>
+														<div className='relative h-[260px] md:h-[470px] lg:h-[352px]'>
 															<Image
 																src={image}
 																alt={`${classified.title} - ${index + 1}`}

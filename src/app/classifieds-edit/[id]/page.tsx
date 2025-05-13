@@ -5,8 +5,8 @@ import { IconCustom } from '@/app/components/ui/icon-custom'
 import { useAuth } from '@/app/helpers/contexts/auth-context'
 import { apiService } from '@/app/services/api.service'
 import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { DndProvider, useDrag, useDrop } from 'react-dnd'
+import { useEffect, useState } from 'react'
+import { DndProvider } from 'react-dnd'
 import imageCompression from 'browser-image-compression'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { ImageSlider } from '@/app/components/ui/image-slider'
@@ -14,114 +14,8 @@ import { ClassifiedForm } from '@/app/components/ui/classified-form'
 import { TagsManager } from '@/app/components/ui/tags-manager'
 import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
 import { AddPhotoButton } from '@/app/components/ui/add-photo-button'
-
-const ItemTypes = {
-	IMAGE: 'image',
-}
-
-interface ImagePreviewProps {
-	src: string
-	index: number
-	moveImage: (dragIndex: number, hoverIndex: number) => void
-	onRemove: (index: number) => void
-}
-
-const ImagePreview = ({
-	src,
-	index,
-	moveImage,
-	onRemove,
-}: ImagePreviewProps) => {
-	const [isHovered, setIsHovered] = useState(false)
-	const ref = useRef<HTMLDivElement>(null)
-
-	const [{ isDragging }, drag] = useDrag({
-		type: ItemTypes.IMAGE,
-		item: { index },
-		collect: monitor => ({
-			isDragging: monitor.isDragging(),
-		}),
-	})
-
-	const [, drop] = useDrop({
-		accept: ItemTypes.IMAGE,
-		hover(item: { index: number }) {
-			if (item.index !== index) {
-				moveImage(item.index, index)
-				item.index = index
-			}
-		},
-	})
-
-	drag(drop(ref))
-
-	return (
-		<div
-			ref={ref}
-			className='relative'
-			onMouseEnter={() => setIsHovered(true)}
-			onMouseLeave={() => setIsHovered(false)}
-			style={{ opacity: isDragging ? 0.5 : 1 }}
-		>
-			<img
-				src={src}
-				alt={`Image ${index}`}
-				className='w-full max-sm:h-16 h-20 object-cover rounded-[13px]'
-			/>
-			{index === 0 && (
-				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
-					<IconCustom
-						name='star'
-						className='w-3 h-3 text-[#f9329c] fill-none'
-					/>
-				</div>
-			)}
-			{isHovered && (
-				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
-					<ButtonWithIcon
-						onClick={() => onRemove(index)}
-						iconWrapperClass='w-6 h-6'
-						icon={
-							<IconCustom
-								name='trash'
-								className='w-6 h-6 text-white fill-none'
-							/>
-						}
-						className='w-6 h-6 flex items-center justify-center'
-					/>
-				</div>
-			)}
-		</div>
-	)
-}
-
-const AddPhotoSmallBtn = ({
-	onChange,
-}: {
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}) => {
-	const fileInputRef = useRef<HTMLInputElement>(null)
-	return (
-		<div
-			onClick={() => fileInputRef.current?.click()}
-			className='border-dashed border border-[#4f4f4f] rounded-[13px] bg-transparent hover:bg-[#f7f7f7] hover:border-[#f9329c] group transition-colors flex items-center justify-center max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer max-lg:grid max-sm:col-span-1 max-lg:col-span-3'
-		>
-			<IconCustom
-				name='plus'
-				hover
-				className='w-6 h-6 fill-none text-[#4f4f4f] group'
-			/>
-			<input
-				ref={fileInputRef}
-				type='file'
-				accept='image/*'
-				multiple
-				onChange={onChange}
-				className='hidden'
-			/>
-		</div>
-	)
-}
+import { ImagePreview } from '@/app/components/ui/image-preview'
+import { AddPhotoSmallButton } from '@/app/components/ui/add-photo-small-button'
 
 export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
@@ -135,6 +29,7 @@ export default function ClassifiedsEdit() {
 		price: string
 	} | null>(null)
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const router = useRouter()
 	const params = useParams()
@@ -143,6 +38,7 @@ export default function ClassifiedsEdit() {
 	useEffect(() => {
 		const fetchClassified = async () => {
 			try {
+				setIsLoading(true)
 				const classified = await apiService.getClassifiedById(id)
 				setInitialData({
 					title: classified.title || '',
@@ -153,6 +49,8 @@ export default function ClassifiedsEdit() {
 				setTags(classified.tags || [])
 			} catch (error) {
 				setError('Failed to load classified')
+			} finally {
+				setIsLoading(false)
 			}
 		}
 		fetchClassified()
@@ -180,7 +78,7 @@ export default function ClassifiedsEdit() {
 			try {
 				const compressedFile = await imageCompression(file, options)
 				if (compressedFile.size > maxFileSize) {
-					setError(`Файл ${file.name} превышает 5 МБ после сжатия`)
+					setError(`The file ${file.name} is larger than 5MB after compression`)
 					return
 				}
 
@@ -190,17 +88,18 @@ export default function ClassifiedsEdit() {
 				)
 				newPreviews.push(preview)
 			} catch (err) {
-				setError(`Не удалось сжать ${file.name}`)
+				setError(`Failed to compress ${file.name}`)
 				return
 			}
 		}
 
-		if (imageFiles.length + imagePreviews.length + newFiles.length > 8) {
-			setError('Максимум 8 изображений')
+		const totalImages = imagePreviews.length + newFiles.length
+		if (totalImages > 8) {
+			setError('Maximum 8 images')
 			return
 		}
 
-		setImageFiles(prev => [...prev, ...newFiles])
+		setImageFiles([...newFiles])
 		setImagePreviews(prev => [...prev, ...newPreviews])
 		setError('')
 	}
@@ -364,7 +263,7 @@ export default function ClassifiedsEdit() {
 																		}}
 																	/>
 																) : (
-																	<AddPhotoSmallBtn
+																	<AddPhotoSmallButton
 																		key={`btn-${idx}`}
 																		onChange={handleImageChange}
 																	/>
@@ -392,7 +291,7 @@ export default function ClassifiedsEdit() {
 																	}}
 																/>
 															) : (
-																<AddPhotoSmallBtn
+																<AddPhotoSmallButton
 																	key={`btn-${idx}`}
 																	onChange={handleImageChange}
 																/>

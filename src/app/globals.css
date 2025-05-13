@@ -107,7 +107,7 @@ body.has-scroll::-webkit-scrollbar-thumb {
 
 .slider-classified-info {
 	& .swiper-pagination {
-		padding: 32px 0px 40px 0px;
+		padding: 32px 0px 28px 0px;
 		display: flex;
 		justify-content: center;
 		margin: 0;

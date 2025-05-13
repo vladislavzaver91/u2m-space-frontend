@@ -49,7 +49,7 @@ export const CustomInput = ({
 			<div className='relative'>
 				{showPrefix && (
 					<span
-						className={`absolute left-0 top-[22px] text-[16px] font-bold text-[#4f4f4f] ${
+						className={`absolute left-0 top-[28px] text-[16px] font-bold text-[#4f4f4f] ${
 							error ? 'text-red-500' : ''
 						}`}
 					>
@@ -68,7 +68,7 @@ export const CustomInput = ({
 						label !== 'Description'
 							? 'text-[16px] font-bold'
 							: 'text-[16px] font-normal'
-					} ${showPrefix ? 'pl-4' : ''}`}
+					} ${showPrefix ? 'pl-3' : ''}`}
 				/>
 			</div>
 			<div className='absolute bottom-0 right-0 flex items-center gap-2'>

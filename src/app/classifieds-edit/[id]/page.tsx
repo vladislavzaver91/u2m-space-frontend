@@ -18,10 +18,15 @@ import { ImagePreview } from '@/app/components/ui/image-preview'
 import { AddPhotoSmallButton } from '@/app/components/ui/add-photo-small-button'
 import { Loader } from '@/app/components/ui/loader'
 
+type ImageItem = {
+	type: 'existing' | 'new'
+	data: string | File // URL для existing, File для new
+	preview: string // URL или dataURL для отображения
+}
+
 export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
-	const [imagePreviews, setImagePreviews] = useState<string[]>([])
-	const [imageFiles, setImageFiles] = useState<File[]>([])
+	const [images, setImages] = useState<ImageItem[]>([])
 	const [tags, setTags] = useState<string[] | undefined>([])
 	const [error, setError] = useState<string>('')
 	const [initialData, setInitialData] = useState<{
@@ -46,7 +51,12 @@ export default function ClassifiedsEdit() {
 					description: classified.description,
 					price: classified.price.toString(),
 				})
-				setImagePreviews(classified.images)
+				const existingImages = classified.images.map((url: string) => ({
+					type: 'existing' as const,
+					data: url,
+					preview: url,
+				}))
+				setImages(existingImages)
 				setTags(classified.tags)
 			} catch (error) {
 				setError('Failed to load classified')
@@ -74,8 +84,7 @@ export default function ClassifiedsEdit() {
 			useWebWorker: true,
 		}
 
-		const newFiles: File[] = []
-		const newPreviews: string[] = []
+		const newImages: ImageItem[] = []
 
 		for (const file of Array.from(files)) {
 			try {
@@ -84,42 +93,41 @@ export default function ClassifiedsEdit() {
 					setError(`The file ${file.name} is larger than 5MB after compression`)
 					return
 				}
-
-				newFiles.push(compressedFile)
 				const preview = await imageCompression.getDataUrlFromFile(
 					compressedFile
 				)
-				newPreviews.push(preview)
+				newImages.push({
+					type: 'new',
+					data: compressedFile,
+					preview,
+				})
 			} catch (err) {
 				setError(`Failed to compress ${file.name}`)
 				return
 			}
 		}
 
-		const totalImages = imagePreviews.length + newFiles.length
+		const totalImages = images.length + newImages.length
 		if (totalImages > 8) {
 			setError('Maximum 8 images')
 			return
 		}
 
-		setImageFiles([...newFiles])
-		setImagePreviews(prev => [...prev, ...newPreviews])
+		setImages(prev => [...prev, ...newImages])
 		setError('')
 	}
 
 	const moveImage = (dragIndex: number, hoverIndex: number) => {
-		setImagePreviews(prev => {
+		setImages(prev => {
 			const updated = [...prev]
 			const [dragged] = updated.splice(dragIndex, 1)
 			updated.splice(hoverIndex, 0, dragged)
 			return updated
 		})
-		setImageFiles(prev => {
-			const updated = [...prev]
-			const [dragged] = updated.splice(dragIndex, 1)
-			updated.splice(hoverIndex, 0, dragged)
-			return updated
-		})
+	}
+
+	const handleRemoveImage = (index: number) => {
+		setImages(prev => prev.filter((_, i) => i !== index))
 	}
 
 	const handleSubmit = async (formData: {
@@ -127,7 +135,7 @@ export default function ClassifiedsEdit() {
 		description: string
 		price: string
 	}) => {
-		if (imagePreviews.length < 1) {
+		if (images.length < 1) {
 			setError('At least 1 image is required')
 			return
 		}
@@ -138,18 +146,19 @@ export default function ClassifiedsEdit() {
 			formDataToSend.append('description', formData.description)
 			formDataToSend.append('price', formData.price)
 			tags?.forEach(tag => formDataToSend.append('tags[]', tag))
-			imageFiles.forEach((file, index) => {
-				formDataToSend.append('images', file, `image-${index}.jpg`)
-			})
-			imagePreviews.forEach((url, index) => {
-				if (!imageFiles.some(file => file.name === `image-${index}.jpg`)) {
-					formDataToSend.append('existingImages[]', url)
+			images.forEach((image, index) => {
+				if (image.type === 'new' && image.data instanceof File) {
+					formDataToSend.append('images', image.data, `new-image-${index}.jpg`)
+				} else if (
+					image.type === 'existing' &&
+					typeof image.data === 'string'
+				) {
+					formDataToSend.append('existingImages[]', image.data)
 				}
 			})
 
-			console.log('Sending FormData:')
 			for (const [key, value] of formDataToSend.entries()) {
-				console.log(`${key}:`, value)
+				console.log(`FormData: ${key} =`, value)
 			}
 
 			const res = await apiService.updateClassified(id, formDataToSend)
@@ -260,9 +269,9 @@ export default function ClassifiedsEdit() {
 
 										<div className='grid grid-cols-12 gap-4 lg:grid-cols-6 lg:gap-[60px]'>
 											<div className='col-start-1 col-end-13 w-full lg:col-start-1 lg:col-end-5 lg:max-w-[487px]'>
-												{imagePreviews.length > 0 ? (
+												{images.length > 0 ? (
 													<ImageSlider
-														images={imagePreviews}
+														images={images.map(image => image.preview)}
 														title={initialData?.title || ''}
 														onOpenModal={handleOpenModal}
 														className='slider-classified-info'
@@ -276,20 +285,13 @@ export default function ClassifiedsEdit() {
 													<div className='col-start-1 col-end-5 sm:col-start-3 sm:col-end-11 gap-8 lg:hidden'>
 														<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 md:gap-8'>
 															{Array.from({ length: 8 }).map((_, idx) =>
-																idx < imagePreviews.length ? (
+																idx < images.length ? (
 																	<ImagePreview
 																		key={idx}
-																		src={imagePreviews[idx]}
+																		src={images[idx].preview}
 																		index={idx}
 																		moveImage={moveImage}
-																		onRemove={() => {
-																			setImagePreviews(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																			setImageFiles(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																		}}
+																		onRemove={() => handleRemoveImage(idx)}
 																	/>
 																) : (
 																	<AddPhotoSmallButton
@@ -304,20 +306,13 @@ export default function ClassifiedsEdit() {
 													{/* десктоп */}
 													<div className='max-lg:hidden contents'>
 														{Array.from({ length: 8 }).map((_, idx) =>
-															idx < imagePreviews.length ? (
+															idx < images.length ? (
 																<ImagePreview
 																	key={idx}
-																	src={imagePreviews[idx]}
+																	src={images[idx].preview}
 																	index={idx}
 																	moveImage={moveImage}
-																	onRemove={() => {
-																		setImagePreviews(prev =>
-																			prev.filter((_, i) => i !== idx)
-																		)
-																		setImageFiles(prev =>
-																			prev.filter((_, i) => i !== idx)
-																		)
-																	}}
+																	onRemove={() => handleRemoveImage(idx)}
 																/>
 															) : (
 																<AddPhotoSmallButton
@@ -358,9 +353,8 @@ export default function ClassifiedsEdit() {
 												text='Save'
 												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 											/>
-											
 										</div> */}
-										<div className='hidden md:flex justify-end gap-4'>
+										<div className='hidden md:flex justify-center gap-4'>
 											<ButtonWithIcon
 												onClick={() => handleDelete(id)}
 												text='Delete'
@@ -383,7 +377,7 @@ export default function ClassifiedsEdit() {
 				<SliderImagesModal
 					isOpen={isModalOpen}
 					onClose={handleCloseModal}
-					images={imagePreviews}
+					images={images.map(image => image.preview)}
 					title={initialData?.title}
 					onSlideChange={index => setCurrentSlide(index)}
 				/>

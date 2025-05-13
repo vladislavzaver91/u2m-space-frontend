@@ -19,7 +19,7 @@ export const TagsSection = ({
 			<h3 className='text-[16px] font-bold text-[#4f4f4f]'>Tags</h3>
 			<div className='flex flex-wrap items-center gap-4 w-full'>
 				<AnimatePresence>
-					{tags.length > 0 ? (
+					{tags.length > 0 &&
 						tags.map(tag => (
 							<motion.div
 								key={tag}
@@ -34,17 +34,7 @@ export const TagsSection = ({
 									type='close'
 								/>
 							</motion.div>
-						))
-					) : (
-						<motion.p
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-							className='text-[13px] text-[#4f4f4f]'
-						>
-							No tags added yet.
-						</motion.p>
-					)}
+						))}
 					<motion.div
 						initial={{ opacity: 0, scale: 0.9 }}
 						animate={{ opacity: 1, scale: 1 }}

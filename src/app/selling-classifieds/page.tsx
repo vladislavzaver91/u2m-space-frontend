@@ -101,8 +101,8 @@ export default function SellingClassifieds() {
 								<div className='grid grid-cols-12 gap-[60px]'>
 									<div className='col-start-1 col-end-13'>
 										<div className='grid grid-cols-12 lg:gap-[60px] gap-4'>
-											{classifieds.slice(0, 8).map(item => (
-												<div key={item.id} className='col-span-3'>
+											{classifieds.slice(0, 8).map((item, index) => (
+												<div key={index} className='col-span-3'>
 													<ClassifiedCard
 														title={item.title}
 														price={item.price.toFixed(2)}

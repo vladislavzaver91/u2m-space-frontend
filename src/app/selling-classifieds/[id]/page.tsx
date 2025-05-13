@@ -53,6 +53,7 @@ export default function ClassifiedDetail() {
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [activeCategory, setActiveCategory] = useState('Selling')
 	const [isLoading, setIsLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
 	const [currentImageIndex, setCurrentImageIndex] = useState(0)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
@@ -66,10 +67,16 @@ export default function ClassifiedDetail() {
 		const fetchClassified = async () => {
 			try {
 				setIsLoading(true)
+				setError(null)
 				const data = await apiService.getClassifiedById(id)
 				setClassified(data)
-			} catch (error) {
+			} catch (error: any) {
 				console.error('Error fetching classified:', error)
+				setError(
+					error.response?.status === 404
+						? 'Объявление не найдено'
+						: 'Не удалось загрузить объявление. Пожалуйста, попробуйте позже.'
+				)
 			} finally {
 				setIsLoading(false)
 			}
@@ -115,6 +122,10 @@ export default function ClassifiedDetail() {
 
 	if (isLoading) {
 		return <Loader />
+	}
+
+	if (error) {
+		return <div className='text-center mt-20 text-red-500'>{error}</div>
 	}
 
 	if (!classified) {

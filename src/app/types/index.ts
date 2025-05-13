@@ -13,6 +13,10 @@ export interface Classified {
 	isActive: boolean
 	createdAt: string
 	user: { name: string }
+	tags?: string[]
+	views?: number
+	messages?: number
+	favorites?: number
 }
 
 export interface User {

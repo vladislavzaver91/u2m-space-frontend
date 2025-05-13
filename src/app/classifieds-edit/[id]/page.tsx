@@ -147,16 +147,33 @@ export default function ClassifiedsEdit() {
 				}
 			})
 
+			console.log('Sending FormData:')
 			for (const [key, value] of formDataToSend.entries()) {
-				console.log(`FormData: ${key} =`, value)
+				console.log(`${key}:`, value)
 			}
 
 			const res = await apiService.updateClassified(id, formDataToSend)
-			console.log('new res: ', res)
+			console.log('Update response:', res)
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
-			console.error('Classified update error:', error.response?.data)
+			console.error(
+				'Classified update error:',
+				error.response?.data || error.message
+			)
 			setError(error.response?.data?.error || 'Failed to update classified')
+		}
+	}
+
+	const handleDelete = async (id: string) => {
+		try {
+			await apiService.deleteClassified(id)
+			router.push('/my-classifieds')
+		} catch (error: any) {
+			console.error(
+				'Error deleting classified:',
+				error.response?.data || error.message
+			)
+			setError(error.response?.data?.error || 'Failed to delete classified')
 		}
 	}
 
@@ -333,13 +350,28 @@ export default function ClassifiedsEdit() {
 												/>
 											</div>
 										</div>
-										<div className='hidden md:flex justify-end'>
+										{/* <div className='hidden md:flex justify-end'>
 											<ButtonWithIcon
 												onClick={() =>
 													document.querySelector('form')?.requestSubmit()
 												}
 												text='Save'
 												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
+											/>
+											
+										</div> */}
+										<div className='hidden md:flex justify-end gap-4'>
+											<ButtonWithIcon
+												onClick={() => handleDelete(id)}
+												text='Delete'
+												className='min-w-[72px] w-fit h-10 px-4 bg-red-500 text-white rounded-lg'
+											/>
+											<ButtonWithIcon
+												onClick={() =>
+													document.querySelector('form')?.requestSubmit()
+												}
+												text='Save'
+												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe] text-white rounded-lg'
 											/>
 										</div>
 									</div>

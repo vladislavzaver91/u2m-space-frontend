@@ -144,7 +144,7 @@ export const MyClassifiedCard = ({
 						/>
 						<ButtonWithIcon
 							text='edit'
-							href={`/classifieds/${id}-edit`}
+							href={`/classifieds-edit/${id}`}
 							icon={
 								<IconCustom
 									name='edit-pencil'
@@ -219,7 +219,7 @@ export const MyClassifiedCard = ({
 							/>
 							<ButtonWithIcon
 								text='edit'
-								href={`/classifieds/${id}-edit`}
+								href={`/classifieds-edit/${id}`}
 								icon={
 									<IconCustom
 										name='edit-pencil'

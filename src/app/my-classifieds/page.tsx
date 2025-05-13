@@ -124,10 +124,8 @@ export default function MyClassifieds() {
 				</div>
 
 				{/* список продуктов */}
-				{isLoading && classifieds.length === 0 ? (
+				{isLoading && filteredClassifieds.length === 0 ? (
 					<Loader />
-				) : filteredClassifieds.length === 0 ? (
-					<div className='text-center mt-20'>No classifieds</div>
 				) : (
 					<div className='w-full'>
 						<div className='custom-container mx-auto'>

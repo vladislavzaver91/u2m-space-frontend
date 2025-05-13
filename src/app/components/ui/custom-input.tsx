@@ -32,6 +32,7 @@ export const CustomInput = ({
 	const handleBlur = () => setIsFocused(false)
 
 	const isMaxLengthReached = value?.length >= maxLength
+	const showPrefix = prefix && (isFocused || isFilled)
 
 	return (
 		<div className='relative w-full h-[86px]'>
@@ -46,7 +47,7 @@ export const CustomInput = ({
 				{label}
 			</label>
 			<div className='relative'>
-				{prefix && (
+				{showPrefix && (
 					<span
 						className={`absolute left-0 top-[22px] text-[16px] font-bold text-[#4f4f4f] ${
 							error ? 'text-red-500' : ''
@@ -67,7 +68,7 @@ export const CustomInput = ({
 						label !== 'Description'
 							? 'text-[16px] font-bold'
 							: 'text-[16px] font-normal'
-					} ${prefix ? 'pl-4' : ''}`}
+					} ${showPrefix ? 'pl-4' : ''}`}
 				/>
 			</div>
 			<div className='absolute bottom-0 right-0 flex items-center gap-2'>
@@ -78,7 +79,7 @@ export const CustomInput = ({
 				)}
 				{isMaxLengthReached && (
 					<span className='text-[13px] font-normal text-red-500'>
-						Maximum character limit reached
+						Достигнут лимит символов
 					</span>
 				)}
 				{error && (

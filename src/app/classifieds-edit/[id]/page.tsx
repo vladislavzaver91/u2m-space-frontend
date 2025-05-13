@@ -95,16 +95,29 @@ const ImagePreview = ({
 	)
 }
 
-const AddPhotoSmallBtn = ({ onClick }: { onClick: () => void }) => {
+const AddPhotoSmallBtn = ({
+	onChange,
+}: {
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}) => {
+	const fileInputRef = useRef<HTMLInputElement>(null)
 	return (
 		<div
-			onClick={onClick}
+			onClick={() => fileInputRef.current?.click()}
 			className='border-dashed border border-[#4f4f4f] rounded-[13px] bg-transparent hover:bg-[#f7f7f7] hover:border-[#f9329c] group transition-colors flex items-center justify-center max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer max-lg:grid max-sm:col-span-1 max-lg:col-span-3'
 		>
 			<IconCustom
 				name='plus'
 				hover
 				className='w-6 h-6 fill-none text-[#4f4f4f] group'
+			/>
+			<input
+				ref={fileInputRef}
+				type='file'
+				accept='image/*'
+				multiple
+				onChange={onChange}
+				className='hidden'
 			/>
 		</div>
 	)
@@ -132,14 +145,14 @@ export default function ClassifiedsEdit() {
 			try {
 				const classified = await apiService.getClassifiedById(id)
 				setInitialData({
-					title: classified.title,
-					description: classified.description,
-					price: classified.price.toString(),
+					title: classified.title || '',
+					description: classified.description || '',
+					price: classified.price.toString() || '0',
 				})
-				setImagePreviews(classified.images)
-				setTags(classified.tags)
-			} catch (err) {
-				setError('Не удалось загрузить объявление')
+				setImagePreviews(classified.images || [])
+				setTags(classified.tags || [])
+			} catch (error) {
+				setError('Failed to load classified')
 			}
 		}
 		fetchClassified()
@@ -213,7 +226,7 @@ export default function ClassifiedsEdit() {
 		price: string
 	}) => {
 		if (imagePreviews.length < 1) {
-			setError('Требуется хотя бы 1 изображение')
+			setError('At least 1 image is required')
 			return
 		}
 
@@ -240,8 +253,8 @@ export default function ClassifiedsEdit() {
 			console.log(res)
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
-			console.error('Ошибка обновления объявления:', error.response?.data)
-			setError(error.response?.data?.error || 'Не удалось обновить объявление')
+			console.error('Classified update error:', error.response?.data)
+			setError(error.response?.data?.error || 'Failed to update classified')
 		}
 	}
 
@@ -320,10 +333,10 @@ export default function ClassifiedsEdit() {
 
 										<div className='grid grid-cols-12 gap-4 lg:grid-cols-6 lg:gap-[60px]'>
 											<div className='col-start-1 col-end-13 w-full lg:col-start-1 lg:col-end-5 lg:max-w-[487px]'>
-												{imagePreviews.length > 0 && initialData ? (
+												{imagePreviews.length > 0 ? (
 													<ImageSlider
 														images={imagePreviews}
-														title={initialData.title}
+														title={initialData?.title || ''}
 														onOpenModal={handleOpenModal}
 													/>
 												) : (
@@ -353,11 +366,7 @@ export default function ClassifiedsEdit() {
 																) : (
 																	<AddPhotoSmallBtn
 																		key={`btn-${idx}`}
-																		onClick={() =>
-																			document
-																				.getElementById('photo-input')
-																				?.click()
-																		}
+																		onChange={handleImageChange}
 																	/>
 																)
 															)}
@@ -385,11 +394,7 @@ export default function ClassifiedsEdit() {
 															) : (
 																<AddPhotoSmallBtn
 																	key={`btn-${idx}`}
-																	onClick={() =>
-																		document
-																			.getElementById('photo-input')
-																			?.click()
-																	}
+																	onChange={handleImageChange}
 																/>
 															)
 														)}
@@ -397,26 +402,24 @@ export default function ClassifiedsEdit() {
 												</div>
 											</div>
 											<div className='col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 min-w-full lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
-												{initialData ? (
-													<ClassifiedForm
-														initialData={initialData}
-														onSubmit={handleSubmit}
-													/>
-												) : (
-													<ClassifiedForm onSubmit={handleSubmit} />
-												)}
+												<ClassifiedForm
+													initialData={
+														initialData || {
+															title: '',
+															description: '',
+															price: '',
+														}
+													}
+													onSubmit={handleSubmit}
+												/>
 											</div>
 										</div>
 										<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px]'>
 											<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full'>
-												{tags ? (
-													<TagsManager
-														onTagsChange={setTags}
-														initialTags={tags}
-													/>
-												) : (
-													<TagsManager onTagsChange={setTags} />
-												)}
+												<TagsManager
+													onTagsChange={setTags}
+													initialTags={tags}
+												/>
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>

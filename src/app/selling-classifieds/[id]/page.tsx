@@ -83,6 +83,12 @@ export default function ClassifiedDetail() {
 		setIsModalOpen(false)
 	}
 
+	const handleSlideChange = (swiper: SwiperClass) => {
+		setCurrentImageIndex(swiper.realIndex)
+		SwiperPaginationService.updateForCard(swiper)
+		setCurrentSlide(swiper.activeIndex)
+	}
+
 	if (isLoading) {
 		return <Loader />
 	}
@@ -166,12 +172,69 @@ export default function ClassifiedDetail() {
 								{classified && (
 									<div className='grid grid-cols-4 gap-y-0 md:grid-cols-12 lg:gap-[60px] md:gap-x-4 gap-x-8'>
 										{/* слайдер изображение */}
-										<div className='col-start-1 col-end-5 md:col-end-13 lg:col-end-7 xl:col-end-6 2xl:col-end-5 relative'>
-											<ImageSlider
-												images={classified.images}
-												title={classified.title}
-												onOpenModal={handleOpenModal}
-											/>
+										<div className='slider-classified-info col-start-1 col-end-5 md:col-end-13 lg:col-end-7 xl:col-end-6 2xl:col-end-5 relative'>
+											<Swiper
+												initialSlide={1}
+												slidesPerView={1}
+												centeredSlides
+												grabCursor={true}
+												speed={500}
+												freeMode={false}
+												touchRatio={1}
+												pagination={SwiperPaginationService.paginationForCard}
+												onInit={swiper => {
+													swiperRef.current = swiper
+													SwiperPaginationService.updateForCard(swiper)
+												}}
+												onSwiper={swiper => {
+													swiperRef.current = swiper
+													SwiperPaginationService.updateForCard(swiper)
+												}}
+												onSlideChange={handleSlideChange}
+												modules={[Pagination]}
+												breakpoints={{
+													320: {
+														initialSlide: 2,
+														slidesPerView: 1.2,
+														spaceBetween: 16,
+													},
+													480: {
+														slidesPerView: 1.5,
+														spaceBetween: 16,
+													},
+													640: {
+														slidesPerView: 2,
+														spaceBetween: 16,
+													},
+													768: {
+														slidesPerView: 1,
+														spaceBetween: 16,
+													},
+													769: {
+														slidesPerView: 1,
+														spaceBetween: 32,
+													},
+													1024: {
+														slidesPerView: 1,
+														spaceBetween: 60,
+													},
+												}}
+												className='w-full h-auto!'
+											>
+												{classified.images.map((image, index) => (
+													<SwiperSlide key={index}>
+														<div className='relative h-[352px]'>
+															<Image
+																src={image}
+																alt={`${classified.title} - ${index + 1}`}
+																fill
+																style={{ objectFit: 'cover' }}
+																className='w-full h-full rounded-[13px]'
+															/>
+														</div>
+													</SwiperSlide>
+												))}
+											</Swiper>
 											<div className='max-md:hidden absolute bottom-9 left-0 right-0 flex items-center justify-between w-full z-10 h-10'>
 												<div className='flex items-center'>
 													<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>

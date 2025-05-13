@@ -16,6 +16,7 @@ import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
 import { AddPhotoButton } from '@/app/components/ui/add-photo-button'
 import { ImagePreview } from '@/app/components/ui/image-preview'
 import { AddPhotoSmallButton } from '@/app/components/ui/add-photo-small-button'
+import { Loader } from '@/app/components/ui/loader'
 
 export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
@@ -41,12 +42,12 @@ export default function ClassifiedsEdit() {
 				setIsLoading(true)
 				const classified = await apiService.getClassifiedById(id)
 				setInitialData({
-					title: classified.title || '',
-					description: classified.description || '',
-					price: classified.price.toString() || '0',
+					title: classified.title,
+					description: classified.description,
+					price: classified.price.toString(),
 				})
-				setImagePreviews(classified.images || [])
-				setTags(classified.tags || [])
+				setImagePreviews(classified.images)
+				setTags(classified.tags)
 			} catch (error) {
 				setError('Failed to load classified')
 			} finally {
@@ -55,6 +56,8 @@ export default function ClassifiedsEdit() {
 		}
 		fetchClassified()
 	}, [id])
+
+	console.log(initialData)
 
 	const handleBack = () => {
 		window.history.back()
@@ -167,6 +170,14 @@ export default function ClassifiedsEdit() {
 
 	if (!user) {
 		return <div className='text-center mt-20'>Authorization required</div>
+	}
+
+	if (isLoading) {
+		return (
+			<div className='flex-1 flex items-center justify-center'>
+				<Loader />
+			</div>
+		)
 	}
 
 	return (

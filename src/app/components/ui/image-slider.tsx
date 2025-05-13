@@ -35,17 +35,33 @@ export const ImageSlider = ({
 
 	if (images.length === 1) {
 		return (
-			<div className='relative h-[260px] md:h-[470px] lg:h-[352px]'>
-				<Image
-					src={images[0]}
-					alt={`${title} - 1`}
-					fill
-					style={{ objectFit: 'cover' }}
-					className='w-full h-full rounded-[13px]'
-				/>
-				{onOpenModal && (
-					<div className='relative pt-8 pb-7'>
-						<div className='max-md:hidden absolute bottom-0 right-0 flex items-center justify-end w-full z-10 h-[72px]'>
+			<>
+				<div className='relative h-[260px] md:h-[470px] lg:h-[352px]'>
+					<Image
+						src={images[0]}
+						alt={`${title} - 1`}
+						fill
+						style={{ objectFit: 'cover' }}
+						className='w-full h-full rounded-[13px]'
+					/>
+				</div>
+				<div className='pt-8 pb-7'>
+					{onOpenModal && (
+						<div className='max-md:hidden absolute bottom-0 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]'>
+							<div className='flex items-center'>
+								<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
+									{String(currentImageIndex + 1).padStart(2, '0')}
+								</span>
+								<span className='w-6 h-6'>
+									<IconCustom
+										name='arrow-next'
+										className='w-6 h-6 text-[#bdbdbd] stroke-none'
+									/>
+								</span>
+								<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#3486fe]'>
+									{String(images.length)}
+								</span>
+							</div>
 							<ButtonWithIcon
 								iconWrapperClass='w-6 h-6'
 								icon={
@@ -59,9 +75,9 @@ export const ImageSlider = ({
 								onClick={onOpenModal}
 							/>
 						</div>
-					</div>
-				)}
-			</div>
+					)}
+				</div>
+			</>
 		)
 	}
 

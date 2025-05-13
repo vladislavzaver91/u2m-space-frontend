@@ -170,34 +170,6 @@ export default function ClassifiedDetail() {
 												onOpenModal={handleOpenModal}
 												className='slider-classified-info'
 											/>
-											<div className='max-md:hidden absolute bottom-9 left-0 right-0 flex items-center justify-between w-full z-10 h-10'>
-												<div className='flex items-center'>
-													<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
-														{String(currentImageIndex + 1).padStart(2, '0')}
-													</span>
-													<span className='w-6 h-6'>
-														<IconCustom
-															name='arrow-next'
-															className='w-6 h-6 text-[#bdbdbd] stroke-none'
-														/>
-													</span>
-													<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#3486fe]'>
-														{String(classified.images.length)}
-													</span>
-												</div>
-												<ButtonWithIcon
-													iconWrapperClass='w-6 h-6'
-													icon={
-														<IconCustom
-															name='expand'
-															hover={true}
-															className='w-6 h-6 text-[#4f4f4f] fill-none'
-														/>
-													}
-													className='max-[769px]:hidden inline-flex p-2 min-w-[40px] w-fit'
-													onClick={handleOpenModal}
-												/>
-											</div>
 										</div>
 										<div className='col-start-1 col-end-5 md:col-end-13 lg:col-start-7 lg:col-end-13 xl:col-start-6 xl:col-end-12 2xl:col-start-5 2xl:col-end-9 space-y-8 max-md:px-4'>
 											{/* заголовок, цена, описание, инфо-аналитические иконки с данными */}

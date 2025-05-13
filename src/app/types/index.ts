@@ -12,7 +12,12 @@ export interface Classified {
 	images: string[]
 	isActive: boolean
 	createdAt: string
-	user: { name: string }
+	user: {
+		name: string
+		avatarUrl: string
+		phoneNumber?: string
+		successfulDeals?: number
+	}
 	tags?: string[]
 	views?: number
 	messages?: number
@@ -25,4 +30,13 @@ export interface User {
 	name: string
 	provider: string
 	avatarUrl?: string
+	phoneNumber?: string
+	successfulDeals?: string
+}
+
+export interface Tag {
+	id: string
+	name: string
+	createdAt: string
+	updatedAt: string
 }

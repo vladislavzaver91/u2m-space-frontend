@@ -15,39 +15,6 @@ import { ClassifiedCard } from '@/app/components/ui/classified-card'
 import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
 import { SwiperPaginationService } from '@/app/services/swiper-pagination.service'
 
-const INFO_AND_ANALYTICAL_DATA = [
-	{
-		icon: (
-			<IconCustom name='show' className='w-6 h-6 fill-none text-[#3486FE]' />
-		),
-		data: 1471,
-	},
-	{
-		icon: (
-			<IconCustom
-				name='suitcase'
-				className='w-6 h-6 fill-none text-[#3486FE]'
-			/>
-		),
-		data: 356,
-	},
-	{
-		icon: (
-			<IconCustom
-				name='heart'
-				className='w-6 h-6 text-[#F9329C] stroke-[#F9329C]'
-			/>
-		),
-		data: 257,
-	},
-	{
-		icon: (
-			<IconCustom name='chat' className='w-6 h-6 fill-none text-[#3486FE]' />
-		),
-		data: 922,
-	},
-]
-
 export default function ClassifiedDetail() {
 	const [classified, setClassified] = useState<Classified | null>(null)
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
@@ -69,6 +36,7 @@ export default function ClassifiedDetail() {
 				setIsLoading(true)
 				setError(null)
 				const data = await apiService.getClassifiedById(id)
+				console.log('getClassifiedById data:', data)
 				setClassified(data)
 			} catch (error: any) {
 				console.error('Error fetching classified:', error)
@@ -131,6 +99,39 @@ export default function ClassifiedDetail() {
 	if (!classified) {
 		return <div className='text-center mt-20'>Classified not found</div>
 	}
+
+	const INFO_AND_ANALYTICAL_DATA = [
+		{
+			icon: (
+				<IconCustom name='show' className='w-6 h-6 fill-none text-[#3486FE]' />
+			),
+			data: classified.views,
+		},
+		{
+			icon: (
+				<IconCustom
+					name='suitcase'
+					className='w-6 h-6 fill-none text-[#3486FE]'
+				/>
+			),
+			data: classified.user.successfulDeals,
+		},
+		{
+			icon: (
+				<IconCustom
+					name='heart'
+					className='w-6 h-6 text-[#F9329C] stroke-[#F9329C]'
+				/>
+			),
+			data: classified.favorites,
+		},
+		{
+			icon: (
+				<IconCustom name='chat' className='w-6 h-6 fill-none text-[#3486FE]' />
+			),
+			data: classified.messages,
+		},
+	]
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -293,7 +294,7 @@ export default function ClassifiedDetail() {
 												<div>
 													<div className='relative min-w-[120px] w-fit min-h-[120px] h-fit rounded-[13px]'>
 														<Image
-															src='/user-prod.jpg'
+															src={classified.user.avatarUrl}
 															alt='user avatar'
 															fill
 															className='w-full h-full object-cover'
@@ -311,7 +312,7 @@ export default function ClassifiedDetail() {
 												<div className='space-y-4'>
 													<div className='flex sm:items-center sm:gap-8'>
 														<h4 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
-															Fox
+															{classified.user.name}
 														</h4>
 														<div className='max-sm:hidden flex items-center gap-2'>
 															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
@@ -322,9 +323,11 @@ export default function ClassifiedDetail() {
 															</span>
 														</div>
 													</div>
-													<p className='text-[16px] font-bold text-[#f9329c]'>
-														+380 96 42 07 202
-													</p>
+													{classified.user.phoneNumber && (
+														<p className='text-[16px] font-bold text-[#f9329c]'>
+															{classified.user.phoneNumber}
+														</p>
+													)}
 													<div className='flex items-center gap-4 max-sm:flex-col '>
 														<ButtonWithIcon
 															text='Send message'

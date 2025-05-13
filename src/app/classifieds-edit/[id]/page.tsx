@@ -13,6 +13,7 @@ import { ImageSlider } from '@/app/components/ui/image-slider'
 import { ClassifiedForm } from '@/app/components/ui/classified-form'
 import { TagsManager } from '@/app/components/ui/tags-manager'
 import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
+import { AddPhotoButton } from '@/app/components/ui/add-photo-button'
 
 const ItemTypes = {
 	IMAGE: 'image',
@@ -65,13 +66,15 @@ const ImagePreview = ({
 			<img
 				src={src}
 				alt={`Image ${index}`}
-				className='w-full h-16 object-cover rounded-[13px]'
+				className='w-full max-sm:h-16 h-20 object-cover rounded-[13px]'
 			/>
 			{index === 0 && (
-				<IconCustom
-					name='star'
-					className='absolute top-1 right-1 w-3.5 h-3.5 text-[#F9329C] fill-none'
-				/>
+				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
+					<IconCustom
+						name='star'
+						className='w-3 h-3 text-[#f9329c] fill-none'
+					/>
+				</div>
 			)}
 			{isHovered && (
 				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
@@ -281,7 +284,7 @@ export default function ClassifiedsEdit() {
 										document.querySelector('form')?.requestSubmit()
 									}
 									text='Save'
-									className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
+									className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 								/>
 							</div>
 						</div>
@@ -324,21 +327,7 @@ export default function ClassifiedsEdit() {
 														onOpenModal={handleOpenModal}
 													/>
 												) : (
-													<div className='relative h-[352px] w-full bg-gray-200 rounded-[13px] flex items-center justify-center'>
-														<input
-															id='photo-input'
-															type='file'
-															accept='image/*'
-															multiple
-															onChange={handleImageChange}
-															className='hidden'
-														/>
-														<AddPhotoSmallBtn
-															onClick={() =>
-																document.getElementById('photo-input')?.click()
-															}
-														/>
-													</div>
+													<AddPhotoButton onChange={handleImageChange} />
 												)}
 
 												<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-4 max-sm:px-3.5 max-sm:py-4 sm:p-8 gap-8'>
@@ -436,7 +425,7 @@ export default function ClassifiedsEdit() {
 													document.querySelector('form')?.requestSubmit()
 												}
 												text='Save'
-												className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
+												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 											/>
 										</div>
 									</div>

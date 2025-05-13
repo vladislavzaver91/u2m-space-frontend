@@ -26,7 +26,7 @@ export const ImageSlider = ({
 	const handleSlideChange = (swiper: SwiperClass) => {
 		setCurrentImageIndex(swiper.realIndex)
 		SwiperPaginationService.updateForCard(swiper)
-		setCurrentSlide(swiper.activeIndex)
+		// setCurrentSlide(swiper.activeIndex)
 	}
 
 	if (images.length === 1) {

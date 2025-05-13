@@ -66,10 +66,10 @@ const ImagePreview = ({
 			<img
 				src={src}
 				alt={`Image ${index}`}
-				className='w-full h-16 object-cover rounded-[13px]'
+				className='w-full max-sm:h-16 h-20 object-cover rounded-[13px]'
 			/>
 			{index === 0 && (
-				<div className='absolute top-2 right-2 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
+				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
 					<IconCustom
 						name='star'
 						className='w-3 h-3 text-[#f9329c] fill-none'
@@ -284,21 +284,7 @@ export default function ClassifiedsCreate() {
 												{imagePreviews.length > 0 ? (
 													<ImageSlider images={imagePreviews} title='' />
 												) : (
-													<div className='relative h-[352px] w-full bg-gray-200 rounded-[13px] flex items-center justify-center'>
-														<input
-															id='photo-input'
-															type='file'
-															accept='image/*'
-															multiple
-															onChange={handleImageChange}
-															className='hidden'
-														/>
-														<AddPhotoSmallBtn
-															onClick={() =>
-																document.getElementById('photo-input')?.click()
-															}
-														/>
-													</div>
+													<AddPhotoButton onChange={handleImageChange} />
 												)}
 
 												<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-4 max-sm:px-3.5 max-sm:py-4 sm:p-8 gap-8'>

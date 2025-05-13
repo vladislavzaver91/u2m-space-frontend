@@ -152,7 +152,7 @@ export default function ClassifiedsEdit() {
 			}
 
 			const res = await apiService.updateClassified(id, formDataToSend)
-			console.log(res)
+			console.log('new res: ', res)
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
 			console.error('Classified update error:', error.response?.data)
@@ -248,6 +248,7 @@ export default function ClassifiedsEdit() {
 														images={imagePreviews}
 														title={initialData?.title || ''}
 														onOpenModal={handleOpenModal}
+														className='slider-classified-info'
 													/>
 												) : (
 													<AddPhotoButton onChange={handleImageChange} />

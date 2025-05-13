@@ -14,6 +14,9 @@ import { AddClassifiedButton } from '../components/ui/add-classified-button'
 export default function MyClassifieds() {
 	const [activeCategory, setActiveCategory] = useState('All')
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
+	const [filteredClassifieds, setFilteredClassifieds] = useState<Classified[]>(
+		[]
+	)
 	const [page, setPage] = useState(1)
 	const [hasMore, setHasMore] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
@@ -22,15 +25,17 @@ export default function MyClassifieds() {
 	const limit = 20
 
 	useEffect(() => {
+		// if (!user) return
+
 		const fetchClassifieds = async () => {
 			try {
 				setIsLoading(true)
-				const data = await apiService.getClassifieds({ page, limit })
-				console.log(data)
+				const data = await apiService.getUserClassifieds({ page, limit })
+				console.log('User classifieds:', data)
 				setClassifieds(prev => [...prev, ...data.classifieds])
 				setHasMore(data.hasMore)
 			} catch (error) {
-				console.error('Error fetching classifieds:', error)
+				console.error('Error fetching user classifieds:', error)
 			} finally {
 				setIsLoading(false)
 			}
@@ -38,6 +43,18 @@ export default function MyClassifieds() {
 
 		fetchClassifieds()
 	}, [page])
+	// }, [page, user])
+
+	// Фильтрация по категориям
+	useEffect(() => {
+		if (activeCategory === 'All') {
+			setFilteredClassifieds(classifieds)
+		} else if (activeCategory === 'Active') {
+			setFilteredClassifieds(classifieds.filter(item => item.isActive))
+		} else if (activeCategory === 'Hide') {
+			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
+		}
+	}, [classifieds, activeCategory])
 
 	// Infinite Scroll
 	useEffect(() => {
@@ -60,6 +77,21 @@ export default function MyClassifieds() {
 			}
 		}
 	}, [hasMore, isLoading])
+
+	const handleToggleActive = async (id: string, currentIsActive: boolean) => {
+		try {
+			const updated = await apiService.updateClassified(id, {
+				isActive: !currentIsActive,
+			})
+			setClassifieds(prev => prev.map(c => (c.id === id ? updated : c)))
+		} catch (error) {
+			console.error('Error toggling classified:', error)
+		}
+	}
+
+	// if (!user) {
+	// 	return <div className='text-center mt-20'>Authorization required</div>
+	// }
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -88,7 +120,6 @@ export default function MyClassifieds() {
 							categories={['All', 'Active', 'Hide']}
 							activeCategory={activeCategory}
 							onCategoryChange={setActiveCategory}
-							disabled
 						/>
 					</div>
 				</div>
@@ -96,6 +127,8 @@ export default function MyClassifieds() {
 				{/* список продуктов */}
 				{isLoading && classifieds.length === 0 ? (
 					<Loader />
+				) : filteredClassifieds.length === 0 ? (
+					<div className='text-center mt-20'>No classifieds</div>
 				) : (
 					<div className='w-full'>
 						<div className='custom-container mx-auto'>
@@ -105,21 +138,35 @@ export default function MyClassifieds() {
 										<div className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3'>
 											<AddClassifiedButton />
 										</div>
-										{classifieds.slice(0, 4).map(item => (
+										{filteredClassifieds.map(item => (
 											<div
 												key={item.id}
 												className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3!'
 											>
 												<MyClassifiedCard
+													id={item.id}
 													title={item.title}
 													price={item.price.toFixed(2)}
 													image={item.images[0]}
+													isActive={item.isActive}
+													views={item.views}
+													messages={item.messages}
+													favorites={item.favorites}
+													href={`/classifieds/${item.id}-edit`}
+													onToggleActive={() =>
+														handleToggleActive(item.id, item.isActive)
+													}
 												/>
 											</div>
 										))}
 									</div>
 								</div>
 							</div>
+							{hasMore && (
+								<div ref={loaderRef} className='h-10 flex justify-center'>
+									{isLoading && <Loader />}
+								</div>
+							)}
 						</div>
 					</div>
 				)}

@@ -202,7 +202,7 @@ export default function ClassifiedDetail() {
 														spaceBetween: 16,
 													},
 													640: {
-														slidesPerView: 2.5,
+														slidesPerView: 2,
 														spaceBetween: 16,
 													},
 													768: {
@@ -292,12 +292,12 @@ export default function ClassifiedDetail() {
 											{/* инфо о продавце */}
 											<div className='flex items-center gap-[30px]'>
 												<div>
-													<div className='relative min-w-[120px] w-fit min-h-[120px] h-fit rounded-[13px]'>
+													<div className='relative min-w-[120px] w-fit min-h-[120px] h-fit'>
 														<Image
 															src={classified.user.avatarUrl}
 															alt='user avatar'
 															fill
-															className='w-full h-full object-cover'
+															className='w-full h-full object-cover rounded-[13px]'
 														/>
 													</div>
 													<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
@@ -323,9 +323,13 @@ export default function ClassifiedDetail() {
 															</span>
 														</div>
 													</div>
-													{classified.user.phoneNumber && (
+													{classified.user.phoneNumber ? (
 														<p className='text-[16px] font-bold text-[#f9329c]'>
 															{classified.user.phoneNumber}
+														</p>
+													) : (
+														<p className='text-[16px] font-bold text-[#f9329c]'>
+															+380 96 42 07 202
 														</p>
 													)}
 													<div className='flex items-center gap-4 max-sm:flex-col '>

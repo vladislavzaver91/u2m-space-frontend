@@ -7,7 +7,6 @@ import { ClassifiedForm } from '../components/ui/classified-form'
 import { IconCustom } from '../components/ui/icon-custom'
 import { TagsManager } from '../components/ui/tags-manager'
 import { useAuth } from '../helpers/contexts/auth-context'
-import $api from '../lib/http'
 import { useRouter } from 'next/navigation'
 import { apiService } from '../services/api.service'
 import imageCompression from 'browser-image-compression'
@@ -109,13 +108,16 @@ export default function ClassifiedsCreate() {
 
 			const res = await apiService.createClassified(formDataToSend)
 			console.log(res)
-			router.push('/selling-classifieds')
-			// router.push(`/selling-classifieds/${res.id}`)
+			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
 			console.error('Create classified error:', error.response?.data)
 			setError(error.response?.data?.error || 'Failed to create classified')
 		}
 	}
+
+	// if (!user) {
+	// 	return <div className='text-center mt-20'>Authorization required</div>
+	// }
 
 	return (
 		<div className='min-h-screen flex flex-col'>

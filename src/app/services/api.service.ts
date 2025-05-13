@@ -25,6 +25,15 @@ interface UpdateClassifiedData extends ClassifiedData {
 	isActive?: boolean
 }
 
+interface PartialUpdateClassifiedData {
+	isActive?: boolean
+	title?: string
+	description?: string
+	price?: string
+	tags?: string[]
+	images?: File[] | string[]
+}
+
 interface Tag {
 	id: string
 	name: string
@@ -50,6 +59,17 @@ export class ApiService {
 		return res.data
 	}
 
+	async getUserClassifieds(params: {
+		page: number
+		limit: number
+	}): Promise<ClassifiedsResponse> {
+		const offset = (params.page - 1) * params.limit
+		const res = await $api.get('/api/classifieds/user', {
+			params: { limit: params.limit, offset },
+		})
+		return res.data
+	}
+
 	async createClassified(data: ClassifiedData | FormData): Promise<Classified> {
 		const res = await $api.post('/api/classifieds', data, {
 			headers:
@@ -62,7 +82,7 @@ export class ApiService {
 
 	async updateClassified(
 		id: string,
-		data: UpdateClassifiedData
+		data: PartialUpdateClassifiedData
 	): Promise<Classified> {
 		const res = await $api.put(`/api/classifieds/${id}`, data)
 		return res.data

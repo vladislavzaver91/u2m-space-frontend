@@ -63,6 +63,8 @@ export default function ClassifiedsEdit() {
 		fetchClassified()
 	}, [id])
 
+	console.log('Initial data tags: ', tags)
+
 	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files
 		if (!files) return
@@ -114,16 +116,26 @@ export default function ClassifiedsEdit() {
 			updated.splice(hoverIndex, 0, dragged)
 			return updated
 		})
-		setImageFiles(prev => {
+
+		// Синхронизация existingImages
+		setExistingImages(prev => {
 			const updated = [...prev]
 			const [dragged] = updated.splice(dragIndex, 1)
 			updated.splice(hoverIndex, 0, dragged)
 			return updated
 		})
-		setExistingImages(prev => {
+
+		// Синхронизация imageFiles (только для новых файлов)
+		setImageFiles(prev => {
 			const updated = [...prev]
-			const [dragged] = updated.splice(dragIndex, 1)
-			updated.splice(hoverIndex, 0, dragged)
+			const draggedIndex = prev.findIndex(
+				(_, i) => i === dragIndex - existingImages.length
+			)
+			const hoverIndexAdjusted = hoverIndex - existingImages.length
+			if (draggedIndex >= 0 && hoverIndexAdjusted >= 0) {
+				const [dragged] = updated.splice(draggedIndex, 1)
+				updated.splice(hoverIndexAdjusted, 0, dragged)
+			}
 			return updated
 		})
 	}
@@ -153,8 +165,10 @@ export default function ClassifiedsEdit() {
 			})
 
 			// Добавляем существующие изображения (URL)
-			existingImages.forEach(url => {
-				formDataToSend.append('existingImages[]', url)
+			imagePreviews.forEach(url => {
+				if (existingImages.includes(url)) {
+					formDataToSend.append('existingImages[]', url)
+				}
 			})
 
 			for (const [key, value] of formDataToSend.entries()) {
@@ -163,6 +177,7 @@ export default function ClassifiedsEdit() {
 
 			const res = await apiService.updateClassified(id, formDataToSend)
 			console.log('Update response:', res)
+			setTags(res.tags || [])
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
 			console.error(

@@ -292,10 +292,7 @@ export default function ClassifiedsCreate() {
 										</div>
 										<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px]'>
 											<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full'>
-												<TagsManager
-													onTagsChange={setTags}
-													initialTags={tags}
-												/>
+												<TagsManager onTagsChange={setTags} />
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>

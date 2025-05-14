@@ -25,7 +25,7 @@ export const Tooltip = ({
 		<div className='flex items-center gap-2.5 mb-3'>
 			<IconCustom
 				name='arrow-up-left'
-				className='w-6 h-6 text-[#F9329C] fill-none flex items-center justify-center'
+				className='w-[13px] h-3 text-[#F9329C] fill-none flex items-center justify-center'
 			/>
 			<h4 className='text-[#4f4f4f] text-[16px] font-bold'>{title}</h4>
 		</div>

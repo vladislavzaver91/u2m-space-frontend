@@ -35,7 +35,13 @@ export default function MyClassifieds() {
 				setIsLoading(true)
 				const data = await apiService.getUserClassifieds({ page, limit })
 				console.log('User classifieds:', data)
-				setClassifieds(prev => [...prev, ...data.classifieds])
+				setClassifieds(prev => {
+					const newClassifieds = [...prev, ...data.classifieds].filter(
+						(item, index, self) =>
+							index === self.findIndex(t => t.id === item.id)
+					)
+					return newClassifieds
+				})
 				setHasMore(data.hasMore)
 			} catch (error: any) {
 				console.error('Error fetching user classifieds:', error)
@@ -87,14 +93,10 @@ export default function MyClassifieds() {
 	const handleToggleActive = async (id: string, currentIsActive: boolean) => {
 		console.log('Toggling classified:', { id, currentIsActive })
 		try {
-			const formDataToSend = new FormData()
-			formDataToSend.append('isActive', (!currentIsActive).toString())
-
-			for (const [key, value] of formDataToSend.entries()) {
-				console.log(`FormData entry: ${key} = ${value}`)
-			}
-
-			const updated = await apiService.updateClassified(id, formDataToSend)
+			const updated = await apiService.toggleClassifiedActive(
+				id,
+				!currentIsActive
+			)
 			console.log('Updated classified:', updated)
 			setClassifieds(prev => prev.map(c => (c.id === id ? updated : c)))
 		} catch (error) {

@@ -18,6 +18,7 @@ import { AddPhotoSmallButton } from '../components/ui/add-photo-small-button'
 import { SliderImagesModal } from '../components/ui/slider-images-modal'
 import { Classified } from '../types'
 import { Loader } from '../components/ui/loader'
+import { Tooltip } from '../components/ui/tooltip'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
@@ -29,6 +30,15 @@ export default function ClassifiedsCreate() {
 	const [isLoading, setIsLoading] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [error, setError] = useState<string>('')
+	const [tooltipVisible, setTooltipVisible] = useState({
+		title: false,
+		description: false,
+		price: false,
+		images: false,
+		tags: false,
+		save: false,
+		back: false,
+	})
 	const router = useRouter()
 
 	const handleBack = () => {
@@ -142,6 +152,14 @@ export default function ClassifiedsCreate() {
 		setIsModalOpen(false)
 	}
 
+	const handleMouseEnter = (field: keyof typeof tooltipVisible) => {
+		setTooltipVisible(prev => ({ ...prev, [field]: true }))
+	}
+
+	const handleMouseLeave = (field: keyof typeof tooltipVisible) => {
+		setTooltipVisible(prev => ({ ...prev, [field]: false }))
+	}
+
 	if (!user) {
 		return <div className='text-center mt-20'>Authorization required</div>
 	}
@@ -161,20 +179,32 @@ export default function ClassifiedsCreate() {
 					<div className='flex max-md:flex-wrap-reverse max-md:mb-4 max-2-5xl:justify-start'>
 						{/* кнопки слева */}
 						<div className='flex max-md:items-center justify-between max-md:w-full 2-5xl:absolute 2-5xl:left-0 z-10'>
-							<ButtonWithIcon
-								onClick={handleBack}
-								text='Back'
-								iconWrapperClass='w-6 h-6'
-								icon={
-									<IconCustom
-										name='arrow-prev'
-										hover={true}
-										className='w-6 h-6 text-[#3486FE] fill-none'
-									/>
-								}
-								isHover
-								className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
-							/>
+							<div
+								onMouseEnter={() => handleMouseEnter('back')}
+								onMouseLeave={() => handleMouseLeave('back')}
+								className='relative'
+							>
+								<ButtonWithIcon
+									onClick={handleBack}
+									text='Back'
+									iconWrapperClass='w-6 h-6'
+									icon={
+										<IconCustom
+											name='arrow-prev'
+											hover={true}
+											className='w-6 h-6 text-[#3486FE] fill-none'
+										/>
+									}
+									isHover
+									className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
+								/>
+								<Tooltip
+									title='Back'
+									text='Returns you to the previous page without saving changes.'
+									positionClass='-right-40! top-24!'
+									visible={tooltipVisible.back}
+								/>
+							</div>
 							<div className='pr-4 md:hidden'>
 								<ButtonWithIcon
 									onClick={() =>
@@ -225,7 +255,18 @@ export default function ClassifiedsCreate() {
 														className='slider-classified-info'
 													/>
 												) : (
-													<AddPhotoButton onChange={handleImageChange} />
+													<div
+														className='relative'
+														onMouseEnter={() => handleMouseEnter('images')}
+														onMouseLeave={() => handleMouseLeave('images')}
+													>
+														<AddPhotoButton onChange={handleImageChange} />
+														<Tooltip
+															title='Add images'
+															text='Upload high-quality images to showcase your item. Up to 8 images are allowed.'
+															visible={tooltipVisible.images}
+														/>
+													</div>
 												)}
 
 												<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-4 max-sm:px-3.5 max-sm:py-4 sm:p-8 gap-8'>
@@ -287,22 +328,53 @@ export default function ClassifiedsCreate() {
 												</div>
 											</div>
 											<div className='col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 min-w-full lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
-												<ClassifiedForm onSubmit={handleSubmit} />
+												<ClassifiedForm
+													onSubmit={handleSubmit}
+													onMouseEnter={(field: keyof typeof tooltipVisible) =>
+														handleMouseEnter(field)
+													}
+													onMouseLeave={(field: keyof typeof tooltipVisible) =>
+														handleMouseLeave(field)
+													}
+													tooltipVisible={tooltipVisible}
+												/>
 											</div>
 										</div>
 										<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px]'>
-											<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full'>
+											<div
+												onMouseEnter={() => handleMouseEnter('tags')}
+												onMouseLeave={() => handleMouseLeave('tags')}
+												className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full relative'
+											>
 												<TagsManager onTagsChange={setTags} />
+												<Tooltip
+													title='Tags'
+													text='Add relevant tags to help others find your listing easily.'
+													positionClass='-right-40!'
+													visible={tooltipVisible.tags}
+												/>
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>
-											<ButtonWithIcon
-												onClick={() =>
-													document.querySelector('form')?.requestSubmit()
-												}
-												text='Publish'
-												className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-											/>
+											<div
+												onMouseEnter={() => handleMouseEnter('save')}
+												onMouseLeave={() => handleMouseLeave('save')}
+												className='relative'
+											>
+												<ButtonWithIcon
+													onClick={() =>
+														document.querySelector('form')?.requestSubmit()
+													}
+													text='Publish'
+													className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
+												/>
+												<Tooltip
+													title='Publish'
+													text='Publishes your announcement.'
+													positionClass='-top-20!'
+													visible={tooltipVisible.save}
+												/>
+											</div>
 										</div>
 									</div>
 								</div>

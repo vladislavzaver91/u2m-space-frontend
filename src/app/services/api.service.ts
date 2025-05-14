@@ -98,6 +98,16 @@ export class ApiService {
 		return res.data
 	}
 
+	async toggleClassifiedActive(
+		id: string,
+		isActive: boolean
+	): Promise<Classified> {
+		const res = await $api.patch(`/api/classifieds/${id}/toggle-active`, {
+			isActive,
+		})
+		return res.data
+	}
+
 	async deleteClassified(id: string): Promise<void> {
 		await $api.delete(`/api/classifieds/${id}`)
 	}

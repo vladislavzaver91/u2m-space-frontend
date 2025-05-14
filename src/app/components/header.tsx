@@ -122,6 +122,7 @@ export const Header = () => {
 								<>
 									<div className='max-md:hidden flex lg:hidden'>
 										<ButtonWithIcon
+											onClick={openLoginModal}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -136,6 +137,7 @@ export const Header = () => {
 									</div>
 									<div className='hidden lg:flex'>
 										<ButtonWithIcon
+											onClick={openLoginModal}
 											text='Add'
 											iconWrapperClass='w-6 h-6'
 											icon={
@@ -154,6 +156,7 @@ export const Header = () => {
 							{user ? (
 								<>
 									<ButtonWithIcon
+										href='/classified-create'
 										iconWrapperClass='w-6 h-6'
 										icon={
 											<IconCustom

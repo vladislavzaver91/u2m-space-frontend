@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ButtonWithIcon } from './button-with-icon'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
+import { useRouter } from 'next/navigation'
 
 interface MyClassifiedCardProps {
 	id: string
@@ -33,6 +34,7 @@ export const MyClassifiedCard = ({
 }: MyClassifiedCardProps) => {
 	const [isHovered, setIsHovered] = useState(false)
 	const [isToggling, setIsToggling] = useState(false)
+	const router = useRouter()
 
 	const handleMouseEnter = () => setIsHovered(true)
 	const handleMouseLeave = () => setIsHovered(false)
@@ -45,6 +47,11 @@ export const MyClassifiedCard = ({
 		} finally {
 			setIsToggling(false)
 		}
+	}
+
+	const handleEdit = (e: React.MouseEvent) => {
+		e.preventDefault()
+		router.push(`/classifieds-edit/${id}`)
 	}
 
 	const INFO_AND_ANALYTICAL_DATA = [
@@ -144,7 +151,7 @@ export const MyClassifiedCard = ({
 						/>
 						<ButtonWithIcon
 							text='edit'
-							href={`/classifieds-edit/${id}`}
+							onClick={handleEdit}
 							icon={
 								<IconCustom
 									name='edit-pencil'
@@ -219,7 +226,7 @@ export const MyClassifiedCard = ({
 							/>
 							<ButtonWithIcon
 								text='edit'
-								href={`/classifieds-edit/${id}`}
+								onClick={handleEdit}
 								icon={
 									<IconCustom
 										name='edit-pencil'

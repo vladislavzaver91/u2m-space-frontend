@@ -31,6 +31,7 @@ const nextConfig: NextConfig = {
 			'googleusercontent.com',
 			'u2m-space-backend-production.up.railway.app',
 			'azmnxvguxjnosdgbkovr.supabase.co',
+			'localhost',
 		],
 	},
 }

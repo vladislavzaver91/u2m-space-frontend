@@ -2,6 +2,7 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { CustomInput } from './custom-input'
+import { Tooltip } from './tooltip'
 
 interface ClassifiedFormData {
 	title: string
@@ -12,10 +13,17 @@ interface ClassifiedFormData {
 interface ClassifiedFormProps {
 	initialData?: ClassifiedFormData
 	onSubmit: SubmitHandler<ClassifiedFormData>
+	onMouseEnter: (field: 'title' | 'description' | 'price') => void
+	onMouseLeave: (field: 'title' | 'description' | 'price') => void
+	tooltipVisible: Record<'title' | 'description' | 'price', boolean>
 }
+
 export const ClassifiedForm = ({
 	initialData,
 	onSubmit,
+	onMouseEnter,
+	onMouseLeave,
+	tooltipVisible,
 }: ClassifiedFormProps) => {
 	const {
 		register,
@@ -39,46 +47,85 @@ export const ClassifiedForm = ({
 			onSubmit={handleSubmit(onSubmit)}
 			className='w-full lg:max-w-[300px] flex flex-col gap-2'
 		>
-			<CustomInput
-				label='Title'
-				register={register('title', {
-					required: 'Title is required',
-					maxLength: {
-						value: 60,
-						message: 'Title must be up to 60 characters',
-					},
-				})}
-				value={titleValue}
-				error={errors.title?.message}
-				maxLength={60}
-			/>
-			<CustomInput
-				label='Description'
-				register={register('description', {
-					required: 'Description is required',
-					maxLength: {
-						value: 300,
-						message: 'Description must be up to 300 characters',
-					},
-				})}
-				value={descriptionValue}
-				error={errors.description?.message}
-				maxLength={300}
-			/>
-			<CustomInput
-				label='Price'
-				type='number'
-				register={register('price', {
-					required: 'Price is required',
-					min: { value: 0, message: 'Price must be a positive number' },
-					validate: value =>
-						!isNaN(parseFloat(value)) || 'Price must be a valid number',
-				})}
-				value={priceValue}
-				error={errors.price?.message}
-				maxLength={10}
-				prefix='$'
-			/>
+			<div
+				className='relative'
+				onMouseEnter={() => onMouseEnter('title')}
+				onMouseLeave={() => onMouseLeave('title')}
+			>
+				<CustomInput
+					label='Title'
+					register={register('title', {
+						required: 'Title is required',
+						maxLength: {
+							value: 60,
+							message: 'Title must be up to 60 characters',
+						},
+					})}
+					value={titleValue}
+					error={errors.title?.message}
+					maxLength={60}
+				/>
+				<div className='xl:block hidden'>
+					<Tooltip
+						title='Title'
+						text='Enter a catchy title to attract potential buyers (max 60 characters).'
+						visible={tooltipVisible.title}
+					/>
+				</div>
+			</div>
+			<div
+				className='relative'
+				onMouseEnter={() => onMouseEnter('description')}
+				onMouseLeave={() => onMouseLeave('description')}
+			>
+				<CustomInput
+					label='Description'
+					register={register('description', {
+						required: 'Description is required',
+						maxLength: {
+							value: 300,
+							message: 'Description must be up to 300 characters',
+						},
+					})}
+					value={descriptionValue}
+					error={errors.description?.message}
+					maxLength={300}
+				/>
+				<div className='xl:block hidden'>
+					<Tooltip
+						title='Description'
+						text='Is a meta tag that briefly describes the content of a given web page. Keywords are keywords or phrases that are used on a given web page and are the main ones for it (i.e., they reveal the topic and content).'
+						visible={tooltipVisible.description}
+					/>
+				</div>
+			</div>
+			<div
+				className='relative'
+				onMouseEnter={() => onMouseEnter('price')}
+				onMouseLeave={() => onMouseLeave('price')}
+			>
+				<CustomInput
+					label='Price'
+					type='number'
+					register={register('price', {
+						required: 'Price is required',
+						min: { value: 0, message: 'Price must be a positive number' },
+						validate: value =>
+							!isNaN(parseFloat(value)) || 'Price must be a valid number',
+					})}
+					value={priceValue}
+					error={errors.price?.message}
+					maxLength={10}
+					prefix='$'
+				/>
+				<div className='xl:block hidden'>
+					<Tooltip
+						title='Price'
+						text='Set a competitive price for your item (must be a positive number).'
+						visible={tooltipVisible.price}
+					/>
+				</div>
+			</div>
 		</form>
 	)
 }

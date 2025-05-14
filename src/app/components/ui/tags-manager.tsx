@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TagsSection } from './tags-section'
 import { TagsRecommendedSection } from './tags-recommended-section'
 import { apiService } from '@/app/services/api.service'
@@ -16,12 +16,22 @@ export const TagsManager = ({
 }: TagsManagerProps) => {
 	const [tags, setTags] = useState<string[]>(initialTags)
 	const [error, setError] = useState<string>('')
-	const [recommendedTags, setRecommendedTags] = useState<string[]>([
-		'Minimal',
-		'Bohemian',
-		'Sporty',
-		'Elegant',
-	])
+	const [recommendedTags, setRecommendedTags] = useState<string[]>([])
+
+	useEffect(() => {
+		const fetchRecommendedTags = async () => {
+			try {
+				const serverTags = await apiService.getTags()
+				const recommended = serverTags
+					.map(tag => tag.name)
+					.filter(tag => !initialTags.includes(tag))
+				setRecommendedTags(recommended)
+			} catch (err) {
+				setError('Failed to load recommended tags')
+			}
+		}
+		fetchRecommendedTags()
+	}, [initialTags])
 
 	const handleAddTag = async (tag: string) => {
 		if (!tag || tags.includes(tag)) {

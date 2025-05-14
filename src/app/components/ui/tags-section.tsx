@@ -41,15 +41,7 @@ export const TagsSection = ({
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.2 }}
 					>
-						<TagItem
-							text='Add tag'
-							onAddTag={(tag: string) => {
-								if (tag.trim()) {
-									onAddTag(tag.trim())
-								}
-							}}
-							type='input'
-						/>
+						<TagItem text='Add tag' onAddTag={onAddTag} type='input' />
 					</motion.div>
 				</AnimatePresence>
 			</div>

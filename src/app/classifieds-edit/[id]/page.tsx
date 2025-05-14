@@ -140,10 +140,7 @@ export default function ClassifiedsEdit() {
 	const handleRemoveImage = (index: number) => {
 		setImagePreviews(prev => prev.filter((_, i) => i !== index))
 
-		setExistingImages(prev => {
-			const updated = prev.filter((_, i) => i !== index)
-			return updated
-		})
+		setExistingImages(prev => prev.filter((_, i) => i !== index))
 
 		setImageFiles(prev => {
 			const adjustedIndex = index - existingImages.length

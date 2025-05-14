@@ -56,12 +56,12 @@ body.has-scroll::-webkit-scrollbar-thumb {
 
 .slider-for-card {
 	& .swiper-wrapper {
-		height: 406px !important;
+		height: 418px !important;
 		@media screen and (min-width: 768px) {
-			height: 430px !important;
+			height: 438px !important;
 		}
 		@media screen and (min-width: 1024px) {
-			height: 376px !important;
+			height: 386px !important;
 		}
 
 		align-items: center;
@@ -69,7 +69,7 @@ body.has-scroll::-webkit-scrollbar-thumb {
 
 	& .swiper-slide {
 		overflow: visible !important;
-		height: 372px !important;
+		height: 383px !important;
 	}
 
 	& .swiper-slide-active {
@@ -90,6 +90,38 @@ body.has-scroll::-webkit-scrollbar-thumb {
 	}
 }
 
+.slider-classified-info {
+	& .swiper-wrapper {
+		@media screen and (max-width: 767px) {
+			align-items: center;
+			height: 264px !important;
+		}
+	}
+
+	& .swiper-slide {
+		@media screen and (max-width: 767px) {
+			overflow: visible !important;
+			height: 228px !important;
+		}
+	}
+
+	& .swiper-slide-active {
+		@media screen and (max-width: 767px) {
+			transform: scaleY(1.09) scaleX(1) !important;
+			transition: transform 0.3s ease;
+		}
+	}
+
+	& .swiper-pagination {
+		padding: 32px 0px 28px 0px;
+		display: flex;
+		justify-content: center;
+		margin: 0;
+		position: relative;
+		width: 400px !important;
+	}
+}
+
 .slider-benefits {
 	& .swiper-pagination {
 		margin-top: 24px;
@@ -102,17 +134,6 @@ body.has-scroll::-webkit-scrollbar-thumb {
 		@media (max-height: 520px) {
 			height: 170px;
 		}
-	}
-}
-
-.slider-classified-info {
-	& .swiper-pagination {
-		padding: 32px 0px 28px 0px;
-		display: flex;
-		justify-content: center;
-		margin: 0;
-		position: relative;
-		width: 400px !important;
 	}
 }
 

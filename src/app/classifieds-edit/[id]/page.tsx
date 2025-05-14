@@ -117,7 +117,7 @@ export default function ClassifiedsEdit() {
 			return updated
 		})
 
-		// Синхронизация existingImages
+		// Синхронизация
 		setExistingImages(prev => {
 			const updated = [...prev]
 			const [dragged] = updated.splice(dragIndex, 1)
@@ -125,18 +125,32 @@ export default function ClassifiedsEdit() {
 			return updated
 		})
 
-		// Синхронизация imageFiles (только для новых файлов)
 		setImageFiles(prev => {
 			const updated = [...prev]
-			const draggedIndex = prev.findIndex(
-				(_, i) => i === dragIndex - existingImages.length
-			)
-			const hoverIndexAdjusted = hoverIndex - existingImages.length
-			if (draggedIndex >= 0 && hoverIndexAdjusted >= 0) {
-				const [dragged] = updated.splice(draggedIndex, 1)
-				updated.splice(hoverIndexAdjusted, 0, dragged)
+			const adjustedDragIndex = dragIndex - existingImages.length
+			const adjustedHoverIndex = hoverIndex - existingImages.length
+			if (adjustedDragIndex >= 0 && adjustedHoverIndex >= 0) {
+				const [dragged] = updated.splice(adjustedDragIndex, 1)
+				updated.splice(adjustedHoverIndex, 0, dragged)
 			}
 			return updated
+		})
+	}
+
+	const handleRemoveImage = (index: number) => {
+		setImagePreviews(prev => prev.filter((_, i) => i !== index))
+
+		setExistingImages(prev => {
+			const updated = prev.filter((_, i) => i !== index)
+			return updated
+		})
+
+		setImageFiles(prev => {
+			const adjustedIndex = index - existingImages.length
+			if (adjustedIndex >= 0) {
+				return prev.filter((_, i) => i !== adjustedIndex)
+			}
+			return prev
 		})
 	}
 
@@ -159,16 +173,15 @@ export default function ClassifiedsEdit() {
 			formDataToSend.append('description', formData.description)
 			formDataToSend.append('price', formData.price)
 			tags.forEach(tag => formDataToSend.append('tags[]', tag))
-			// Добавляем новые изображения
-			imageFiles.forEach(file => {
-				formDataToSend.append('images', file)
-			})
 
-			// Добавляем существующие изображения (URL)
 			imagePreviews.forEach(url => {
 				if (existingImages.includes(url)) {
 					formDataToSend.append('existingImages[]', url)
 				}
+			})
+
+			imageFiles.forEach(file => {
+				formDataToSend.append('images', file)
 			})
 
 			for (const [key, value] of formDataToSend.entries()) {
@@ -308,17 +321,7 @@ export default function ClassifiedsEdit() {
 																		src={imagePreviews[idx]}
 																		index={idx}
 																		moveImage={moveImage}
-																		onRemove={() => {
-																			setImagePreviews(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																			setImageFiles(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																			setExistingImages(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																		}}
+																		onRemove={handleRemoveImage}
 																	/>
 																) : (
 																	<AddPhotoSmallButton
@@ -339,17 +342,7 @@ export default function ClassifiedsEdit() {
 																	src={imagePreviews[idx]}
 																	index={idx}
 																	moveImage={moveImage}
-																	onRemove={() => {
-																		setImagePreviews(prev =>
-																			prev.filter((_, i) => i !== idx)
-																		)
-																		setImageFiles(prev =>
-																			prev.filter((_, i) => i !== idx)
-																		)
-																		setExistingImages(prev =>
-																			prev.filter((_, i) => i !== idx)
-																		)
-																	}}
+																	onRemove={handleRemoveImage}
 																/>
 															) : (
 																<AddPhotoSmallButton

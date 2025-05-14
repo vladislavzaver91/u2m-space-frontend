@@ -36,7 +36,7 @@ export const ImageSlider = ({
 	if (images.length === 1) {
 		return (
 			<>
-				<div className='relative h-[260px] md:h-[470px] lg:h-[352px]'>
+				<div className='relative h-[228px] md:h-[470px] lg:h-[352px]'>
 					<Image
 						src={images[0]}
 						alt={`${title} - 1`}
@@ -133,7 +133,7 @@ export const ImageSlider = ({
 			>
 				{images.map((image, index) => (
 					<SwiperSlide key={index}>
-						<div className='relative h-[260px] md:h-[470px] lg:h-[352px]'>
+						<div className='relative h-[228px] md:h-[470px] lg:h-[352px]'>
 							<Image
 								src={image}
 								alt={`${title} - ${index + 1}`}

@@ -175,7 +175,7 @@ export default function SellingClassifieds() {
 								{classifieds.slice(0, 6).map((item, index) => (
 									<SwiperSlide
 										key={index}
-										className='min-w-[295px] max-w-[355px] h-[372px] transition-transform duration-300 overflow-visible'
+										className='min-w-[295px] max-w-[355px] h-[383px] transition-transform duration-300 overflow-visible'
 									>
 										<ClassifiedCard
 											title={item.title}

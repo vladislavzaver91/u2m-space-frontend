@@ -35,7 +35,7 @@ export const ClassifiedCard = ({
 		<Link
 			href={href}
 			className={`block border border-[#bdbdbd] rounded-xl transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full ${
-				isSmall ? 'min-h-[283px]' : 'h-[372px]'
+				isSmall ? 'min-h-[283px]' : 'h-[383px]'
 			}`}
 		>
 			<div className={`relative ${isSmall ? 'h-[154px]' : 'h-[253px]'}`}>

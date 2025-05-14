@@ -240,14 +240,14 @@ export default function ClassifiedDetail() {
 															+380 96 42 07 202
 														</p>
 													)}
-													<div className='flex items-center gap-4 max-sm:flex-col '>
+													<div className='flex items-center gap-4 max-sm:flex-col'>
 														<ButtonWithIcon
 															text='Send message'
-															className='min-w-[178px] sm:min-w-[155px] w-fit border border-[#4f4f4f] rounded-lg items-center justify-center h-10'
+															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] rounded-lg items-center justify-center h-10'
 														/>
 														<ButtonWithIcon
 															text='Safe buy/deal'
-															className='min-w-[178px]  sm:min-w-[145px] w-fit border border-[#4f4f4f] rounded-lg items-center justify-center h-10'
+															className='max-sm:max-w-[178px] max-sm:w-full   sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] rounded-lg items-center justify-center h-10'
 														/>
 													</div>
 												</div>

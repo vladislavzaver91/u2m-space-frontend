@@ -45,7 +45,7 @@ export const ImageSlider = ({
 						className='w-full h-full rounded-[13px]'
 					/>
 				</div>
-				<div className='pt-8 pb-7'>
+				<div className='relative pt-8 pb-7'>
 					{onOpenModal && (
 						<div className='max-md:hidden absolute bottom-0 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]'>
 							<div className='flex items-center'>

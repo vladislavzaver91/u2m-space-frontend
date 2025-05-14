@@ -154,9 +154,7 @@ export default function ClassifiedsEdit() {
 
 			// Добавляем существующие изображения (URL)
 			existingImages.forEach(url => {
-				if (imagePreviews.includes(url)) {
-					formDataToSend.append('existingImages[]', url)
-				}
+				formDataToSend.append('existingImages[]', url)
 			})
 
 			for (const [key, value] of formDataToSend.entries()) {

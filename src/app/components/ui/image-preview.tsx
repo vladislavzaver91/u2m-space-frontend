@@ -48,7 +48,7 @@ export const ImagePreview = ({
 	return (
 		<div
 			ref={ref}
-			className='relative'
+			className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer max-lg:grid max-sm:col-span-1 max-lg:col-span-3'
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			style={{ opacity: isDragging ? 0.5 : 1 }}

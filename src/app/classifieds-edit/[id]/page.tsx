@@ -21,6 +21,7 @@ import { Loader } from '@/app/components/ui/loader'
 export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
+	const [existingImages, setExistingImages] = useState<string[]>([])
 	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[] | undefined>([])
 	const [error, setError] = useState<string>('')
@@ -36,6 +37,10 @@ export default function ClassifiedsEdit() {
 	const params = useParams()
 	const id = params.id as string
 
+	const handleBack = () => {
+		window.history.back()
+	}
+
 	useEffect(() => {
 		const fetchClassified = async () => {
 			try {
@@ -47,7 +52,8 @@ export default function ClassifiedsEdit() {
 					price: classified.price.toString(),
 				})
 				setImagePreviews(classified.images)
-				setTags(classified.tags)
+				setExistingImages(classified.images)
+				setTags(classified.tags || [])
 			} catch (error) {
 				setError('Failed to load classified')
 			} finally {
@@ -56,12 +62,6 @@ export default function ClassifiedsEdit() {
 		}
 		fetchClassified()
 	}, [id])
-
-	console.log(initialData)
-
-	const handleBack = () => {
-		window.history.back()
-	}
 
 	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files
@@ -102,7 +102,7 @@ export default function ClassifiedsEdit() {
 			return
 		}
 
-		setImageFiles([...newFiles])
+		setImageFiles(prev => [...prev, ...newFiles])
 		setImagePreviews(prev => [...prev, ...newPreviews])
 		setError('')
 	}
@@ -120,6 +120,12 @@ export default function ClassifiedsEdit() {
 			updated.splice(hoverIndex, 0, dragged)
 			return updated
 		})
+		setExistingImages(prev => {
+			const updated = [...prev]
+			const [dragged] = updated.splice(dragIndex, 1)
+			updated.splice(hoverIndex, 0, dragged)
+			return updated
+		})
 	}
 
 	const handleSubmit = async (formData: {
@@ -132,22 +138,27 @@ export default function ClassifiedsEdit() {
 			return
 		}
 
+		setIsLoading(true)
+		setError('')
+
 		try {
 			const formDataToSend = new FormData()
 			formDataToSend.append('title', formData.title)
 			formDataToSend.append('description', formData.description)
 			formDataToSend.append('price', formData.price)
 			tags?.forEach(tag => formDataToSend.append('tags[]', tag))
-			imageFiles.forEach((file, index) => {
-				formDataToSend.append('images', file, `image-${index}.jpg`)
+			// Добавляем новые изображения
+			imageFiles.forEach(file => {
+				formDataToSend.append('images', file)
 			})
-			imagePreviews.forEach((url, index) => {
-				if (!imageFiles.some(file => file.name === `image-${index}.jpg`)) {
+
+			// Добавляем существующие изображения (URL)
+			existingImages.forEach(url => {
+				if (imagePreviews.includes(url)) {
 					formDataToSend.append('existingImages[]', url)
 				}
 			})
 
-			console.log('Sending FormData:')
 			for (const [key, value] of formDataToSend.entries()) {
 				console.log(`${key}:`, value)
 			}
@@ -161,6 +172,8 @@ export default function ClassifiedsEdit() {
 				error.response?.data || error.message
 			)
 			setError(error.response?.data?.error || 'Failed to update classified')
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -191,7 +204,7 @@ export default function ClassifiedsEdit() {
 
 	if (isLoading) {
 		return (
-			<div className='flex-1 flex items-center justify-center'>
+			<div className='flex items-center justify-center'>
 				<Loader />
 			</div>
 		)
@@ -289,6 +302,9 @@ export default function ClassifiedsEdit() {
 																			setImageFiles(prev =>
 																				prev.filter((_, i) => i !== idx)
 																			)
+																			setExistingImages(prev =>
+																				prev.filter((_, i) => i !== idx)
+																			)
 																		}}
 																	/>
 																) : (
@@ -315,6 +331,9 @@ export default function ClassifiedsEdit() {
 																			prev.filter((_, i) => i !== idx)
 																		)
 																		setImageFiles(prev =>
+																			prev.filter((_, i) => i !== idx)
+																		)
+																		setExistingImages(prev =>
 																			prev.filter((_, i) => i !== idx)
 																		)
 																	}}
@@ -350,27 +369,13 @@ export default function ClassifiedsEdit() {
 												/>
 											</div>
 										</div>
-										{/* <div className='hidden md:flex justify-end'>
+										<div className='hidden md:flex justify-end'>
 											<ButtonWithIcon
 												onClick={() =>
 													document.querySelector('form')?.requestSubmit()
 												}
 												text='Save'
 												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-											/>
-										</div> */}
-										<div className='hidden md:flex justify-center gap-4'>
-											<ButtonWithIcon
-												onClick={() => handleDelete(id)}
-												text='Delete'
-												className='min-w-[72px] w-fit h-10 px-4 bg-red-500 text-white rounded-lg'
-											/>
-											<ButtonWithIcon
-												onClick={() =>
-													document.querySelector('form')?.requestSubmit()
-												}
-												text='Save'
-												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe] text-white rounded-lg'
 											/>
 										</div>
 									</div>

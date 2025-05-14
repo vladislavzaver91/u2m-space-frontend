@@ -71,11 +71,11 @@ export class ApiService {
 	}
 
 	async createClassified(data: ClassifiedData | FormData): Promise<Classified> {
+		const isFormData = data instanceof FormData
 		const res = await $api.post('/api/classifieds', data, {
-			headers:
-				data instanceof FormData
-					? { 'Content-Type': 'multipart/form-data' }
-					: undefined,
+			headers: isFormData
+				? { 'Content-Type': 'multipart/form-data' }
+				: undefined,
 		})
 		return res.data
 	}
@@ -84,11 +84,11 @@ export class ApiService {
 		id: string,
 		data: PartialUpdateClassifiedData | FormData
 	): Promise<Classified> {
+		const isFormData = data instanceof FormData
 		const res = await $api.put(`/api/classifieds/${id}`, data, {
-			headers:
-				data instanceof FormData
-					? { 'Content-Type': 'multipart/form-data' }
-					: undefined,
+			headers: isFormData
+				? { 'Content-Type': 'multipart/form-data' }
+				: undefined,
 		})
 		return res.data
 	}

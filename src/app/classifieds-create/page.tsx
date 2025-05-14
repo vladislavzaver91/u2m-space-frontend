@@ -17,6 +17,7 @@ import { ImagePreview } from '../components/ui/image-preview'
 import { AddPhotoSmallButton } from '../components/ui/add-photo-small-button'
 import { SliderImagesModal } from '../components/ui/slider-images-modal'
 import { Classified } from '../types'
+import { Loader } from '../components/ui/loader'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
@@ -25,7 +26,7 @@ export default function ClassifiedsCreate() {
 	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[]>([])
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [error, setError] = useState<string>('')
 	const router = useRouter()
@@ -73,7 +74,7 @@ export default function ClassifiedsCreate() {
 			return
 		}
 
-		setImageFiles([...newFiles])
+		setImageFiles(prev => [...prev, ...newFiles])
 		setImagePreviews(prev => [...prev, ...newPreviews])
 		setError('')
 	}
@@ -103,14 +104,17 @@ export default function ClassifiedsCreate() {
 			return
 		}
 
+		setIsLoading(true)
+		setError('')
+
 		try {
 			const formDataToSend = new FormData()
 			formDataToSend.append('title', formData.title)
 			formDataToSend.append('description', formData.description)
 			formDataToSend.append('price', formData.price)
 			tags.forEach(tag => formDataToSend.append('tags[]', tag))
-			imageFiles.forEach((file, index) => {
-				formDataToSend.append('images', file, `image-${index}.jpg`)
+			imageFiles.forEach(file => {
+				formDataToSend.append('images', file)
 			})
 
 			// Логирование FormData для отладки
@@ -125,6 +129,8 @@ export default function ClassifiedsCreate() {
 		} catch (error: any) {
 			console.error('Create classified error:', error.response?.data)
 			setError(error.response?.data?.error || 'Failed to create classified')
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -138,6 +144,14 @@ export default function ClassifiedsCreate() {
 
 	if (!user) {
 		return <div className='text-center mt-20'>Authorization required</div>
+	}
+
+	if (isLoading) {
+		return (
+			<div className='flex items-center justify-center'>
+				<Loader />
+			</div>
+		)
 	}
 
 	return (
@@ -278,7 +292,10 @@ export default function ClassifiedsCreate() {
 										</div>
 										<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px]'>
 											<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full'>
-												<TagsManager onTagsChange={setTags} />
+												<TagsManager
+													onTagsChange={setTags}
+													initialTags={tags}
+												/>
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>

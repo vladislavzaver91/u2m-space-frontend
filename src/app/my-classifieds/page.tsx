@@ -19,7 +19,7 @@ export default function MyClassifieds() {
 	)
 	const [page, setPage] = useState(1)
 	const [hasMore, setHasMore] = useState(true)
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 	const [hasHiddenClassifieds, setHasHiddenClassifieds] = useState(false)
 	const { user, logout } = useAuth()
 	const loaderRef = useRef<HTMLDivElement>(null)
@@ -87,9 +87,10 @@ export default function MyClassifieds() {
 	const handleToggleActive = async (id: string, currentIsActive: boolean) => {
 		console.log('Toggling classified:', { id, currentIsActive })
 		try {
-			const updated = await apiService.updateClassified(id, {
-				isActive: !currentIsActive,
-			})
+			const formDataToSend = new FormData()
+			formDataToSend.append('isActive', String(!currentIsActive))
+
+			const updated = await apiService.updateClassified(id, formDataToSend)
 			console.log('Updated classified:', updated)
 			setClassifieds(prev => prev.map(c => (c.id === id ? updated : c)))
 		} catch (error) {

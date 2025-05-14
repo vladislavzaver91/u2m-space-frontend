@@ -23,7 +23,7 @@ export default function ClassifiedsEdit() {
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [existingImages, setExistingImages] = useState<string[]>([])
 	const [imageFiles, setImageFiles] = useState<File[]>([])
-	const [tags, setTags] = useState<string[] | undefined>([])
+	const [tags, setTags] = useState<string[]>([])
 	const [error, setError] = useState<string>('')
 	const [initialData, setInitialData] = useState<{
 		title: string
@@ -199,9 +199,9 @@ export default function ClassifiedsEdit() {
 		setIsModalOpen(false)
 	}
 
-	if (!user) {
-		return <div className='text-center mt-20'>Authorization required</div>
-	}
+	// if (!user) {
+	// 	return <div className='text-center mt-20'>Authorization required</div>
+	// }
 
 	if (isLoading) {
 		return (

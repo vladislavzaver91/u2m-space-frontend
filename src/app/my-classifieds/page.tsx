@@ -28,7 +28,7 @@ export default function MyClassifieds() {
 	const categories = ['All', 'Active', 'Hide']
 
 	useEffect(() => {
-		if (!user) return
+		// if (!user) return
 
 		const fetchClassifieds = async () => {
 			try {
@@ -102,9 +102,9 @@ export default function MyClassifieds() {
 		}
 	}
 
-	if (!user) {
-		return <div className='text-center mt-20'>Authorization required</div>
-	}
+	// if (!user) {
+	// 	return <div className='text-center mt-20'>Authorization required</div>
+	// }
 
 	return (
 		<div className='min-h-screen flex flex-col'>

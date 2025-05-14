@@ -9,7 +9,10 @@ interface AuthTokens {
 	refreshToken: string
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+const API_URL =
+	process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop'
+		? 'http://localhost:3000'
+		: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 const $api: AxiosInstance = axios.create({
 	baseURL: API_URL,

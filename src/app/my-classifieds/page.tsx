@@ -88,7 +88,7 @@ export default function MyClassifieds() {
 		console.log('Toggling classified:', { id, currentIsActive })
 		try {
 			const formDataToSend = new FormData()
-			formDataToSend.append('isActive', (!currentIsActive).toString())
+			formDataToSend.append('isActive', String(!currentIsActive))
 
 			for (const [key, value] of formDataToSend.entries()) {
 				console.log(`FormData entry: ${key} = ${value}`)

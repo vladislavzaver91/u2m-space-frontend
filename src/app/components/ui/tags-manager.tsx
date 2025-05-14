@@ -24,44 +24,32 @@ export const TagsManager = ({
 				const serverTags = await apiService.getTags()
 				const recommended = serverTags
 					.map(tag => tag.name)
-					.filter(tag => !initialTags.includes(tag))
+					.filter(tag => !tags.includes(tag))
 				setRecommendedTags(recommended)
 			} catch (err) {
 				setError('Failed to load recommended tags')
 			}
 		}
 		fetchRecommendedTags()
-	}, [initialTags])
+	}, [tags])
 
-	const handleAddTag = async (tag: string) => {
+	const handleAddTag = (tag: string) => {
 		if (!tag || tags.includes(tag)) {
 			return
 		}
-
-		try {
-			await apiService.createTag(tag)
-			const newTags = [...tags, tag]
-			setTags(newTags)
-			setRecommendedTags(prev => prev.filter(t => t !== tag))
-			onTagsChange?.(newTags)
-			setError('')
-		} catch (err) {
-			setError('Failed to add tag')
-		}
+		const newTags = [...tags, tag]
+		setTags(newTags)
+		setRecommendedTags(prev => prev.filter(t => t !== tag))
+		onTagsChange?.(newTags)
+		setError('')
 	}
 
-	const handleRemoveTag = async (tag: string) => {
-		try {
-			const tagData = await apiService.getTagByName(tag)
-			await apiService.deleteTag(tagData.id)
-			const newTags = tags.filter(t => t !== tag)
-			setTags(newTags)
-			setRecommendedTags(prev => [...prev, tag])
-			onTagsChange?.(newTags)
-			setError('')
-		} catch (err) {
-			setError('Failed to remove tag')
-		}
+	const handleRemoveTag = (tag: string) => {
+		const newTags = tags.filter(t => t !== tag)
+		setTags(newTags)
+		setRecommendedTags(prev => [...prev, tag])
+		onTagsChange?.(newTags)
+		setError('')
 	}
 
 	return (

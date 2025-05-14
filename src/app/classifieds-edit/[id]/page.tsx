@@ -140,7 +140,12 @@ export default function ClassifiedsEdit() {
 	const handleRemoveImage = (index: number) => {
 		setImagePreviews(prev => prev.filter((_, i) => i !== index))
 
-		setExistingImages(prev => prev.filter((_, i) => i !== index))
+		setExistingImages(prev => {
+			if (index < prev.length) {
+				return prev.filter((_, i) => i !== index)
+			}
+			return prev
+		})
 
 		setImageFiles(prev => {
 			const adjustedIndex = index - existingImages.length
@@ -171,10 +176,8 @@ export default function ClassifiedsEdit() {
 			formDataToSend.append('price', formData.price)
 			tags.forEach(tag => formDataToSend.append('tags[]', tag))
 
-			imagePreviews.forEach(url => {
-				if (existingImages.includes(url)) {
-					formDataToSend.append('existingImages[]', url)
-				}
+			existingImages.forEach(url => {
+				formDataToSend.append('existingImages[]', url)
 			})
 
 			imageFiles.forEach(file => {

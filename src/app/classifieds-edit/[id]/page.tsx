@@ -146,7 +146,10 @@ export default function ClassifiedsEdit() {
 			formDataToSend.append('title', formData.title)
 			formDataToSend.append('description', formData.description)
 			formDataToSend.append('price', formData.price)
-			tags?.forEach(tag => formDataToSend.append('tags[]', tag))
+			if (tags) {
+				tags.forEach(tag => formDataToSend.append('tags[]', tag))
+				console.log('Sending tags:', tags) // Отладочный лог
+			}
 			// Добавляем новые изображения
 			imageFiles.forEach(file => {
 				formDataToSend.append('images', file)

@@ -199,9 +199,9 @@ export default function ClassifiedsEdit() {
 		setIsModalOpen(false)
 	}
 
-	// if (!user) {
-	// 	return <div className='text-center mt-20'>Authorization required</div>
-	// }
+	if (!user) {
+		return <div className='text-center mt-20'>Authorization required</div>
+	}
 
 	if (isLoading) {
 		return (

@@ -7,6 +7,11 @@ interface AuthResponse {
 	refreshToken: string
 }
 
+interface LoginData {
+	email: string
+	password: string
+}
+
 interface ClassifiedsResponse {
 	classifieds: Classified[]
 	total: number
@@ -121,6 +126,11 @@ export class ApiService {
 			params: { state },
 		})
 		return response.data
+	}
+
+	async login(data: LoginData): Promise<AuthResponse> {
+		const res = await $api.post('/api/auth/login', data)
+		return res.data
 	}
 }
 

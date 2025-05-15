@@ -50,7 +50,6 @@ $api.interceptors.response.use(
 						headers: {
 							'Refresh-Token': refreshToken,
 						},
-						withCredentials: true,
 					}
 				)
 				const { accessToken, refreshToken: newRefreshToken } = response.data

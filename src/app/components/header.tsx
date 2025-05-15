@@ -56,7 +56,7 @@ export const Header = () => {
 	const handleImageError = (
 		e: React.SyntheticEvent<HTMLImageElement, Event>
 	) => {
-		e.currentTarget.src = '/avatar.png' // Локальный запасной аватар
+		e.currentTarget.src = '/avatar-lg.png' // Локальный запасной аватар
 	}
 
 	return (
@@ -184,7 +184,7 @@ export const Header = () => {
 											iconWrapperClass='w-8 h-8'
 											icon={
 												<Image
-													src={user.avatarUrl || '/avatar.png'}
+													src={user.avatarUrl || '/avatar-lg.png'}
 													alt={`${user.name} avatar`}
 													width={32}
 													height={32}
@@ -203,7 +203,7 @@ export const Header = () => {
 											iconWrapperClass='w-8 h-8'
 											icon={
 												<Image
-													src={user.avatarUrl || '/avatar.png'}
+													src={user.avatarUrl || '/avatar-lg.png'}
 													alt={`${user.name} avatar`}
 													width={32}
 													height={32}

@@ -126,7 +126,7 @@ export default function MyClassifieds() {
 					<ButtonWithIcon
 						text='Logout'
 						onClick={logout}
-						className='w-fit min-w-[92px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-[8px] hover:bg-[#f7f7f7] hover:border-[#3486fe]'
+						className='w-fit min-w-[92px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-[8px] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
 					/>
 				</div>
 				<div className='flex-1 flex sm:justify-center w-full'>

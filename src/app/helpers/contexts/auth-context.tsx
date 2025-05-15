@@ -9,16 +9,20 @@ import {
 } from 'react'
 import { useRouter } from 'next/navigation'
 import { User } from '@/app/types'
+import axios from 'axios'
 
 interface AuthContextType {
 	user: User | null
 	accessToken: string | null
 	refreshToken: string | null
-	handleAuthSuccess: (data: {
-		user: User
-		accessToken: string
-		refreshToken: string
-	}) => void
+	handleAuthSuccess: (
+		data: {
+			user: User
+			accessToken: string
+			refreshToken: string
+		},
+		isInitialLogin?: boolean
+	) => void
 	logout: () => void
 }
 
@@ -27,6 +31,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 interface AuthProviderProps {
 	children: ReactNode
 }
+
+const API_URL =
+	process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop'
+		? 'http://localhost:3000'
+		: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState<User | null>(null)
@@ -46,23 +55,58 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		}
 	}, [])
 
+	useEffect(() => {
+		const refreshInterval = setInterval(async () => {
+			if (refreshToken) {
+				try {
+					const response = await axios.post(
+						`${API_URL}/api/auth/refresh`,
+						{ refreshToken },
+						{
+							headers: {
+								'Refresh-Token': refreshToken,
+							},
+							withCredentials: true,
+						}
+					)
+					const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+						response.data
+					setAccessToken(newAccessToken)
+					setRefreshToken(newRefreshToken)
+					localStorage.setItem('accessToken', newAccessToken)
+					localStorage.setItem('refreshToken', newRefreshToken)
+				} catch (error) {
+					console.error('Proactive token refresh failed:', error)
+					logout()
+				}
+			}
+		}, 240 * 1000) // Каждые 4 минуты
+
+		return () => clearInterval(refreshInterval)
+	}, [refreshToken])
+
 	// Функция для обработки успешной авторизации
-	const handleAuthSuccess = ({
-		user,
-		accessToken,
-		refreshToken,
-	}: {
-		user: User
-		accessToken: string
-		refreshToken: string
-	}) => {
+	const handleAuthSuccess = (
+		{
+			user,
+			accessToken,
+			refreshToken,
+		}: {
+			user: User
+			accessToken: string
+			refreshToken: string
+		},
+		isInitialLogin: boolean = true
+	) => {
 		setUser(user)
 		setAccessToken(accessToken)
 		setRefreshToken(refreshToken)
 		localStorage.setItem('accessToken', accessToken)
 		localStorage.setItem('refreshToken', refreshToken)
 		localStorage.setItem('user', JSON.stringify(user))
-		router.push('/selling-classifieds')
+		if (isInitialLogin) {
+			router.push('/selling-classifieds')
+		}
 	}
 
 	// Функция для выхода

@@ -19,7 +19,17 @@ export const Header = () => {
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
 	const [isMobile, setIsMobile] = useState<boolean>(false)
 
-	const isMySpaceLabel = pathname === '/my-classifieds' && '/classifieds-create'
+	const mySpaceRoutes = [
+		'/my-classifieds',
+		'/classifieds-create',
+		'/classifieds-edit',
+	]
+	const isMySpaceLabel = mySpaceRoutes.some(route => {
+		if (route === '/classifieds-edit') {
+			return pathname.startsWith('/classifieds-edit')
+		}
+		return pathname === route
+	})
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -104,7 +114,7 @@ export const Header = () => {
 				<div className='flex items-center absolute top-0 right-0'>
 					{isMySpaceLabel && isMobile && (
 						<ButtonWithIcon
-							onClick={() => router.back()}
+							href='/selling-classifieds'
 							iconWrapperClass='w-6 h-6 flex items-center justify-center'
 							icon={
 								<IconCustom

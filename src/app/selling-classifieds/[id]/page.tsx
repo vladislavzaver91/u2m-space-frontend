@@ -243,11 +243,11 @@ export default function ClassifiedDetail() {
 													<div className='flex items-center gap-4 max-sm:flex-col'>
 														<ButtonWithIcon
 															text='Send message'
-															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] rounded-lg items-center justify-center h-10'
+															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
 														/>
 														<ButtonWithIcon
 															text='Safe buy/deal'
-															className='max-sm:max-w-[178px] max-sm:w-full   sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] rounded-lg items-center justify-center h-10'
+															className='max-sm:max-w-[178px] max-sm:w-full   sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
 														/>
 													</div>
 												</div>

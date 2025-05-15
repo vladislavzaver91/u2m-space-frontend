@@ -31,7 +31,7 @@ export function useAuthExchange() {
 						throw new Error('Incomplete user data')
 					}
 
-					handleAuthSuccess({ user, accessToken, refreshToken })
+					handleAuthSuccess({ user, accessToken, refreshToken }, true)
 					router.replace('/selling-classifieds') // Очищаем URL и редиректим
 				} catch (err) {
 					console.error('Failed to exchange state:', err)

@@ -3,6 +3,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { CustomInput } from './custom-input'
 import { Tooltip } from './tooltip'
+import { useEffect } from 'react'
 
 interface ClassifiedFormData {
 	title: string
@@ -16,6 +17,10 @@ interface ClassifiedFormProps {
 	onMouseEnter: (field: 'title' | 'description' | 'price') => void
 	onMouseLeave: (field: 'title' | 'description' | 'price') => void
 	tooltipVisible: Record<'title' | 'description' | 'price', boolean>
+	onFormStateChange?: (state: {
+		isValid: boolean
+		values: ClassifiedFormData
+	}) => void
 }
 
 export const ClassifiedForm = ({
@@ -24,23 +29,36 @@ export const ClassifiedForm = ({
 	onMouseEnter,
 	onMouseLeave,
 	tooltipVisible,
+	onFormStateChange,
 }: ClassifiedFormProps) => {
 	const {
 		register,
 		handleSubmit,
 		watch,
-		formState: { errors },
+		formState: { errors, isValid },
 	} = useForm<ClassifiedFormData>({
 		defaultValues: initialData || {
 			title: '',
 			description: '',
 			price: '',
 		},
+		mode: 'onChange',
 	})
 
 	const titleValue = watch('title')
 	const descriptionValue = watch('description')
 	const priceValue = watch('price')
+
+	const formValues = {
+		title: titleValue,
+		description: descriptionValue,
+		price: priceValue,
+	}
+	useEffect(() => {
+		if (onFormStateChange) {
+			onFormStateChange({ isValid, values: formValues })
+		}
+	}, [isValid, titleValue, descriptionValue, priceValue, onFormStateChange])
 
 	return (
 		<form
@@ -65,6 +83,7 @@ export const ClassifiedForm = ({
 					error={errors.title?.message}
 					maxLength={60}
 				/>
+
 				<Tooltip
 					title='Title'
 					text='Enter a catchy title to attract potential buyers (max 60 characters).'

@@ -76,12 +76,14 @@ export class ApiService {
 	}
 
 	async createClassified(data: ClassifiedData | FormData): Promise<Classified> {
+		console.log('Sending FormData to server:', data)
 		const isFormData = data instanceof FormData
 		const res = await $api.post('/api/classifieds', data, {
 			headers: isFormData
 				? { 'Content-Type': 'multipart/form-data' }
 				: undefined,
 		})
+		console.log('Server response:', res.data)
 		return res.data
 	}
 

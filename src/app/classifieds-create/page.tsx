@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { AddPhotoButton } from '../components/ui/add-photo-button'
 import { ButtonWithIcon } from '../components/ui/button-with-icon'
 import { ClassifiedForm } from '../components/ui/classified-form'
@@ -18,7 +18,6 @@ import { AddPhotoSmallButton } from '../components/ui/add-photo-small-button'
 import { SliderImagesModal } from '../components/ui/slider-images-modal'
 import { Classified } from '../types'
 import { Loader } from '../components/ui/loader'
-import { Tooltip } from '../components/ui/tooltip'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
@@ -39,6 +38,7 @@ export default function ClassifiedsCreate() {
 		save: false,
 		back: false,
 	})
+	const [isFormValid, setIsFormValid] = useState(false)
 	const router = useRouter()
 
 	const handleBack = () => {
@@ -109,10 +109,7 @@ export default function ClassifiedsCreate() {
 		description: string
 		price: string
 	}) => {
-		if (imageFiles.length < 1) {
-			setError('At least 1 image is required')
-			return
-		}
+		console.log('handleSubmit called with:', formData)
 
 		setIsLoading(true)
 		setError('')
@@ -132,13 +129,20 @@ export default function ClassifiedsCreate() {
 				console.log(`FormData: ${key} =`, value)
 			}
 
+			console.log('Sending request to /api/classifieds') // Лог перед запросом
 			const res = await apiService.createClassified(formDataToSend)
-			console.log(res)
+			console.log('Response from createClassified:', res)
 			setClassified(res)
 			router.push(`/selling-classifieds/${res.id}`)
 		} catch (error: any) {
-			console.error('Create classified error:', error.response?.data)
-			setError(error.response?.data?.error || 'Failed to create classified')
+			console.error('Create classified error:', error)
+			console.error('Error response data:', error.response?.data)
+			console.error('Error status:', error.response?.status)
+			setError(
+				error.response?.data?.error ||
+					error.message ||
+					'Failed to create classified'
+			)
 		} finally {
 			setIsLoading(false)
 		}
@@ -159,6 +163,24 @@ export default function ClassifiedsCreate() {
 	const handleMouseLeave = (field: keyof typeof tooltipVisible) => {
 		setTooltipVisible(prev => ({ ...prev, [field]: false }))
 	}
+
+	const initialFormData = useMemo(
+		() => ({
+			title: '',
+			description: '',
+			price: '',
+		}),
+		[]
+	)
+
+	const handleFormStateChange = (state: {
+		isValid: boolean
+		values: { title: string; description: string; price: string }
+	}) => {
+		setIsFormValid(state.isValid)
+	}
+
+	const isPublishDisabled = !isFormValid || imageFiles.length === 0
 
 	if (!user) {
 		return <div className='text-center mt-20'>Authorization required</div>
@@ -309,23 +331,10 @@ export default function ClassifiedsCreate() {
 													</div>
 												</div>
 											</div>
-											{/* моб */}
-											<div className='lg:hidden grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4'>
-												<ClassifiedForm
-													onSubmit={handleSubmit}
-													onMouseEnter={(field: keyof typeof tooltipVisible) =>
-														handleMouseEnter(field)
-													}
-													onMouseLeave={(field: keyof typeof tooltipVisible) =>
-														handleMouseLeave(field)
-													}
-													tooltipVisible={tooltipVisible}
-												/>
-											</div>
 
-											{/* десктоп */}
-											<div className='max-lg:hidden grid col-start-5 col-end-8 w-[300px] min-w-fit'>
+											<div className='grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4 lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
 												<ClassifiedForm
+													initialData={initialFormData}
 													onSubmit={handleSubmit}
 													onMouseEnter={(field: keyof typeof tooltipVisible) =>
 														handleMouseEnter(field)
@@ -334,6 +343,7 @@ export default function ClassifiedsCreate() {
 														handleMouseLeave(field)
 													}
 													tooltipVisible={tooltipVisible}
+													onFormStateChange={handleFormStateChange}
 												/>
 											</div>
 										</div>
@@ -349,6 +359,7 @@ export default function ClassifiedsCreate() {
 												}
 												text='Publish'
 												className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
+												disabled={isPublishDisabled}
 											/>
 										</div>
 									</div>

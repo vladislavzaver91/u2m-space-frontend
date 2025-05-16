@@ -59,6 +59,8 @@ export const Header = () => {
 		e.currentTarget.src = '/avatar-lg.png' // Локальный запасной аватар
 	}
 
+	console.log('User avatar URL:', user?.avatarUrl)
+
 	return (
 		<>
 			<div className='fixed px-4 md:px-8 min-h-14 md:min-h-[88px] py-3 md:py-7 top-0 left-0 w-full flex items-center bg-white/10 backdrop-blur-md z-20'>

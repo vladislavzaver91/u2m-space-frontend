@@ -35,7 +35,6 @@ export function useAuthExchange() {
 					router.replace('/selling-classifieds') // Очищаем URL и редиректим
 				} catch (err) {
 					console.error('Failed to exchange state:', err)
-					router.push('/login?error=Authentication failed')
 				}
 			}
 		}

@@ -54,7 +54,6 @@ export const ClassifiedCard = ({
 		} catch (error: unknown) {
 			const apiError = error as ApiError
 			if (apiError.response?.status === 401) {
-				router.push('/login?error=Please login to add to favorites')
 			} else {
 				console.error('Error toggling favorite:', error)
 			}

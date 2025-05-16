@@ -33,8 +33,9 @@ export const ButtonWithIcon = ({
 }: ButtonWithIconProps) => {
 	const iconStyles = 'gap-4'
 	const hover = 'hover:bg-[#F7F7F7] max-lg:focus:bg-[#F7F7F7]'
-	const baseStyles =
-		'inline-flex items-center bg-transparent text-[#4f4f4f] font-bold text-[16px] cursor-pointer group transition-colors'
+	const baseStyles = `inline-flex items-center bg-transparent text-[#4f4f4f] font-bold text-[16px] cursor-pointer group transition-colors ${
+		disabled ? 'bg-[#BDBDBD]! cursor-not-allowed! text-white!' : ''
+	}`
 
 	const content = (
 		<>
@@ -75,6 +76,7 @@ export const ButtonWithIcon = ({
 			className={`${icon && iconStyles} ${baseStyles} ${
 				isHover && hover
 			} ${className} group select-none`}
+			disabled={disabled}
 		>
 			{content}
 		</button>

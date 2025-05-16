@@ -377,29 +377,7 @@ export default function ClassifiedsEdit() {
 												</div>
 											</div>
 
-											{/* моб */}
-											<div className='lg:hidden grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4'>
-												<ClassifiedForm
-													initialData={
-														initialData || {
-															title: '',
-															description: '',
-															price: '',
-														}
-													}
-													onSubmit={handleSubmit}
-													onMouseEnter={(field: keyof typeof tooltipVisible) =>
-														handleMouseEnter(field)
-													}
-													onMouseLeave={(field: keyof typeof tooltipVisible) =>
-														handleMouseLeave(field)
-													}
-													tooltipVisible={tooltipVisible}
-												/>
-											</div>
-
-											{/* десктоп */}
-											<div className='max-lg:hidden grid col-start-5 col-end-8 w-[300px] min-w-fit'>
+											<div className='grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4 lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
 												<ClassifiedForm
 													initialData={
 														initialData || {

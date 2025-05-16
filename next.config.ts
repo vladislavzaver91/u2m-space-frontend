@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
 				hostname: 'azmnxvguxjnosdgbkovr.supabase.co',
 				pathname: '/storage/v1/object/public/classified-images/**',
 			},
+			{
+				protocol: 'http',
+				hostname: 'localhost',
+				pathname: '/public/**',
+			},
 		],
 		domains: [
 			'developers.elementor.com',

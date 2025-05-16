@@ -34,7 +34,7 @@ export const ClassifiedCard = ({
 	return (
 		<Link
 			href={href}
-			className={`block border border-[#bdbdbd] rounded-xl transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full ${
+			className={`block border border-[#bdbdbd] rounded-xl transition-all duration-200 active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full ${
 				isSmall ? 'min-h-[283px]' : 'h-[383px]'
 			}`}
 		>

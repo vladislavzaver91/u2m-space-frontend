@@ -142,7 +142,9 @@ export default function MyClassifieds() {
 
 				{/* список продуктов */}
 				{isLoading && filteredClassifieds.length === 0 ? (
-					<Loader />
+					<div className='flex items-center justify-center'>
+						<Loader />
+					</div>
 				) : (
 					<div className='w-full'>
 						<div className='custom-container mx-auto'>

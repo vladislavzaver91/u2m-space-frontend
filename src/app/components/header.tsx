@@ -52,13 +52,6 @@ export const Header = () => {
 		return () => window.removeEventListener('scroll', handleScroll)
 	}, [])
 
-	// Функция для обработки ошибки загрузки изображения
-	const handleImageError = (
-		e: React.SyntheticEvent<HTMLImageElement, Event>
-	) => {
-		e.currentTarget.src = '/avatar-lg.png' // Локальный запасной аватар
-	}
-
 	console.log('User avatar URL:', user?.avatarUrl)
 
 	return (
@@ -194,7 +187,16 @@ export const Header = () => {
 													alt={`${user.name} avatar`}
 													width={32}
 													height={32}
-													onError={handleImageError}
+													onError={e => {
+														e.currentTarget.src = `${
+															process.env.NEXT_PUBLIC_FRONTEND_URL ||
+															'http://localhost:3000'
+														}/public/avatar-lg.png`
+														console.log(
+															'Fallback to default avatar URL:',
+															e.currentTarget.src
+														)
+													}}
 													className='flex-row-reverse rounded-[13px] object-cover'
 												/>
 											}
@@ -216,7 +218,16 @@ export const Header = () => {
 													alt={`${user.name} avatar`}
 													width={32}
 													height={32}
-													onError={handleImageError}
+													onError={e => {
+														e.currentTarget.src = `${
+															process.env.NEXT_PUBLIC_FRONTEND_URL ||
+															'http://localhost:3000'
+														}/public/avatar-lg.png`
+														console.log(
+															'Fallback to default avatar URL:',
+															e.currentTarget.src
+														)
+													}}
 													className='rounded-[13px] object-cover'
 												/>
 											}

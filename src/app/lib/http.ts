@@ -9,6 +9,16 @@ interface AuthTokens {
 	refreshToken: string
 }
 
+interface ApiError {
+	response?: {
+		status?: number
+		data?: {
+			error?: string
+		}
+	}
+	message?: string
+}
+
 const API_URL =
 	process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop'
 		? 'http://localhost:3000'
@@ -42,6 +52,7 @@ $api.interceptors.response.use(
 				if (!refreshToken) {
 					throw new Error('No refresh token')
 				}
+				console.log('Attempting token refresh with:', refreshToken)
 
 				const response = await axios.post<AuthTokens>(
 					`${API_URL}/api/auth/refresh`,
@@ -60,8 +71,12 @@ $api.interceptors.response.use(
 
 				originalRequest.headers.Authorization = `Bearer ${accessToken}`
 				return $api(originalRequest)
-			} catch (refreshError) {
+			} catch (refreshError: unknown) {
 				console.error('Refresh token failed:', refreshError)
+				const apiError = refreshError as ApiError
+				if (apiError.response) {
+					console.error('Server response:', apiError.response.data)
+				}
 				localStorage.removeItem('accessToken')
 				localStorage.removeItem('refreshToken')
 				localStorage.removeItem('user')

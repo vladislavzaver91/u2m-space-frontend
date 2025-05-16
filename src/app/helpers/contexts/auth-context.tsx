@@ -11,6 +11,16 @@ import { useRouter } from 'next/navigation'
 import { User } from '@/app/types'
 import axios from 'axios'
 
+interface ApiError {
+	response?: {
+		status?: number
+		data?: {
+			error?: string
+		}
+	}
+	message?: string
+}
+
 interface AuthContextType {
 	user: User | null
 	accessToken: string | null
@@ -52,14 +62,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			setAccessToken(storedAccessToken)
 			setRefreshToken(storedRefreshToken)
 			setUser(JSON.parse(storedUser) as User)
+			console.log('Loaded tokens from localStorage:', {
+				accessToken: storedAccessToken,
+				refreshToken: storedRefreshToken,
+			})
 		}
 	}, [])
 
 	useEffect(() => {
 		const refreshInterval = setInterval(async () => {
 			if (refreshToken) {
+				console.log('Attempting proactive token refresh at:', new Date())
 				try {
-					const response = await axios.post(
+					const res = await axios.post(
 						`${API_URL}/api/auth/refresh`,
 						{ refreshToken },
 						{
@@ -70,13 +85,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
 						}
 					)
 					const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-						response.data
+						res.data
 					setAccessToken(newAccessToken)
 					setRefreshToken(newRefreshToken)
 					localStorage.setItem('accessToken', newAccessToken)
 					localStorage.setItem('refreshToken', newRefreshToken)
-				} catch (error) {
+					console.log('Token refresh successful:', {
+						newAccessToken,
+						newRefreshToken,
+					})
+				} catch (error: unknown) {
 					console.error('Proactive token refresh failed:', error)
+					const apiError = error as ApiError
+					if (apiError.response) {
+						console.error('Server response:', apiError.response.data)
+					}
 					logout()
 				}
 			}

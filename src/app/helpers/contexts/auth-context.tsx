@@ -81,7 +81,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 							headers: {
 								'Refresh-Token': refreshToken,
 							},
-							withCredentials: true,
+							withCredentials: false,
 						}
 					)
 					const { accessToken: newAccessToken, refreshToken: newRefreshToken } =

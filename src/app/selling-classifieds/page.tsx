@@ -78,7 +78,7 @@ export default function SellingClassifieds() {
 
 			<div className='flex-1 pt-14 md:pt-[88px] 2-5xl:pt-40!'>
 				{/* Поиск и категории */}
-				<div className='pb-4 md:pb-8 md:px-[18px] lg:px-8 flex flex-col 2xl:gap-8 items-center justify-between'>
+				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 items-center justify-between'>
 					<SearchInput
 						className='w-full max-2xl:py-3 2xl:max-w-[770px] max-md:hidden'
 						disabled
@@ -104,10 +104,12 @@ export default function SellingClassifieds() {
 											{classifieds.slice(0, 8).map((item, index) => (
 												<div key={index} className='col-span-3'>
 													<ClassifiedCard
+														classifiedId={item.id}
 														title={item.title}
 														price={item.price.toFixed(2)}
-														image={item.images[0]} // Первое изображение для карточки
-														isFavorite={false} // Заглушка для "Избранное"
+														image={item.images[0]} //
+														isFavorite={item.isFavorite}
+														favorites={item.favorites}
 														href={`/selling-classifieds/${item.id}`}
 														isSmall={false}
 													/>
@@ -172,16 +174,18 @@ export default function SellingClassifieds() {
 									},
 								}}
 							>
-								{classifieds.slice(0, 6).map((item, index) => (
+								{classifieds.slice(0, 8).map((item, index) => (
 									<SwiperSlide
 										key={index}
 										className='min-w-[295px] max-w-[355px] h-[383px] transition-transform duration-300 overflow-visible'
 									>
 										<ClassifiedCard
+											classifiedId={item.id}
 											title={item.title}
 											price={item.price.toFixed(2)}
 											image={item.images[0]}
-											isFavorite={false}
+											isFavorite={item.isFavorite}
+											favorites={item.favorites}
 											href={`/selling-classifieds/${item.id}`}
 											isSmall={false}
 										/>
@@ -203,10 +207,12 @@ export default function SellingClassifieds() {
 														className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
 													>
 														<ClassifiedCard
+															classifiedId={item.id}
 															title={item.title}
 															price={item.price.toFixed(2)}
 															image={item.images[0]}
-															isFavorite={false}
+															isFavorite={item.isFavorite}
+															favorites={item.favorites}
 															href={`/selling-classifieds/${item.id}`}
 															isSmall={true}
 														/>

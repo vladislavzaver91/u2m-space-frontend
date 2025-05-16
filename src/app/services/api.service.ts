@@ -108,6 +108,11 @@ export class ApiService {
 		return res.data
 	}
 
+	async toggleFavorite(id: string): Promise<Classified> {
+		const res = await $api.patch(`/api/classifieds/${id}/toggle-favorite`)
+		return res.data
+	}
+
 	async deleteClassified(id: string): Promise<void> {
 		await $api.delete(`/api/classifieds/${id}`)
 	}

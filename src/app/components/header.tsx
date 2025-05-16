@@ -130,7 +130,7 @@ export const Header = () => {
 						<>
 							{pathname !== '/' && (
 								<>
-									<div className='max-md:hidden flex lg:hidden'>
+									<div className='hidden md:flex lg:hidden'>
 										<ButtonWithIcon
 											{...(user
 												? { href: '/classifieds-create' }
@@ -203,7 +203,10 @@ export const Header = () => {
 									<div className='hidden md:flex'>
 										<ButtonWithIcon
 											href='/my-classifieds'
-											text={user.name.charAt(0).toUpperCase()}
+											textParts={[
+												{ text: 'U ', color: '[#f9329c]' },
+												{ text: '33', color: '[#3486fe]' },
+											]}
 											iconWrapperClass='w-8 h-8'
 											icon={
 												<Image

@@ -11,6 +11,7 @@ export interface Classified {
 	price: number
 	images: string[]
 	isActive: boolean
+	isFavorite: boolean
 	createdAt: string
 	user: {
 		name: string

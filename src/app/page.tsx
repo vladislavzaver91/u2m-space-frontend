@@ -128,9 +128,9 @@ export default function Home() {
 					<div className='home-content-wrapper max-sm:px-2 max-2xl:px-0 px-8 max-2xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
 						<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
 							<Logo width={150} height={48} className='z-10' />
-							<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
+							<h2 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
 								Hi there, <br /> I’m U2M Space
-							</h1>
+							</h2>
 							<p className='font-normal text-[16px] leading-6'>
 								Your new simpler, reliable way <br />
 								to exchange.

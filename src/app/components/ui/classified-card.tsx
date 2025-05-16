@@ -5,37 +5,67 @@ import Image from 'next/image'
 import { ButtonWithIcon } from './button-with-icon'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
+import { apiService } from '@/app/services/api.service'
+import { useRouter } from 'next/navigation'
 
 interface ClassifiedCardProps {
+	classifiedId: string
 	title: string
 	price: string
 	image?: string
+	favorites?: number
 	isFavorite: boolean
 	href: string
 	isSmall?: boolean
 }
 
+interface ApiError {
+	response?: {
+		status?: number
+		data?: {
+			error?: string
+		}
+	}
+	message?: string
+}
+
 export const ClassifiedCard = ({
+	classifiedId,
 	title,
 	price,
 	image,
+	favorites: initialFavorites,
 	isFavorite: initialIsFavorite,
 	href,
 	isSmall,
 }: ClassifiedCardProps) => {
 	const [isFavorite, setIsFavorite] = useState(initialIsFavorite)
+	const [favorites, setFavorites] = useState(initialFavorites)
+	const router = useRouter()
 
-	const handleFavoriteClick = (e: React.MouseEvent) => {
+	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.preventDefault() // Предотвращаем переход по Link
 		e.stopPropagation()
-		setIsFavorite(!isFavorite)
+
+		try {
+			const res = await apiService.toggleFavorite(classifiedId)
+			setIsFavorite(res.isFavorite)
+			setFavorites(res.favorites)
+		} catch (error: unknown) {
+			const apiError = error as ApiError
+			if (apiError.response?.status === 401) {
+				router.push('/login?error=Please login to add to favorites')
+			} else {
+				console.error('Error toggling favorite:', error)
+			}
+		}
 	}
 
 	return (
 		<Link
 			href={href}
-			className={`block border border-[#bdbdbd] rounded-xl transition-all duration-200 active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full ${
-				isSmall ? 'min-h-[283px]' : 'h-[383px]'
+			className={`block border border-[#bdbdbd] rounded-xl transition-all duration-300 ease-in-out active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent w-full ${
+				isSmall ? 'min-h-[294px]' : 'h-[383px]'
 			}`}
 		>
 			<div className={`relative ${isSmall ? 'h-[154px]' : 'h-[253px]'}`}>
@@ -52,12 +82,14 @@ export const ClassifiedCard = ({
 			</div>
 			<div
 				className={`p-4 flex flex-col gap-2 ${
-					isSmall ? 'min-h-[129px]' : 'h-[119px]'
-				} max-md:min-h-[124px]`}
+					isSmall ? 'min-h-[140px]' : 'h-[130px]'
+				} max-md:min-h-[140px]`}
 			>
 				<div className='flex items-center justify-between'>
 					<h3
-						className={`text-[18px] md:text-[24px] uppercase font-bold transition-all ${
+						className={` ${
+							isSmall ? 'text-[18px] md:text-[24px]' : 'text-[24px]'
+						} uppercase font-bold transition-all ${
 							isFavorite ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
 						}`}
 					>

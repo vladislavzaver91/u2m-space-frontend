@@ -112,7 +112,12 @@ export default function ClassifiedDetail() {
 			icon: (
 				<IconCustom
 					name='heart'
-					className='w-6 h-6 text-[#F9329C] stroke-[#F9329C]'
+					hover={false}
+					className={`w-6 h-6 ${
+						classified.favorites === 0
+							? 'text-[#3486fe] fill-none'
+							: 'text-[#F9329C] stroke-[#F9329C]'
+					}`}
 				/>
 			),
 			data: classified.favorites,
@@ -209,7 +214,7 @@ export default function ClassifiedDetail() {
 														/>
 													</div>
 													<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
-														<p className='text-[16px] font-bold uppercase text-[#4f4f4f]'>
+														<p className='text-[16px] font-bold uppercase text-[#4f4f4f] text-center'>
 															Trust rating
 														</p>
 														<span className='text-[16px] font-bold text-[#3486fe]'>
@@ -275,10 +280,12 @@ export default function ClassifiedDetail() {
 											className='col-span-2 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
 										>
 											<ClassifiedCard
+												classifiedId={item.id}
 												title={item.title}
 												price={item.price.toFixed(2)}
 												image={item.images[0]}
-												isFavorite={false}
+												isFavorite={item.isFavorite}
+												favorites={item.favorites}
 												href={`/selling-classifieds/${item.id}`}
 												isSmall={true}
 											/>
@@ -323,10 +330,12 @@ export default function ClassifiedDetail() {
 									className='min-w-[206px] max-w-[224px] min-h-[278px] max-h-[283px] transition-transform duration-300 overflow-visible'
 								>
 									<ClassifiedCard
+										classifiedId={item.id}
 										title={item.title}
 										price={item.price.toFixed(2)}
 										image={item.images[0]}
-										isFavorite={false}
+										isFavorite={item.isFavorite}
+										favorites={item.favorites}
 										href={`/selling-classifieds/${item.id}`}
 										isSmall={true}
 									/>

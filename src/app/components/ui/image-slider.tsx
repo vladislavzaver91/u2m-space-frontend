@@ -2,7 +2,7 @@
 
 import { SwiperPaginationService } from '@/app/services/swiper-pagination.service'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import { ButtonWithIcon } from './button-with-icon'
@@ -26,11 +26,28 @@ export const ImageSlider = ({
 	const swiperRef = useRef<SwiperClass | null>(null)
 	const [currentImageIndex, setCurrentImageIndex] = useState(0)
 	const [currentSlide, setCurrentSlide] = useState(0)
+	const [isDesktop, setIsDesktop] = useState(false)
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsDesktop(window.innerWidth >= 769)
+		}
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
 
 	const handleSlideChange = (swiper: SwiperClass) => {
 		setCurrentImageIndex(swiper.realIndex)
 		SwiperPaginationService.updateForCard(swiper)
 		setCurrentSlide(swiper.activeIndex)
+	}
+
+	const handleImageClick = (e: React.MouseEvent) => {
+		if (isDesktop && onOpenModal) {
+			e.stopPropagation()
+			onOpenModal()
+		}
 	}
 
 	if (images.length === 1) {
@@ -84,7 +101,6 @@ export const ImageSlider = ({
 	return (
 		<div className={`${className} relative w-full`}>
 			<Swiper
-				initialSlide={1}
 				slidesPerView={1}
 				centeredSlides
 				grabCursor={true}
@@ -104,7 +120,6 @@ export const ImageSlider = ({
 				modules={[Pagination]}
 				breakpoints={{
 					320: {
-						initialSlide: 2,
 						slidesPerView: 1.2,
 						spaceBetween: 16,
 					},
@@ -133,7 +148,10 @@ export const ImageSlider = ({
 			>
 				{images.map((image, index) => (
 					<SwiperSlide key={index}>
-						<div className='relative h-[228px] md:h-[470px] lg:h-[352px]'>
+						<div
+							onClick={handleImageClick}
+							className='relative h-[228px] md:h-[470px] lg:h-[352px]'
+						>
 							<Image
 								src={image}
 								alt={`${title} - ${index + 1}`}
@@ -146,7 +164,7 @@ export const ImageSlider = ({
 				))}
 			</Swiper>
 			<div
-				className={`${paginationClass} max-md:hidden absolute bottom-0 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]`}
+				className={`${paginationClass} max-md:hidden absolute bottom-2 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]`}
 			>
 				<div className='flex items-center'>
 					<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>

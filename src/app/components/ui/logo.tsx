@@ -32,22 +32,29 @@ export const Logo = ({
 			{inHeader ? (
 				<div
 					onClick={handleClick}
-					className='hidden md:absolute md:flex min-w-[164px] w-fit py-7 px-8 left-0 top-0 hover:bg-[#f7f7f7] focus:bg-[#f7f7f7] cursor-pointer'
+					className='hidden md:absolute md:flex min-w-[164px] w-fit py-7 px-8 left-0 top-0 hover:bg-[#f7f7f7] focus:bg-[#f7f7f7] cursor-pointer select-none'
 				>
 					<Image
 						src={isSmall ? '/icons/logo-sm.svg' : '/icons/logo.svg'}
 						alt='logo image'
 						width={width}
 						height={height}
+						className='select-none'
+						onDragStart={e => e.preventDefault()}
 					/>
 				</div>
 			) : (
-				<div onClick={handleClick} className={`cursor-pointer ${className}`}>
+				<div
+					onClick={handleClick}
+					className={`cursor-pointer select-none ${className}`}
+				>
 					<Image
 						src={isSmall ? '/icons/logo-sm.svg' : '/icons/logo.svg'}
 						alt='logo image'
 						width={width}
 						height={height}
+						className='select-none'
+						onDragStart={e => e.preventDefault()}
 					/>
 				</div>
 			)}

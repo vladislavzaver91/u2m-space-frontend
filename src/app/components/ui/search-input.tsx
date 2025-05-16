@@ -22,7 +22,7 @@ export const SearchInput = ({
 	logoActive = false,
 }: SearchInputProps) => {
 	return (
-		<div className={`relative w-full ${className}`}>
+		<div className={`relative w-full select-none ${className}`}>
 			<div className='absolute inset-y-0 left-4 flex items-center'>
 				{logoActive ? (
 					<Link href='/'>
@@ -46,7 +46,7 @@ export const SearchInput = ({
 				type='text'
 				placeholder={placeholder}
 				disabled={disabled}
-				className={`${inputClass} w-full pl-20 pr-20 py-4 ${
+				className={`${inputClass} w-full h-16 pl-20 pr-20 py-4 ${
 					smallWidth
 						? 'border-none bg-transparent'
 						: 'border border-[#bdbdbd] rounded-4xl focus:ring-2 focus:ring-blue-500'

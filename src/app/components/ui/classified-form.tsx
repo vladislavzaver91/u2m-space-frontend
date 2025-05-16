@@ -65,13 +65,11 @@ export const ClassifiedForm = ({
 					error={errors.title?.message}
 					maxLength={60}
 				/>
-				<div className='xl:block hidden'>
-					<Tooltip
-						title='Title'
-						text='Enter a catchy title to attract potential buyers (max 60 characters).'
-						visible={tooltipVisible.title}
-					/>
-				</div>
+				<Tooltip
+					title='Title'
+					text='Enter a catchy title to attract potential buyers (max 60 characters).'
+					visible={tooltipVisible.title}
+				/>
 			</div>
 			<div
 				className='relative'
@@ -91,13 +89,11 @@ export const ClassifiedForm = ({
 					error={errors.description?.message}
 					maxLength={300}
 				/>
-				<div className='xl:block hidden'>
-					<Tooltip
-						title='Description'
-						text='Is a meta tag that briefly describes the content of a given web page. Keywords are keywords or phrases that are used on a given web page and are the main ones for it (i.e., they reveal the topic and content).'
-						visible={tooltipVisible.description}
-					/>
-				</div>
+				<Tooltip
+					title='Description'
+					text='Is a meta tag that briefly describes the content of a given web page. Keywords are keywords or phrases that are used on a given web page and are the main ones for it (i.e., they reveal the topic and content).'
+					visible={tooltipVisible.description}
+				/>
 			</div>
 			<div
 				className='relative'
@@ -118,13 +114,12 @@ export const ClassifiedForm = ({
 					maxLength={10}
 					prefix='$'
 				/>
-				<div className='xl:block hidden'>
-					<Tooltip
-						title='Price'
-						text='Set a competitive price for your item (must be a positive number).'
-						visible={tooltipVisible.price}
-					/>
-				</div>
+
+				<Tooltip
+					title='Price'
+					text='Set a competitive price for your item (must be a positive number).'
+					visible={tooltipVisible.price}
+				/>
 			</div>
 		</form>
 	)

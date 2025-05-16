@@ -179,32 +179,21 @@ export default function ClassifiedsCreate() {
 					<div className='flex max-md:flex-wrap-reverse max-md:mb-4 max-2-5xl:justify-start'>
 						{/* кнопки слева */}
 						<div className='flex max-md:items-center justify-between max-md:w-full 2-5xl:absolute 2-5xl:left-0 z-10'>
-							<div
-								onMouseEnter={() => handleMouseEnter('back')}
-								onMouseLeave={() => handleMouseLeave('back')}
-								className='relative'
-							>
-								<ButtonWithIcon
-									onClick={handleBack}
-									text='Back'
-									iconWrapperClass='w-6 h-6'
-									icon={
-										<IconCustom
-											name='arrow-prev'
-											hover={true}
-											className='w-6 h-6 text-[#3486FE] fill-none'
-										/>
-									}
-									isHover
-									className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
-								/>
-								<Tooltip
-									title='Back'
-									text='Returns you to the previous page without saving changes.'
-									positionClass='-right-40! top-24!'
-									visible={tooltipVisible.back}
-								/>
-							</div>
+							<ButtonWithIcon
+								onClick={handleBack}
+								text='Back'
+								iconWrapperClass='w-6 h-6'
+								icon={
+									<IconCustom
+										name='arrow-prev'
+										hover={true}
+										className='w-6 h-6 text-[#3486FE] fill-none'
+									/>
+								}
+								isHover
+								className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
+							/>
+
 							<div className='pr-4 md:hidden'>
 								<ButtonWithIcon
 									onClick={() =>
@@ -255,17 +244,8 @@ export default function ClassifiedsCreate() {
 														className='slider-classified-info'
 													/>
 												) : (
-													<div
-														className='relative max-md:px-4'
-														onMouseEnter={() => handleMouseEnter('images')}
-														onMouseLeave={() => handleMouseLeave('images')}
-													>
+													<div className='relative max-md:px-4'>
 														<AddPhotoButton onChange={handleImageChange} />
-														<Tooltip
-															title='Add images'
-															text='Upload high-quality images to showcase your item. Up to 8 images are allowed.'
-															visible={tooltipVisible.images}
-														/>
 													</div>
 												)}
 
@@ -358,40 +338,18 @@ export default function ClassifiedsCreate() {
 											</div>
 										</div>
 										<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px] max-md:px-4'>
-											<div
-												onMouseEnter={() => handleMouseEnter('tags')}
-												onMouseLeave={() => handleMouseLeave('tags')}
-												className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full relative'
-											>
+											<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full relative'>
 												<TagsManager onTagsChange={setTags} />
-												<Tooltip
-													title='Tags'
-													text='Add relevant tags to help others find your listing easily.'
-													positionClass='-right-40!'
-													visible={tooltipVisible.tags}
-												/>
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>
-											<div
-												onMouseEnter={() => handleMouseEnter('save')}
-												onMouseLeave={() => handleMouseLeave('save')}
-												className='relative'
-											>
-												<ButtonWithIcon
-													onClick={() =>
-														document.querySelector('form')?.requestSubmit()
-													}
-													text='Publish'
-													className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-												/>
-												<Tooltip
-													title='Publish'
-													text='Publishes your announcement.'
-													positionClass='-top-20!'
-													visible={tooltipVisible.save}
-												/>
-											</div>
+											<ButtonWithIcon
+												onClick={() =>
+													document.querySelector('form')?.requestSubmit()
+												}
+												text='Publish'
+												className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
+											/>
 										</div>
 									</div>
 								</div>

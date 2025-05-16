@@ -71,7 +71,11 @@ export const MyClassifiedCard = ({
 			icon: (
 				<IconCustom
 					name='heart'
-					className='w-4 h-4 text-[#F9329C] stroke-[#F9329C]'
+					className={`w-4 h-4 ${
+						favorites === 0
+							? 'text-[#3486fe] fill-none'
+							: 'text-[#F9329C] stroke-[#F9329C]'
+					}`}
 				/>
 			),
 			data: favorites || 0,
@@ -83,7 +87,7 @@ export const MyClassifiedCard = ({
 			href={href}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			className='block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-none w-full max-sm:min-h-[396px] sm:h-[294px] 3xl:h-[375px]! min-w-[217px] cursor-pointer'
+			className='block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent w-full max-sm:min-h-[396px] sm:h-[294px] 3xl:h-[375px]! min-w-[217px] cursor-pointer'
 		>
 			<div className='relative w-full h-[154px] 3xl:h-[253px]'>
 				{image ? (
@@ -135,7 +139,7 @@ export const MyClassifiedCard = ({
 						</p>
 					</div>
 					{/* кнопки */}
-					<div className='w-full flex flex-wrap justify-between gap-4'>
+					<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
 						<ButtonWithIcon
 							text='hide'
 							icon={
@@ -147,7 +151,7 @@ export const MyClassifiedCard = ({
 							}
 							onClick={handleToggle}
 							isHover
-							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-fit group'
+							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 						/>
 						<ButtonWithIcon
 							text='edit'
@@ -160,7 +164,7 @@ export const MyClassifiedCard = ({
 								/>
 							}
 							isHover
-							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-fit group'
+							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 						/>
 						<ButtonWithIcon
 							text='up'
@@ -172,14 +176,14 @@ export const MyClassifiedCard = ({
 								/>
 							}
 							isHover
-							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-fit group'
+							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 						/>
 					</div>
 				</div>
 				{/* таблет + декстоп */}
-				<div className='max-sm:hidden relative p-4 h-[140px] 3xl:h-[122px]! overflow-hidden'>
+				<div className='max-sm:hidden relative p-4 3xl:p-3.5! h-[140px] 3xl:h-[122px]! overflow-hidden'>
 					<div
-						className={`absolute inset-0 p-4 flex flex-col gap-2 transition-transform duration-300 ease-in-out ${
+						className={`absolute inset-0 p-4 3xl:p-3.5! flex flex-col gap-2 transition-transform duration-300 ease-in-out ${
 							isHovered ? '-translate-y-full' : 'translate-y-0'
 						}`}
 					>
@@ -191,7 +195,7 @@ export const MyClassifiedCard = ({
 						</p>
 					</div>
 					<div
-						className={`absolute inset-0 p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out ${
+						className={`absolute inset-0 p-4 3xl:p-3.5! flex flex-col justify-between transition-transform duration-300 ease-in-out ${
 							isHovered ? 'translate-y-0' : 'translate-y-full'
 						}`}
 					>
@@ -200,7 +204,7 @@ export const MyClassifiedCard = ({
 							{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
 								<div
 									key={index}
-									className='flex flex-col justify-center items-center gap-[3px] px-3'
+									className='min-w-[51px] w-full flex flex-col justify-center items-center gap-[3px] px-3'
 								>
 									<span className='w-4 h-4'>{item.icon}</span>
 									<p className='font-bold text-[13px] text-[#4f4f4f]'>
@@ -222,7 +226,7 @@ export const MyClassifiedCard = ({
 								}
 								onClick={handleToggle}
 								isHover
-								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-fit group'
+								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 							/>
 							<ButtonWithIcon
 								text='edit'
@@ -235,7 +239,7 @@ export const MyClassifiedCard = ({
 									/>
 								}
 								isHover
-								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-fit group'
+								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 							/>
 							<ButtonWithIcon
 								text='up'
@@ -247,7 +251,7 @@ export const MyClassifiedCard = ({
 									/>
 								}
 								isHover
-								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-fit group'
+								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 							/>
 						</div>
 					</div>

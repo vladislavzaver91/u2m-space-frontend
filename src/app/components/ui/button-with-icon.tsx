@@ -3,7 +3,13 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
+interface TextPart {
+	text: string
+	color?: string
+}
+
 interface ButtonWithIconProps {
+	textParts?: TextPart[]
 	text?: string
 	icon?: ReactNode
 	href?: string
@@ -15,6 +21,7 @@ interface ButtonWithIconProps {
 }
 
 export const ButtonWithIcon = ({
+	textParts,
 	text,
 	icon,
 	href,
@@ -32,6 +39,18 @@ export const ButtonWithIcon = ({
 	const content = (
 		<>
 			<div className={iconWrapperClass}>{icon}</div>
+			{textParts && (
+				<span className='flex items-center gap-1 font-bold text-[16px]'>
+					{textParts.map((part, index) => (
+						<span
+							key={index}
+							className={part.color ? `text-${part.color}` : 'text-[#4f4f4f]'}
+						>
+							{part.text}
+						</span>
+					))}
+				</span>
+			)}
 			{text && <span>{text}</span>}
 		</>
 	)
@@ -42,7 +61,7 @@ export const ButtonWithIcon = ({
 				href={href}
 				className={` ${icon && iconStyles} ${baseStyles} ${
 					isHover && hover
-				} ${className} group`}
+				} ${className} group select-none`}
 				onClick={onClick}
 			>
 				{content}
@@ -55,7 +74,7 @@ export const ButtonWithIcon = ({
 			onClick={onClick}
 			className={`${icon && iconStyles} ${baseStyles} ${
 				isHover && hover
-			} ${className} group`}
+			} ${className} group select-none`}
 		>
 			{content}
 		</button>

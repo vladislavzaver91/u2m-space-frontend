@@ -13,7 +13,7 @@ export const AddClassifiedButton = ({
 	return (
 		<Link
 			href={href}
-			className='border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:shadow-custom-xl hover:border-[#f9329c] w-full max-sm:h-[84px] sm:h-[294px] 3xl:h-[375px]! space-y-2 cursor-pointer group'
+			className='border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:shadow-custom-xl hover:border-[#f9329c] w-full max-sm:h-[84px] sm:h-[294px] 3xl:h-[375px]! space-y-2 cursor-pointer group select-none'
 		>
 			<IconCustom
 				name='add_plus'

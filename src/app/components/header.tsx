@@ -188,10 +188,12 @@ export const Header = () => {
 													width={32}
 													height={32}
 													onError={e => {
-														e.currentTarget.src = `${
-															process.env.NEXT_PUBLIC_FRONTEND_URL ||
-															'http://localhost:3000'
-														}/public/avatar-lg.png`
+														const defaultAvatarUrl =
+															process.env.NEXT_PUBLIC_ENVIRONMENT_URL ===
+															'develop'
+																? 'http://localhost:3000/public/avatar-lg.png'
+																: 'https://u2m-space-frontend.vercel.app/public/avatar-lg.png'
+														e.currentTarget.src = defaultAvatarUrl
 														console.log(
 															'Fallback to default avatar URL:',
 															e.currentTarget.src
@@ -219,10 +221,12 @@ export const Header = () => {
 													width={32}
 													height={32}
 													onError={e => {
-														e.currentTarget.src = `${
-															process.env.NEXT_PUBLIC_FRONTEND_URL ||
-															'http://localhost:3000'
-														}/public/avatar-lg.png`
+														const defaultAvatarUrl =
+															process.env.NEXT_PUBLIC_ENVIRONMENT_URL ===
+															'develop'
+																? 'http://localhost:3000/public/avatar-lg.png'
+																: 'https://u2m-space-frontend.vercel.app/public/avatar-lg.png'
+														e.currentTarget.src = defaultAvatarUrl
 														console.log(
 															'Fallback to default avatar URL:',
 															e.currentTarget.src

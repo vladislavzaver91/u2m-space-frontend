@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { IconCustom } from './icon-custom'
+import { useAuth } from '@/app/helpers/contexts/auth-context'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -21,11 +22,14 @@ export const SearchInput = ({
 	smallWidth,
 	logoActive = false,
 }: SearchInputProps) => {
+	const { user } = useAuth()
+	const target = user ? '/selling-classifieds' : '/'
+
 	return (
 		<div className={`relative w-full select-none ${className}`}>
 			<div className='absolute inset-y-0 left-4 flex items-center'>
 				{logoActive ? (
-					<Link href='/'>
+					<Link href={target}>
 						<Image
 							src='/icons/logo_input.svg'
 							alt='logo icon'

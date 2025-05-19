@@ -174,6 +174,14 @@ export default function ClassifiedDetail() {
 		},
 	]
 
+	if (isLoading) {
+		return (
+			<div className='min-h-full flex flex-col items-center justify-center'>
+				<Loader />
+			</div>
+		)
+	}
+
 	console.log('user data:', user)
 	console.log('classified user data id:', classified?.user.id)
 
@@ -211,139 +219,133 @@ export default function ClassifiedDetail() {
 
 				{/* информация о продукте */}
 
-				{isLoading ? (
-					<div className='flex items-center justify-center'>
-						<Loader />
-					</div>
-				) : (
-					<div className='w-full px-0 mb-8 max-sm:mt-4 md:mb-16 lg:mb-8'>
-						<div className='md:px-8 xl:max-w-[1664px] mx-auto'>
-							<div className='grid grid-cols-4 md:grid-cols-12 gap-0'>
-								<div className='col-start-1 col-end-13'>
-									{classified && (
-										<div className='grid grid-cols-4 gap-y-0 md:grid-cols-12 lg:gap-[60px] md:gap-x-4 gap-x-8'>
-											{/* слайдер изображение */}
-											<div className='col-start-1 col-end-5 md:col-end-13 lg:col-end-7 xl:col-end-6 2xl:col-end-5 relative'>
-												<ImageSlider
-													images={classified.images}
-													title={classified?.title || ''}
-													onOpenModal={handleOpenModal}
-													className='slider-classified-info'
-												/>
+				<div className='w-full px-0 mb-8 max-sm:mt-4 md:mb-16 lg:mb-8'>
+					<div className='md:px-8 xl:max-w-[1664px] mx-auto'>
+						<div className='grid grid-cols-4 md:grid-cols-12 gap-0'>
+							<div className='col-start-1 col-end-13'>
+								{classified && (
+									<div className='grid grid-cols-4 gap-y-0 md:grid-cols-12 lg:gap-[60px] md:gap-x-4 gap-x-8'>
+										{/* слайдер изображение */}
+										<div className='col-start-1 col-end-5 md:col-end-13 lg:col-end-7 xl:col-end-6 2xl:col-end-5 relative'>
+											<ImageSlider
+												images={classified.images}
+												title={classified?.title || ''}
+												onOpenModal={handleOpenModal}
+												className='slider-classified-info'
+											/>
+										</div>
+										<div className='col-start-1 col-end-5 md:col-end-13 lg:col-start-7 lg:col-end-13 xl:col-start-6 xl:col-end-12 2xl:col-start-5 2xl:col-end-9 space-y-8 max-md:px-4'>
+											{/* заголовок, цена, описание, инфо-аналитические иконки с данными */}
+											<div className='space-y-4'>
+												<h3 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
+													{classified.title}
+												</h3>
+												<div className='flex items-center justify-between'>
+													<p className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
+														${classified.price}
+													</p>
+													<ButtonWithIcon
+														iconWrapperClass='w-6 h-6'
+														icon={
+															<IconCustom
+																name='heart'
+																hover={false}
+																className={`${
+																	favoritesBool
+																		? 'text-[#F9329C] stroke-[#F9329C]'
+																		: 'text-[#3486fe] fill-none'
+																} w-6 h-6 `}
+															/>
+														}
+														isHover
+														onClick={handleFavoriteClick}
+														className='w-10 h-10 flex items-center justify-center rounded-lg'
+														disabled={!user}
+													/>
+												</div>
+
+												<p className='text-[16px] font-normal text-[#4f4f4f]'>
+													{classified.description}
+												</p>
+												{/* информация показывается для авторизованного владельца своего объявления */}
+												{isOwner && (
+													<div className='flex flex-wrap gap-8'>
+														{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
+															<div
+																key={index}
+																className='flex items-center gap-2'
+															>
+																<span className='w-6 h-6'>{item.icon}</span>
+																<p className='font-bold text-[13px] text-[#4f4f4f]'>
+																	{item.data}
+																</p>
+															</div>
+														))}
+													</div>
+												)}
 											</div>
-											<div className='col-start-1 col-end-5 md:col-end-13 lg:col-start-7 lg:col-end-13 xl:col-start-6 xl:col-end-12 2xl:col-start-5 2xl:col-end-9 space-y-8 max-md:px-4'>
-												{/* заголовок, цена, описание, инфо-аналитические иконки с данными */}
-												<div className='space-y-4'>
-													<h3 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
-														{classified.title}
-													</h3>
-													<div className='flex items-center justify-between'>
-														<p className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
-															${classified.price}
-														</p>
-														<ButtonWithIcon
-															iconWrapperClass='w-6 h-6'
-															icon={
-																<IconCustom
-																	name='heart'
-																	hover={false}
-																	className={`${
-																		favoritesBool
-																			? 'text-[#F9329C] stroke-[#F9329C]'
-																			: 'text-[#3486fe] fill-none'
-																	} w-6 h-6 `}
-																/>
-															}
-															isHover
-															onClick={handleFavoriteClick}
-															className='w-10 h-10 flex items-center justify-center rounded-lg'
-															disabled={!user}
+											{/* инфо о продавце */}
+											<div className='flex items-center gap-[30px]'>
+												<div>
+													<div className='relative min-w-[120px] w-fit min-h-[120px] h-fit'>
+														<Image
+															src={classified.user.avatarUrl}
+															alt='user avatar'
+															fill
+															className='w-full h-full object-cover rounded-[13px]'
 														/>
 													</div>
-
-													<p className='text-[16px] font-normal text-[#4f4f4f]'>
-														{classified.description}
-													</p>
-													{/* информация показывается для авторизованного владельца своего объявления */}
-													{isOwner && (
-														<div className='flex flex-wrap gap-8'>
-															{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
-																<div
-																	key={index}
-																	className='flex items-center gap-2'
-																>
-																	<span className='w-6 h-6'>{item.icon}</span>
-																	<p className='font-bold text-[13px] text-[#4f4f4f]'>
-																		{item.data}
-																	</p>
-																</div>
-															))}
-														</div>
-													)}
+													<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
+														<p className='text-[16px] font-bold uppercase text-[#4f4f4f] text-center'>
+															Trust rating
+														</p>
+														<span className='text-[16px] font-bold text-[#3486fe]'>
+															50
+														</span>
+													</div>
 												</div>
-												{/* инфо о продавце */}
-												<div className='flex items-center gap-[30px]'>
-													<div>
-														<div className='relative min-w-[120px] w-fit min-h-[120px] h-fit'>
-															<Image
-																src={classified.user.avatarUrl}
-																alt='user avatar'
-																fill
-																className='w-full h-full object-cover rounded-[13px]'
-															/>
-														</div>
-														<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
-															<p className='text-[16px] font-bold uppercase text-[#4f4f4f] text-center'>
-																Trust rating
+												<div className='space-y-4'>
+													<div className='flex sm:items-center sm:gap-8'>
+														<h4 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
+															{classified.user.name}
+														</h4>
+														<div className='max-sm:hidden flex items-center gap-2'>
+															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
+																tr
 															</p>
 															<span className='text-[16px] font-bold text-[#3486fe]'>
 																50
 															</span>
 														</div>
 													</div>
-													<div className='space-y-4'>
-														<div className='flex sm:items-center sm:gap-8'>
-															<h4 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
-																{classified.user.name}
-															</h4>
-															<div className='max-sm:hidden flex items-center gap-2'>
-																<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
-																	tr
-																</p>
-																<span className='text-[16px] font-bold text-[#3486fe]'>
-																	50
-																</span>
-															</div>
-														</div>
-														{classified.user.phoneNumber ? (
-															<p className='text-[16px] font-bold text-[#f9329c]'>
-																{classified.user.phoneNumber}
-															</p>
-														) : (
-															<p className='text-[16px] font-bold text-[#f9329c]'>
-																+380 96 42 07 202
-															</p>
-														)}
-														<div className='flex items-center gap-4 max-sm:flex-col'>
-															<ButtonWithIcon
-																text='Send message'
-																className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
-															/>
-															<ButtonWithIcon
-																text='Safe buy/deal'
-																className='max-sm:max-w-[178px] max-sm:w-full   sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
-															/>
-														</div>
+													{classified.user.phoneNumber ? (
+														<p className='text-[16px] font-bold text-[#f9329c]'>
+															{classified.user.phoneNumber}
+														</p>
+													) : (
+														<p className='text-[16px] font-bold text-[#f9329c]'>
+															+380 96 42 07 202
+														</p>
+													)}
+													<div className='flex items-center gap-4 max-sm:flex-col'>
+														<ButtonWithIcon
+															text='Send message'
+															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
+														/>
+														<ButtonWithIcon
+															text='Safe buy/deal'
+															className='max-sm:max-w-[178px] max-sm:w-full   sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
+														/>
 													</div>
 												</div>
 											</div>
 										</div>
-									)}
-								</div>
+									</div>
+								)}
 							</div>
 						</div>
 					</div>
-				)}
+				</div>
 
 				{/* похожие предложения */}
 				<div className='w-full px-0'>

@@ -100,7 +100,7 @@ export default function SellingClassifieds() {
 							<div className='hidden min-[1513px]:grid custom-container mx-auto'>
 								<div className='grid grid-cols-12 gap-[60px]'>
 									<div className='col-start-1 col-end-13'>
-										<div className='grid grid-cols-12 lg:gap-[60px] gap-4'>
+										<div className='grid grid-cols-12 lg:gap-[60px] gap-4 select-none'>
 											{classifieds.slice(0, 8).map((item, index) => (
 												<div key={index} className='col-span-3'>
 													<ClassifiedCard
@@ -108,7 +108,7 @@ export default function SellingClassifieds() {
 														title={item.title}
 														price={item.price.toFixed(2)}
 														image={item.images[0]} //
-														isFavorite={item.isFavorite}
+														favoritesBool={item.favoritesBool}
 														favorites={item.favorites}
 														href={`/selling-classifieds/${item.id}`}
 														isSmall={false}
@@ -144,7 +144,7 @@ export default function SellingClassifieds() {
 									setCurrentSlide(swiper.activeIndex)
 									SwiperPaginationService.updateForCard(swiper)
 								}}
-								className='w-full !h-auto'
+								className='w-full !h-auto select-none'
 								breakpoints={{
 									320: {
 										slidesPerView: 1.2,
@@ -184,7 +184,7 @@ export default function SellingClassifieds() {
 											title={item.title}
 											price={item.price.toFixed(2)}
 											image={item.images[0]}
-											isFavorite={item.isFavorite}
+											favoritesBool={item.favoritesBool}
 											favorites={item.favorites}
 											href={`/selling-classifieds/${item.id}`}
 											isSmall={false}
@@ -200,7 +200,7 @@ export default function SellingClassifieds() {
 								<div className='custom-container mx-auto'>
 									<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
 										<div className='col-start-1 col-end-13'>
-											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4'>
+											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
 												{classifieds.slice(8).map((item, index) => (
 													<div
 														key={index}
@@ -211,7 +211,7 @@ export default function SellingClassifieds() {
 															title={item.title}
 															price={item.price.toFixed(2)}
 															image={item.images[0]}
-															isFavorite={item.isFavorite}
+															favoritesBool={item.favoritesBool}
 															favorites={item.favorites}
 															href={`/selling-classifieds/${item.id}`}
 															isSmall={true}

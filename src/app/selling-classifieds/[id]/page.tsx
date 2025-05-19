@@ -13,6 +13,17 @@ import { IconCustom } from '../../components/ui/icon-custom'
 import { ClassifiedCard } from '@/app/components/ui/classified-card'
 import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
 import { ImageSlider } from '@/app/components/ui/image-slider'
+import { useAuth } from '@/app/helpers/contexts/auth-context'
+
+interface ApiError {
+	response?: {
+		status?: number
+		data?: {
+			error?: string
+		}
+	}
+	message?: string
+}
 
 export default function ClassifiedDetail() {
 	const [classified, setClassified] = useState<Classified | null>(null)
@@ -23,7 +34,10 @@ export default function ClassifiedDetail() {
 	const [currentImageIndex, setCurrentImageIndex] = useState(0)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
+	const [favoritesBool, setFavoritesBool] = useState<boolean>(false)
+	const [favorites, setFavorites] = useState<number | undefined>(0)
 	const [page, setPage] = useState(1)
+	const { user } = useAuth()
 	const params = useParams()
 	const id = params.id as string
 	const limit = 10
@@ -33,9 +47,13 @@ export default function ClassifiedDetail() {
 			try {
 				setIsLoading(true)
 				setError(null)
+				console.log('Fetching classified, user:', user)
 				const data = await apiService.getClassifiedById(id)
 				console.log('getClassifiedById data:', data)
 				setClassified(data)
+				setFavoritesBool(data.favoritesBool)
+				setFavorites(data.favorites)
+				console.log('favoritesBool:', data.favoritesBool)
 			} catch (error: any) {
 				console.error('Error fetching classified:', error)
 				setError(
@@ -49,7 +67,7 @@ export default function ClassifiedDetail() {
 		}
 
 		fetchClassified()
-	}, [id])
+	}, [id, user])
 
 	useEffect(() => {
 		const fetchClassifieds = async () => {
@@ -67,6 +85,36 @@ export default function ClassifiedDetail() {
 
 		fetchClassifieds()
 	}, [page])
+
+	const handleFavoriteClick = async (e: React.MouseEvent) => {
+		if (!user) {
+			console.log('User not authenticated, cannot toggle favorite')
+			return
+		}
+		try {
+			if (classified) {
+				const res = await apiService.toggleFavorite(classified.id)
+				console.log('favoritesBool:', res.favoritesBool)
+				setFavoritesBool(res.favoritesBool)
+				setFavorites(res.favorites)
+				setClassified(prev =>
+					prev
+						? {
+								...prev,
+								favoritesBool: res.favoritesBool,
+								favorites: res.favorites,
+						  }
+						: prev
+				)
+			}
+		} catch (error: unknown) {
+			const apiError = error as ApiError
+			if (apiError.response?.status === 401) {
+			} else {
+				console.error('Error toggling favorite:', error)
+			}
+		}
+	}
 
 	const handleBack = () => {
 		window.history.back()
@@ -110,13 +158,13 @@ export default function ClassifiedDetail() {
 					name='heart'
 					hover={false}
 					className={`w-6 h-6 ${
-						classified?.favorites === 0
+						favorites === 0
 							? 'text-[#3486fe] fill-none'
 							: 'text-[#F9329C] stroke-[#F9329C]'
 					}`}
 				/>
 			),
-			data: classified?.favorites,
+			data: favorites,
 		},
 		{
 			icon: (
@@ -125,6 +173,11 @@ export default function ClassifiedDetail() {
 			data: classified?.messages,
 		},
 	]
+
+	console.log('user data:', user)
+	console.log('classified user data id:', classified?.user.id)
+
+	const isOwner = user && classified && user.id === classified.user.id
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -184,25 +237,49 @@ export default function ClassifiedDetail() {
 													<h3 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
 														{classified.title}
 													</h3>
-													<p className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
-														${classified.price}
-													</p>
+													<div className='flex items-center justify-between'>
+														<p className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
+															${classified.price}
+														</p>
+														<ButtonWithIcon
+															iconWrapperClass='w-6 h-6'
+															icon={
+																<IconCustom
+																	name='heart'
+																	hover={false}
+																	className={`${
+																		favoritesBool
+																			? 'text-[#F9329C] stroke-[#F9329C]'
+																			: 'text-[#3486fe] fill-none'
+																	} w-6 h-6 `}
+																/>
+															}
+															isHover
+															onClick={handleFavoriteClick}
+															className='w-10 h-10 flex items-center justify-center rounded-lg'
+															disabled={!user}
+														/>
+													</div>
+
 													<p className='text-[16px] font-normal text-[#4f4f4f]'>
 														{classified.description}
 													</p>
-													<div className='flex flex-wrap gap-8'>
-														{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
-															<div
-																key={index}
-																className='flex items-center gap-2'
-															>
-																<span className='w-6 h-6'>{item.icon}</span>
-																<p className='font-bold text-[13px] text-[#4f4f4f]'>
-																	{item.data}
-																</p>
-															</div>
-														))}
-													</div>
+													{/* информация показывается для авторизованного владельца своего объявления */}
+													{isOwner && (
+														<div className='flex flex-wrap gap-8'>
+															{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
+																<div
+																	key={index}
+																	className='flex items-center gap-2'
+																>
+																	<span className='w-6 h-6'>{item.icon}</span>
+																	<p className='font-bold text-[13px] text-[#4f4f4f]'>
+																		{item.data}
+																	</p>
+																</div>
+															))}
+														</div>
+													)}
 												</div>
 												{/* инфо о продавце */}
 												<div className='flex items-center gap-[30px]'>
@@ -287,7 +364,7 @@ export default function ClassifiedDetail() {
 												title={item.title}
 												price={item.price.toFixed(2)}
 												image={item.images[0]}
-												isFavorite={item.isFavorite}
+												favoritesBool={item.favoritesBool}
 												favorites={item.favorites}
 												href={`/selling-classifieds/${item.id}`}
 												isSmall={true}
@@ -298,7 +375,7 @@ export default function ClassifiedDetail() {
 							</div>
 						</div>
 					</div>
-					<div className='mb-4 lg:hidden'>
+					<div className='mb-4 lg:hidden '>
 						<Swiper
 							slidesPerView={1}
 							spaceBetween={16}
@@ -307,7 +384,7 @@ export default function ClassifiedDetail() {
 							speed={800}
 							freeMode={false}
 							touchRatio={0.5}
-							className='w-full h-[285px]'
+							className='w-full h-[300px] select-none'
 							breakpoints={{
 								320: {
 									slidesPerView: 1.2,
@@ -337,7 +414,7 @@ export default function ClassifiedDetail() {
 										title={item.title}
 										price={item.price.toFixed(2)}
 										image={item.images[0]}
-										isFavorite={item.isFavorite}
+										favoritesBool={item.favoritesBool}
 										favorites={item.favorites}
 										href={`/selling-classifieds/${item.id}`}
 										isSmall={true}

@@ -142,9 +142,7 @@ export default function MyClassifieds() {
 
 				{/* список продуктов */}
 				{isLoading && filteredClassifieds.length === 0 ? (
-					<div className='flex items-center justify-center'>
-						<Loader />
-					</div>
+					<Loader />
 				) : (
 					<div className='w-full'>
 						<div className='custom-container mx-auto'>
@@ -157,7 +155,7 @@ export default function MyClassifieds() {
 										{filteredClassifieds.map(item => (
 											<div
 												key={item.id}
-												className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3!'
+												className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3! select-none'
 											>
 												<MyClassifiedCard
 													id={item.id}

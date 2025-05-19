@@ -102,7 +102,7 @@ export const SliderImagesModal = ({
 						}}
 						onSlideChange={handleSlideChange}
 						modules={[Pagination]}
-						className='w-full h-full'
+						className='w-full h-full  select-none'
 					>
 						{images.map((image, index) => (
 							<SwiperSlide key={index}>

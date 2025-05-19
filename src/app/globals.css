@@ -23,6 +23,7 @@ body {
 	color: var(--foreground);
 	font-family: Montserrat, sans-serif;
 	overflow-y: scroll;
+	margin-right: 8px;
 }
 
 body::-webkit-scrollbar {

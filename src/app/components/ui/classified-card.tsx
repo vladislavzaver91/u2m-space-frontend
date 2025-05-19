@@ -14,7 +14,7 @@ interface ClassifiedCardProps {
 	price: string
 	image?: string
 	favorites?: number
-	isFavorite: boolean
+	favoritesBool: boolean
 	href: string
 	isSmall?: boolean
 }
@@ -35,11 +35,11 @@ export const ClassifiedCard = ({
 	price,
 	image,
 	favorites: initialFavorites,
-	isFavorite: initialIsFavorite,
+	favoritesBool: initialFavoritesBool,
 	href,
 	isSmall,
 }: ClassifiedCardProps) => {
-	const [isFavorite, setIsFavorite] = useState(initialIsFavorite)
+	const [favoritesBool, setFavoritesBool] = useState(initialFavoritesBool)
 	const [favorites, setFavorites] = useState(initialFavorites)
 	const router = useRouter()
 
@@ -49,7 +49,7 @@ export const ClassifiedCard = ({
 
 		try {
 			const res = await apiService.toggleFavorite(classifiedId)
-			setIsFavorite(res.isFavorite)
+			setFavoritesBool(res.favoritesBool)
 			setFavorites(res.favorites)
 		} catch (error: unknown) {
 			const apiError = error as ApiError
@@ -89,7 +89,7 @@ export const ClassifiedCard = ({
 						className={` ${
 							isSmall ? 'text-[18px] md:text-[24px]' : 'text-[24px]'
 						} uppercase font-bold transition-all ${
-							isFavorite ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
+							favoritesBool ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
 						}`}
 					>
 						${price}
@@ -101,7 +101,7 @@ export const ClassifiedCard = ({
 								name='heart'
 								hover={false}
 								className={`${
-									isFavorite
+									favoritesBool
 										? 'text-[#F9329C] stroke-[#F9329C]'
 										: 'text-[#3486fe] fill-none'
 								} w-6 h-6 `}

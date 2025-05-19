@@ -69,7 +69,7 @@ export default function Home() {
 									setCurrentSlide(swiper.activeIndex)
 									SwiperPaginationService.updateBase(swiper)
 								}}
-								className='w-[310px] h-auto  slider-benefits'
+								className='w-[310px] h-auto select-none slider-benefits'
 							>
 								{BENEFITS_ITEMS.map((item, index) => (
 									<SwiperSlide

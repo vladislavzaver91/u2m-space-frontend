@@ -17,6 +17,7 @@ interface ButtonWithIconProps {
 	onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 	className?: string
 	iconWrapperClass?: string
+	disableClass?: string
 	disabled?: boolean
 }
 
@@ -29,12 +30,13 @@ export const ButtonWithIcon = ({
 	onClick,
 	className = '',
 	iconWrapperClass = '',
+	disableClass = '',
 	disabled = false,
 }: ButtonWithIconProps) => {
 	const iconStyles = 'gap-4'
 	const hover = 'hover:bg-[#F7F7F7] max-lg:focus:bg-[#F7F7F7]'
 	const baseStyles = `inline-flex items-center bg-transparent text-[#4f4f4f] font-bold text-[16px] cursor-pointer group transition-colors ${
-		disabled ? 'bg-[#BDBDBD]! cursor-not-allowed! text-white!' : ''
+		disabled ? `cursor-not-allowed! ${disableClass}` : ''
 	}`
 
 	const content = (

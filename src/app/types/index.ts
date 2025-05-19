@@ -11,9 +11,10 @@ export interface Classified {
 	price: number
 	images: string[]
 	isActive: boolean
-	isFavorite: boolean
+	favoritesBool: boolean
 	createdAt: string
 	user: {
+		id: string
 		name: string
 		avatarUrl: string
 		phoneNumber?: string

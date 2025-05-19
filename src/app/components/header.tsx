@@ -56,7 +56,7 @@ export const Header = () => {
 
 	return (
 		<>
-			<div className='fixed px-4 md:px-8 min-h-14 md:min-h-[88px] py-3 md:py-7 top-0 left-0 w-full flex items-center bg-white/10 backdrop-blur-md z-20'>
+			<div className='fixed mr-2 px-4 md:px-8 min-h-14 md:min-h-[88px] py-3 md:py-7 top-0 left-0 w-full flex items-center bg-white/10 backdrop-blur-md z-20'>
 				{/* Контент слева */}
 				<div className={`${isSearchVisible && 'max-lg:hidden'}`}>
 					<Logo width={100} height={32} inHeader={true} />

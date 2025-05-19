@@ -3,19 +3,30 @@ interface IconCustomProps {
 	className?: string
 	size?: number
 	hover?: boolean
+	hoverColor?: string
+	disabled?: boolean
 }
 
 export const IconCustom = ({
 	name,
 	className = '',
 	size = 24,
-	hover,
+	hover = false,
+	hoverColor = '#3486fe',
+	disabled = false,
 }: IconCustomProps) => {
 	return (
 		<svg
-			className={`${className} ${
-				hover ? 'group-hover:text-[#F9329C] group-focus:text-[#f9329c]' : ''
-			} transition-colors`}
+			className={[
+				className,
+				hover && !disabled
+					? `group-hover:text-[${hoverColor}]! group-focus:text-[${hoverColor}]!`
+					: '',
+				disabled ? 'text-[#bdbdbd]! pointer-events-none!' : '',
+				'transition-colors',
+			]
+				.filter(Boolean)
+				.join(' ')}
 			width={size}
 			height={size}
 			fill='currentColor'

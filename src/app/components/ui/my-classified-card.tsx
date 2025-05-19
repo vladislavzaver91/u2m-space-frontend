@@ -159,12 +159,15 @@ export const MyClassifiedCard = ({
 							icon={
 								<IconCustom
 									name='edit-pencil'
-									hover
-									className='w-4 h-4 fill-none text-[#4f4f4f] group-focus:text-[#3486fe]!'
+									hoverColor='#3486fe'
+									disabled={!isActive}
+									className='w-4 h-4 fill-none text-[#4f4f4f]'
 								/>
 							}
 							isHover
 							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
+							disabled={!isActive}
+							disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 						/>
 						<ButtonWithIcon
 							text='up'
@@ -172,11 +175,15 @@ export const MyClassifiedCard = ({
 								<IconCustom
 									name='arrow-circle-up'
 									hover
-									className='w-4 h-4 fill-none text-[#4f4f4f] group-focus:text-[#3486fe]!'
+									hoverColor='#3486fe'
+									disabled={!isActive}
+									className='w-4 h-4 fill-none text-[#4f4f4f]'
 								/>
 							}
 							isHover
 							className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
+							disabled={!isActive}
+							disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 						/>
 					</div>
 				</div>
@@ -235,11 +242,15 @@ export const MyClassifiedCard = ({
 									<IconCustom
 										name='edit-pencil'
 										hover
-										className='w-4 h-4 fill-none text-[#4f4f4f] group-hover:text-[#3486fe]! group-focus:text-[#3486fe]!'
+										hoverColor='#3486fe'
+										disabled={!isActive}
+										className='w-4 h-4 fill-none text-[#4f4f4f]'
 									/>
 								}
 								isHover
 								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
+								disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
+								disabled={!isActive}
 							/>
 							<ButtonWithIcon
 								text='up'
@@ -247,11 +258,15 @@ export const MyClassifiedCard = ({
 									<IconCustom
 										name='arrow-circle-up'
 										hover
-										className='w-4 h-4 fill-none text-[#4f4f4f] group-hover:text-[#3486fe]! group-focus:text-[#3486fe]!'
+										disabled={!isActive}
+										hoverColor='#3486fe'
+										className='w-4 h-4 fill-none text-[#4f4f4f]'
 									/>
 								}
 								isHover
 								className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
+								disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
+								disabled={!isActive}
 							/>
 						</div>
 					</div>

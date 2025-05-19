@@ -13,9 +13,5 @@ export function useScrollStyle() {
 		} else {
 			body.classList.remove('has-scroll')
 		}
-
-		return () => {
-			body.classList.remove('has-scroll')
-		}
 	}, [pathname])
 }

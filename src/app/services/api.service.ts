@@ -46,6 +46,12 @@ interface Tag {
 	updatedAt: string
 }
 
+interface ToggleFavoriteResponse {
+	id: string
+	favorites: number
+	favoritesBool: boolean
+}
+
 export class ApiService {
 	async getClassifieds(params: {
 		page: number
@@ -60,7 +66,12 @@ export class ApiService {
 	}
 
 	async getClassifiedById(id: string): Promise<Classified> {
-		const res = await $api.get(`/api/classifieds/${id}`)
+		const token = localStorage.getItem('accessToken')
+		const res = await $api.get(`/api/classifieds/${id}`, {
+			headers: {
+				Authorization: token ? `Bearer ${token}` : '',
+			},
+		})
 		return res.data
 	}
 
@@ -110,7 +121,7 @@ export class ApiService {
 		return res.data
 	}
 
-	async toggleFavorite(id: string): Promise<Classified> {
+	async toggleFavorite(id: string): Promise<ToggleFavoriteResponse> {
 		const res = await $api.patch(`/api/classifieds/${id}/toggle-favorite`)
 		return res.data
 	}

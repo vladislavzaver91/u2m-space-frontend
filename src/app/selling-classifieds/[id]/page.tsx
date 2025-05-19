@@ -176,7 +176,7 @@ export default function ClassifiedDetail() {
 
 	if (isLoading) {
 		return (
-			<div className='min-h-full flex flex-col items-center justify-center'>
+			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
 			</div>
 		)

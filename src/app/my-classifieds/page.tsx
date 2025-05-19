@@ -10,6 +10,7 @@ import { apiService } from '../services/api.service'
 import { Loader } from '../components/ui/loader'
 import { MyClassifiedCard } from '../components/ui/my-classified-card'
 import { AddClassifiedButton } from '../components/ui/add-classified-button'
+import { useScrollStyle } from '../helpers/hooks/use-scroll-style'
 
 export default function MyClassifieds() {
 	const [activeCategory, setActiveCategory] = useState('All')

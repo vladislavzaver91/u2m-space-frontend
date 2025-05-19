@@ -7,37 +7,37 @@ import { ModalProvider } from './helpers/contexts/modal-context'
 import ClientLayout from './components/client-layout'
 
 const montserrat = Montserrat({
-	variable: '--font-montserrat',
-	subsets: ['latin', 'cyrillic'],
+  variable: '--font-montserrat',
+  subsets: ['latin', 'cyrillic'],
 })
 
 export const metadata: Metadata = {
-	title: 'U2M SPACE',
-	description: 'Your new simpler, reliable way to exchange.',
-	icons: {
-		icon: '/favicon.ico',
-		apple: '/favicon.png', // Для Apple Touch Icon (опционально)
-	},
+  title: 'U2M SPACE',
+  description: 'Your new simpler, reliable way to exchange.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode
+  children: React.ReactNode
 }>) {
-	return (
-		<html lang='en'>
-			<body
-				className={`${montserrat.variable} antialiased flex flex-col min-h-screen`}
-			>
-				<AuthProvider>
-					<ModalProvider>
-						<Header />
-						<ClientLayout>{children}</ClientLayout>
-					</ModalProvider>
-					{/* <BottomButtons /> */}
-				</AuthProvider>
-			</body>
-		</html>
-	)
+  const isHomePage = typeof window === 'undefined' ? false : window.location.pathname === '/'
+  const bodyClass = `${montserrat.variable} antialiased flex flex-col min-h-screen ${isHomePage ? '' : 'has-scroll'}`
+
+  return (
+    <html lang='en'>
+      <body className={bodyClass}>
+        <AuthProvider>
+          <ModalProvider>
+            <Header />
+            <ClientLayout>{children}</ClientLayout>
+          </ModalProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  )
 }

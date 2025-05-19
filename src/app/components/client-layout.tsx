@@ -50,7 +50,7 @@ export default function ClientLayout({
 
 	if (!shouldRender) {
 		return (
-			<div className='flex-1 flex items-center justify-center'>
+			<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
 				<Loader />
 			</div>
 		)
@@ -58,7 +58,7 @@ export default function ClientLayout({
 
 	if (error) {
 		return (
-			<div className='flex-1 flex items-center justify-center'>
+			<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
 				<div className='bg-red-100 text-red-700 p-4 rounded-lg text-center'>
 					{error}
 				</div>
@@ -66,5 +66,5 @@ export default function ClientLayout({
 		)
 	}
 
-	return <main className='flex-1'>{children}</main>
+	return <main className='flex-1 min-h-[calc(105vh)]'>{children}</main>
 }

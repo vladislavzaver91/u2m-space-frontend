@@ -88,7 +88,7 @@ export const SliderImagesModal = ({
 						spaceBetween={60}
 						centeredSlides
 						grabCursor={true}
-						speed={400}
+						speed={800}
 						freeMode={false}
 						touchRatio={0.5}
 						pagination={SwiperPaginationService.paginationForCard}

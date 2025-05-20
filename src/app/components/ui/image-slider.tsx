@@ -151,7 +151,7 @@ export const ImageSlider = ({
 				slidesPerView={1}
 				centeredSlides
 				grabCursor={true}
-				speed={400}
+				speed={800}
 				freeMode={false}
 				touchRatio={1}
 				pagination={SwiperPaginationService.paginationForCard}

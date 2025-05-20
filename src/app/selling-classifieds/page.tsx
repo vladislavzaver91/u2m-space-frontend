@@ -127,7 +127,7 @@ export default function SellingClassifieds() {
 								spaceBetween={60}
 								centeredSlides
 								grabCursor={true}
-								speed={400}
+								speed={800}
 								freeMode={false}
 								touchRatio={1}
 								modules={[Pagination]}

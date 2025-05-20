@@ -17,7 +17,8 @@ export const AddPhotoSmallButton = ({
 			<IconCustom
 				name='plus'
 				hover
-				className='w-6 h-6 fill-none text-[#4f4f4f] group'
+				hoverColor='#f9329c'
+				className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 			/>
 			<input
 				ref={fileInputRef}

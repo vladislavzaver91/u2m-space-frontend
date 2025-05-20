@@ -127,9 +127,9 @@ export default function SellingClassifieds() {
 								spaceBetween={60}
 								centeredSlides
 								grabCursor={true}
-								speed={700}
+								speed={800}
 								freeMode={false}
-								touchRatio={0.7}
+								touchRatio={1}
 								modules={[Pagination]}
 								pagination={SwiperPaginationService.paginationForCard}
 								onInit={swiper => {

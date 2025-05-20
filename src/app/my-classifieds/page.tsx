@@ -167,7 +167,7 @@ export default function MyClassifieds() {
 													views={item.views}
 													messages={item.messages}
 													favorites={item.favorites}
-													href={`/classifieds-edit/${item.id}`}
+													href={`/selling-classifieds/${item.id}`}
 													onToggleActive={() =>
 														handleToggleActive(item.id, item.isActive)
 													}

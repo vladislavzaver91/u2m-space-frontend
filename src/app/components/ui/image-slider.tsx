@@ -90,7 +90,10 @@ export const ImageSlider = ({
 	if (images.length === 1) {
 		return (
 			<>
-				<div className='relative h-[228px] md:h-[470px] lg:h-[352px]'>
+				<div
+					onClick={handleImageClick}
+					className='relative h-[228px] md:h-[470px] lg:h-[352px] cursor-pointer'
+				>
 					{!imageLoaded[0] && (
 						<SkeletonImage className='absolute inset-0' borderRadius='13px' />
 					)}
@@ -127,7 +130,8 @@ export const ImageSlider = ({
 									<IconCustom
 										name='expand'
 										hover={true}
-										className='w-6 h-6 text-[#4f4f4f] fill-none'
+										hoverColor='#f9329c'
+										className='w-6 h-6 text-[#4f4f4f] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 									/>
 								}
 								isHover
@@ -147,7 +151,7 @@ export const ImageSlider = ({
 				slidesPerView={1}
 				centeredSlides
 				grabCursor={true}
-				speed={500}
+				speed={800}
 				freeMode={false}
 				touchRatio={1}
 				pagination={SwiperPaginationService.paginationForCard}
@@ -239,7 +243,8 @@ export const ImageSlider = ({
 							<IconCustom
 								name='expand'
 								hover={true}
-								className='w-6 h-6 text-[#4f4f4f] fill-none'
+								hoverColor='#f9329c'
+								className='w-6 h-6 text-[#4f4f4f] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 							/>
 						}
 						isHover

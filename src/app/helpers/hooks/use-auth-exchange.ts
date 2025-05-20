@@ -36,6 +36,8 @@ export function useAuthExchange() {
 				} catch (err) {
 					console.error('Failed to exchange state:', err)
 				}
+			} else {
+				console.error('Invalid parameter of state')
 			}
 		}
 

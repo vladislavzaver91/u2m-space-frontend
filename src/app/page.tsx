@@ -97,7 +97,8 @@ export default function Home() {
 										<IconCustom
 											name='arrow-next'
 											hover={true}
-											className='w-6 h-6 text-[#3486FE] stroke-none'
+											hoverColor='#f9329c'
+											className='w-6 h-6 text-[#3486FE] stroke-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 										/>
 									}
 									href='/selling-classifieds'
@@ -112,7 +113,8 @@ export default function Home() {
 										<IconCustom
 											name='arrow-next'
 											hover={true}
-											className='w-6 h-6 text-[#3486FE] stroke-none'
+											hoverColor='#f9329c'
+											className='w-6 h-6 text-[#3486FE] stroke-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 										/>
 									}
 									onClick={handleNextSlide}
@@ -154,6 +156,7 @@ export default function Home() {
 									modules={[Pagination]}
 									spaceBetween={0}
 									slidesPerView={1}
+									speed={800}
 									pagination={SwiperPaginationService.paginationBase}
 									onSwiper={swiper => (swiperRef.current = swiper)}
 									onSlideChange={swiper => {
@@ -190,7 +193,8 @@ export default function Home() {
 							<IconCustom
 								name='arrow-next'
 								hover={true}
-								className='w-6 h-6 text-[#3486FE] stroke-none'
+								hoverColor='#f9329c'
+								className='w-6 h-6 text-[#3486FE] stroke-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 							/>
 						}
 						onClick={handleOpenSlider}
@@ -205,7 +209,8 @@ export default function Home() {
 							<IconCustom
 								name='arrow-next'
 								hover={true}
-								className='w-6 h-6 text-[#3486FE] stroke-none'
+								hoverColor='#f9329c'
+								className='w-6 h-6 text-[#3486FE] stroke-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 							/>
 						}
 						isHover

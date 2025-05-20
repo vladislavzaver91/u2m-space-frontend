@@ -195,7 +195,8 @@ export default function ClassifiedDetail() {
 							<IconCustom
 								name='arrow-prev'
 								hover={true}
-								className='w-6 h-6 text-[#3486FE] fill-none'
+								hoverColor='#f9329c]'
+								className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 							/>
 						}
 						isHover
@@ -292,7 +293,7 @@ export default function ClassifiedDetail() {
 														/>
 													</div>
 													<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
-														<p className='text-[16px] font-bold uppercase text-[#4f4f4f] text-center'>
+														<p className='text-[16px] font-bold text-[#4f4f4f] text-center'>
 															Trust rating
 														</p>
 														<span className='text-[16px] font-bold text-[#3486fe]'>
@@ -345,17 +346,76 @@ export default function ClassifiedDetail() {
 
 				{/* похожие предложения */}
 				<div className='w-full px-0'>
-					<div className='hidden lg:grid custom-container mx-auto'>
-						<h3 className='text-[24px] font-bold uppercase text-[#4f4f4f] inline-block'>
-							Similar offers
-						</h3>
-						<div className='grid grid-cols-4 md:grid-cols-12 gap-0 mt-4 lg:mt-8'>
-							<div className='col-start-1 col-end-13'>
-								<div className='grid grid-cols-4 md:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4'>
+					{isLoading && classifieds.length === 0 ? (
+						<Loader />
+					) : (
+						<>
+							<div className='hidden lg:grid custom-container mx-auto'>
+								<h3 className='text-[24px] font-bold uppercase text-[#4f4f4f] inline-block'>
+									Similar offers
+								</h3>
+								<div className='grid grid-cols-4 md:grid-cols-12 gap-0 mt-4 lg:mt-8'>
+									<div className='col-start-1 col-end-13'>
+										<div className='grid grid-cols-4 md:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
+											{classifieds.slice(0, 6).map((item, index) => (
+												<div
+													key={index}
+													className='col-span-2 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+												>
+													<ClassifiedCard
+														classifiedId={item.id}
+														title={item.title}
+														price={item.price.toFixed(2)}
+														image={item.images[0]}
+														favoritesBool={item.favoritesBool}
+														favorites={item.favorites}
+														href={`/selling-classifieds/${item.id}`}
+														isSmall={true}
+													/>
+												</div>
+											))}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className='w-full lg:hidden'>
+								<h3 className='text-[24px] px-4 md:px-8 mb-4 font-bold uppercase text-[#4f4f4f] inline-block'>
+									Similar offers
+								</h3>
+								<Swiper
+									slidesPerView='auto'
+									spaceBetween={16}
+									grabCursor={true}
+									speed={800}
+									freeMode={false}
+									touchRatio={1}
+									slidesOffsetBefore={16}
+									className='h-[300px] select-none'
+									breakpoints={{
+										320: {
+											slidesPerView: 'auto',
+											spaceBetween: 16,
+											slidesOffsetBefore: 16,
+										},
+										420: {
+											slidesPerView: 'auto',
+											spaceBetween: 16,
+										},
+										640: {
+											slidesPerView: 3.2,
+											spaceBetween: 16,
+										},
+										768: {
+											slidesPerView: 'auto',
+											spaceBetween: 32,
+											slidesOffsetBefore: 32,
+										},
+									}}
+								>
 									{classifieds.slice(0, 6).map((item, index) => (
-										<div
+										<SwiperSlide
 											key={index}
-											className='col-span-2 md:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+											className='min-w-[206px] max-w-[224px] min-h-[278px] max-h-[283px] transition-transform duration-300 overflow-visible select-none'
 										>
 											<ClassifiedCard
 												classifiedId={item.id}
@@ -367,60 +427,12 @@ export default function ClassifiedDetail() {
 												href={`/selling-classifieds/${item.id}`}
 												isSmall={true}
 											/>
-										</div>
+										</SwiperSlide>
 									))}
-								</div>
+								</Swiper>
 							</div>
-						</div>
-					</div>
-					<div className='mb-4 lg:hidden '>
-						<Swiper
-							slidesPerView={1}
-							spaceBetween={16}
-							grabCursor={true}
-							centeredSlides
-							speed={800}
-							freeMode={false}
-							touchRatio={0.5}
-							className='w-full h-[300px] select-none'
-							breakpoints={{
-								320: {
-									slidesPerView: 1.2,
-									spaceBetween: 16,
-								},
-								420: {
-									slidesPerView: 1.5,
-									spaceBetween: 16,
-								},
-								640: {
-									slidesPerView: 3.2,
-									spaceBetween: 16,
-								},
-								769: {
-									slidesPerView: 4,
-									spaceBetween: 32,
-								},
-							}}
-						>
-							{classifieds.slice(0, 6).map((item, index) => (
-								<SwiperSlide
-									key={index}
-									className='min-w-[206px] max-w-[224px] min-h-[278px] max-h-[283px] transition-transform duration-300 overflow-visible'
-								>
-									<ClassifiedCard
-										classifiedId={item.id}
-										title={item.title}
-										price={item.price.toFixed(2)}
-										image={item.images[0]}
-										favoritesBool={item.favoritesBool}
-										favorites={item.favorites}
-										href={`/selling-classifieds/${item.id}`}
-										isSmall={true}
-									/>
-								</SwiperSlide>
-							))}
-						</Swiper>
-					</div>
+						</>
+					)}
 				</div>
 			</div>
 

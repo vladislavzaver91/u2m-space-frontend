@@ -13,12 +13,13 @@ export const AddClassifiedButton = ({
 	return (
 		<Link
 			href={href}
-			className='border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:shadow-custom-xl hover:border-[#f9329c] w-full max-sm:h-[84px] sm:h-[294px] 3xl:h-[375px]! space-y-2 cursor-pointer group select-none'
+			className='border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:border-[#f9329c] w-full max-sm:h-[84px] sm:h-[294px] 3xl:h-[375px]! space-y-2 cursor-pointer group select-none'
 		>
 			<IconCustom
 				name='add_plus'
 				hover
-				className='w-6 h-6 text-[#4f4f4f] fill-none group'
+				hoverColor='#f9329c'
+				className='w-6 h-6 text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c] fill-none'
 			/>
 			<span className='text-[#4f4f4f] text-[16px] font-bold leading-5'>
 				Add Classifieds

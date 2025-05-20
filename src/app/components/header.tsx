@@ -135,7 +135,8 @@ export const Header = () => {
 												<IconCustom
 													name='add_plus'
 													hover={true}
-													className='w-6 h-6 text-[#3486fe] fill-none'
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 												/>
 											}
 											isHover
@@ -153,7 +154,8 @@ export const Header = () => {
 												<IconCustom
 													name='add_plus'
 													hover={true}
-													className='w-6 h-6 text-[#3486fe] fill-none'
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 												/>
 											}
 											isHover
@@ -171,7 +173,8 @@ export const Header = () => {
 											<IconCustom
 												name='add_plus'
 												hover={true}
-												className='w-6 h-6 text-[#3486fe] fill-none'
+												hoverColor='#f9329c'
+												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 											/>
 										}
 										isHover
@@ -249,7 +252,8 @@ export const Header = () => {
 										<IconCustom
 											name='user_square'
 											hover={true}
-											className='w-6 h-6 text-[#3486fe] fill-none'
+											hoverColor='#f9329c'
+											className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 										/>
 									}
 									isHover

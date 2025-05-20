@@ -16,7 +16,7 @@ export const CategoryTabs = ({
 	isHideDisabled,
 }: CategoryTabsProps) => {
 	return (
-		<div className='flex flex-wrap gap-4 sm:gap-20 max-md:px-4 py-4 md:py-8'>
+		<div className='flex flex-wrap gap-3 2xs:gap-4 sm:gap-20 max-md:px-4 py-4 md:py-8'>
 			{categories.map((category, index) => {
 				const isDisabled = category === 'Hide' && isHideDisabled
 				return (
@@ -24,7 +24,7 @@ export const CategoryTabs = ({
 						key={index}
 						onClick={() => !disabled && onCategoryChange(category)}
 						disabled={isDisabled}
-						className={`relative pb-2 md:pb-4 tracking-[0.022em] text-[18px] md:text-[24px] font-bold uppercase cursor-pointer transition-colors border-b-2 border-transparent select-none ${
+						className={`relative pb-2 md:pb-4 tracking-[0.022em] text-[16px] 2xs:text-[18px] md:text-[24px] font-bold uppercase cursor-pointer transition-colors border-b-2 border-transparent select-none ${
 							activeCategory === category
 								? 'text-[#3486fe] border-[#f9329c]'
 								: isDisabled

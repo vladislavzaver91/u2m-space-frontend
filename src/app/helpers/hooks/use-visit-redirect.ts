@@ -16,7 +16,7 @@ export function useVisitRedirect() {
 			console.log('First visit, rendering:', pathname)
 			localStorage.setItem('hasVisited', 'true')
 			setShouldRender(true)
-		} else if (pathname === '/') {
+		} else if (hasVisited) {
 			// Повторный визит на '/': редирект на /selling-classifieds
 			console.log('Repeat visit on root, redirecting to /selling-classifieds')
 			router.replace('/selling-classifieds')

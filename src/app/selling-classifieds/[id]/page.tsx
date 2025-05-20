@@ -387,7 +387,7 @@ export default function ClassifiedDetail() {
 									slidesPerView='auto'
 									spaceBetween={16}
 									grabCursor={true}
-									speed={800}
+									speed={400}
 									freeMode={false}
 									touchRatio={1}
 									slidesOffsetBefore={16}

@@ -62,6 +62,8 @@ export const ButtonWithIcon = ({
 		return (
 			<Link
 				href={href}
+				rel='preload'
+				as='image'
 				className={` ${icon && iconStyles} ${baseStyles} ${
 					isHover && hover
 				} ${className} group select-none`}

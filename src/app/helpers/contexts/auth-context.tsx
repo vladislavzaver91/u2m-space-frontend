@@ -140,8 +140,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.removeItem('accessToken')
 		localStorage.removeItem('refreshToken')
 		localStorage.removeItem('user')
-		localStorage.removeItem('hasVisited')
-		router.push('/')
+		router.push('/selling-classifieds')
 	}
 
 	return (

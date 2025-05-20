@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { ButtonWithIcon } from './ui/button-with-icon'
 import { AuthLinkItem } from '../types'
@@ -132,7 +131,7 @@ export const LoginModal = () => {
 											key={index}
 											text={item.name}
 											icon={
-												<Image
+												<img
 													src={item.icon}
 													alt={`${item.name} logo`}
 													width={32}
@@ -142,7 +141,7 @@ export const LoginModal = () => {
 											href={item.href}
 											onClick={() => handleAuthClick(item.name)}
 											isHover
-											className='flex items-center gap-4 p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-xl hover:border-[#f9329c] transition-colors min-w-[162px] w-fit h-[64px] justify-center'
+											className='flex items-center gap-4 p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-xl hover:border-[#f9329c] transition-colors min-w-[162px] w-fit h-[64px]'
 										/>
 									))}
 								</div>

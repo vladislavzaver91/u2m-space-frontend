@@ -23,7 +23,6 @@ body {
 	color: var(--foreground);
 	font-family: Montserrat, sans-serif;
 	overflow-y: scroll;
-	margin-right: 8px;
 }
 
 body::-webkit-scrollbar {
@@ -251,4 +250,17 @@ body.has-scroll::-webkit-scrollbar-thumb {
 	@media (max-height: 660px) {
 		gap: 30px;
 	}
+}
+
+/* skeleton-image */
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+.animate-shimmer {
+	animation: shimmer 1.5s linear infinite;
 }

@@ -41,10 +41,35 @@ export const ImageSlider = ({
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
+	useEffect(() => {
+		setImageLoaded(new Array(images.length).fill(false))
+	}, [images])
+
 	const handleSlideChange = (swiper: SwiperClass) => {
 		setCurrentImageIndex(swiper.realIndex)
 		SwiperPaginationService.updateForCard(swiper)
 		setCurrentSlide(swiper.activeIndex)
+		const slidesPerViewRaw = swiper.params.slidesPerView || 1
+		const slidesPerView =
+			typeof slidesPerViewRaw === 'number' ? slidesPerViewRaw : 1
+		const startIndex = Math.max(
+			0,
+			swiper.activeIndex - Math.ceil(slidesPerView)
+		)
+		const endIndex = Math.min(
+			images.length - 1,
+			swiper.activeIndex + Math.ceil(slidesPerView)
+		)
+		setImageLoaded(prev => {
+			const newLoaded = [...prev]
+			// Сбрасываем loaded для невидимых слайдов
+			for (let i = 0; i < images.length; i++) {
+				if (i < startIndex || i > endIndex) {
+					newLoaded[i] = false
+				}
+			}
+			return newLoaded
+		})
 	}
 
 	const handleImageClick = (e: React.MouseEvent) => {
@@ -76,6 +101,7 @@ export const ImageSlider = ({
 						style={{ objectFit: 'cover' }}
 						className='w-full h-full rounded-[13px]'
 						onLoad={() => handleImageLoad(0)}
+						priority
 					/>
 				</div>
 				<div className='relative pt-8 pb-7'>
@@ -182,7 +208,8 @@ export const ImageSlider = ({
 								style={{ objectFit: 'cover' }}
 								className='w-full h-full rounded-[13px]'
 								onLoad={() => handleImageLoad(index)}
-								priority={index === 0}
+								priority={index <= 1}
+								loading={index > 1 ? 'lazy' : undefined}
 							/>
 						</div>
 					</SwiperSlide>

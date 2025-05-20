@@ -2,39 +2,34 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useAuth } from '../contexts/auth-context'
 
 export function useVisitRedirect() {
 	const router = useRouter()
 	const pathname = usePathname()
-	const { user } = useAuth()
 	const [shouldRender, setShouldRender] = useState<boolean>(false)
 	const [isRedirecting, setIsRedirecting] = useState<boolean>(false)
+	const [target, setTarget] = useState<string>('/')
 
 	useEffect(() => {
-		const hasVisitedForAuthUser = localStorage.getItem('hasVisitedForAuthUser')
+		const hasVisited = localStorage.getItem('hasVisited')
+		setTarget(hasVisited ? '/selling-classifieds' : '/')
 
-		if (!user) {
-			console.log('Non-authenticated user, rendering:', pathname)
-			setShouldRender(true)
-			return
-		}
-
-		if (!hasVisitedForAuthUser) {
-			console.log('First visit for authenticated user, rendering:', pathname)
-			localStorage.setItem('hasVisitedForAuthUser', 'true')
+		if (!hasVisited) {
+			// Первый визит
+			console.log('First visit, rendering:', pathname)
+			localStorage.setItem('hasVisited', 'true')
 			setShouldRender(true)
 		} else if (pathname === '/' && !isRedirecting) {
-			console.log(
-				'Authenticated user on root, redirecting to /selling-classifieds'
-			)
+			// Повторный визит на '/': перенаправляем на /selling-classifieds
+			console.log('Repeat visit on root, redirecting to /selling-classifieds')
 			setIsRedirecting(true)
 			router.replace('/selling-classifieds')
 		} else {
-			console.log('Authenticated user, rendering:', pathname)
+			// Повторный визит на другую страницу: рендерим
+			console.log('Repeat visit, rendering:', pathname)
 			setShouldRender(true)
 		}
-	}, [router, pathname, user, isRedirecting])
+	}, [router, pathname, isRedirecting])
 
 	useEffect(() => {
 		if (isRedirecting && pathname === '/selling-classifieds') {
@@ -44,5 +39,5 @@ export function useVisitRedirect() {
 		}
 	}, [pathname, isRedirecting])
 
-	return shouldRender
+	return { shouldRender, target }
 }

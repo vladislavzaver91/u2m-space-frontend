@@ -15,7 +15,7 @@ export const SkeletonImage = ({
 }: SkeletonImageProps) => {
 	return (
 		<div
-			className={['bg-[#F7F7F7] animate-pulse', className]
+			className={['bg-[#bdbdbd] animate-shimmer', className]
 				.filter(Boolean)
 				.join(' ')}
 			style={{
@@ -23,6 +23,9 @@ export const SkeletonImage = ({
 				height: height || '100%',
 				borderRadius:
 					typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius,
+				backgroundImage:
+					'linear-gradient(90deg, #bdbdbd 0%, #d3d3d3 40%, #bdbdbd 80%)',
+				backgroundSize: '200% 100%',
 			}}
 		/>
 	)

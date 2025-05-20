@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { IconCustom } from './icon-custom'
-import { useAuth } from '@/app/helpers/contexts/auth-context'
+import { useVisitRedirect } from '@/app/helpers/hooks/use-visit-redirect'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -22,8 +22,7 @@ export const SearchInput = ({
 	smallWidth,
 	logoActive = false,
 }: SearchInputProps) => {
-	const { user } = useAuth()
-	const target = user ? '/selling-classifieds' : '/'
+	const { target } = useVisitRedirect()
 
 	return (
 		<div className={`relative w-full select-none ${className}`}>

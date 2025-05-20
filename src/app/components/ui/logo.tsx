@@ -21,10 +21,9 @@ export const Logo = ({
 	className,
 }: LogoProps) => {
 	const router = useRouter()
-	const { user } = useAuth()
+	const { target } = useVisitRedirect()
 
 	const handleClick = () => {
-		const target = user ? '/selling-classifieds' : '/'
 		router.push(target)
 	}
 

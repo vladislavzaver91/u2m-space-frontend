@@ -132,10 +132,6 @@ export default function ClassifiedDetail() {
 		return <div className='text-center mt-20 text-red-500'>{error}</div>
 	}
 
-	// if (!classified) {
-	// 	return <div className='text-center mt-20'>Classified not found</div>
-	// }
-
 	const INFO_AND_ANALYTICAL_DATA = [
 		{
 			icon: (
@@ -174,7 +170,7 @@ export default function ClassifiedDetail() {
 		},
 	]
 
-	if (isLoading) {
+	if (isLoading || !classified) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />

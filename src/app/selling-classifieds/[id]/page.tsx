@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { Classified } from '@/app/types'
 import { apiService } from '@/app/services/api.service'
 import { Loader } from '@/app/components/ui/loader'
@@ -39,6 +39,7 @@ export default function ClassifiedDetail() {
 	const [page, setPage] = useState(1)
 	const { user } = useAuth()
 	const params = useParams()
+	const router = useRouter()
 	const id = params.id as string
 	const limit = 10
 
@@ -117,7 +118,7 @@ export default function ClassifiedDetail() {
 	}
 
 	const handleBack = () => {
-		window.history.back()
+		router.push('/selling-classifieds')
 	}
 
 	const handleOpenModal = () => {

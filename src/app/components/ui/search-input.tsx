@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { IconCustom } from './icon-custom'
-import { useVisitRedirect } from '@/app/helpers/hooks/use-visit-redirect'
+import { useRouter } from 'next/navigation'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -22,7 +22,11 @@ export const SearchInput = ({
 	smallWidth,
 	logoActive = false,
 }: SearchInputProps) => {
-	const { target } = useVisitRedirect()
+	const router = useRouter()
+	const target =
+		typeof window !== 'undefined' && localStorage.getItem('hasVisited')
+			? '/selling-classifieds'
+			: '/'
 
 	return (
 		<div className={`relative w-full select-none ${className}`}>

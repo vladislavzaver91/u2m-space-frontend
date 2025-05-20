@@ -1,7 +1,5 @@
 'use client'
 
-import { useAuth } from '@/app/helpers/contexts/auth-context'
-import { useVisitRedirect } from '@/app/helpers/hooks/use-visit-redirect'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -21,7 +19,10 @@ export const Logo = ({
 	className,
 }: LogoProps) => {
 	const router = useRouter()
-	const { target } = useVisitRedirect()
+	const target =
+		typeof window !== 'undefined' && localStorage.getItem('hasVisited')
+			? '/selling-classifieds'
+			: '/'
 
 	const handleClick = () => {
 		router.push(target)

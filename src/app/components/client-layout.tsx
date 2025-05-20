@@ -52,7 +52,7 @@ export default function ClientLayout({
 		checkLogin()
 	}, [user, handleAuthSuccess, router])
 
-	if (!shouldRender && pathname === '/') {
+	if (!shouldRender) {
 		return (
 			<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
 				<Loader />

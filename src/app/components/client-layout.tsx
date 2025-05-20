@@ -6,7 +6,7 @@ import { useVisitRedirect } from '../helpers/hooks/use-visit-redirect'
 import { Loader } from './ui/loader'
 import { apiService } from '../services/api.service'
 import { useAuth } from '../helpers/contexts/auth-context'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function ClientLayout({
 	children,
@@ -17,6 +17,7 @@ export default function ClientLayout({
 	useScrollStyle()
 	const { user, handleAuthSuccess } = useAuth()
 	const router = useRouter()
+	const pathname = usePathname()
 	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
@@ -39,6 +40,9 @@ export default function ClientLayout({
 						refreshToken: res.refreshToken,
 					})
 					console.log('Success login:', res)
+					if (pathname === '/') {
+						router.replace('/selling-classifieds')
+					}
 				} catch (error: any) {
 					console.error('Login error:', error)
 					setError(error.response?.data?.error || 'Failed to login')
@@ -48,7 +52,10 @@ export default function ClientLayout({
 		checkLogin()
 	}, [user, handleAuthSuccess, router])
 
-	if (!shouldRender) {
+	if (
+		!shouldRender ||
+		(localStorage.getItem('hasVisited') && pathname === '/')
+	) {
 		return (
 			<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
 				<Loader />

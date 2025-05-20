@@ -7,7 +7,6 @@ export function useVisitRedirect() {
 	const router = useRouter()
 	const pathname = usePathname()
 	const [shouldRender, setShouldRender] = useState<boolean>(false)
-	const [isRedirecting, setIsRedirecting] = useState<boolean>(false)
 	const [target, setTarget] = useState<string>('/')
 
 	useEffect(() => {
@@ -15,29 +14,23 @@ export function useVisitRedirect() {
 		setTarget(hasVisited ? '/selling-classifieds' : '/')
 
 		if (!hasVisited) {
-			// Первый визит
+			// Первый визит: устанавливаем флаг и рендерим текущую страницу
 			console.log('First visit, rendering:', pathname)
 			localStorage.setItem('hasVisited', 'true')
+			setTarget('/')
 			setShouldRender(true)
-		} else if (pathname === '/' && !isRedirecting) {
+		} else if (pathname === '/') {
 			// Повторный визит на '/': перенаправляем на /selling-classifieds
 			console.log('Repeat visit on root, redirecting to /selling-classifieds')
-			setIsRedirecting(true)
 			router.replace('/selling-classifieds')
+			setTarget('/selling-classifieds')
 		} else {
 			// Повторный визит на другую страницу: рендерим
 			console.log('Repeat visit, rendering:', pathname)
+			setTarget('/selling-classifieds')
 			setShouldRender(true)
 		}
-	}, [router, pathname, isRedirecting])
-
-	useEffect(() => {
-		if (isRedirecting && pathname === '/selling-classifieds') {
-			console.log('Redirect completed, rendering /selling-classifieds')
-			setIsRedirecting(false)
-			setShouldRender(true)
-		}
-	}, [pathname, isRedirecting])
+	}, [router, pathname])
 
 	return { shouldRender, target }
 }

@@ -7,11 +7,14 @@ export function useVisitRedirect() {
 	const router = useRouter()
 	const pathname = usePathname()
 	const [shouldRender, setShouldRender] = useState<boolean>(false)
-	const [target, setTarget] = useState<string>('/')
+	const [target, setTarget] = useState<string>(
+		typeof window !== 'undefined' && localStorage.getItem('hasVisited')
+			? '/selling-classifieds'
+			: '/'
+	)
 
 	useEffect(() => {
 		const hasVisited = localStorage.getItem('hasVisited')
-		setTarget(hasVisited ? '/selling-classifieds' : '/')
 
 		if (!hasVisited) {
 			// Первый визит: устанавливаем флаг и рендерим текущую страницу

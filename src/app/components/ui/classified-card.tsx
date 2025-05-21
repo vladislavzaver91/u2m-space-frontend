@@ -85,7 +85,7 @@ export const ClassifiedCard = ({
 				} max-md:min-h-[140px]`}
 			>
 				<div className='flex items-center justify-between'>
-					<h3
+					<h2
 						className={` ${
 							isSmall ? 'text-[18px] md:text-[24px]' : 'text-[24px]'
 						} uppercase font-bold transition-all ${
@@ -93,7 +93,7 @@ export const ClassifiedCard = ({
 						}`}
 					>
 						${price}
-					</h3>
+					</h2>
 					<ButtonWithIcon
 						iconWrapperClass='w-6 h-6'
 						icon={

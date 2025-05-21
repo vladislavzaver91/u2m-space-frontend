@@ -107,9 +107,9 @@ export const ImageSlider = ({
 						priority
 					/>
 				</div>
-				<div className='relative pt-8 pb-7'>
+				<div className='relative pt-10 pb-9'>
 					{onOpenModal && (
-						<div className='max-md:hidden absolute bottom-0 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]'>
+						<div className='max-md:hidden absolute bottom-2 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]'>
 							<div className='flex items-center'>
 								<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
 									{String(currentImageIndex + 1).padStart(2, '0')}

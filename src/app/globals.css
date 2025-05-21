@@ -267,3 +267,14 @@ body.has-scroll::-webkit-scrollbar-thumb {
 .animate-shimmer {
 	animation: shimmer 1.5s linear infinite;
 }
+
+.dnd-dragging {
+	transition: all 300ms ease;
+}
+
+.dnd-placeholder {
+	background: rgba(0, 0, 0, 0.1);
+	border: 1px dashed #ccc;
+	border-radius: 13px;
+	z-index: 0;
+}

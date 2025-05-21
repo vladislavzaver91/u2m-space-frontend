@@ -33,7 +33,8 @@ const $api: AxiosInstance = axios.create({
 
 // Интерцептор запросов для добавления accessToken
 $api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-	const accessToken = localStorage.getItem('accessToken')
+	const accessToken =
+		typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 	if (accessToken && config.headers) {
 		config.headers.set('Authorization', `Bearer ${accessToken}`)
 	}

@@ -42,11 +42,11 @@ export const BenefitsItemCard = ({
 					className='h-full w-full object-contain'
 				/>
 			</div>
-			<p
+			<h2
 				className={`max-md:w-[300px] max-md:text-center w-[220px] h-full flex items-center max-md:leading-7 md:p-2.5 text-[24px] font-bold text-[#4f4f4f] flex-shrink-0`}
 			>
 				{label}
-			</p>
+			</h2>
 		</div>
 	)
 }

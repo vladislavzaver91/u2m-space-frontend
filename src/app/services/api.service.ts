@@ -66,12 +66,7 @@ export class ApiService {
 	}
 
 	async getClassifiedById(id: string): Promise<Classified> {
-		const token = localStorage.getItem('accessToken')
-		const res = await $api.get(`/api/classifieds/${id}`, {
-			headers: {
-				Authorization: token ? `Bearer ${token}` : '',
-			},
-		})
+		const res = await $api.get(`/api/classifieds/${id}`)
 		return res.data
 	}
 

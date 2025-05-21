@@ -67,8 +67,10 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 
 	if (type === 'close') {
 		return (
-			<div className='flex items-center h-10 gap-2 border border-[#3486fe] rounded-lg py-2 pl-4 pr-2 text-[#3486fe] hover:bg-[#f7f7f7] transition-all'>
-				<span className='text-[14px] font-medium text-[#4f4f4f]'>{text}</span>
+			<div className='flex items-center h-10 gap-2 border border-[#3486fe] rounded-lg py-2 pl-4 pr-2 max-sm:max-w-[150px] max-md:max-w-[200px] text-[#3486fe] hover:bg-[#f7f7f7] transition-all'>
+				<span className='text-[14px] font-medium text-[#4f4f4f] max-md:truncate'>
+					{text}
+				</span>
 				<ButtonWithIcon
 					onClick={onClick}
 					iconWrapperClass='h-6 w-6 flex items-center justify-center'
@@ -88,10 +90,12 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 	if (type === 'plus') {
 		return (
 			<div
-				className='flex items-center h-10 gap-2 border border-[#3486fe] rounded-lg py-2 pl-2 pr-4 flex-row-reverse text-[#3486fe] hover:bg-[#f7f7f7] transition-all group cursor-pointer'
+				className='flex items-center h-10 gap-2 border border-[#3486fe] rounded-lg py-2 pl-2 pr-4 max-sm:max-w-[150px] max-md:max-w-[200px] flex-row-reverse text-[#3486fe] hover:bg-[#f7f7f7] transition-all group cursor-pointer'
 				onClick={onClick}
 			>
-				<span className='text-[14px] font-medium text-[#4f4f4f]'>{text}</span>
+				<span className='text-[14px] font-medium text-[#4f4f4f] max-md:truncate'>
+					{text}
+				</span>
 				<ButtonWithIcon
 					iconWrapperClass='h-6 w-6 flex items-center justify-center'
 					icon={
@@ -111,7 +115,7 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 		<>
 			{isEditing ? (
 				<div
-					className={`flex items-center h-10 gap-2 group cursor-pointer ${
+					className={`flex items-center h-10 gap-2 group cursor-pointer max-md:max-w-[200px] ${
 						isEditing ? 'border border-[#3486fe]' : 'border-none'
 					} rounded-lg py-2 text-[#3486fe] hover:bg-[#f7f7f7] transition-all ${
 						isEditing ? 'pl-4 pr-2' : 'pl-2 pr-4 flex-row-reverse'
@@ -144,14 +148,16 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 				</div>
 			) : (
 				<div
-					className={`flex items-center h-10 gap-2 group cursor-pointer ${
+					className={`flex items-center h-10 gap-2 max-sm:max-w-[150px] max-md:max-w-[200px] group cursor-pointer ${
 						isEditing ? 'border border-[#3486fe]' : 'border-none'
 					} rounded-lg py-2 text-[#3486fe] hover:bg-[#f7f7f7] transition-all ${
 						isEditing ? 'pl-4 pr-2' : 'pl-2 pr-4 flex-row-reverse'
 					}`}
 					onClick={handleInputClick}
 				>
-					<span className='text-[14px] font-medium text-[#4f4f4f]'>{text}</span>
+					<span className='text-[14px] font-medium text-[#4f4f4f] max-md:truncate'>
+						{text}
+					</span>
 					<ButtonWithIcon
 						onClick={handleInputClick}
 						iconWrapperClass='h-6 w-6 flex items-center justify-center'

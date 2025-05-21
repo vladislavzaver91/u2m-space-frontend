@@ -63,6 +63,7 @@ export default function Home() {
 								modules={[Pagination]}
 								spaceBetween={0}
 								slidesPerView={1}
+								speed={400}
 								pagination={SwiperPaginationService.paginationBase}
 								onSwiper={swiper => (swiperRef.current = swiper)}
 								onSlideChange={swiper => {
@@ -156,7 +157,7 @@ export default function Home() {
 									modules={[Pagination]}
 									spaceBetween={0}
 									slidesPerView={1}
-									speed={800}
+									speed={400}
 									pagination={SwiperPaginationService.paginationBase}
 									onSwiper={swiper => (swiperRef.current = swiper)}
 									onSlideChange={swiper => {

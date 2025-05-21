@@ -278,8 +278,8 @@ export const MyClassifiedCard = ({
 					</>
 				</Link>
 			) : (
-				<div {...containerProps} className='cursor-not-allowed'>
-					<div className='relative w-full h-[154px] 3xl:h-[253px]'>
+				<div {...containerProps}>
+					<div className='relative w-full h-[154px] 3xl:h-[253px] cursor-not-allowed'>
 						{image ? (
 							<Image
 								src={image}

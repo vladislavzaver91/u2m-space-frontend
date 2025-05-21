@@ -387,9 +387,10 @@ export default function ClassifiedDetail() {
 									slidesPerView='auto'
 									spaceBetween={16}
 									grabCursor={true}
-									speed={400}
-									freeMode={false}
-									touchRatio={1}
+									speed={500}
+									freeMode={true}
+									touchRatio={1.5}
+									touchReleaseOnEdges
 									slidesOffsetBefore={16}
 									className='h-[300px] select-none'
 									breakpoints={{

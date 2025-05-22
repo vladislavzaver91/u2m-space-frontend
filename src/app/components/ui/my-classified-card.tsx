@@ -118,7 +118,7 @@ export const MyClassifiedCard = ({
 					{/* Нижний блок с анимацией */}
 					<>
 						{/* моб */}
-						<div className='relative flex flex-col justify-between p-4 min-h-[242px] overflow-hidden space-y-4 sm:hidden'>
+						<div className='relative p-4 min-h-[242px] overflow-hidden space-y-4 sm:hidden'>
 							{/* инфо-аналитические данные */}
 							<div className='w-full flex flex-wrap justify-between gap-4'>
 								{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
@@ -133,62 +133,64 @@ export const MyClassifiedCard = ({
 									</div>
 								))}
 							</div>
-							{/* цена + заголовок */}
-							<div>
-								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[9px]'>
-									${price}
-								</h2>
-								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
-									{title}
-								</p>
-							</div>
-							{/* кнопки */}
-							<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
-								<ButtonWithIcon
-									text='hide'
-									icon={
-										<IconCustom
-											name='hide'
-											hover
-											className='w-4 h-4 fill-none text-[#4f4f4f] group-focus:text-[#3486fe]!'
-										/>
-									}
-									onClick={handleToggle}
-									isHover
-									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
-								/>
-								<ButtonWithIcon
-									text='edit'
-									onClick={handleEdit}
-									icon={
-										<IconCustom
-											name='edit-pencil'
-											hoverColor='#3486fe'
-											disabled={!isActive}
-											className='w-4 h-4 fill-none text-[#4f4f4f]'
-										/>
-									}
-									isHover
-									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
-									disabled={!isActive}
-									disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
-								/>
-								<ButtonWithIcon
-									text='up'
-									icon={
-										<IconCustom
-											name='arrow-circle-up'
-											hover
-											hoverColor='#3486fe'
-											disabled={!isActive}
-											className='w-4 h-4 fill-none text-[#4f4f4f]'
-										/>
-									}
-									isHover
-									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
-									disabled={!isActive}
-									disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
-								/>
+							<div className='flex flex-col justify-between '>
+								{/* цена + заголовок */}
+								<div>
+									<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[9px]'>
+										${price}
+									</h2>
+									<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
+										{title}
+									</p>
+								</div>
+								{/* кнопки */}
+								<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
+									<ButtonWithIcon
+										text='hide'
+										icon={
+											<IconCustom
+												name='hide'
+												hover
+												className='w-4 h-4 fill-none text-[#4f4f4f] group-focus:text-[#3486fe]!'
+											/>
+										}
+										onClick={handleToggle}
+										isHover
+										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
+									/>
+									<ButtonWithIcon
+										text='edit'
+										onClick={handleEdit}
+										icon={
+											<IconCustom
+												name='edit-pencil'
+												hoverColor='#3486fe'
+												disabled={!isActive}
+												className='w-4 h-4 fill-none text-[#4f4f4f]'
+											/>
+										}
+										isHover
+										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
+										disabled={!isActive}
+										disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
+									/>
+									<ButtonWithIcon
+										text='up'
+										icon={
+											<IconCustom
+												name='arrow-circle-up'
+												hover
+												hoverColor='#3486fe'
+												disabled={!isActive}
+												className='w-4 h-4 fill-none text-[#4f4f4f]'
+											/>
+										}
+										isHover
+										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
+										disabled={!isActive}
+										disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
+									/>
+								</div>
 							</div>
 						</div>
 						{/* таблет + декстоп */}

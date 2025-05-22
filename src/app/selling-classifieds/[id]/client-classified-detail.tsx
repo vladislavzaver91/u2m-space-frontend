@@ -317,9 +317,9 @@ export function ClientClassifiedDetail({
 														<p className='text-[16px] font-bold text-[#4f4f4f] text-center'>
 															Trust rating
 														</p>
-														<span className='text-[16px] font-bold text-[#3486fe]'>
+														<p className='text-[16px] font-bold text-[#3486fe]'>
 															50
-														</span>
+														</p>
 													</div>
 												</div>
 												<div className='space-y-4'>
@@ -331,9 +331,9 @@ export function ClientClassifiedDetail({
 															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
 																tr
 															</p>
-															<span className='text-[16px] font-bold text-[#3486fe]'>
+															<p className='text-[16px] font-bold text-[#3486fe]'>
 																50
-															</span>
+															</p>
 														</div>
 													</div>
 													{classified.user.phoneNumber ? (

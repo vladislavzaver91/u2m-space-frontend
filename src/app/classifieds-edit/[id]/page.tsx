@@ -376,45 +376,57 @@ export default function ClassifiedsEdit() {
 														{/* моб */}
 														<div className='col-start-1 col-end-5 sm:col-start-3 sm:col-end-11 gap-8 lg:hidden'>
 															<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 md:gap-8'>
-																{Array.from({ length: 8 }).map((_, idx) => (
-																	<div key={idx} className='relative'>
-																		{idx < imagePreviews.length ? (
-																			<ImagePreview
-																				src={imagePreviews[idx]}
-																				index={idx}
-																				moveImage={moveImage}
-																				onRemove={handleRemoveImage}
-																			/>
-																		) : (
-																			<AddPhotoSmallButton
-																				key={`btn-${idx}`}
-																				onChange={handleImageChange}
-																			/>
-																		)}
-																	</div>
-																))}
-															</div>
-														</div>
-
-														{/* десктоп */}
-														<div className='max-lg:hidden contents'>
-															{Array.from({ length: 8 }).map((_, idx) => (
-																<div key={idx} className='relative'>
-																	{idx < imagePreviews.length ? (
+																{Array.from({ length: 8 }).map((_, idx) =>
+																	idx < imagePreviews.length ? (
 																		<ImagePreview
+																			key={idx}
 																			src={imagePreviews[idx]}
 																			index={idx}
 																			moveImage={moveImage}
-																			onRemove={handleRemoveImage}
+																			onRemove={() => {
+																				setImagePreviews(prev =>
+																					prev.filter((_, i) => i !== idx)
+																				)
+																				setImageFiles(prev =>
+																					prev.filter((_, i) => i !== idx)
+																				)
+																			}}
 																		/>
 																	) : (
 																		<AddPhotoSmallButton
 																			key={`btn-${idx}`}
 																			onChange={handleImageChange}
 																		/>
-																	)}
-																</div>
-															))}
+																	)
+																)}
+															</div>
+														</div>
+
+														{/* десктоп */}
+														<div className='max-lg:hidden contents'>
+															{Array.from({ length: 8 }).map((_, idx) =>
+																idx < imagePreviews.length ? (
+																	<ImagePreview
+																		key={idx}
+																		src={imagePreviews[idx]}
+																		index={idx}
+																		moveImage={moveImage}
+																		onRemove={() => {
+																			setImagePreviews(prev =>
+																				prev.filter((_, i) => i !== idx)
+																			)
+																			setImageFiles(prev =>
+																				prev.filter((_, i) => i !== idx)
+																			)
+																		}}
+																	/>
+																) : (
+																	<AddPhotoSmallButton
+																		key={`btn-${idx}`}
+																		onChange={handleImageChange}
+																	/>
+																)
+															)}
 														</div>
 													</div>
 												</div>

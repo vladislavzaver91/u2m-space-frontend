@@ -92,7 +92,7 @@ export const ImageSlider = ({
 			<>
 				<div
 					onClick={handleImageClick}
-					className='relative h-[228px] md:h-[470px] lg:h-[352px] cursor-pointer'
+					className='relative max-md:mx-4 h-[228px] md:h-[470px] lg:h-[352px] cursor-pointer'
 				>
 					{!imageLoaded[0] && (
 						<SkeletonImage className='absolute inset-0' borderRadius='13px' />

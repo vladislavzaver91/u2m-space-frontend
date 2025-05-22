@@ -255,13 +255,13 @@ export function ClientClassifiedDetail({
 										<div className='col-start-1 col-end-5 md:col-end-13 lg:col-start-7 lg:col-end-13 xl:col-start-6 xl:col-end-12 2xl:col-start-5 2xl:col-end-9 space-y-8 max-md:px-4'>
 											{/* заголовок, цена, описание, инфо-аналитические иконки с данными */}
 											<div className='space-y-4'>
-												<h2 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
+												<h1 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
 													{classified.title}
-												</h2>
+												</h1>
 												<div className='flex items-center justify-between'>
-													<h3 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
+													<h2 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
 														${classified.price}
-													</h3>
+													</h2>
 													<ButtonWithIcon
 														iconWrapperClass='w-6 h-6'
 														icon={
@@ -324,9 +324,9 @@ export function ClientClassifiedDetail({
 												</div>
 												<div className='space-y-4'>
 													<div className='flex sm:items-center sm:gap-8'>
-														<h3 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
+														<h2 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
 															{classified.user.name}
-														</h3>
+														</h2>
 														<div className='max-sm:hidden flex items-center gap-2'>
 															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
 																tr
@@ -372,9 +372,9 @@ export function ClientClassifiedDetail({
 					) : (
 						<>
 							<div className='hidden lg:grid custom-container mx-auto'>
-								<h3 className='text-[24px] font-bold uppercase text-[#4f4f4f] inline-block'>
+								<h2 className='text-[24px] font-bold uppercase text-[#4f4f4f] inline-block'>
 									Similar offers
-								</h3>
+								</h2>
 								<div className='grid grid-cols-4 md:grid-cols-12 gap-0 mt-4 lg:mt-8'>
 									<div className='col-start-1 col-end-13'>
 										<div className='grid grid-cols-4 md:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
@@ -400,9 +400,9 @@ export function ClientClassifiedDetail({
 								</div>
 							</div>
 							<div className='w-full lg:hidden'>
-								<h3 className='text-[24px] px-4 md:px-8 mb-4 font-bold uppercase text-[#4f4f4f] inline-block'>
+								<h2 className='text-[24px] px-4 md:px-8 mb-4 font-bold uppercase text-[#4f4f4f] inline-block'>
 									Similar offers
-								</h3>
+								</h2>
 								<Swiper
 									slidesPerView='auto'
 									spaceBetween={16}

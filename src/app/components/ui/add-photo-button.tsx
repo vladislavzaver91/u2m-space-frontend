@@ -27,9 +27,9 @@ export const AddPhotoButton = ({ onChange }: AddPhotoButtonProps) => {
 				hoverColor='#f9329c'
 				className='w-6 h-6 text-[#4f4f4f] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 			/>
-			<span className='text-[#4f4f4f] text-[16px] font-bold leading-5 select-none'>
+			<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 select-none'>
 				Add photos
-			</span>
+			</p>
 		</div>
 	)
 }

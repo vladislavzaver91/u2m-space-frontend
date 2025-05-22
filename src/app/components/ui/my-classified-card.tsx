@@ -135,9 +135,9 @@ export const MyClassifiedCard = ({
 							</div>
 							{/* цена + заголовок */}
 							<div>
-								<h3 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[9px]'>
+								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[9px]'>
 									${price}
-								</h3>
+								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
 									{title}
 								</p>
@@ -198,9 +198,9 @@ export const MyClassifiedCard = ({
 									isHovered ? '-translate-y-full' : 'translate-y-0'
 								}`}
 							>
-								<h3 className='text-[18px] md:text-[24px] text-[#4f4f4f] uppercase font-bold transition-all'>
+								<h2 className='text-[18px] md:text-[24px] text-[#4f4f4f] uppercase font-bold transition-all'>
 									${price}
-								</h3>
+								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 									{title}
 								</p>

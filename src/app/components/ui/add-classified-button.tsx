@@ -21,9 +21,9 @@ export const AddClassifiedButton = ({
 				hoverColor='#f9329c'
 				className='w-6 h-6 text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c] fill-none'
 			/>
-			<span className='text-[#4f4f4f] text-[16px] font-bold leading-5'>
+			<p className='text-[#4f4f4f] text-[16px] font-bold leading-5'>
 				Add Classifieds
-			</span>
+			</p>
 		</Link>
 	)
 }

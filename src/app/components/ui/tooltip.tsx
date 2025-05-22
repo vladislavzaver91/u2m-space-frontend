@@ -16,7 +16,7 @@ export const Tooltip = ({
 	positionClass,
 }: TooltipProps) => (
 	<div
-		className={`max-xl:hidden absolute ${positionClass} left-40 2xl:left-80 top-10 w-[294px] min-h-fit bg-[#f7f7f7] rounded-[13px] p-5 text-[16px] text-[#4f4f4f] transition-all duration-300 ease-in-out z-10 ${
+		className={`max-xl:hidden absolute ${positionClass} left-40 2xl:left-80 top-10 w-[294px] min-h-fit bg-[#f7f7f7] rounded-[13px] p-5 transition-all duration-300 ease-in-out z-10 ${
 			visible
 				? 'opacity-100 translate-y-0'
 				: 'opacity-0 translate-y-2 pointer-events-none'
@@ -27,8 +27,8 @@ export const Tooltip = ({
 				name='arrow-up-left'
 				className='w-[13px] h-3 text-[#F9329C] fill-none flex items-center justify-center'
 			/>
-			<h4 className='text-[#4f4f4f] text-[16px] font-bold'>{title}</h4>
+			<p className='text-[#4f4f4f] text-[16px] font-bold'>{title}</p>
 		</div>
-		{text}
+		<p className='text-[16px] text-[#4f4f4f]'>{text}</p>
 	</div>
 )

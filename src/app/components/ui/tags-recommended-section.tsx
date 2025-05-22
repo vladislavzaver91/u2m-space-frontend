@@ -13,7 +13,7 @@ export const TagsRecommendedSection = ({
 }: TagsRecommendedSectionProps) => {
 	return (
 		<div className='w-full p-0 sm:p-4 space-y-4'>
-			<h3 className='text-[16px] font-bold text-[#4f4f4f]'>Recommended tags</h3>
+			<p className='text-[16px] font-bold text-[#4f4f4f]'>Recommended tags</p>
 			<div className='flex flex-wrap gap-4'>
 				{recommendedTags.length > 0 ? (
 					recommendedTags.map(tag => (

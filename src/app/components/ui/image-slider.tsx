@@ -111,18 +111,18 @@ export const ImageSlider = ({
 					{onOpenModal && (
 						<div className='max-md:hidden absolute bottom-2 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]'>
 							<div className='flex items-center'>
-								<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
+								<h2 className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
 									{String(currentImageIndex + 1).padStart(2, '0')}
-								</span>
+								</h2>
 								<span className='w-6 h-6'>
 									<IconCustom
 										name='arrow-next'
 										className='w-6 h-6 text-[#bdbdbd] stroke-none'
 									/>
 								</span>
-								<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#3486fe]'>
+								<h2 className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#3486fe]'>
 									{String(images.length)}
-								</span>
+								</h2>
 							</div>
 							<ButtonWithIcon
 								iconWrapperClass='w-6 h-6 flex items-center justify-center'
@@ -224,18 +224,18 @@ export const ImageSlider = ({
 				className={`${paginationClass} max-md:hidden absolute bottom-2 left-0 right-0 flex items-center justify-between w-full z-10 h-[72px]`}
 			>
 				<div className='flex items-center'>
-					<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
+					<h2 className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
 						{String(currentImageIndex + 1).padStart(2, '0')}
-					</span>
+					</h2>
 					<span className='w-6 h-6'>
 						<IconCustom
 							name='arrow-next'
 							className='w-6 h-6 text-[#bdbdbd] stroke-none'
 						/>
 					</span>
-					<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#3486fe]'>
+					<h2 className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#3486fe]'>
 						{String(images.length)}
-					</span>
+					</h2>
 				</div>
 				{onOpenModal && (
 					<ButtonWithIcon

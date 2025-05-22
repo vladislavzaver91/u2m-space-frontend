@@ -54,7 +54,7 @@ export const ButtonWithIcon = ({
 					))}
 				</span>
 			)}
-			{text && <span>{text}</span>}
+			{text && <p>{text}</p>}
 		</>
 	)
 

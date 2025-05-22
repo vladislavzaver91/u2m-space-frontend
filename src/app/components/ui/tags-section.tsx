@@ -16,7 +16,7 @@ export const TagsSection = ({
 }: TagsSectionProps) => {
 	return (
 		<div className='w-full p-0 sm:p-4 space-y-4'>
-			<h3 className='text-[16px] font-bold text-[#4f4f4f]'>Tags</h3>
+			<p className='text-[16px] font-bold text-[#4f4f4f]'>Tags</p>
 			<div className='flex flex-wrap items-center gap-4 w-full'>
 				<AnimatePresence>
 					{tags.length > 0 &&

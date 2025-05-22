@@ -118,7 +118,7 @@ export const MyClassifiedCard = ({
 					{/* Нижний блок с анимацией */}
 					<>
 						{/* моб */}
-						<div className='relative p-4 min-h-[242px] overflow-hidden space-y-4 sm:hidden'>
+						<div className='relative flex flex-col justify-between p-4 min-h-[242px] overflow-hidden space-y-4 sm:hidden'>
 							{/* инфо-аналитические данные */}
 							<div className='w-full flex flex-wrap justify-between gap-4'>
 								{INFO_AND_ANALYTICAL_DATA.map((item, index) => (

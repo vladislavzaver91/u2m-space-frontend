@@ -50,32 +50,21 @@ export const ProfileInformationForm = ({ user }: { user: User }) => {
 			<form className='space-y-4 w-full sm:w-[300px]'>
 				<CustomInput
 					label='Your nickname'
-					register={{
-						name: 'nickname',
-						onChange: e =>
-							setFormData({ ...formData, nickname: e.target.value }),
-					}}
+					onChange={value => setFormData({ ...formData, nickname: value })}
 					maxLength={16}
 					value={formData.nickname}
 				/>
 				<CustomInput
 					label='Legal name'
-					register={{
-						name: 'name',
-						onChange: e => setFormData({ ...formData, name: e.target.value }),
-					}}
-					maxLength={50}
+					onChange={value => setFormData({ ...formData, name: value })}
 					value={formData.name}
+					maxLength={20}
 				/>
 				<CustomInput
 					label='Legal surname'
-					register={{
-						name: 'surname',
-						onChange: e =>
-							setFormData({ ...formData, surname: e.target.value }),
-					}}
-					maxLength={50}
+					onChange={value => setFormData({ ...formData, surname: value })}
 					value={formData.surname}
+					maxLength={20}
 				/>
 				<CustomSelect
 					label='Gender'
@@ -91,21 +80,16 @@ export const ProfileInformationForm = ({ user }: { user: User }) => {
 				/>
 				<CustomInput
 					label='Email Address'
-					register={{
-						name: 'email',
-						onChange: e => setFormData({ ...formData, email: e.target.value }),
-					}}
+					onChange={value => setFormData({ ...formData, email: value })}
 					maxLength={100}
 					value={formData.email}
 					type='email'
 				/>
 				<CustomInput
 					label='Phone number'
-					register={{
-						name: 'phoneNumber',
-						onChange: e =>
-							setFormData({ ...formData, phoneNumber: e.target.value }),
-					}}
+					onChange={value =>
+						setFormData({ ...formData, extraPhoneNumber: value })
+					}
 					maxLength={20}
 					value={formData.phoneNumber}
 					type='tel'
@@ -113,11 +97,9 @@ export const ProfileInformationForm = ({ user }: { user: User }) => {
 				/>
 				<CustomInput
 					label='Extra phone number'
-					register={{
-						name: 'extraPhoneNumber',
-						onChange: e =>
-							setFormData({ ...formData, extraPhoneNumber: e.target.value }),
-					}}
+					onChange={value =>
+						setFormData({ ...formData, extraPhoneNumber: value })
+					}
 					maxLength={20}
 					value={formData.extraPhoneNumber}
 					type='tel'

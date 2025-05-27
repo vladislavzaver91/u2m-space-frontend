@@ -6,6 +6,7 @@ interface CategoryTabsProps {
 	onCategoryChange: (category: string) => void
 	disabled?: boolean
 	isHideDisabled?: boolean
+	containerClass?: string
 }
 
 export const CategoryTabs = ({
@@ -14,9 +15,12 @@ export const CategoryTabs = ({
 	onCategoryChange,
 	disabled,
 	isHideDisabled,
+	containerClass,
 }: CategoryTabsProps) => {
 	return (
-		<div className='flex flex-wrap gap-3 2xs:gap-4 sm:gap-20 max-md:px-4 py-4 md:py-8'>
+		<div
+			className={`flex flex-wrap gap-3 2xs:gap-4 sm:gap-20 max-md:px-4 py-4 md:py-8 ${containerClass}`}
+		>
 			{categories.map((category, index) => {
 				const isDisabled = category === 'Hide' && isHideDisabled
 				return (

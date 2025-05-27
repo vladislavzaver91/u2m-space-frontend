@@ -1,19 +1,15 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { ButtonWithIcon } from '../components/ui/button-with-icon'
-import { CategoryTabs } from '../components/ui/category-tabs'
-import { useAuth } from '../helpers/contexts/auth-context'
-import { IconCustom } from '../components/ui/icon-custom'
-import { Classified } from '../types'
 import { apiService } from '../services/api.service'
+import { useAuth } from '../helpers/contexts/auth-context'
+import { Classified } from '../types'
 import { Loader } from '../components/ui/loader'
-import { MyClassifiedCard } from '../components/ui/my-classified-card'
-import { AddClassifiedButton } from '../components/ui/add-classified-button'
-import { useScrollStyle } from '../helpers/hooks/use-scroll-style'
 import { NavigationButtons } from '../components/ui/navigation-buttons'
+import { CategoryTabs } from '../components/ui/category-tabs'
+import { MyFavoritesCard } from '../components/ui/my-favorites-card'
 
-export default function MyClassifieds() {
+export default function FavoritesPage() {
 	const [activeCategory, setActiveCategory] = useState('All')
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [filteredClassifieds, setFilteredClassifieds] = useState<Classified[]>(
@@ -27,7 +23,7 @@ export default function MyClassifieds() {
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
 
-	const categories = ['All', 'Active', 'Hide']
+	const categories = ['All', 'Selling', 'Bidding', 'Barter']
 
 	useEffect(() => {
 		if (!user) {
@@ -66,9 +62,11 @@ export default function MyClassifieds() {
 		setHasHiddenClassifieds(classifieds.some(item => !item.isActive))
 		if (activeCategory === 'All') {
 			setFilteredClassifieds(classifieds)
-		} else if (activeCategory === 'Active') {
+		} else if (activeCategory === 'Selling') {
 			setFilteredClassifieds(classifieds.filter(item => item.isActive))
-		} else if (activeCategory === 'Hide') {
+		} else if (activeCategory === 'Bidding') {
+			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
+		} else if (activeCategory === 'Barter') {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
 		}
 	}, [classifieds, activeCategory])
@@ -130,40 +128,16 @@ export default function MyClassifieds() {
 				</div>
 			) : (
 				<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
-					<NavigationButtons activePage='My Classifieds' />
-					{/* <div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-4 max-sm:py-[11px] max-2-5xl:pl-8 max-2-5xl:py-6 2-5xl:absolute 2-5xl:pl-32 2-5xl:flex-col gap-4'>
-						<ButtonWithIcon
-							text='My Classifieds'
-							iconWrapperClass='w-6 h-6 flex items-center justify-center'
-							icon={
-								<IconCustom
-									name='note'
-									className='w-[18px] h-[18px] fill-none text-white'
-								/>
-							}
-							className='w-fit min-w-[183px] h-10 flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]!'
-						/>
-						<ButtonWithIcon
-							text='Favorites'
-							className='w-fit min-w-[109px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-						/>
-						<ButtonWithIcon
-							text='Profile'
-							className='w-fit min-w-[87px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-						/>
-						<ButtonWithIcon
-							text='Logout'
-							onClick={logout}
-							className='w-fit min-w-[92px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-						/>
-					</div> */}
+					<NavigationButtons activePage='Favorites' />
+
 					<div className='flex-1 flex sm:justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
 							<CategoryTabs
 								categories={categories.map(category => category)}
 								activeCategory={activeCategory}
 								onCategoryChange={setActiveCategory}
-								isHideDisabled={!hasHiddenClassifieds}
+								disabled={!hasHiddenClassifieds}
+								containerClass='max-md:pl-4! max-md:pr-2!'
 							/>
 						</div>
 					</div>
@@ -171,36 +145,26 @@ export default function MyClassifieds() {
 					{/* список продуктов */}
 
 					<div className='w-full'>
-						<div className='custom-container mx-auto'>
-							<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
-								<div className='col-start-1 col-end-13 2xl:col-start-3 2xl:col-end-11 3xl:col-start-1! 3xl:col-end-13!'>
-									<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
-										<div className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3'>
-											<AddClassifiedButton />
-										</div>
-										{filteredClassifieds.map(item => (
-											<div
-												key={item.id}
-												className='col-span-4 lg:col-span-3 xl:col-span-3 3xl:col-span-3! select-none'
-											>
-												<MyClassifiedCard
-													id={item.id}
-													title={item.title}
-													price={item.price.toFixed(2)}
-													image={item.images[0]}
-													isActive={item.isActive}
-													views={item.views}
-													messages={item.messages}
-													favorites={item.favorites}
-													href={`/selling-classifieds/${item.id}`}
-													onToggleActive={() =>
-														handleToggleActive(item.id, item.isActive)
-													}
-												/>
-											</div>
-										))}
+						<div className='px-4 md:px-8 xl:max-w-[1280px] 2xl:max-w-[1112px] 3xl:max-w-[1664px]! mx-auto'>
+							<div className='flex flex-wrap justify-center gap-4 min-[769px]:gap-8 xl:gap-[60px] w-full'>
+								{filteredClassifieds.map((item, index) => (
+									<div key={item.id} className='max-sm:w-full select-none'>
+										<MyFavoritesCard
+											id={item.id}
+											title={item.title}
+											price={item.price.toFixed(2)}
+											image={item.images[0]}
+											isActive={item.isActive}
+											views={item.views}
+											messages={item.messages}
+											favorites={item.favorites}
+											href={`/selling-classifieds/${item.id}`}
+											onToggleActive={() =>
+												handleToggleActive(item.id, item.isActive)
+											}
+										/>
 									</div>
-								</div>
+								))}
 							</div>
 							{hasMore && (
 								<div ref={loaderRef} className='h-10 flex justify-center'>

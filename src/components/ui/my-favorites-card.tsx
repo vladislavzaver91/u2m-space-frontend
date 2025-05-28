@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { useRouter } from 'next/navigation'
+import { apiService } from '@/services/api.service'
 
-interface MyClassifiedCardProps {
+interface MyFavoritesCardProps {
 	id: string
 	title: string
 	price: string
@@ -20,7 +21,17 @@ interface MyClassifiedCardProps {
 	onToggleActive: () => Promise<void>
 }
 
-export const MyClassifiedCard = ({
+interface ApiError {
+	response?: {
+		status?: number
+		data?: {
+			error?: string
+		}
+	}
+	message?: string
+}
+
+export const MyFavoritesCard = ({
 	id,
 	title,
 	price,
@@ -29,11 +40,13 @@ export const MyClassifiedCard = ({
 	isActive,
 	views,
 	messages,
-	favorites,
+	favorites: initialFavorites,
 	onToggleActive,
-}: MyClassifiedCardProps) => {
+}: MyFavoritesCardProps) => {
 	const [isHovered, setIsHovered] = useState(false)
 	const [isToggling, setIsToggling] = useState(false)
+	const [favoritesBool, setFavoritesBool] = useState(false)
+	const [favorites, setFavorites] = useState(initialFavorites)
 	const router = useRouter()
 
 	const handleMouseEnter = () => setIsHovered(true)
@@ -52,6 +65,23 @@ export const MyClassifiedCard = ({
 	const handleEdit = (e: React.MouseEvent) => {
 		e.preventDefault()
 		router.push(`/classifieds-edit/${id}`)
+	}
+
+	const handleFavoriteClick = async (e: React.MouseEvent) => {
+		e.preventDefault() // Предотвращаем переход по Link
+		e.stopPropagation()
+
+		try {
+			const res = await apiService.toggleFavorite(id)
+			setFavoritesBool(res.favoritesBool)
+			setFavorites(res.favorites)
+		} catch (error: unknown) {
+			const apiError = error as ApiError
+			if (apiError.response?.status === 401) {
+			} else {
+				console.error('Error toggling favorite:', error)
+			}
+		}
 	}
 
 	const INFO_AND_ANALYTICAL_DATA = [
@@ -86,7 +116,7 @@ export const MyClassifiedCard = ({
 		onMouseEnter: handleMouseEnter,
 		onMouseLeave: handleMouseLeave,
 		className:
-			'block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent w-full max-sm:min-h-[396px] sm:h-[294px] 3xl:h-[375px]! min-w-[217px] cursor-pointer',
+			'block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent min-w-full max-sm:min-h-[396px] sm:h-[294px] 3xl:h-[375px]! sm:w-[224px] lg:w-[259px] 2xl:w-[217px] 3xl:w-[355px]! cursor-pointer',
 	}
 
 	return (
@@ -118,13 +148,13 @@ export const MyClassifiedCard = ({
 					{/* Нижний блок с анимацией */}
 					<>
 						{/* моб */}
-						<div className='relative flex flex-col justify-between p-4 min-h-[242px] overflow-hidden gap-4 sm:hidden'>
+						<div className='relative flex flex-col justify-between p-4 min-h-[234px] overflow-hidden gap-4 sm:hidden'>
 							{/* инфо-аналитические данные */}
-							<div className='w-full flex flex-wrap justify-between gap-4'>
+							<div className='w-full flex max-2xs:flex-wrap justify-between gap-4'>
 								{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
 									<div
 										key={index}
-										className='flex flex-col justify-center items-center gap-[3px] px-8'
+										className='flex flex-col justify-center items-center gap-[3px] px-8 2xs:px-9!'
 									>
 										<span className='w-4 h-4'>{item.icon}</span>
 										<p className='font-bold text-[13px] text-[#4f4f4f]'>
@@ -134,17 +164,40 @@ export const MyClassifiedCard = ({
 								))}
 							</div>
 							{/* цена + заголовок */}
-							<div>
-								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[9px]'>
-									${price}
-								</h2>
+							<div className='space-y-2'>
+								<div className='flex items-center justify-between'>
+									<h2
+										className={`text-[18px] text-[#4f4f4f] uppercase font-bold transition-all ${
+											favoritesBool ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
+										}`}
+									>
+										${price}
+									</h2>
+									<ButtonCustom
+										iconWrapperClass='w-6 h-6'
+										icon={
+											<IconCustom
+												name='heart'
+												hover={false}
+												className={`${
+													favoritesBool
+														? 'text-[#F9329C] stroke-[#F9329C]'
+														: 'text-[#3486fe] fill-none'
+												} w-6 h-6 `}
+											/>
+										}
+										isHover
+										onClick={handleFavoriteClick}
+										className='w-10 h-10 flex items-center justify-center rounded-lg'
+									/>
+								</div>
 								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
 									{title}
 								</p>
 							</div>
 							{/* кнопки */}
 							<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
-								<ButtonWithIcon
+								<ButtonCustom
 									text='hide'
 									icon={
 										<IconCustom
@@ -157,7 +210,7 @@ export const MyClassifiedCard = ({
 									isHover
 									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 								/>
-								<ButtonWithIcon
+								<ButtonCustom
 									text='edit'
 									onClick={handleEdit}
 									icon={
@@ -173,7 +226,7 @@ export const MyClassifiedCard = ({
 									disabled={!isActive}
 									disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 								/>
-								<ButtonWithIcon
+								<ButtonCustom
 									text='up'
 									icon={
 										<IconCustom
@@ -192,15 +245,38 @@ export const MyClassifiedCard = ({
 							</div>
 						</div>
 						{/* таблет + декстоп */}
-						<div className='max-sm:hidden relative p-4 3xl:p-3.5! h-[140px] 3xl:h-[122px]! overflow-hidden'>
+						<div className='max-sm:hidden relative p-4 3xl:p-3.5! h-[140px] 3xl:h-[130px]! overflow-hidden'>
 							<div
 								className={`absolute inset-0 p-4 3xl:p-3.5! flex flex-col gap-2 transition-transform duration-300 ease-in-out ${
 									isHovered ? '-translate-y-full' : 'translate-y-0'
 								}`}
 							>
-								<h2 className='text-[18px] md:text-[24px] text-[#4f4f4f] uppercase font-bold transition-all'>
-									${price}
-								</h2>
+								<div className='flex items-center justify-between'>
+									<h2
+										className={`text-[18px] text-[#4f4f4f] uppercase font-bold transition-all ${
+											favoritesBool ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
+										}`}
+									>
+										${price}
+									</h2>
+									<ButtonCustom
+										iconWrapperClass='w-6 h-6'
+										icon={
+											<IconCustom
+												name='heart'
+												hover={false}
+												className={`${
+													favoritesBool
+														? 'text-[#F9329C] stroke-[#F9329C]'
+														: 'text-[#3486fe] fill-none'
+												} w-6 h-6 `}
+											/>
+										}
+										isHover
+										onClick={handleFavoriteClick}
+										className='w-10 h-10 flex items-center justify-center rounded-lg'
+									/>
+								</div>
 								<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 									{title}
 								</p>
@@ -226,7 +302,7 @@ export const MyClassifiedCard = ({
 								</div>
 								{/* кнопки */}
 								<div className='w-full flex justify-between gap-4'>
-									<ButtonWithIcon
+									<ButtonCustom
 										text='hide'
 										icon={
 											<IconCustom
@@ -239,7 +315,7 @@ export const MyClassifiedCard = ({
 										isHover
 										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 									/>
-									<ButtonWithIcon
+									<ButtonCustom
 										text='edit'
 										onClick={handleEdit}
 										icon={
@@ -256,7 +332,7 @@ export const MyClassifiedCard = ({
 										disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 										disabled={!isActive}
 									/>
-									<ButtonWithIcon
+									<ButtonCustom
 										text='up'
 										icon={
 											<IconCustom
@@ -330,7 +406,7 @@ export const MyClassifiedCard = ({
 							</div>
 							{/* кнопки */}
 							<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
-								<ButtonWithIcon
+								<ButtonCustom
 									text='hide'
 									icon={
 										<IconCustom
@@ -343,7 +419,7 @@ export const MyClassifiedCard = ({
 									isHover
 									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 								/>
-								<ButtonWithIcon
+								<ButtonCustom
 									text='edit'
 									onClick={handleEdit}
 									icon={
@@ -359,7 +435,7 @@ export const MyClassifiedCard = ({
 									disabled={!isActive}
 									disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 								/>
-								<ButtonWithIcon
+								<ButtonCustom
 									text='up'
 									icon={
 										<IconCustom
@@ -412,7 +488,7 @@ export const MyClassifiedCard = ({
 								</div>
 								{/* кнопки */}
 								<div className='w-full flex justify-between gap-4'>
-									<ButtonWithIcon
+									<ButtonCustom
 										text='hide'
 										icon={
 											<IconCustom
@@ -425,7 +501,7 @@ export const MyClassifiedCard = ({
 										isHover
 										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 									/>
-									<ButtonWithIcon
+									<ButtonCustom
 										text='edit'
 										onClick={handleEdit}
 										icon={
@@ -442,7 +518,7 @@ export const MyClassifiedCard = ({
 										disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 										disabled={!isActive}
 									/>
-									<ButtonWithIcon
+									<ButtonCustom
 										text='up'
 										icon={
 											<IconCustom

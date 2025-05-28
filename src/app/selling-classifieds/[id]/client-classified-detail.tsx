@@ -3,17 +3,17 @@
 import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
-import { Classified } from '@/app/types'
-import { apiService } from '@/app/services/api.service'
-import { Loader } from '@/app/components/ui/loader'
-import { CategoryTabs } from '@/app/components/ui/category-tabs'
-import { ButtonWithIcon } from '@/app/components/ui/button-with-icon'
-import { IconCustom } from '../../components/ui/icon-custom'
-import { ClassifiedCard } from '@/app/components/ui/classified-card'
-import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
-import { ImageSlider } from '@/app/components/ui/image-slider'
-import { useAuth } from '@/app/helpers/contexts/auth-context'
+import { useRouter } from 'next/navigation'
+import { Classified } from '@/types'
+import { useAuth } from '@/helpers/contexts/auth-context'
+import { apiService } from '@/services/api.service'
+import { IconCustom } from '@/components/ui/icon-custom'
+import { Loader } from '@/components/ui/loader'
+import { ButtonCustom } from '@/components/ui/button-custom'
+import { CategoryTabs } from '@/components/ui/category-tabs'
+import { ImageSlider } from '@/components/ui/image-slider'
+import { ClassifiedCard } from '@/components/ui/classified-card'
+import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 
 interface ApiError {
 	response?: {
@@ -44,7 +44,6 @@ export function ClientClassifiedDetail({
 	const [activeCategory, setActiveCategory] = useState('Selling')
 	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
-	const [currentImageIndex, setCurrentImageIndex] = useState(0)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [favoritesBool, setFavoritesBool] = useState<boolean>(
@@ -209,7 +208,7 @@ export function ClientClassifiedDetail({
 		<div className='min-h-screen flex flex-col'>
 			<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
 				<div className='flex max-2-5xl:flex-col flex-wrap max-2-5xl:justify-center items-baseline w-full'>
-					<ButtonWithIcon
+					<ButtonCustom
 						onClick={handleBack}
 						text='Back'
 						iconWrapperClass='w-6 h-6'
@@ -262,7 +261,7 @@ export function ClientClassifiedDetail({
 													<h2 className='text-[24px] font-bold uppercase tracking-[0.03em] text-[#f9329c]'>
 														${classified.price}
 													</h2>
-													<ButtonWithIcon
+													<ButtonCustom
 														iconWrapperClass='w-6 h-6'
 														icon={
 															<IconCustom
@@ -346,11 +345,11 @@ export function ClientClassifiedDetail({
 														</p>
 													)}
 													<div className='flex items-center gap-4 max-sm:flex-col'>
-														<ButtonWithIcon
+														<ButtonCustom
 															text='Send message'
 															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
 														/>
-														<ButtonWithIcon
+														<ButtonCustom
 															text='Safe buy/deal'
 															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
 														/>

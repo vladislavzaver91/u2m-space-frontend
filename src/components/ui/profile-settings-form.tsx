@@ -47,7 +47,15 @@ export const ProfileSettingsForm = () => {
 			/>
 			<CustomSelect
 				label='Place'
-				options={['New York', 'London', 'Moscow', 'Madrid']}
+				options={[
+					'New York',
+					'London',
+					'Kyiv',
+					'Poltava',
+					'Odessa',
+					'Kharkiv',
+					'Warsaw',
+				]}
 				value={formData.city}
 				onChange={value => setFormData({ ...formData, city: value })}
 			/>

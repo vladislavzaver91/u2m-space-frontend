@@ -1,13 +1,13 @@
 'use client'
 
+import { CategoryTabs } from '@/components/ui/category-tabs'
+import { Loader } from '@/components/ui/loader'
+import { MyFavoritesCard } from '@/components/ui/my-favorites-card'
+import { NavigationButtons } from '@/components/ui/navigation-buttons'
+import { useAuth } from '@/helpers/contexts/auth-context'
+import { apiService } from '@/services/api.service'
+import { Classified } from '@/types'
 import { useEffect, useRef, useState } from 'react'
-import { apiService } from '../services/api.service'
-import { useAuth } from '../helpers/contexts/auth-context'
-import { Classified } from '../types'
-import { Loader } from '../components/ui/loader'
-import { NavigationButtons } from '../components/ui/navigation-buttons'
-import { CategoryTabs } from '../components/ui/category-tabs'
-import { MyFavoritesCard } from '../components/ui/my-favorites-card'
 
 export default function FavoritesPage() {
 	const [activeCategory, setActiveCategory] = useState('All')

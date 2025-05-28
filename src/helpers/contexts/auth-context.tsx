@@ -8,8 +8,8 @@ import {
 	ReactNode,
 } from 'react'
 import { useRouter } from 'next/navigation'
-import { User } from '@/app/types'
 import axios from 'axios'
+import { User } from '@/types'
 
 interface ApiError {
 	response?: {

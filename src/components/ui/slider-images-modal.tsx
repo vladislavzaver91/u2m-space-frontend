@@ -6,8 +6,8 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import Image from 'next/image'
 import { IconCustom } from './icon-custom'
-import { SwiperPaginationService } from '@/app/services/swiper-pagination.service'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
+import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 
 interface SliderImagesModalProps {
 	isOpen: boolean
@@ -133,7 +133,7 @@ export const SliderImagesModal = ({
 								{String(images.length)}
 							</span>
 						</div>
-						<ButtonWithIcon
+						<ButtonCustom
 							onClick={onClose}
 							iconWrapperClass='w-6 h-6 flex items-center justify-center'
 							icon={

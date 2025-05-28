@@ -1,7 +1,7 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
-import { ButtonWithIcon } from './ui/button-with-icon'
+import { usePathname } from 'next/navigation'
+import { ButtonCustom } from './ui/button-custom'
 import { Logo } from './ui/logo'
 import { useAuth } from '../helpers/contexts/auth-context'
 import { useModal } from '../helpers/contexts/modal-context'
@@ -10,12 +10,13 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { SearchInput } from './ui/search-input'
 import { IconCustom } from './ui/icon-custom'
+import { LanguageModal } from './ui/language-modal'
 
 export const Header = () => {
 	const { user } = useAuth()
-	const { isLoginModalOpen, openLoginModal } = useModal()
+	const { isLoginModalOpen, openLoginModal, openModal, isModalOpen } =
+		useModal()
 	const pathname = usePathname()
-	const router = useRouter()
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
 	const [isMobile, setIsMobile] = useState<boolean>(false)
 
@@ -108,7 +109,7 @@ export const Header = () => {
 				{/* Контент справа */}
 				<div className='flex items-center absolute top-0 right-0'>
 					{isMySpaceLabel && isMobile && (
-						<ButtonWithIcon
+						<ButtonCustom
 							href='/selling-classifieds'
 							iconWrapperClass='w-6 h-6 flex items-center justify-center'
 							icon={
@@ -127,8 +128,8 @@ export const Header = () => {
 							{pathname !== '/' && !user && (
 								<>
 									<div className='hidden md:flex lg:hidden'>
-										<ButtonWithIcon
-											onClick={openLoginModal}
+										<ButtonCustom
+											onClick={openModal}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -141,7 +142,7 @@ export const Header = () => {
 											isHover
 											className='p-4 md:p-8 min-w-[88px] w-fit'
 										/>
-										<ButtonWithIcon
+										<ButtonCustom
 											onClick={openLoginModal}
 											iconWrapperClass='w-6 h-6'
 											icon={
@@ -157,8 +158,8 @@ export const Header = () => {
 										/>
 									</div>
 									<div className='hidden lg:flex'>
-										<ButtonWithIcon
-											onClick={openLoginModal}
+										<ButtonCustom
+											onClick={openModal}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -171,7 +172,7 @@ export const Header = () => {
 											isHover
 											className='p-4 md:p-8 min-w-[88px] w-fit'
 										/>
-										<ButtonWithIcon
+										<ButtonCustom
 											onClick={openLoginModal}
 											text='Add'
 											iconWrapperClass='w-6 h-6'
@@ -192,8 +193,25 @@ export const Header = () => {
 							{/* с авторизацией */}
 							{user ? (
 								<>
+									{/* language */}
+									<ButtonCustom
+										onClick={openModal}
+										iconWrapperClass='w-6 h-6'
+										icon={
+											<IconCustom
+												name='globe'
+												hover={true}
+												hoverColor='#f9329c'
+												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+											/>
+										}
+										isHover
+										className='max-md:hidden flex p-8 min-w-[88px] w-fit'
+									/>
+
+									{/* favorites */}
 									<div className='hidden lg:flex'>
-										<ButtonWithIcon
+										<ButtonCustom
 											href='/favorites'
 											text='Favorites'
 											iconWrapperClass='w-6 h-6'
@@ -208,7 +226,7 @@ export const Header = () => {
 											isHover
 											className='p-8 min-w-[181px] w-fit'
 										/>
-										<ButtonWithIcon
+										<ButtonCustom
 											href='/classifieds-create'
 											text='Add'
 											iconWrapperClass='w-6 h-6'
@@ -226,7 +244,7 @@ export const Header = () => {
 									</div>
 
 									<div className='flex lg:hidden'>
-										<ButtonWithIcon
+										<ButtonCustom
 											href='/favorites'
 											iconWrapperClass='w-6 h-6'
 											icon={
@@ -240,7 +258,7 @@ export const Header = () => {
 											isHover
 											className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
 										/>
-										<ButtonWithIcon
+										<ButtonCustom
 											href='/classifieds-create'
 											iconWrapperClass='w-6 h-6'
 											icon={
@@ -257,7 +275,7 @@ export const Header = () => {
 									</div>
 
 									<div className='flex md:hidden'>
-										<ButtonWithIcon
+										<ButtonCustom
 											href='/my-classifieds'
 											iconWrapperClass='w-8 h-8'
 											icon={
@@ -286,7 +304,7 @@ export const Header = () => {
 										/>
 									</div>
 									<div className='hidden md:flex'>
-										<ButtonWithIcon
+										<ButtonCustom
 											href='/my-classifieds'
 											textParts={[
 												{ text: 'U ', color: '[#f9329c]' },
@@ -321,7 +339,7 @@ export const Header = () => {
 								</>
 							) : (
 								// без авторизации правый край хедера
-								<ButtonWithIcon
+								<ButtonCustom
 									text='Log in'
 									onClick={openLoginModal}
 									iconWrapperClass='w-6 h-6'
@@ -342,6 +360,7 @@ export const Header = () => {
 				</div>
 			</div>
 			{isLoginModalOpen && <LoginModal />}
+			{isModalOpen && <LanguageModal />}
 		</>
 	)
 }

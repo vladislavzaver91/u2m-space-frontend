@@ -1,17 +1,14 @@
 'use client'
 
+import { AddClassifiedButton } from '@/components/ui/add-classified-button'
+import { CategoryTabs } from '@/components/ui/category-tabs'
+import { Loader } from '@/components/ui/loader'
+import { MyClassifiedCard } from '@/components/ui/my-classified-card'
+import { NavigationButtons } from '@/components/ui/navigation-buttons'
+import { useAuth } from '@/helpers/contexts/auth-context'
+import { apiService } from '@/services/api.service'
+import { Classified } from '@/types'
 import { useEffect, useRef, useState } from 'react'
-import { ButtonWithIcon } from '../components/ui/button-with-icon'
-import { CategoryTabs } from '../components/ui/category-tabs'
-import { useAuth } from '../helpers/contexts/auth-context'
-import { IconCustom } from '../components/ui/icon-custom'
-import { Classified } from '../types'
-import { apiService } from '../services/api.service'
-import { Loader } from '../components/ui/loader'
-import { MyClassifiedCard } from '../components/ui/my-classified-card'
-import { AddClassifiedButton } from '../components/ui/add-classified-button'
-import { useScrollStyle } from '../helpers/hooks/use-scroll-style'
-import { NavigationButtons } from '../components/ui/navigation-buttons'
 
 export default function MyClassifieds() {
 	const [activeCategory, setActiveCategory] = useState('All')

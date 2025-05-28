@@ -1,13 +1,13 @@
 'use client'
 
-import { SwiperPaginationService } from '@/app/services/swiper-pagination.service'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
 import { IconCustom } from './icon-custom'
 import { SkeletonImage } from './skeleton-image'
+import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 
 interface ImageSliderProps {
 	images: string[]
@@ -124,7 +124,7 @@ export const ImageSlider = ({
 									{String(images.length)}
 								</h2>
 							</div>
-							<ButtonWithIcon
+							<ButtonCustom
 								iconWrapperClass='w-6 h-6 flex items-center justify-center'
 								icon={
 									<IconCustom
@@ -238,7 +238,7 @@ export const ImageSlider = ({
 					</h2>
 				</div>
 				{onOpenModal && (
-					<ButtonWithIcon
+					<ButtonCustom
 						iconWrapperClass='w-6 h-6 flex items-center justify-center'
 						icon={
 							<IconCustom

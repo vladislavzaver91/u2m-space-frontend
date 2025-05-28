@@ -1,14 +1,10 @@
 'use client'
 
-import Link from 'next/link'
 import { IconCustom } from './icon-custom'
 
 interface AddPhotoButtonProps {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
-
-// interface AddPhotoButtonProps {
-// }
 
 export const AddPhotoButton = ({ onChange }: AddPhotoButtonProps) => {
 	return (

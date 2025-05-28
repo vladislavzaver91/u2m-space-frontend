@@ -1,11 +1,11 @@
 'use client'
 
-import { Loader } from '@/app/components/ui/loader'
-import { NavigationButtons } from '@/app/components/ui/navigation-buttons'
-import { ProfileInformationForm } from '@/app/components/ui/profile-information-form'
-import { ProfileSettingsForm } from '@/app/components/ui/profile-settings-form'
-import { ProfileTabs } from '@/app/components/ui/profile-tabs'
-import { useAuth } from '@/app/helpers/contexts/auth-context'
+import { Loader } from '@/components/ui/loader'
+import { NavigationButtons } from '@/components/ui/navigation-buttons'
+import { ProfileInformationForm } from '@/components/ui/profile-information-form'
+import { ProfileSettingsForm } from '@/components/ui/profile-settings-form'
+import { ProfileTabs } from '@/components/ui/profile-tabs'
+import { useAuth } from '@/helpers/contexts/auth-context'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 

@@ -1,12 +1,11 @@
 'use client'
 
-import { useAuth } from '@/app/helpers/contexts/auth-context'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react'
-import { FreeMode } from 'swiper/modules'
 import { IconCustom } from './icon-custom'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
+import { useAuth } from '@/helpers/contexts/auth-context'
 
 interface NavigationButtonsProps {
 	activePage: string
@@ -107,7 +106,7 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 							key={index}
 							className={`${btn.className} transition-transform duration-300 select-none`}
 						>
-							<ButtonWithIcon
+							<ButtonCustom
 								text={btn.text}
 								onClick={() =>
 									handleBtnClick(btn.path, btn.text === 'Logout', btn.text)
@@ -126,7 +125,7 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 
 			<div className='hidden sm:flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start 2-5xl:flex-col gap-4'>
 				{BUTTONS.map((btn, index) => (
-					<ButtonWithIcon
+					<ButtonCustom
 						key={index}
 						text={btn.text}
 						onClick={() =>

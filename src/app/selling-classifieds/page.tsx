@@ -3,15 +3,15 @@
 import { useState, useEffect, useRef, Suspense } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import '../globals.css'
-import { SearchInput } from '../components/ui/search-input'
-import { CategoryTabs } from '../components/ui/category-tabs'
-import { ClassifiedCard } from '../components/ui/classified-card'
 import { Pagination } from 'swiper/modules'
-import { useAuthExchange } from '../helpers/hooks/use-auth-exchange'
-import { Classified } from '../types'
-import { apiService } from '../services/api.service'
-import { Loader } from '../components/ui/loader'
-import { SwiperPaginationService } from '../services/swiper-pagination.service'
+import { useAuthExchange } from '@/helpers/hooks/use-auth-exchange'
+import { Classified } from '@/types'
+import { apiService } from '@/services/api.service'
+import { SearchInput } from '@/components/ui/search-input'
+import { CategoryTabs } from '@/components/ui/category-tabs'
+import { Loader } from '@/components/ui/loader'
+import { ClassifiedCard } from '@/components/ui/classified-card'
+import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()

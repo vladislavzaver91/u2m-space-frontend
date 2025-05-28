@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { ButtonWithIcon } from './ui/button-with-icon'
+import { ButtonCustom } from './ui/button-custom'
 import { AuthLinkItem } from '../types'
 import { Loader } from './ui/loader'
 import { useModal } from '../helpers/contexts/modal-context'
@@ -127,7 +127,7 @@ export const LoginModal = () => {
 							) : (
 								<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full'>
 									{AUTH_LINK_ITEMS.map((item, index) => (
-										<ButtonWithIcon
+										<ButtonCustom
 											key={index}
 											text={item.name}
 											icon={
@@ -149,7 +149,7 @@ export const LoginModal = () => {
 						</div>
 					</div>
 
-					<ButtonWithIcon
+					<ButtonCustom
 						onClick={handleClose}
 						iconWrapperClass='w-6 h-6 flex items-center justify-center'
 						icon={

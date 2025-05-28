@@ -3,34 +3,34 @@
 import { useState } from 'react'
 
 export interface ModalControls {
-	isLoginModalOpen: boolean
-	openLoginModal: () => void
-	closeLoginModal: () => void
+	isModalOpen: boolean
+	openModal: () => void
+	closeModal: () => void
 	handleOverlayClick: (e: React.MouseEvent<HTMLDivElement>) => void
 	initializeEscListener: () => () => void
 }
 
 export function useModalLogic(): ModalControls {
-	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+	const [isModalOpen, setIsModalOpen] = useState(false)
 
-	const openLoginModal = () => {
-		setIsLoginModalOpen(true)
+	const openModal = () => {
+		setIsModalOpen(true)
 	}
 
-	const closeLoginModal = () => {
-		setIsLoginModalOpen(false)
+	const closeModal = () => {
+		setIsModalOpen(false)
 	}
 
 	const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (e.target === e.currentTarget) {
-			closeLoginModal()
+			closeModal()
 		}
 	}
 
 	const initializeEscListener = () => {
 		const handleEsc = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
-				closeLoginModal()
+				closeModal()
 			}
 		}
 		window.addEventListener('keydown', handleEsc)
@@ -38,9 +38,9 @@ export function useModalLogic(): ModalControls {
 	}
 
 	return {
-		isLoginModalOpen,
-		openLoginModal,
-		closeLoginModal,
+		isModalOpen,
+		openModal,
+		closeModal,
 		handleOverlayClick,
 		initializeEscListener,
 	}

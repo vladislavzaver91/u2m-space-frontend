@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { CustomSelect } from './custom-select'
-import { User } from '@/app/types'
 import { ProfileFormInput } from './profile-form-input'
+import { User } from '@/types'
 
 export const ProfileInformationForm = ({ user }: { user: User }) => {
 	const [formData, setFormData] = useState({

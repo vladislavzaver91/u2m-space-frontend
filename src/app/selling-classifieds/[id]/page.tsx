@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { apiService } from '@/app/services/api.service'
-import type { Classified } from '@/app/types'
 import { ClientClassifiedDetail } from './client-classified-detail'
+import { apiService } from '@/services/api.service'
+import { Classified } from '@/types'
 
 type Props = {
 	params: Promise<{ id: string }>

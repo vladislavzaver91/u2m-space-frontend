@@ -2,11 +2,11 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
-import { apiService } from '@/app/services/api.service'
 import { useRouter } from 'next/navigation'
+import { apiService } from '@/services/api.service'
 
 interface ClassifiedCardProps {
 	classifiedId: string
@@ -94,7 +94,7 @@ export const ClassifiedCard = ({
 					>
 						${price}
 					</h2>
-					<ButtonWithIcon
+					<ButtonCustom
 						iconWrapperClass='w-6 h-6'
 						icon={
 							<IconCustom

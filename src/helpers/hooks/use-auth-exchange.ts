@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '../contexts/auth-context'
-import { apiService } from '@/app/services/api.service'
+import { apiService } from '@/services/api.service'
 
 export function useAuthExchange() {
 	const { handleAuthSuccess } = useAuth()

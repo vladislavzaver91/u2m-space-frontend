@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
 import { IconCustom } from './icon-custom'
 
 interface TagItemProps {
@@ -71,7 +71,7 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 				<span className='text-[14px] font-medium text-[#4f4f4f] max-md:truncate'>
 					{text}
 				</span>
-				<ButtonWithIcon
+				<ButtonCustom
 					onClick={onClick}
 					iconWrapperClass='h-6 w-6 flex items-center justify-center'
 					icon={
@@ -96,7 +96,7 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 				<span className='text-[14px] font-medium text-[#4f4f4f] max-md:truncate'>
 					{text}
 				</span>
-				<ButtonWithIcon
+				<ButtonCustom
 					iconWrapperClass='h-6 w-6 flex items-center justify-center'
 					icon={
 						<IconCustom
@@ -131,7 +131,7 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 						style={{ width: `${Math.max(50, inputValue.length * 8 + 20)}px` }}
 					/>
 
-					<ButtonWithIcon
+					<ButtonCustom
 						onClick={handleCloseClick}
 						iconWrapperClass='h-6 w-6 flex items-center justify-center'
 						icon={
@@ -158,7 +158,7 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 					<span className='text-[14px] font-medium text-[#4f4f4f] max-md:truncate'>
 						{text}
 					</span>
-					<ButtonWithIcon
+					<ButtonCustom
 						onClick={handleInputClick}
 						iconWrapperClass='h-6 w-6 flex items-center justify-center'
 						icon={

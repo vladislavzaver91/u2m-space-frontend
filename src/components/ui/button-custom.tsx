@@ -8,7 +8,7 @@ interface TextPart {
 	color?: string
 }
 
-interface ButtonWithIconProps {
+interface ButtonCustom {
 	textParts?: TextPart[]
 	text?: string
 	icon?: ReactNode
@@ -21,7 +21,7 @@ interface ButtonWithIconProps {
 	disabled?: boolean
 }
 
-export const ButtonWithIcon = ({
+export const ButtonCustom = ({
 	textParts,
 	text,
 	icon,
@@ -32,7 +32,7 @@ export const ButtonWithIcon = ({
 	iconWrapperClass = '',
 	disableClass = '',
 	disabled = false,
-}: ButtonWithIconProps) => {
+}: ButtonCustom) => {
 	const iconStyles = 'gap-4'
 	const hover = 'hover:bg-[#F7F7F7] max-lg:focus:bg-[#F7F7F7]'
 	const baseStyles = `inline-flex items-center bg-transparent text-[#4f4f4f] font-bold text-[16px] cursor-pointer group transition-colors ${

@@ -1,14 +1,14 @@
 'use client'
 
-import { Logo } from './components/ui/logo'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import './globals.css'
-import { ButtonWithIcon } from './components/ui/button-with-icon'
-import { BenefitsItemCard } from './components/ui/benefits-item-card'
-import { IconCustom } from './components/ui/icon-custom'
-import { useSliderHomeLogic } from './helpers/hooks/use-slider-home-logic'
-import { SwiperPaginationService } from './services/swiper-pagination.service'
+import { useSliderHomeLogic } from '@/helpers/hooks/use-slider-home-logic'
+import { ButtonCustom } from '@/components/ui/button-custom'
+import { IconCustom } from '@/components/ui/icon-custom'
+import { SwiperPaginationService } from '@/services/swiper-pagination.service'
+import { BenefitsItemCard } from '@/components/ui/benefits-item-card'
+import { Logo } from '@/components/ui/logo'
 
 const BENEFITS_ITEMS = [
 	{
@@ -44,7 +44,7 @@ export default function Home() {
 					<div className='relative flex flex-col min-h-screen overflow-hidden'>
 						{/* Стрелка назад */}
 
-						<ButtonWithIcon
+						<ButtonCustom
 							iconWrapperClass='w-6 h-6 flex items-center justify-center'
 							icon={
 								<IconCustom
@@ -91,7 +91,7 @@ export default function Home() {
 						{/* Кнопка Next / Let's start */}
 						<div className='fixed bottom-0 right-0'>
 							{currentSlide === BENEFITS_ITEMS.length - 1 ? (
-								<ButtonWithIcon
+								<ButtonCustom
 									text="Let's start"
 									iconWrapperClass='w-6 h-6'
 									icon={
@@ -107,7 +107,7 @@ export default function Home() {
 									className='flex-row-reverse p-8 min-w-[187px] w-fit'
 								/>
 							) : (
-								<ButtonWithIcon
+								<ButtonCustom
 									text='Next'
 									iconWrapperClass='w-6 h-6'
 									icon={
@@ -187,7 +187,7 @@ export default function Home() {
 
 			{!isSliderOpen && (
 				<div className='fixed bottom-0 right-0'>
-					<ButtonWithIcon
+					<ButtonCustom
 						text="Let's meet"
 						iconWrapperClass='w-6 h-6'
 						icon={
@@ -202,7 +202,7 @@ export default function Home() {
 						isHover
 						className='flex-row-reverse p-8 min-w-[187px] w-fit md:hidden'
 					/>
-					<ButtonWithIcon
+					<ButtonCustom
 						text="Let's start"
 						href='/selling-classifieds'
 						iconWrapperClass='w-6 h-6'

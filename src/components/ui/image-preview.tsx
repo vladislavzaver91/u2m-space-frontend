@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { IconCustom } from './icon-custom'
-import { ButtonWithIcon } from './button-with-icon'
+import { ButtonCustom } from './button-custom'
 
 const ItemTypes = {
 	IMAGE: 'image',
@@ -69,7 +69,7 @@ export const ImagePreview = ({
 			)}
 			{isHovered && (
 				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
-					<ButtonWithIcon
+					<ButtonCustom
 						onClick={() => onRemove(index)}
 						iconWrapperClass='w-6 h-6'
 						icon={
@@ -90,7 +90,7 @@ export const ImagePreview = ({
 
 // import { useState } from 'react'
 // import { IconCustom } from './icon-custom'
-// import { ButtonWithIcon } from './button-with-icon'
+// import { ButtonCustom } from './button-with-icon'
 
 // interface ImagePreviewProps {
 // 	src: string

@@ -1,22 +1,22 @@
 'use client'
 
-import { ButtonWithIcon } from '@/app/components/ui/button-with-icon'
-import { IconCustom } from '@/app/components/ui/icon-custom'
-import { useAuth } from '@/app/helpers/contexts/auth-context'
-import { apiService } from '@/app/services/api.service'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import imageCompression from 'browser-image-compression'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { ImageSlider } from '@/app/components/ui/image-slider'
-import { ClassifiedForm } from '@/app/components/ui/classified-form'
-import { TagsManager } from '@/app/components/ui/tags-manager'
-import { SliderImagesModal } from '@/app/components/ui/slider-images-modal'
-import { AddPhotoButton } from '@/app/components/ui/add-photo-button'
-import { ImagePreview } from '@/app/components/ui/image-preview'
-import { AddPhotoSmallButton } from '@/app/components/ui/add-photo-small-button'
-import { Loader } from '@/app/components/ui/loader'
+import { useAuth } from '@/helpers/contexts/auth-context'
+import { apiService } from '@/services/api.service'
+import { Loader } from '@/components/ui/loader'
+import { ButtonCustom } from '@/components/ui/button-custom'
+import { IconCustom } from '@/components/ui/icon-custom'
+import { ImageSlider } from '@/components/ui/image-slider'
+import { AddPhotoButton } from '@/components/ui/add-photo-button'
+import { ImagePreview } from '@/components/ui/image-preview'
+import { AddPhotoSmallButton } from '@/components/ui/add-photo-small-button'
+import { ClassifiedForm } from '@/components/ui/classified-form'
+import { TagsManager } from '@/components/ui/tags-manager'
+import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 
 export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
@@ -300,7 +300,7 @@ export default function ClassifiedsEdit() {
 					<div className='flex max-md:flex-wrap-reverse max-md:mb-4 max-2-5xl:justify-start'>
 						{/* кнопки слева */}
 						<div className='flex max-md:items-center justify-between max-md:w-full 2-5xl:absolute 2-5xl:left-0 z-10'>
-							<ButtonWithIcon
+							<ButtonCustom
 								onClick={handleBack}
 								text='Back'
 								iconWrapperClass='w-6 h-6'
@@ -317,7 +317,7 @@ export default function ClassifiedsEdit() {
 							/>
 
 							<div className='pr-4 md:hidden'>
-								<ButtonWithIcon
+								<ButtonCustom
 									onClick={() =>
 										document.querySelector('form')?.requestSubmit()
 									}
@@ -327,7 +327,7 @@ export default function ClassifiedsEdit() {
 							</div>
 						</div>
 						<div className='flex max-md:w-full max-2-5xl:flex-wrap max-2-5xl:items-center max-md:mb-4 max-2-5xl:mb-8 max-md:pl-4 max-2-5xl:pl-8 max-2-5xl:py-6 max-sm:py-[11px] 2-5xl:absolute 2-5xl:pl-40 2-5xl:flex-col gap-4'>
-							<ButtonWithIcon
+							<ButtonCustom
 								text='My Classifieds'
 								iconWrapperClass='w-6 h-6 flex items-center justify-center'
 								icon={
@@ -338,7 +338,7 @@ export default function ClassifiedsEdit() {
 								}
 								className='w-fit min-w-[183px] h-10 flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]!'
 							/>
-							<ButtonWithIcon
+							<ButtonCustom
 								text='Logout'
 								onClick={logout}
 								className='w-fit min-w-[92px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-[8px] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
@@ -461,7 +461,7 @@ export default function ClassifiedsEdit() {
 											</div>
 										</div>
 										<div className='hidden md:flex justify-end'>
-											<ButtonWithIcon
+											<ButtonCustom
 												onClick={() =>
 													document.querySelector('form')?.requestSubmit()
 												}

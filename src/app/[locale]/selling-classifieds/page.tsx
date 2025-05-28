@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
-import '../globals.css'
+import '../../globals.css'
 import { Pagination } from 'swiper/modules'
 import { useAuthExchange } from '@/helpers/hooks/use-auth-exchange'
 import { Classified } from '@/types'

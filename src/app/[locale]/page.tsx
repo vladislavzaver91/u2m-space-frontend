@@ -2,7 +2,7 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
-import './globals.css'
+import '../globals.css'
 import { useSliderHomeLogic } from '@/helpers/hooks/use-slider-home-logic'
 import { ButtonCustom } from '@/components/ui/button-custom'
 import { IconCustom } from '@/components/ui/icon-custom'

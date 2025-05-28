@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useScrollStyle } from '../helpers/hooks/use-scroll-style'
-import { useVisitRedirect } from '../helpers/hooks/use-visit-redirect'
-import { apiService } from '../services/api.service'
-import { useAuth } from '../helpers/contexts/auth-context'
+import { useScrollStyle } from '../../helpers/hooks/use-scroll-style'
+import { useVisitRedirect } from '../../helpers/hooks/use-visit-redirect'
+import { apiService } from '../../services/api.service'
+import { useAuth } from '../../helpers/contexts/auth-context'
 import { usePathname, useRouter } from 'next/navigation'
 import { Loader } from '@/components/ui/loader'
 

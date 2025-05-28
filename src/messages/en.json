@@ -1,0 +1,58 @@
+{
+	"Home": {
+		"title": "Hi there, I’m U2M Space",
+		"description": "Your new simpler, reliable way to exchange.",
+		"benefit1": "Give your things a second life",
+		"benefit2": "We help to find each other",
+		"benefit3": "Fast communication for exchange or sale"
+	},
+
+	"SellingClassifieds": {
+		"tabs": {
+			"selling": "Selling",
+			"category": "Category"
+		}
+	},
+
+	"Classified": {
+		"similarOffers": "Similar offers",
+		"userButtons": {
+			"sendMessage": "Send message",
+			"safeBuy/deal": "Safe buy/deal",
+			"tr": "tr",
+			"trustRating": "Trust rating"
+		}
+	},
+
+	"MyClassifieds": {
+		"tabs": {
+			"all": "All",
+			"active": "Active",
+			"hide": "Hide"
+		},
+		"buttons": {
+			"myClassifieds": "My Classifieds",
+			"favorites": "Favorites",
+			"profile": "Profile",
+			"logout": "Logout",
+			"addClassifieds": "Add Classifieds",
+			"hide": "hide",
+			"edit": "edit",
+			"up": "up"
+		}
+	},
+
+	"Buttons": {
+		"add": "Add",
+		"favorites": "Favorites",
+		"letsStart": "Let's start",
+		"next": "Next"
+	},
+
+	"Components": {
+		"placeholders": {
+			"search": "Search",
+			"imLookingFor": "I'm looking for..."
+		}
+	}
+}

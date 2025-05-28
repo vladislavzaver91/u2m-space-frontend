@@ -1,9 +1,9 @@
 'use client'
 
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { CustomInput } from './custom-input'
 import { Tooltip } from './tooltip'
 import { useEffect } from 'react'
+import { ClassifiedFormInput } from './classified-form-input'
 
 interface ClassifiedFormData {
 	title: string
@@ -70,7 +70,7 @@ export const ClassifiedForm = ({
 				onMouseEnter={() => onMouseEnter('title')}
 				onMouseLeave={() => onMouseLeave('title')}
 			>
-				<CustomInput
+				<ClassifiedFormInput
 					label='Title'
 					register={register('title', {
 						required: 'Title is required',
@@ -95,7 +95,7 @@ export const ClassifiedForm = ({
 				onMouseEnter={() => onMouseEnter('description')}
 				onMouseLeave={() => onMouseLeave('description')}
 			>
-				<CustomInput
+				<ClassifiedFormInput
 					label='Description'
 					register={register('description', {
 						required: 'Description is required',
@@ -119,7 +119,7 @@ export const ClassifiedForm = ({
 				onMouseEnter={() => onMouseEnter('price')}
 				onMouseLeave={() => onMouseLeave('price')}
 			>
-				<CustomInput
+				<ClassifiedFormInput
 					label='Price'
 					type='number'
 					register={register('price', {

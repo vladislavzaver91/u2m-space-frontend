@@ -52,11 +52,17 @@ export default function ProfilePage() {
 
 				<div className='w-full'>
 					<div className='custom-container mx-auto'>
-						{activeTab === 'Information' ? (
-							<ProfileInformationForm user={user} />
-						) : (
-							<ProfileSettingsForm />
-						)}
+						<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
+							<div className='col-start-1 col-end-5 sm:col-start-1 sm:col-end-13'>
+								<div className='w-full mx-auto'>
+									{activeTab === 'Information' ? (
+										<ProfileInformationForm user={user} />
+									) : (
+										<ProfileSettingsForm />
+									)}
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -123,13 +123,26 @@ export const Header = () => {
 					)}
 					{(!isMySpaceLabel || !isMobile) && (
 						<>
-							{pathname !== '/' && (
+							{/* все страницы без авторизации */}
+							{pathname !== '/' && !user && (
 								<>
 									<div className='hidden md:flex lg:hidden'>
 										<ButtonWithIcon
-											{...(user
-												? { href: '/classifieds-create' }
-												: { onClick: openLoginModal })}
+											onClick={openLoginModal}
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='globe'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+											}
+											isHover
+											className='p-4 md:p-8 min-w-[88px] w-fit'
+										/>
+										<ButtonWithIcon
+											onClick={openLoginModal}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -140,14 +153,26 @@ export const Header = () => {
 												/>
 											}
 											isHover
-											className='p-4 md:p-8 min-w-[56px] w-fit'
+											className='p-4 md:p-8 min-w-[88px] w-fit'
 										/>
 									</div>
 									<div className='hidden lg:flex'>
 										<ButtonWithIcon
-											{...(user
-												? { href: '/classifieds-create' }
-												: { onClick: openLoginModal })}
+											onClick={openLoginModal}
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='globe'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+											}
+											isHover
+											className='p-4 md:p-8 min-w-[88px] w-fit'
+										/>
+										<ButtonWithIcon
+											onClick={openLoginModal}
 											text='Add'
 											iconWrapperClass='w-6 h-6'
 											icon={
@@ -164,22 +189,73 @@ export const Header = () => {
 									</div>
 								</>
 							)}
+							{/* с авторизацией */}
 							{user ? (
 								<>
-									<ButtonWithIcon
-										href='/classifieds-create'
-										iconWrapperClass='w-6 h-6'
-										icon={
-											<IconCustom
-												name='add_plus'
-												hover={true}
-												hoverColor='#f9329c'
-												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-											/>
-										}
-										isHover
-										className='md:hidden p-4 md:p-8 min-w-[56px] w-fit'
-									/>
+									<div className='hidden lg:flex'>
+										<ButtonWithIcon
+											href='/favorites'
+											text='Favorites'
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='heart'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+											}
+											isHover
+											className='p-8 min-w-[181px] w-fit'
+										/>
+										<ButtonWithIcon
+											href='/classifieds-create'
+											text='Add'
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='add_plus'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+											}
+											isHover
+											className='p-8 min-w-[139px] w-fit'
+										/>
+									</div>
+
+									<div className='flex lg:hidden'>
+										<ButtonWithIcon
+											href='/favorites'
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='heart'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+											}
+											isHover
+											className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+										/>
+										<ButtonWithIcon
+											href='/classifieds-create'
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='add_plus'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+											}
+											isHover
+											className='p-4 min-w-[56px] w-fit'
+										/>
+									</div>
+
 									<div className='flex md:hidden'>
 										<ButtonWithIcon
 											href='/my-classifieds'
@@ -244,6 +320,7 @@ export const Header = () => {
 									</div>
 								</>
 							) : (
+								// без авторизации правый край хедера
 								<ButtonWithIcon
 									text='Log in'
 									onClick={openLoginModal}

@@ -146,25 +146,29 @@ export default function FavoritesPage() {
 
 					<div className='w-full'>
 						<div className='px-4 md:px-8 xl:max-w-[1280px] 2xl:max-w-[1112px] 3xl:max-w-[1664px]! mx-auto'>
-							<div className='flex flex-wrap justify-center gap-4 min-[769px]:gap-8 xl:gap-[60px] w-full'>
-								{filteredClassifieds.map((item, index) => (
-									<div key={item.id} className='max-sm:w-full select-none'>
-										<MyFavoritesCard
-											id={item.id}
-											title={item.title}
-											price={item.price.toFixed(2)}
-											image={item.images[0]}
-											isActive={item.isActive}
-											views={item.views}
-											messages={item.messages}
-											favorites={item.favorites}
-											href={`/selling-classifieds/${item.id}`}
-											onToggleActive={() =>
-												handleToggleActive(item.id, item.isActive)
-											}
-										/>
+							<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 min-[769px]:gap-8 xl:gap-[60px]'>
+								<div className='col-start-1 col-end-5 sm:col-start-1 sm:col-end-13'>
+									<div className='flex flex-wrap justify-center gap-4 min-[769px]:gap-8 xl:gap-[60px] w-full'>
+										{filteredClassifieds.map((item, index) => (
+											<div key={item.id} className='max-sm:w-full select-none'>
+												<MyFavoritesCard
+													id={item.id}
+													title={item.title}
+													price={item.price.toFixed(2)}
+													image={item.images[0]}
+													isActive={item.isActive}
+													views={item.views}
+													messages={item.messages}
+													favorites={item.favorites}
+													href={`/selling-classifieds/${item.id}`}
+													onToggleActive={() =>
+														handleToggleActive(item.id, item.isActive)
+													}
+												/>
+											</div>
+										))}
 									</div>
-								))}
+								</div>
 							</div>
 							{hasMore && (
 								<div ref={loaderRef} className='h-10 flex justify-center'>

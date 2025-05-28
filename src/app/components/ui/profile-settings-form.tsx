@@ -32,7 +32,7 @@ export const ProfileSettingsForm = () => {
 	]
 
 	return (
-		<form className='space-y-4'>
+		<form className='space-y-2 w-full mx-auto sm:w-[300px]'>
 			<CustomSelect
 				label='Language and region'
 				options={['English (UK)', 'Ukraine', 'Polish']}

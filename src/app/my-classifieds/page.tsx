@@ -131,32 +131,7 @@ export default function MyClassifieds() {
 			) : (
 				<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
 					<NavigationButtons activePage='My Classifieds' />
-					{/* <div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-4 max-sm:py-[11px] max-2-5xl:pl-8 max-2-5xl:py-6 2-5xl:absolute 2-5xl:pl-32 2-5xl:flex-col gap-4'>
-						<ButtonWithIcon
-							text='My Classifieds'
-							iconWrapperClass='w-6 h-6 flex items-center justify-center'
-							icon={
-								<IconCustom
-									name='note'
-									className='w-[18px] h-[18px] fill-none text-white'
-								/>
-							}
-							className='w-fit min-w-[183px] h-10 flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]!'
-						/>
-						<ButtonWithIcon
-							text='Favorites'
-							className='w-fit min-w-[109px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-						/>
-						<ButtonWithIcon
-							text='Profile'
-							className='w-fit min-w-[87px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-						/>
-						<ButtonWithIcon
-							text='Logout'
-							onClick={logout}
-							className='w-fit min-w-[92px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-						/>
-					</div> */}
+
 					<div className='flex-1 flex sm:justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
 							<CategoryTabs

@@ -1,12 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { ButtonCustom } from './button-custom'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
-import { useRouter } from 'next/navigation'
 import { apiService } from '@/services/api.service'
+import { Link, useRouter } from '@/i18n/routing'
 
 interface MyFavoritesCardProps {
 	id: string

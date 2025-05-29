@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { TagItem } from './tag-item'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -14,9 +15,13 @@ export const TagsSection = ({
 	onAddTag,
 	onRemoveTag,
 }: TagsSectionProps) => {
+	const tCreateEditClassified = useTranslations('CreateEditClassified')
+
 	return (
 		<div className='w-full p-0 sm:p-4 space-y-4'>
-			<p className='text-[16px] font-bold text-[#4f4f4f]'>Tags</p>
+			<p className='text-[16px] font-bold text-[#4f4f4f]'>
+				{tCreateEditClassified('tags')}
+			</p>
 			<div className='flex flex-wrap items-center gap-4 w-full'>
 				<AnimatePresence>
 					{tags.length > 0 &&
@@ -41,7 +46,11 @@ export const TagsSection = ({
 						exit={{ opacity: 0, scale: 0.9 }}
 						transition={{ duration: 0.2 }}
 					>
-						<TagItem text='Add tag' onAddTag={onAddTag} type='input' />
+						<TagItem
+							text={tCreateEditClassified('addTag')}
+							onAddTag={onAddTag}
+							type='input'
+						/>
 					</motion.div>
 				</AnimatePresence>
 			</div>

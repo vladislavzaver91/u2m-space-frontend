@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import imageCompression from 'browser-image-compression'
@@ -17,6 +17,9 @@ import { AddPhotoSmallButton } from '@/components/ui/add-photo-small-button'
 import { ClassifiedForm } from '@/components/ui/classified-form'
 import { TagsManager } from '@/components/ui/tags-manager'
 import { SliderImagesModal } from '@/components/ui/slider-images-modal'
+import { useRouter } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
+import { NavigationButtons } from '@/components/ui/navigation-buttons'
 
 export default function ClassifiedsEdit() {
 	const { user, logout } = useAuth()
@@ -38,6 +41,7 @@ export default function ClassifiedsEdit() {
 		description: false,
 		price: false,
 	})
+	const tButtons = useTranslations('Buttons')
 	const router = useRouter()
 	const params = useParams()
 	const id = params.id as string
@@ -302,7 +306,7 @@ export default function ClassifiedsEdit() {
 						<div className='flex max-md:items-center justify-between max-md:w-full 2-5xl:absolute 2-5xl:left-0 z-10'>
 							<ButtonCustom
 								onClick={handleBack}
-								text='Back'
+								text={tButtons('back')}
 								iconWrapperClass='w-6 h-6'
 								icon={
 									<IconCustom
@@ -321,29 +325,13 @@ export default function ClassifiedsEdit() {
 									onClick={() =>
 										document.querySelector('form')?.requestSubmit()
 									}
-									text='Save'
+									text={tButtons('save')}
 									className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 								/>
 							</div>
 						</div>
-						<div className='flex max-md:w-full max-2-5xl:flex-wrap max-2-5xl:items-center max-md:mb-4 max-2-5xl:mb-8 max-md:pl-4 max-2-5xl:pl-8 max-2-5xl:py-6 max-sm:py-[11px] 2-5xl:absolute 2-5xl:pl-40 2-5xl:flex-col gap-4'>
-							<ButtonCustom
-								text='My Classifieds'
-								iconWrapperClass='w-6 h-6 flex items-center justify-center'
-								icon={
-									<IconCustom
-										name='note-edit'
-										className='w-5 h-5 fill-none text-white'
-									/>
-								}
-								className='w-fit min-w-[183px] h-10 flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]!'
-							/>
-							<ButtonCustom
-								text='Logout'
-								onClick={logout}
-								className='w-fit min-w-[92px] h-10 flex items-center justify-center border border-[#4f4f4f] rounded-[8px] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe]'
-							/>
-						</div>
+
+						<NavigationButtons activePage='My classifieds' />
 					</div>
 
 					{/* контент создания продукта */}
@@ -465,7 +453,7 @@ export default function ClassifiedsEdit() {
 												onClick={() =>
 													document.querySelector('form')?.requestSubmit()
 												}
-												text='Save'
+												text={tButtons('save')}
 												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
 											/>
 										</div>

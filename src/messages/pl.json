@@ -1,3 +1,265 @@
 {
-	"Home": {}
+	"Home": {
+		"title1": "Cześć,",
+		"title2": "jestem U2M Space",
+		"description1": "Twój nowy, prostszy i niezawodny sposób",
+		"description2": "na wymianę.",
+		"benefit1": "Daj swoim rzeczom drugie życie",
+		"benefit2": "Pomagamy się odnaleźć",
+		"benefit3": "Szybka komunikacja w celu wymiany lub sprzedaży"
+	},
+
+	"SellingClassifieds": {
+		"tabs": {
+			"selling": "Sprzedaż",
+			"category": "Kategoria"
+		}
+	},
+
+	"Classified": {
+		"similarOffers": "Podobne oferty",
+		"userButtons": {
+			"sendMessage": "Wyślij wiadomość",
+			"safeBuy/deal": "Bezpieczny zakup/transakcja",
+			"tr": "tr",
+			"trustRating": "Ocena zaufania"
+		}
+	},
+
+	"MyClassifieds": {
+		"tabs": {
+			"all": "Wszystkie",
+			"active": "Aktywne",
+			"hide": "Ukryj"
+		},
+		"buttons": {
+			"myClassifieds": "Moje ogłoszenia",
+			"favorites": "Ulubione",
+			"profile": "Profil",
+			"logout": "Wyloguj się",
+			"addClassifieds": "Dodaj ogłoszenie",
+			"hide": "ukryj",
+			"edit": "edytuj",
+			"up": "do góry"
+		}
+	},
+
+	"CreateEditClassified": {
+		"addPhotos": "Dodaj zdjęcia",
+		"tags": "Tagi",
+		"addTag": "Dodaj tag",
+		"recommendedTags": "Zalecane tagi",
+		"formInputs": {
+			"title": "Tytuł",
+			"description": "Opis",
+			"price": "Cena"
+		},
+		"errorInputs": {
+			"title": {
+				"message": "Tytuł może mieć maksymalnie 60 znaków",
+				"required": "Tytuł jest wymagany"
+			},
+			"description": {
+				"message": "Opis może mieć maksymalnie 300 znaków",
+				"required": "Opis jest wymagany"
+			},
+			"price": {
+				"required": "Cena jest wymagana",
+				"message1": "Cena musi być liczbą dodatnią",
+				"message2": "Cena musi być prawidłową liczbą"
+			}
+		},
+		"tooltips": {
+			"title": {
+				"name": "Tytuł",
+				"description": "Wprowadź chwytliwy tytuł, aby przyciągnąć potencjalnych kupujących (maks. 60 znaków)."
+			},
+			"description": {
+				"name": "Opis",
+				"description": "To meta tag, który krótko opisuje zawartość danej strony internetowej. Słowa kluczowe to wyrazy lub frazy używane na danej stronie, które są dla niej główne (czyli ujawniają temat i treść)."
+			},
+			"price": {
+				"name": "Cena",
+				"description": "Ustal konkurencyjną cenę dla swojego przedmiotu (musi być dodatnia liczba)."
+			}
+		}
+	},
+
+	"Favorites": {
+		"tabs": {
+			"all": "Wszystkie",
+			"selling": "Sprzedaż",
+			"bidding": "Licytacja",
+			"barter": "Wymiana"
+		}
+	},
+
+	"Profile": {
+		"tabs": {
+			"information": "Informacje",
+			"setting": "Ustawienia"
+		},
+		"bonuses": "Bonusy",
+		"trustRating": "Ocena zaufania",
+		"informationTooltips": {
+			"nickname": {
+				"name": "Pseudonim",
+				"description": "Pseudonim wyświetlany na stronie musi być unikalny. Długość musi przekraczać 4 znaki."
+			},
+			"legalName": {
+				"name": "Imię urzędowe",
+				"description": "Imię wskazane w paszporcie, prawie jazdy lub innym dokumencie podróży. Nie będzie wyświetlane na stronie."
+			},
+			"legalSurname": {
+				"name": "Nazwisko urzędowe",
+				"description": "Nazwisko zgodne z oficjalnymi dokumentami, takimi jak paszport lub dowód. Nie będzie widoczne na stronie."
+			},
+			"gender": {
+				"name": "Płeć",
+				"description": "Wybierz swoją płeć zgodnie z dokumentami urzędowymi. Informacja ta będzie użyta do weryfikacji."
+			},
+			"dateOfBirth": {
+				"name": "Data urodzenia",
+				"description": "Wprowadź datę urodzenia zgodnie z paszportem lub dowodem. Musisz mieć 18 lat lub więcej, aby się zarejestrować."
+			},
+			"email": {
+				"name": "Adres e-mail",
+				"description": "Prawidłowy adres e-mail używany do logowania i powiadomień. Musi być dostępny do potwierdzenia konta."
+			},
+			"phoneNumber": {
+				"name": "Numer telefonu",
+				"description": "Główny numer kontaktowy z kodem kraju. Będzie używany do weryfikacji i ważnych powiadomień."
+			},
+			"extraPhoneNumber": {
+				"name": "Dodatkowy numer telefonu",
+				"description": "Opcjonalny dodatkowy numer kontaktowy na wypadek, gdyby nie można było się z Tobą skontaktować pod głównym numerem."
+			}
+		},
+		"informationFormInputs": {
+			"yourNickname": "Twój pseudonim",
+			"errorNickname": "wymagane więcej niż 3 znaki",
+			"infoNickname": "Twój pseudonim (Wyświetlany zamiast imienia i nazwiska)",
+			"documentName": "Imię z dokumentu",
+			"documentNameDescr": "Imię wskazane w paszporcie, prawie jazdy lub innym dokumencie podróży.",
+			"legalName": "Imię urzędowe",
+			"legalSurname": "Nazwisko urzędowe",
+			"gender": "Płeć",
+			"male": "Mężczyzna",
+			"female": "Kobieta",
+			"birthday": "Data urodzenia",
+			"emailAddress": "Adres e-mail",
+			"phoneNumber": "Numer telefonu",
+			"extraPhoneNumber": "Dodatkowy numer telefonu"
+		},
+		"settingTooltips": {
+			"languageRegion": {
+				"name": "Język i region",
+				"description": "Wybierz preferowany język i region. Pomoże to spersonalizować Twoje doświadczenie na stronie."
+			},
+			"currency": {
+				"name": "Waluta",
+				"description": "Wybierz walutę, której chcesz używać do cen i transakcji. Dostępne opcje to USD, UAH i EUR."
+			},
+			"place": {
+				"name": "Miejsce zamieszkania",
+				"description": "Wprowadź swoje miejsce zamieszkania. Informacja ta pomaga nam wyświetlać odpowiednie oferty w Twojej okolicy."
+			},
+			"notifications": {
+				"name": "Powiadomienia",
+				"description": "Włącz lub wyłącz powiadomienia o ważnych aktualizacjach, wiadomościach i ofertach."
+			},
+			"showPhone": {
+				"name": "Pokaż telefon",
+				"description": "Włącz lub wyłącz wyświetlanie swojego numeru telefonu w profilu publicznym i ogłoszeniach."
+			},
+			"advancedUser": {
+				"name": "Zaawansowany użytkownik",
+				"description": "Aktywuj funkcje zaawansowanego użytkownika, takie jak rozszerzona analityka i personalizacja profilu."
+			},
+			"deleteAccount": {
+				"name": "Usuń konto",
+				"description": "Wybierz powód usunięcia konta. Pomoże nam to zrozumieć Twoje doświadczenie i ulepszyć platformę."
+			}
+		},
+		"settingFormInputs": {
+			"languageRegion": "Język i region",
+			"currency": "Waluta",
+			"place": "Miejsce",
+			"notifications": "Powiadomienia",
+			"showPhone": "Pokaż telefon",
+			"advancedUser": "Zaawansowany użytkownik",
+			"deleteAccount": "Usuń konto",
+			"deleteAccountOption1": "Już nie korzystam z usługi",
+			"deleteAccountOption2": "Zbyt drogie",
+			"deleteAccountOption3": "Znalazłem lepszą alternatywę",
+			"deleteAccountOption4": "Niezadowolony z jakości",
+			"deleteAccountOption5": "Mam obawy dotyczące bezpieczeństwa lub prywatności",
+			"deleteAccountOption6": "Za dużo spamu lub niepotrzebnych wiadomości",
+			"deleteAccountOption7": "Tymczasowe usunięcie, planuję wrócić później",
+			"deleteAccountOption8": "Utworzyłem nowe konto",
+			"deleteAccountOption9": "Nie mogę znaleźć potrzebnej funkcjonalności",
+			"deleteAccountOption10": "Problemy techniczne, częste awarie",
+			"deleteAccountOption11": "Nie podoba mi się polityka firmy",
+			"deleteAccountOption12": "Konto zostało zhakowane",
+			"deleteAccountOption13": "Inne powody osobiste"
+		}
+	},
+
+	"LanguageModal": {
+		"chooseLanguageRegion": {
+			"title": "Wybierz język i region",
+			"english": "Angielski",
+			"unitedKingdom": "Wielka Brytania",
+			"ukrainian": "Ukraiński",
+			"ukraine": "Ukraina",
+			"polish": "Polski",
+			"poland": "Polska"
+		},
+		"chooseCurrency": {
+			"title": "Wybierz walutę",
+			"americanDollar": "Dolar amerykański",
+			"ukrainianHryvnia": "Hrywna ukraińska",
+			"euro": "Euro"
+		},
+		"chooseCity": {
+			"title": "Wybierz miasto",
+			"city": "Miasto",
+			"cities": {
+				"newYork": "Nowy Jork",
+				"london": "Londyn",
+				"kyiv": "Kijów",
+				"poltava": "Połtawa",
+				"odessa": "Odessa",
+				"kharkiv": "Charków",
+				"warsaw": "Warszawa"
+			}
+		}
+	},
+
+	"LoginModal": {
+		"welcome": "Witamy",
+		"logInWith": "Zaloguj się przez"
+	},
+
+	"Buttons": {
+		"add": "Dodaj",
+		"favorites": "Ulubione",
+		"letsStart": "Zacznijmy",
+		"login": "Zaloguj się",
+		"next": "Dalej",
+		"back": "Wstecz",
+		"publish": "Opublikuj",
+		"save": "Zapisz"
+	},
+
+	"Components": {
+		"mySpace": "Moja przestrzeń",
+		"placeholders": {
+			"search": "Szukaj",
+			"imLookingFor": "Szukam..."
+		},
+		"inputs": {
+			"error": "Osiągnięto limit znaków"
+		}
+	}
 }

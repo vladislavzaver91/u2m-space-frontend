@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
@@ -23,6 +24,7 @@ export const ClassifiedFormInput = ({
 }: ClassifiedFormInputProps) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const [isFilled, setIsFilled] = useState<boolean>(false)
+	const tComponents = useTranslations('Components')
 
 	useEffect(() => {
 		setIsFilled(!!value)
@@ -79,7 +81,7 @@ export const ClassifiedFormInput = ({
 				)}
 				{isMaxLengthReached && (
 					<span className='text-[13px] font-normal text-red-500'>
-						Character limit reached
+						{tComponents('inputs.error')}
 					</span>
 				)}
 				{error && (

@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { IconCustom } from './icon-custom'
-import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -15,14 +15,17 @@ interface SearchInputProps {
 }
 
 export const SearchInput = ({
-	placeholder = "I'm looking for...",
+	placeholder,
 	disabled,
 	className = '',
 	inputClass = '',
 	smallWidth,
 	logoActive = false,
 }: SearchInputProps) => {
-	const router = useRouter()
+	const tComponents = useTranslations('Components')
+
+	const initPlaceholder = tComponents('placeholders.imLookingFor')
+
 	const target =
 		typeof window !== 'undefined' && localStorage.getItem('hasVisited')
 			? '/selling-classifieds'
@@ -51,7 +54,7 @@ export const SearchInput = ({
 			</div>
 			<input
 				type='text'
-				placeholder={placeholder}
+				placeholder={placeholder ? placeholder : initPlaceholder}
 				disabled={disabled}
 				className={`${inputClass} w-full h-16 pl-20 pr-20 py-4 ${
 					smallWidth

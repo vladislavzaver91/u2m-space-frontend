@@ -1,12 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { ButtonCustom } from './button-custom'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
-import { useRouter } from 'next/navigation'
 import { apiService } from '@/services/api.service'
+import { Link } from '@/i18n/routing'
 
 interface ClassifiedCardProps {
 	classifiedId: string
@@ -41,7 +40,6 @@ export const ClassifiedCard = ({
 }: ClassifiedCardProps) => {
 	const [favoritesBool, setFavoritesBool] = useState(initialFavoritesBool)
 	const [favorites, setFavorites] = useState(initialFavorites)
-	const router = useRouter()
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.preventDefault() // Предотвращаем переход по Link

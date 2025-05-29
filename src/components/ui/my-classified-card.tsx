@@ -1,11 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { ButtonCustom } from './button-custom'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
-import { useRouter } from 'next/navigation'
+import { Link, useRouter } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
 
 interface MyClassifiedCardProps {
 	id: string
@@ -35,6 +35,7 @@ export const MyClassifiedCard = ({
 	const [isHovered, setIsHovered] = useState(false)
 	const [isToggling, setIsToggling] = useState(false)
 	const router = useRouter()
+	const tMyClassifieds = useTranslations('MyClassifieds')
 
 	const handleMouseEnter = () => setIsHovered(true)
 	const handleMouseLeave = () => setIsHovered(false)
@@ -145,7 +146,7 @@ export const MyClassifiedCard = ({
 							{/* кнопки */}
 							<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
 								<ButtonCustom
-									text='hide'
+									text={tMyClassifieds('buttons.hide')}
 									icon={
 										<IconCustom
 											name='hide'
@@ -158,7 +159,7 @@ export const MyClassifiedCard = ({
 									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 								/>
 								<ButtonCustom
-									text='edit'
+									text={tMyClassifieds('buttons.edit')}
 									onClick={handleEdit}
 									icon={
 										<IconCustom
@@ -174,7 +175,7 @@ export const MyClassifiedCard = ({
 									disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 								/>
 								<ButtonCustom
-									text='up'
+									text={tMyClassifieds('buttons.up')}
 									icon={
 										<IconCustom
 											name='arrow-circle-up'
@@ -227,7 +228,7 @@ export const MyClassifiedCard = ({
 								{/* кнопки */}
 								<div className='w-full flex justify-between gap-4'>
 									<ButtonCustom
-										text='hide'
+										text={tMyClassifieds('buttons.hide')}
 										icon={
 											<IconCustom
 												name='hide'
@@ -240,7 +241,7 @@ export const MyClassifiedCard = ({
 										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 									/>
 									<ButtonCustom
-										text='edit'
+										text={tMyClassifieds('buttons.edit')}
 										onClick={handleEdit}
 										icon={
 											<IconCustom
@@ -257,7 +258,7 @@ export const MyClassifiedCard = ({
 										disabled={!isActive}
 									/>
 									<ButtonCustom
-										text='up'
+										text={tMyClassifieds('buttons.up')}
 										icon={
 											<IconCustom
 												name='arrow-circle-up'
@@ -331,7 +332,7 @@ export const MyClassifiedCard = ({
 							{/* кнопки */}
 							<div className='w-full flex max-2xs:flex-wrap items-center gap-4'>
 								<ButtonCustom
-									text='hide'
+									text={tMyClassifieds('buttons.hide')}
 									icon={
 										<IconCustom
 											name='hide'
@@ -344,7 +345,7 @@ export const MyClassifiedCard = ({
 									className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[88px] w-full group'
 								/>
 								<ButtonCustom
-									text='edit'
+									text={tMyClassifieds('buttons.edit')}
 									onClick={handleEdit}
 									icon={
 										<IconCustom
@@ -360,7 +361,7 @@ export const MyClassifiedCard = ({
 									disableClass='border-[#f7f7f7]! bg-white! text-[#BDBDBD]!'
 								/>
 								<ButtonCustom
-									text='up'
+									text={tMyClassifieds('buttons.up')}
 									icon={
 										<IconCustom
 											name='arrow-circle-up'
@@ -413,7 +414,7 @@ export const MyClassifiedCard = ({
 								{/* кнопки */}
 								<div className='w-full flex justify-between gap-4'>
 									<ButtonCustom
-										text='hide'
+										text={tMyClassifieds('buttons.hide')}
 										icon={
 											<IconCustom
 												name='hide'
@@ -426,7 +427,7 @@ export const MyClassifiedCard = ({
 										className='border border-[#bdbdbd] rounded-lg py-1 flex flex-col items-center justify-center gap-[3px] text-[13px] font-normal min-w-[51px] w-full group'
 									/>
 									<ButtonCustom
-										text='edit'
+										text={tMyClassifieds('buttons.edit')}
 										onClick={handleEdit}
 										icon={
 											<IconCustom
@@ -443,7 +444,7 @@ export const MyClassifiedCard = ({
 										disabled={!isActive}
 									/>
 									<ButtonCustom
-										text='up'
+										text={tMyClassifieds('buttons.up')}
 										icon={
 											<IconCustom
 												name='arrow-circle-up'

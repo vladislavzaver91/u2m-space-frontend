@@ -9,6 +9,7 @@ import { Loader } from './ui/loader'
 import { useModal } from '../helpers/contexts/modal-context'
 import { IconCustom } from './ui/icon-custom'
 import { useAuth } from '../helpers/contexts/auth-context'
+import { useTranslations } from 'next-intl'
 
 const AUTH_LINK_ITEMS: AuthLinkItem[] = [
 	{
@@ -35,6 +36,7 @@ export const LoginModal = () => {
 	const { closeLoginModal } = useModal()
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
+	const tLoginModal = useTranslations('LoginModal')
 
 	const handleClose = () => {
 		closeLoginModal()
@@ -107,7 +109,7 @@ export const LoginModal = () => {
 					className='bg-white rounded-xl shadow-lg w-[582px] max-w-full p-8 flex flex-col items-center space-y-8'
 				>
 					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
-						Welcome
+						{tLoginModal('welcome')}
 					</h2>
 
 					{error && (
@@ -118,7 +120,7 @@ export const LoginModal = () => {
 
 					<div>
 						<h3 className='text-[18px] text-[#4f4f4f] text-center mb-4'>
-							Log in with
+							{tLoginModal('logInWith')}
 						</h3>
 
 						<div className='relative w-full min-h-[64px] flex items-center justify-center'>

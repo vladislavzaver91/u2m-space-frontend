@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 interface ProfileFormInputProps {
@@ -22,6 +23,7 @@ export const ProfileFormInput = ({
 }: ProfileFormInputProps) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const [isFilled, setIsFilled] = useState<boolean>(false)
+	const tComponents = useTranslations('Components')
 
 	useEffect(() => {
 		setIsFilled(!!value)
@@ -84,7 +86,7 @@ export const ProfileFormInput = ({
 					)}
 					{isMaxLengthReached && (
 						<span className='text-[13px] font-normal text-red-500'>
-							Character limit reached
+							{tComponents('inputs.error')}
 						</span>
 					)}
 					{error && (

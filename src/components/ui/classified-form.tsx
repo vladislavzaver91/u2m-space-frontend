@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { Tooltip } from './tooltip'
 import { useEffect } from 'react'
 import { ClassifiedFormInput } from './classified-form-input'
+import { useTranslations } from 'next-intl'
 
 interface ClassifiedFormData {
 	title: string
@@ -49,6 +50,8 @@ export const ClassifiedForm = ({
 	const descriptionValue = watch('description')
 	const priceValue = watch('price')
 
+	const tCreateEditClassified = useTranslations('CreateEditClassified')
+
 	const formValues = {
 		title: titleValue,
 		description: descriptionValue,
@@ -71,12 +74,12 @@ export const ClassifiedForm = ({
 				onMouseLeave={() => onMouseLeave('title')}
 			>
 				<ClassifiedFormInput
-					label='Title'
+					label={tCreateEditClassified('formInputs.title')}
 					register={register('title', {
-						required: 'Title is required',
+						required: tCreateEditClassified('errorInputs.title.required'),
 						maxLength: {
 							value: 60,
-							message: 'Title must be up to 60 characters',
+							message: tCreateEditClassified('errorInputs.title.message'),
 						},
 					})}
 					value={titleValue}
@@ -85,8 +88,8 @@ export const ClassifiedForm = ({
 				/>
 
 				<Tooltip
-					title='Title'
-					text='Enter a catchy title to attract potential buyers (max 60 characters).'
+					title={tCreateEditClassified('tooltips.title.name')}
+					text={tCreateEditClassified('tooltips.title.description')}
 					visible={tooltipVisible.title}
 				/>
 			</div>
@@ -96,12 +99,12 @@ export const ClassifiedForm = ({
 				onMouseLeave={() => onMouseLeave('description')}
 			>
 				<ClassifiedFormInput
-					label='Description'
+					label={tCreateEditClassified('formInputs.description')}
 					register={register('description', {
-						required: 'Description is required',
+						required: tCreateEditClassified('errorInputs.description.required'),
 						maxLength: {
 							value: 300,
-							message: 'Description must be up to 300 characters',
+							message: tCreateEditClassified('errorInputs.title.message'),
 						},
 					})}
 					value={descriptionValue}
@@ -109,8 +112,8 @@ export const ClassifiedForm = ({
 					maxLength={300}
 				/>
 				<Tooltip
-					title='Description'
-					text='Is a meta tag that briefly describes the content of a given web page. Keywords are keywords or phrases that are used on a given web page and are the main ones for it (i.e., they reveal the topic and content).'
+					title={tCreateEditClassified('tooltips.description.name')}
+					text={tCreateEditClassified('tooltips.description.description')}
 					visible={tooltipVisible.description}
 				/>
 			</div>
@@ -120,13 +123,17 @@ export const ClassifiedForm = ({
 				onMouseLeave={() => onMouseLeave('price')}
 			>
 				<ClassifiedFormInput
-					label='Price'
+					label={tCreateEditClassified('formInputs.price')}
 					type='number'
 					register={register('price', {
-						required: 'Price is required',
-						min: { value: 0, message: 'Price must be a positive number' },
+						required: tCreateEditClassified('errorInputs.price.required'),
+						min: {
+							value: 0,
+							message: tCreateEditClassified('errorInputs.price.message1'),
+						},
 						validate: value =>
-							!isNaN(parseFloat(value)) || 'Price must be a valid number',
+							!isNaN(parseFloat(value)) ||
+							tCreateEditClassified('errorInputs.price.message1'),
 					})}
 					value={priceValue}
 					error={errors.price?.message}
@@ -135,8 +142,8 @@ export const ClassifiedForm = ({
 				/>
 
 				<Tooltip
-					title='Price'
-					text='Set a competitive price for your item (must be a positive number).'
+					title={tCreateEditClassified('tooltips.price.name')}
+					text={tCreateEditClassified('tooltips.price.description')}
 					visible={tooltipVisible.price}
 				/>
 			</div>

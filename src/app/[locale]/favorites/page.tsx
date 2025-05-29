@@ -7,10 +7,10 @@ import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { apiService } from '@/services/api.service'
 import { Classified } from '@/types'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 
 export default function FavoritesPage() {
-	const [activeCategory, setActiveCategory] = useState('All')
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [filteredClassifieds, setFilteredClassifieds] = useState<Classified[]>(
 		[]
@@ -22,8 +22,16 @@ export default function FavoritesPage() {
 	const { user, logout } = useAuth()
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
+	const tFavorites = useTranslations('Favorites')
+	const tMyClassifieds = useTranslations('MyClassifieds')
+	const [activeCategory, setActiveCategory] = useState(tFavorites('tabs.all'))
 
-	const categories = ['All', 'Selling', 'Bidding', 'Barter']
+	const categories = [
+		tFavorites('tabs.all'),
+		tFavorites('tabs.selling'),
+		tFavorites('tabs.bidding'),
+		tFavorites('tabs.barter'),
+	]
 
 	useEffect(() => {
 		if (!user) {
@@ -60,13 +68,13 @@ export default function FavoritesPage() {
 	// Фильтрация по категориям
 	useEffect(() => {
 		setHasHiddenClassifieds(classifieds.some(item => !item.isActive))
-		if (activeCategory === 'All') {
+		if (activeCategory === tFavorites('tabs.selling.all')) {
 			setFilteredClassifieds(classifieds)
-		} else if (activeCategory === 'Selling') {
+		} else if (activeCategory === tFavorites('tabs.selling.selling')) {
 			setFilteredClassifieds(classifieds.filter(item => item.isActive))
-		} else if (activeCategory === 'Bidding') {
+		} else if (activeCategory === tFavorites('tabs.selling.bidding')) {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
-		} else if (activeCategory === 'Barter') {
+		} else if (activeCategory === tFavorites('tabs.selling.barter')) {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
 		}
 	}, [classifieds, activeCategory])
@@ -128,7 +136,7 @@ export default function FavoritesPage() {
 				</div>
 			) : (
 				<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
-					<NavigationButtons activePage='Favorites' />
+					<NavigationButtons activePage={tMyClassifieds('buttons.favorites')} />
 
 					<div className='flex-1 flex sm:justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>

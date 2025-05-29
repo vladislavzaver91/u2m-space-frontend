@@ -12,6 +12,7 @@ import { CategoryTabs } from '@/components/ui/category-tabs'
 import { Loader } from '@/components/ui/loader'
 import { ClassifiedCard } from '@/components/ui/classified-card'
 import { SwiperPaginationService } from '@/services/swiper-pagination.service'
+import { useTranslations } from 'next-intl'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -23,10 +24,13 @@ export default function SellingClassifieds() {
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [page, setPage] = useState(1)
 	const [hasMore, setHasMore] = useState(true)
-	const [activeCategory, setActiveCategory] = useState('Selling')
 	const [isLoading, setIsLoading] = useState(true)
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const swiperRef = useRef<SwiperClass | null>(null)
+	const tSellingClassifieds = useTranslations('SellingClassifieds')
+	const [activeCategory, setActiveCategory] = useState(
+		tSellingClassifieds('tabs.selling')
+	)
 
 	const limit = 20
 
@@ -84,7 +88,11 @@ export default function SellingClassifieds() {
 						disabled
 					/>
 					<CategoryTabs
-						categories={['Selling', 'Category', 'Category']}
+						categories={[
+							tSellingClassifieds('tabs.selling'),
+							tSellingClassifieds('tabs.category'),
+							tSellingClassifieds('tabs.category'),
+						]}
 						activeCategory={activeCategory}
 						onCategoryChange={setActiveCategory}
 						disabled

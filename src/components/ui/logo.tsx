@@ -1,7 +1,8 @@
 'use client'
 
+import { useRouter } from '@/i18n/routing'
+import { useLocale } from 'next-intl'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 
 interface LogoProps {
 	width: number
@@ -19,10 +20,12 @@ export const Logo = ({
 	className,
 }: LogoProps) => {
 	const router = useRouter()
+	const locale = useLocale()
+
 	const target =
 		typeof window !== 'undefined' && localStorage.getItem('hasVisited')
-			? '/selling-classifieds'
-			: '/'
+			? `/selling-classifieds`
+			: `/`
 
 	const handleClick = () => {
 		router.push(target)

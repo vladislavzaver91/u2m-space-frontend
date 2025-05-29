@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '../contexts/auth-context'
 import { apiService } from '@/services/api.service'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 
 export function useAuthExchange() {
 	const { handleAuthSuccess } = useAuth()
@@ -32,7 +33,7 @@ export function useAuthExchange() {
 					}
 
 					handleAuthSuccess({ user, accessToken, refreshToken }, true)
-					router.replace('/selling-classifieds') // Очищаем URL и редиректим
+					router.replace(`/selling-classifieds`) // Очищаем URL и редиректим
 				} catch (err) {
 					console.error('Failed to exchange state:', err)
 				}

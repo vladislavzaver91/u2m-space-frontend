@@ -5,8 +5,9 @@ import { useScrollStyle } from '../../helpers/hooks/use-scroll-style'
 import { useVisitRedirect } from '../../helpers/hooks/use-visit-redirect'
 import { apiService } from '../../services/api.service'
 import { useAuth } from '../../helpers/contexts/auth-context'
-import { usePathname, useRouter } from 'next/navigation'
 import { Loader } from '@/components/ui/loader'
+import { usePathname, useRouter } from 'next/navigation'
+import { useLocale } from 'next-intl'
 
 export default function ClientLayout({
 	children,
@@ -18,6 +19,7 @@ export default function ClientLayout({
 	const { user, handleAuthSuccess } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
+	const locale = useLocale()
 	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
@@ -40,8 +42,8 @@ export default function ClientLayout({
 						refreshToken: res.refreshToken,
 					})
 					console.log('Success login:', res)
-					if (pathname === '/') {
-						router.replace('/selling-classifieds')
+					if (pathname === `/${locale}` || pathname === '/') {
+						router.replace(`${locale}/selling-classifieds`)
 					}
 				} catch (error: any) {
 					console.error('Login error:', error)

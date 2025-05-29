@@ -9,21 +9,7 @@ import { IconCustom } from '@/components/ui/icon-custom'
 import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 import { BenefitsItemCard } from '@/components/ui/benefits-item-card'
 import { Logo } from '@/components/ui/logo'
-
-const BENEFITS_ITEMS = [
-	{
-		label: 'Give your things a second life',
-		img: '/images/item_1.png',
-	},
-	{
-		label: 'We help to find each other',
-		img: '/images/item_2.png',
-	},
-	{
-		label: 'Fast communication for exchange or sale',
-		img: '/images/item_3.png',
-	},
-]
+import { useTranslations } from 'next-intl'
 
 export default function Home() {
 	const {
@@ -36,6 +22,23 @@ export default function Home() {
 		handleOpenSlider,
 		handleCloseSlider,
 	} = useSliderHomeLogic()
+	const tHome = useTranslations('Home')
+	const tButtons = useTranslations('Buttons')
+
+	const BENEFITS_ITEMS = [
+		{
+			label: tHome('benefit1'),
+			img: '/images/item_1.png',
+		},
+		{
+			label: tHome('benefit2'),
+			img: '/images/item_2.png',
+		},
+		{
+			label: tHome('benefit3'),
+			img: '/images/item_3.png',
+		},
+	]
 
 	return (
 		<div className='flex flex-col w-full overflow-hidden min-h-screen relative'>
@@ -92,7 +95,7 @@ export default function Home() {
 						<div className='fixed bottom-0 right-0'>
 							{currentSlide === BENEFITS_ITEMS.length - 1 ? (
 								<ButtonCustom
-									text="Let's start"
+									text={tButtons('letsStart')}
 									iconWrapperClass='w-6 h-6'
 									icon={
 										<IconCustom
@@ -108,7 +111,7 @@ export default function Home() {
 								/>
 							) : (
 								<ButtonCustom
-									text='Next'
+									text={tButtons('next')}
 									iconWrapperClass='w-6 h-6'
 									icon={
 										<IconCustom
@@ -132,11 +135,13 @@ export default function Home() {
 						<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
 							<Logo width={150} height={48} className='z-10' />
 							<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
-								Hi there, <br /> I’m U2M Space
+								{tHome('title1')}
+								<br /> {tHome('title2')}
 							</h1>
 							<p className='font-normal text-[16px] leading-6'>
-								Your new simpler, reliable way <br />
-								to exchange.
+								{tHome('description1')}
+								<br />
+								{tHome('description2')}
 							</p>
 						</div>
 
@@ -188,7 +193,7 @@ export default function Home() {
 			{!isSliderOpen && (
 				<div className='fixed bottom-0 right-0'>
 					<ButtonCustom
-						text="Let's meet"
+						text={tButtons('letsStart')}
 						iconWrapperClass='w-6 h-6'
 						icon={
 							<IconCustom
@@ -203,7 +208,7 @@ export default function Home() {
 						className='flex-row-reverse p-8 min-w-[187px] w-fit md:hidden'
 					/>
 					<ButtonCustom
-						text="Let's start"
+						text={tButtons('letsStart')}
 						href='/selling-classifieds'
 						iconWrapperClass='w-6 h-6'
 						icon={

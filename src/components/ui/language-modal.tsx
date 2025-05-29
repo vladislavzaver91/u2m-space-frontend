@@ -1,26 +1,30 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { startTransition, useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import { Loader } from './loader'
 import { ButtonCustom } from './button-custom'
 import { CustomSelect } from './custom-select'
 import { IconCustom } from './icon-custom'
-import { useRouter } from 'next/navigation'
 import { useModal } from '@/helpers/contexts/modal-context'
+import { usePathname, useRouter } from 'next/navigation'
 
 const LANGUAGE_BTN_ITEMS = [
 	{
 		language: 'English',
 		country: 'United Kingdom',
+		code: 'en',
 	},
 	{
 		language: 'Українська',
 		country: 'Україна',
+		code: 'uk',
 	},
 	{
 		language: 'Polski',
 		country: 'Polska',
+		code: 'pl',
 	},
 ]
 
@@ -47,11 +51,23 @@ export const LanguageModal = () => {
 	})
 	const { handleOverlayClick, closeModal } = useModal()
 	const router = useRouter()
+	const pathname = usePathname()
+	const localActive = useLocale()
+	const tLanguageModal = useTranslations('LanguageModal')
+
+	const changeLanguage = (nextLocale: string) => {
+		startTransition(() => {
+			setIsLoading(true)
+			const pathWithoutLocal = pathname.replace(`/${localActive}`, '')
+			const newPath = `/${nextLocale}${pathWithoutLocal}`
+			router.push(newPath)
+			closeModal()
+			setIsLoading(false)
+		})
+	}
 
 	const handleClose = () => {
 		closeModal()
-		setIsLoading(false)
-		router.replace(window.location.pathname)
 	}
 
 	return (
@@ -73,7 +89,7 @@ export const LanguageModal = () => {
 				>
 					{/* language and region */}
 					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
-						Choose language and region
+						{tLanguageModal('chooseLanguageRegion.title')}
 					</h2>
 
 					{error && (
@@ -90,6 +106,7 @@ export const LanguageModal = () => {
 								{LANGUAGE_BTN_ITEMS.map((item, index) => (
 									<div
 										key={index}
+										onClick={() => changeLanguage(item.code)}
 										className='min-w-[216px] w-fit h-[74px] text-[16px] p-4 font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer'
 									>
 										<p className='font-bold text-[16px] text-[#4F4F4F] leading-[18px]'>
@@ -106,7 +123,7 @@ export const LanguageModal = () => {
 
 					{/* currency */}
 					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
-						Choose currency
+						{tLanguageModal('chooseCurrency.title')}
 					</h2>
 
 					{error && (
@@ -141,20 +158,20 @@ export const LanguageModal = () => {
 
 					{/* city */}
 					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
-						Choose a city
+						{tLanguageModal('chooseCity.title')}
 					</h2>
 
 					<div className='w-full mx-auto sm:w-[300px]'>
 						<CustomSelect
-							label='City'
+							label={tLanguageModal('chooseCity.city')}
 							options={[
-								'New York',
-								'London',
-								'Kyiv',
-								'Poltava',
-								'Odessa',
-								'Kharkiv',
-								'Warsaw',
+								tLanguageModal('chooseCity.cities.newYork'),
+								tLanguageModal('chooseCity.cities.london'),
+								tLanguageModal('chooseCity.cities.kyiv'),
+								tLanguageModal('chooseCity.cities.poltava'),
+								tLanguageModal('chooseCity.cities.odessa'),
+								tLanguageModal('chooseCity.cities.kharkiv'),
+								tLanguageModal('chooseCity.cities.warsaw'),
 							]}
 							value={formData.city}
 							onChange={value => setFormData({ ...formData, city: value })}

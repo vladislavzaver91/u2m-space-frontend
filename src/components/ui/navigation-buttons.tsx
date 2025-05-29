@@ -1,68 +1,74 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useAuth } from '@/helpers/contexts/auth-context'
+import { useTranslations } from 'next-intl'
+import { useRouter } from '@/i18n/routing'
 
 interface NavigationButtonsProps {
 	activePage: string
 }
 
-const BUTTONS = [
-	{
-		text: 'My Classifieds',
-		path: '/my-classifieds',
-		iconName: 'note',
-		className: 'w-fit min-w-[151px] h-10',
-		activeBtnClass: 'w-fit min-w-[183px] h-10',
-		iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
-	},
-	{
-		text: 'Favorites',
-		path: '/favorites',
-		iconName: 'heart',
-		className: 'w-fit min-w-[109px] h-10',
-		activeBtnClass: 'w-fit min-w-[141px] h-10',
-		iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
-	},
-	{
-		text: 'Profile',
-		path: null,
-		iconName: 'user-card',
-		className: 'w-fit min-w-[87px] h-10',
-		activeBtnClass: 'w-fit min-w-[119px] h-10',
-		iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
-	},
-	{
-		text: 'Logout',
-		path: null,
-		iconName: null,
-		className: 'w-fit min-w-[92px] h-10',
-		iconWrapperClass: null,
-	},
-]
-
 export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 	const { user, logout } = useAuth()
 	const router = useRouter()
 	const swiperRef = useRef<SwiperRef | null>(null)
+	const tMyClassifieds = useTranslations('MyClassifieds')
+
+	const BUTTONS = [
+		{
+			text: tMyClassifieds('buttons.myClassifieds'),
+			path: `/my-classifieds`,
+			iconName: 'note',
+			className: 'w-fit min-w-[151px] h-10',
+			activeBtnClass: 'w-fit min-w-[183px] h-10',
+			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			type: 'myClassifieds',
+		},
+		{
+			text: tMyClassifieds('buttons.favorites'),
+			path: `/favorites`,
+			iconName: 'heart',
+			className: 'w-fit min-w-[109px] h-10',
+			activeBtnClass: 'w-fit min-w-[141px] h-10',
+			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			type: 'favorites',
+		},
+		{
+			text: tMyClassifieds('buttons.profile'),
+			path: null,
+			iconName: 'user-card',
+			className: 'w-fit min-w-[87px] h-10',
+			activeBtnClass: 'w-fit min-w-[119px] h-10',
+			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			type: 'profile',
+		},
+		{
+			text: tMyClassifieds('buttons.logout'),
+			path: null,
+			iconName: null,
+			className: 'w-fit min-w-[92px] h-10',
+			iconWrapperClass: null,
+			type: 'logout',
+		},
+	]
 
 	const handleBtnClick = (
 		path: string | null,
 		isLogout: boolean,
-		text: string
+		type: string
 	) => {
 		if (isLogout) {
 			logout()
-		} else if (text === 'Profile') {
+		} else if (type === 'profile') {
 			if (user && user.id) {
 				router.push(`/profile/${user.id}`)
 			} else {
 				console.warn('User or user.id is missing')
-				router.push('/selling-classifieds')
+				router.push(`/selling-classifieds`)
 			}
 		} else if (path) {
 			router.push(path)
@@ -109,11 +115,11 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 							<ButtonCustom
 								text={btn.text}
 								onClick={() =>
-									handleBtnClick(btn.path, btn.text === 'Logout', btn.text)
+									handleBtnClick(btn.path, btn.type === 'logout', btn.type)
 								}
 								className={
 									activePage.toLowerCase() === btn.text.toLowerCase() &&
-									btn.text !== 'Logout'
+									btn.type !== 'logout'
 										? `flex items-center justify-center rounded-lg text-white bg-[#3486fe]! ${btn.className}`
 										: `flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
 								}
@@ -129,25 +135,25 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 						key={index}
 						text={btn.text}
 						onClick={() =>
-							handleBtnClick(btn.path, btn.text === 'Logout', btn.text)
+							handleBtnClick(btn.path, btn.type === 'logout', btn.type)
 						}
 						className={
 							activePage.toLowerCase() === btn.text.toLowerCase() &&
-							btn.text !== 'Logout'
+							btn.type !== 'logout'
 								? `flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]! ${btn.activeBtnClass}`
 								: `flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
 						}
 						iconWrapperClass={
 							activePage.toLowerCase() === btn.text.toLowerCase() &&
 							btn.iconName &&
-							btn.text !== 'Logout'
+							btn.type !== 'logout'
 								? btn.iconWrapperClass
 								: undefined
 						}
 						icon={
 							activePage.toLowerCase() === btn.text.toLowerCase() &&
 							btn.iconName &&
-							btn.text !== 'Logout' ? (
+							btn.type !== 'logout' ? (
 								<IconCustom
 									name={btn.iconName}
 									className='w-[18px] h-[18px] fill-none text-white'

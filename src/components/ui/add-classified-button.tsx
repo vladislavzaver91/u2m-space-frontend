@@ -1,7 +1,8 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { IconCustom } from './icon-custom'
+import { useTranslations } from 'next-intl'
 
 interface AddClassifiedButtonProps {
 	href?: string
@@ -10,6 +11,8 @@ interface AddClassifiedButtonProps {
 export const AddClassifiedButton = ({
 	href = '/classifieds-create',
 }: AddClassifiedButtonProps) => {
+	const tMyClassifieds = useTranslations('MyClassifieds')
+
 	return (
 		<Link
 			href={href}
@@ -22,7 +25,7 @@ export const AddClassifiedButton = ({
 				className='w-6 h-6 text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c] fill-none'
 			/>
 			<p className='text-[#4f4f4f] text-[16px] font-bold leading-5'>
-				Add Classifieds
+				{tMyClassifieds('buttons.addClassifieds')}
 			</p>
 		</Link>
 	)

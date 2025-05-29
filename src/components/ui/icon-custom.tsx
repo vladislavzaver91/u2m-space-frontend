@@ -1,3 +1,4 @@
+'use client'
 interface IconCustomProps {
 	name: string
 	className?: string

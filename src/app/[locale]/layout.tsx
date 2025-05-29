@@ -3,9 +3,9 @@ import { Montserrat } from 'next/font/google'
 import '../globals.css'
 import { AuthProvider } from '@/helpers/contexts/auth-context'
 import { ModalProvider } from '@/helpers/contexts/modal-context'
-// import { routing } from '@/i18n/routing'
-// import { hasLocale, NextIntlClientProvider } from 'next-intl'
-// import { notFound } from 'next/navigation'
+import { routing } from '@/i18n/routing'
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { notFound } from 'next/navigation'
 import { Header } from '@/components/header'
 import ClientLayout from './client-layout'
 
@@ -25,10 +25,24 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
 	children: React.ReactNode
-	// params: Promise<{ locale: string }>
+	params: Promise<{ locale: string }>
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({
+	children,
+	params,
+}: RootLayoutProps) {
+	const { locale } = await params
+	if (!hasLocale(routing.locales, locale)) {
+		notFound()
+	}
+
+	let messages
+	try {
+		messages = (await import(`../../messages/${locale}.json`)).default
+	} catch (error) {
+		notFound()
+	}
 	const isHomePage =
 		typeof window === 'undefined' ? false : window.location.pathname === '/'
 	const bodyClass = `${
@@ -36,52 +50,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
 	} antialiased flex flex-col min-h-screen ${isHomePage ? '' : 'has-scroll'}`
 
 	return (
-		<html lang='en'>
+		<html lang={locale}>
 			<body className={bodyClass}>
-				<AuthProvider>
-					<ModalProvider>
-						<Header />
-						<ClientLayout>{children}</ClientLayout>
-					</ModalProvider>
-				</AuthProvider>
+				<NextIntlClientProvider locale={locale} messages={messages}>
+					<AuthProvider>
+						<ModalProvider>
+							<Header />
+							<ClientLayout>{children}</ClientLayout>
+						</ModalProvider>
+					</AuthProvider>
+				</NextIntlClientProvider>
 			</body>
 		</html>
 	)
 }
-
-// export default async function RootLayout({
-// 	children,
-// 	params,
-// }: RootLayoutProps) {
-// 	const { locale } = await params
-// 	if (!hasLocale(routing.locales, locale)) {
-// 		notFound()
-// 	}
-
-// 	let messages
-// 	try {
-// 		messages = (await import(`../../messages/${locale}.json`)).default
-// 	} catch (error) {
-// 		notFound()
-// 	}
-// 	const isHomePage =
-// 		typeof window === 'undefined' ? false : window.location.pathname === '/'
-// 	const bodyClass = `${
-// 		montserrat.variable
-// 	} antialiased flex flex-col min-h-screen ${isHomePage ? '' : 'has-scroll'}`
-
-// 	return (
-// 		<html lang={locale}>
-// 			<body className={bodyClass}>
-// 				<NextIntlClientProvider locale={locale} messages={messages}>
-// 					<AuthProvider>
-// 						<ModalProvider>
-// 							<Header />
-// 							<ClientLayout>{children}</ClientLayout>
-// 						</ModalProvider>
-// 					</AuthProvider>
-// 				</NextIntlClientProvider>
-// 			</body>
-// 		</html>
-// 	)
-// }

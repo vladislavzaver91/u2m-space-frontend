@@ -1,6 +1,5 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import { ButtonCustom } from './ui/button-custom'
 import { Logo } from './ui/logo'
 import { useAuth } from '../helpers/contexts/auth-context'
@@ -11,23 +10,28 @@ import { useEffect, useState } from 'react'
 import { SearchInput } from './ui/search-input'
 import { IconCustom } from './ui/icon-custom'
 import { LanguageModal } from './ui/language-modal'
+import { useLocale, useTranslations } from 'next-intl'
+import { usePathname } from '@/i18n/routing'
 
 export const Header = () => {
 	const { user } = useAuth()
 	const { isLoginModalOpen, openLoginModal, openModal, isModalOpen } =
 		useModal()
 	const pathname = usePathname()
+	const locale = useLocale()
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
 	const [isMobile, setIsMobile] = useState<boolean>(false)
+	const tButtons = useTranslations('Buttons')
+	const tComponents = useTranslations('Components')
 
 	const mySpaceRoutes = [
-		'/my-classifieds',
-		'/classifieds-create',
-		'/classifieds-edit',
+		`/my-classifieds/`,
+		`/classifieds-create/`,
+		`/classifieds-edit/`,
 	]
 	const isMySpaceLabel = mySpaceRoutes.some(route => {
-		if (route === '/classifieds-edit') {
-			return pathname.startsWith('/classifieds-edit')
+		if (route === `${locale}/classifieds-edit/`) {
+			return pathname.startsWith(`/classifieds-edit/`)
 		}
 		return pathname === route
 	})
@@ -64,7 +68,7 @@ export const Header = () => {
 				</div>
 				{isMySpaceLabel && isMobile && (
 					<span className='md:hidden text-[#4f4f4f] text-[18px] font-bold uppercase'>
-						My space
+						{tComponents('mySpace')}
 					</span>
 				)}
 
@@ -82,7 +86,7 @@ export const Header = () => {
 								<SearchInput
 									className='max-w-[600px]'
 									smallWidth
-									placeholder='Search'
+									placeholder={tComponents('placeholders.search')}
 								/>
 							</div>
 							<div className='max-md:hidden'>
@@ -100,7 +104,7 @@ export const Header = () => {
 								inputClass='pr-4!'
 								smallWidth
 								logoActive={true}
-								placeholder='Search'
+								placeholder={tComponents('placeholders.search')}
 							/>
 						</div>
 					)}
@@ -110,7 +114,7 @@ export const Header = () => {
 				<div className='flex items-center absolute top-0 right-0'>
 					{isMySpaceLabel && isMobile && (
 						<ButtonCustom
-							href='/selling-classifieds'
+							href={`/selling-classifieds/`}
 							iconWrapperClass='w-6 h-6 flex items-center justify-center'
 							icon={
 								<IconCustom
@@ -125,7 +129,7 @@ export const Header = () => {
 					{(!isMySpaceLabel || !isMobile) && (
 						<>
 							{/* все страницы без авторизации */}
-							{pathname !== '/' && !user && (
+							{pathname !== `/` && !user && (
 								<>
 									<div className='hidden md:flex lg:hidden'>
 										<ButtonCustom
@@ -174,7 +178,7 @@ export const Header = () => {
 										/>
 										<ButtonCustom
 											onClick={openLoginModal}
-											text='Add'
+											text={tButtons('add')}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -212,8 +216,8 @@ export const Header = () => {
 									{/* favorites */}
 									<div className='hidden lg:flex'>
 										<ButtonCustom
-											href='/favorites'
-											text='Favorites'
+											href={`/favorites/`}
+											text={tButtons('favorites')}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -227,8 +231,8 @@ export const Header = () => {
 											className='p-8 min-w-[181px] w-fit'
 										/>
 										<ButtonCustom
-											href='/classifieds-create'
-											text='Add'
+											href={`/classifieds-create/`}
+											text={tButtons('add')}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -245,7 +249,7 @@ export const Header = () => {
 
 									<div className='flex lg:hidden'>
 										<ButtonCustom
-											href='/favorites'
+											href={`/favorites/`}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -259,7 +263,7 @@ export const Header = () => {
 											className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
 										/>
 										<ButtonCustom
-											href='/classifieds-create'
+											href={`/classifieds-create/`}
 											iconWrapperClass='w-6 h-6'
 											icon={
 												<IconCustom
@@ -276,7 +280,7 @@ export const Header = () => {
 
 									<div className='flex md:hidden'>
 										<ButtonCustom
-											href='/my-classifieds'
+											href={`/my-classifieds/`}
 											iconWrapperClass='w-8 h-8'
 											icon={
 												<Image
@@ -305,7 +309,7 @@ export const Header = () => {
 									</div>
 									<div className='hidden md:flex'>
 										<ButtonCustom
-											href='/my-classifieds'
+											href={`/my-classifieds/`}
 											textParts={[
 												{ text: 'U ', color: '[#f9329c]' },
 												{ text: '33', color: '[#3486fe]' },
@@ -340,7 +344,7 @@ export const Header = () => {
 							) : (
 								// без авторизации правый край хедера
 								<ButtonCustom
-									text='Log in'
+									text={tButtons('login')}
 									onClick={openLoginModal}
 									iconWrapperClass='w-6 h-6'
 									icon={

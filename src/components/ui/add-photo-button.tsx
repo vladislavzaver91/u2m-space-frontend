@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { IconCustom } from './icon-custom'
 
 interface AddPhotoButtonProps {
@@ -7,6 +8,8 @@ interface AddPhotoButtonProps {
 }
 
 export const AddPhotoButton = ({ onChange }: AddPhotoButtonProps) => {
+	const tCreateEditClassified = useTranslations('CreateEditClassified')
+
 	return (
 		<div className='relative border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:border-[#f9329c] w-full max-md:h-[84px] md:h-[294px] space-y-2 cursor-pointer group select-none'>
 			<input
@@ -24,7 +27,7 @@ export const AddPhotoButton = ({ onChange }: AddPhotoButtonProps) => {
 				className='w-6 h-6 text-[#4f4f4f] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 			/>
 			<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 select-none'>
-				Add photos
+				{tCreateEditClassified('addPhotos')}
 			</p>
 		</div>
 	)

@@ -1,7 +1,9 @@
 {
 	"Home": {
-		"title": "Hi there, I’m U2M Space",
-		"description": "Your new simpler, reliable way to exchange.",
+		"title1": "Hi there,",
+		"title2": "I’m U2M Space",
+		"description1": "Your new simpler, reliable way",
+		"description2": "to exchange.",
 		"benefit1": "Give your things a second life",
 		"benefit2": "We help to find each other",
 		"benefit3": "Fast communication for exchange or sale"
@@ -42,17 +44,223 @@
 		}
 	},
 
+	"CreateEditClassified": {
+		"addPhotos": "Add photos",
+		"tags": "Tags",
+		"addTag": "Add tag",
+		"recommendedTags": "Recommended tags",
+		"formInputs": {
+			"title": "Title",
+			"description": "Description",
+			"price": "Price"
+		},
+		"errorInputs": {
+			"title": {
+				"message": "Title must be up to 60 characters",
+				"required": "Title is required"
+			},
+			"description": {
+				"message": "Description must be up to 300 characters",
+				"required": "Description is required"
+			},
+			"price": {
+				"required": "Price is required",
+				"message1": "Price must be a positive number",
+				"message2": "Price must be a valid number"
+			}
+		},
+		"tooltips": {
+			"title": {
+				"name": "Title",
+				"description": "Enter a catchy title to attract potential buyers (max 60 characters)."
+			},
+
+			"description": {
+				"name": "Description",
+				"description": "Is a meta tag that briefly describes the content of a given web page. Keywords are keywords or phrases that are used on a given web page and are the main ones for it (i.e., they reveal the topic and content)."
+			},
+			"price": {
+				"name": "Price",
+				"description": "Set a competitive price for your item (must be a positive number)."
+			}
+		}
+	},
+
+	"Favorites": {
+		"tabs": {
+			"all": "All",
+			"selling": "Selling",
+			"bidding": "Bidding",
+			"barter": "Barter"
+		}
+	},
+
+	"Profile": {
+		"tabs": {
+			"information": "Information",
+			"setting": "Setting"
+		},
+		"bonuses": "Bonuses",
+		"trustRating": "Trust rating",
+		"informationTooltips": {
+			"nickname": {
+				"name": "Nickname",
+				"description": "The nickname that will be displayed on the site must be unique. The length must be more than 4 characters."
+			},
+			"legalName": {
+				"name": "Legal name",
+				"description": "Name indicated on the passport, driver’s license or other travel document. Will not be displayed on the site."
+			},
+			"legalSurname": {
+				"name": "Legal surname",
+				"description": "Surname as indicated on official documents such as a passport or ID. Will not be visible on the site."
+			},
+			"gender": {
+				"name": "Gender",
+				"description": "Select your gender as indicated in your official documents. This information will be used for verification purposes."
+			},
+			"dateOfBirth": {
+				"name": "Date of Birth",
+				"description": "Enter your date of birth as stated in your passport or ID. Must be 18 years or older to register."
+			},
+			"email": {
+				"name": "Email Address",
+				"description": "A valid email address that will be used for login and notifications. Must be accessible to confirm your account."
+			},
+			"phoneNumber": {
+				"name": "Phone number",
+				"description": "Primary contact number with country code. Will be used for verification and important account notifications."
+			},
+			"extraPhoneNumber": {
+				"name": "Extra phone number",
+				"description": "Optional additional contact number in case we can't reach you via your primary number."
+			}
+		},
+		"informationFormInputs": {
+			"yourNickname": "Your nickname",
+			"errorNickname": "more than 3 characters are needed",
+			"infoNickname": "Your nickname (Shown instead of Full Name)",
+			"documentName": "Document Name",
+			"documentNameDescr": "Name indicated on the passport, driver’s license or other travel document.",
+			"legalName": "Legal name",
+			"legalSurname": "Legal surname",
+			"gender": "Gender",
+			"male": "Male",
+			"female": "female",
+			"birthday": "Date of Birth",
+			"emailAddress": "Email Address",
+			"phoneNumber": "Phone number",
+			"extraPhoneNumber": "Extra phone number"
+		},
+		"settingTooltips": {
+			"languageRegion": {
+				"name": "Language and region",
+				"description": "Select your preferred language and region. This will help personalize your experience on the site."
+			},
+			"currency": {
+				"name": "Currency",
+				"description": "Choose the currency you want to use for prices and transactions. Options include USD, UAH, and EUR."
+			},
+			"place": {
+				"name": "Place",
+				"description": "Enter your place of residence. This information helps us display relevant offers in your area."
+			},
+			"notifications": {
+				"name": "Notifications",
+				"description": "Turn on or off notifications about important updates, messages, and offers."
+			},
+			"showPhone": {
+				"name": "Show phone",
+				"description": "Enable or disable the display of your phone number in your public profile and listings."
+			},
+			"advancedUser": {
+				"name": "Advanced user",
+				"description": "Activate advanced user features such as extended analytics and profile customization."
+			},
+			"deleteAccount": {
+				"name": "Delete account",
+				"description": "Select a reason for deleting your account. This helps us understand your experience and improve the platform."
+			}
+		},
+		"settingFormInputs": {
+			"languageRegion": "Language and region",
+			"currency": "Currency",
+			"place": "Place",
+			"notifications": "Notifications",
+			"showPhone": "Show phone",
+			"advancedUser": "Advanced user",
+			"deleteAccount": "Delete account",
+			"deleteAccountOption1": "I no longer use the service",
+			"deleteAccountOption2": "Too expensive",
+			"deleteAccountOption3": "Found a better alternative",
+			"deleteAccountOption4": "Not satisfied with the quality",
+			"deleteAccountOption5": "I have security or privacy concerns",
+			"deleteAccountOption6": "Too much spam or unnecessary messages",
+			"deleteAccountOption7": "Temporarily deleting, planning to come back later",
+			"deleteAccountOption8": "Created a new account",
+			"deleteAccountOption9": "Can't find the functionality I need",
+			"deleteAccountOption10": "Technical issues, frequent crashes",
+			"deleteAccountOption11": "I'm not happy with the company's policies",
+			"deleteAccountOption12": "Account was hacked",
+			"deleteAccountOption13": "Other personal reasons"
+		}
+	},
+
+	"LanguageModal": {
+		"chooseLanguageRegion": {
+			"title": "Choose language and region",
+			"english": "English",
+			"unitedKingdom": "United Kingdom",
+			"ukrainian": "Ukrainian",
+			"ukraine": "Ukraine",
+			"polish": "Polish",
+			"poland": "Poland"
+		},
+		"chooseCurrency": {
+			"title": "Choose currency",
+			"americanDollar": "Dollar",
+			"ukrainianHryvnia": "Ukrainian hryvnia",
+			"euro": "Euro"
+		},
+		"chooseCity": {
+			"title": "Choose a city",
+			"city": "City",
+			"cities": {
+				"newYork": "New York",
+				"london": "London",
+				"kyiv": "Kyiv",
+				"poltava": "Poltava",
+				"odessa": "Odessa",
+				"kharkiv": "Kharkiv",
+				"warsaw": "Warsaw"
+			}
+		}
+	},
+
+	"LoginModal": {
+		"welcome": "Welcome",
+		"logInWith": "Log in with"
+	},
+
 	"Buttons": {
 		"add": "Add",
 		"favorites": "Favorites",
 		"letsStart": "Let's start",
-		"next": "Next"
+		"login": "Log in",
+		"next": "Next",
+		"back": "Back",
+		"publish": "Publish",
+		"save": "Save"
 	},
 
 	"Components": {
+		"mySpace": "My space",
 		"placeholders": {
 			"search": "Search",
 			"imLookingFor": "I'm looking for..."
+		},
+		"inputs": {
+			"error": "Character limit reached"
 		}
 	}
 }

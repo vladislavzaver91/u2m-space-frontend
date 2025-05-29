@@ -8,10 +8,10 @@ import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { apiService } from '@/services/api.service'
 import { Classified } from '@/types'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 
 export default function MyClassifieds() {
-	const [activeCategory, setActiveCategory] = useState('All')
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [filteredClassifieds, setFilteredClassifieds] = useState<Classified[]>(
 		[]
@@ -23,8 +23,16 @@ export default function MyClassifieds() {
 	const { user, logout } = useAuth()
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
+	const tMyClassifieds = useTranslations('MyClassifieds')
+	const [activeCategory, setActiveCategory] = useState(
+		tMyClassifieds('tabs.all')
+	)
 
-	const categories = ['All', 'Active', 'Hide']
+	const categories = [
+		tMyClassifieds('tabs.all'),
+		tMyClassifieds('tabs.active'),
+		tMyClassifieds('tabs.hide'),
+	]
 
 	useEffect(() => {
 		if (!user) {
@@ -61,11 +69,11 @@ export default function MyClassifieds() {
 	// Фильтрация по категориям
 	useEffect(() => {
 		setHasHiddenClassifieds(classifieds.some(item => !item.isActive))
-		if (activeCategory === 'All') {
+		if (activeCategory === tMyClassifieds('tabs.all')) {
 			setFilteredClassifieds(classifieds)
-		} else if (activeCategory === 'Active') {
+		} else if (activeCategory === tMyClassifieds('tabs.active')) {
 			setFilteredClassifieds(classifieds.filter(item => item.isActive))
-		} else if (activeCategory === 'Hide') {
+		} else if (activeCategory === tMyClassifieds('tabs.hide')) {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
 		}
 	}, [classifieds, activeCategory])
@@ -127,7 +135,9 @@ export default function MyClassifieds() {
 				</div>
 			) : (
 				<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
-					<NavigationButtons activePage='My Classifieds' />
+					<NavigationButtons
+						activePage={tMyClassifieds('buttons.myClassifieds')}
+					/>
 
 					<div className='flex-1 flex sm:justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>

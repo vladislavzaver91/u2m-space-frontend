@@ -14,6 +14,8 @@ import { CategoryTabs } from '@/components/ui/category-tabs'
 import { ImageSlider } from '@/components/ui/image-slider'
 import { ClassifiedCard } from '@/components/ui/classified-card'
 import { SliderImagesModal } from '@/components/ui/slider-images-modal'
+import { useLocale } from 'next-intl'
+import { useTranslations } from 'use-intl'
 
 interface ApiError {
 	response?: {
@@ -55,6 +57,10 @@ export function ClientClassifiedDetail({
 	const [page, setPage] = useState(1)
 	const { user } = useAuth()
 	const router = useRouter()
+	const locale = useLocale()
+	const tClassified = useTranslations('Classified')
+	const tSellingClassifieds = useTranslations('SellingClassifieds')
+	const tButtons = useTranslations('Buttons')
 	const limit = 10
 
 	useEffect(() => {
@@ -138,7 +144,7 @@ export function ClientClassifiedDetail({
 	}
 
 	const handleBack = () => {
-		router.push('/selling-classifieds')
+		router.push(`${locale}/selling-classifieds`)
 	}
 
 	const handleOpenModal = () => {
@@ -210,7 +216,7 @@ export function ClientClassifiedDetail({
 				<div className='flex max-2-5xl:flex-col flex-wrap max-2-5xl:justify-center items-baseline w-full'>
 					<ButtonCustom
 						onClick={handleBack}
-						text='Back'
+						text={tButtons('back')}
 						iconWrapperClass='w-6 h-6'
 						icon={
 							<IconCustom
@@ -226,7 +232,11 @@ export function ClientClassifiedDetail({
 					<div className='max-sm:hidden flex-1 flex justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
 							<CategoryTabs
-								categories={['Selling', 'Category', 'Category']}
+								categories={[
+									tSellingClassifieds('tabs.selling'),
+									tSellingClassifieds('tabs.category'),
+									tSellingClassifieds('tabs.category'),
+								]}
 								activeCategory={activeCategory}
 								onCategoryChange={setActiveCategory}
 								disabled
@@ -314,7 +324,7 @@ export function ClientClassifiedDetail({
 													</div>
 													<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
 														<p className='text-[16px] font-bold text-[#4f4f4f] text-center'>
-															Trust rating
+															{tClassified('userButtons.trustRating')}
 														</p>
 														<p className='text-[16px] font-bold text-[#3486fe]'>
 															50
@@ -328,7 +338,7 @@ export function ClientClassifiedDetail({
 														</h2>
 														<div className='max-sm:hidden flex items-center gap-2'>
 															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
-																tr
+																{tClassified('userButtons.tr')}
 															</p>
 															<p className='text-[16px] font-bold text-[#3486fe]'>
 																50
@@ -346,11 +356,11 @@ export function ClientClassifiedDetail({
 													)}
 													<div className='flex items-center gap-4 max-sm:flex-col'>
 														<ButtonCustom
-															text='Send message'
+															text={tClassified('userButtons.sendMessage')}
 															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
 														/>
 														<ButtonCustom
-															text='Safe buy/deal'
+															text={tClassified('userButtons.safeBuy/deal')}
 															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
 														/>
 													</div>
@@ -372,7 +382,7 @@ export function ClientClassifiedDetail({
 						<>
 							<div className='hidden lg:grid custom-container mx-auto'>
 								<h2 className='text-[24px] font-bold uppercase text-[#4f4f4f] inline-block'>
-									Similar offers
+									{tClassified('similarOffers')}
 								</h2>
 								<div className='grid grid-cols-4 md:grid-cols-12 gap-0 mt-4 lg:mt-8'>
 									<div className='col-start-1 col-end-13'>
@@ -389,7 +399,7 @@ export function ClientClassifiedDetail({
 														image={item.images[0]}
 														favoritesBool={item.favoritesBool}
 														favorites={item.favorites}
-														href={`/selling-classifieds/${item.id}`}
+														href={`${locale}/selling-classifieds/${item.id}`}
 														isSmall={true}
 													/>
 												</div>
@@ -400,7 +410,7 @@ export function ClientClassifiedDetail({
 							</div>
 							<div className='w-full lg:hidden'>
 								<h2 className='text-[24px] px-4 md:px-8 mb-4 font-bold uppercase text-[#4f4f4f] inline-block'>
-									Similar offers
+									{tClassified('similarOffers')}
 								</h2>
 								<Swiper
 									slidesPerView='auto'
@@ -445,7 +455,7 @@ export function ClientClassifiedDetail({
 												image={item.images[0]}
 												favoritesBool={item.favoritesBool}
 												favorites={item.favorites}
-												href={`/selling-classifieds/${item.id}`}
+												href={`${locale}/selling-classifieds/${item.id}`}
 												isSmall={true}
 											/>
 										</SwiperSlide>

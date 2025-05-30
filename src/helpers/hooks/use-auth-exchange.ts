@@ -3,15 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/auth-context'
 import { apiService } from '@/services/api.service'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useLocale } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 
 export function useAuthExchange() {
 	const { handleAuthSuccess } = useAuth()
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const [handled, setHandled] = useState(false)
-	const locale = useLocale()
 
 	useEffect(() => {
 		const handleAuthResult = async () => {
@@ -34,7 +33,7 @@ export function useAuthExchange() {
 					}
 
 					handleAuthSuccess({ user, accessToken, refreshToken }, true)
-					router.replace(`${locale}/selling-classifieds`) // Очищаем URL и редиректим
+					router.replace(`/selling-classifieds`) // Очищаем URL и редиректим
 				} catch (err) {
 					console.error('Failed to exchange state:', err)
 				}

@@ -35,7 +35,7 @@ export const LoginModal = () => {
 		{
 			icon: '/icons/google.svg',
 			name: 'Google',
-			href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google??locale=${locale}?prompt=select_account`,
+			href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google?prompt=select_account?locale=${locale}`,
 		},
 	]
 

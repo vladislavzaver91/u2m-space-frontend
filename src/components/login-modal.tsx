@@ -9,25 +9,7 @@ import { Loader } from './ui/loader'
 import { useModal } from '../helpers/contexts/modal-context'
 import { IconCustom } from './ui/icon-custom'
 import { useAuth } from '../helpers/contexts/auth-context'
-import { useTranslations } from 'next-intl'
-
-const AUTH_LINK_ITEMS: AuthLinkItem[] = [
-	{
-		icon: '/icons/facebook.svg',
-		name: 'Facebook',
-		href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/facebook`,
-	},
-	{
-		icon: '/icons/apple.svg',
-		name: 'Apple',
-		// href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/apple`,
-	},
-	{
-		icon: '/icons/google.svg',
-		name: 'Google',
-		href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google?prompt=select_account`,
-	},
-]
+import { useLocale, useTranslations } from 'next-intl'
 
 export const LoginModal = () => {
 	const router = useRouter()
@@ -37,6 +19,25 @@ export const LoginModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
 	const tLoginModal = useTranslations('LoginModal')
+	const locale = useLocale()
+
+	const AUTH_LINK_ITEMS: AuthLinkItem[] = [
+		{
+			icon: '/icons/facebook.svg',
+			name: 'Facebook',
+			href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/facebook?locale=${locale}`,
+		},
+		{
+			icon: '/icons/apple.svg',
+			name: 'Apple',
+			// href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/apple?locale=${locale}`,
+		},
+		{
+			icon: '/icons/google.svg',
+			name: 'Google',
+			href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google??locale=${locale}?prompt=select_account`,
+		},
+	]
 
 	const handleClose = () => {
 		closeLoginModal()

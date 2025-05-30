@@ -9,7 +9,6 @@ import {
 } from 'react'
 import axios from 'axios'
 import { User } from '@/types'
-import { useLocale } from 'next-intl'
 import { useRouter } from '@/i18n/routing'
 
 interface ApiError {
@@ -53,7 +52,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [accessToken, setAccessToken] = useState<string | null>(null)
 	const [refreshToken, setRefreshToken] = useState<string | null>(null)
 	const router = useRouter()
-	const locale = useLocale()
 
 	// Проверяем токены при загрузке приложения
 	useEffect(() => {

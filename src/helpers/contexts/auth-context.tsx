@@ -130,7 +130,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.setItem('refreshToken', refreshToken)
 		localStorage.setItem('user', JSON.stringify(user))
 		if (isInitialLogin) {
-			router.push(`${locale}/selling-classifieds`)
+			router.push(`/selling-classifieds`)
 		}
 	}
 

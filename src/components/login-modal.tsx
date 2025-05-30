@@ -25,17 +25,23 @@ export const LoginModal = () => {
 		{
 			icon: '/icons/facebook.svg',
 			name: 'Facebook',
-			href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/facebook?locale=${locale}`,
+			href: `${
+				process.env.NEXT_PUBLIC_API_URL
+			}/api/auth/facebook?locale=${encodeURIComponent(locale)}`,
 		},
 		{
 			icon: '/icons/apple.svg',
 			name: 'Apple',
-			// href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/apple?locale=${locale}`,
+			// href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/apple?locale=${encodeURIComponent(locale)}`,
 		},
 		{
 			icon: '/icons/google.svg',
 			name: 'Google',
-			href: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google?locale=${locale}`,
+			href: `${
+				process.env.NEXT_PUBLIC_API_URL
+			}/api/auth/google?prompt=${encodeURIComponent(
+				'select_account'
+			)}&locale=${encodeURIComponent(locale)}`,
 		},
 	]
 

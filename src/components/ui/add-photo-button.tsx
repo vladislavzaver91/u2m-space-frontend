@@ -11,7 +11,7 @@ export const AddPhotoButton = ({ onChange }: AddPhotoButtonProps) => {
 	const tCreateEditClassified = useTranslations('CreateEditClassified')
 
 	return (
-		<div className='relative border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:border-[#f9329c] w-full max-md:h-[84px] md:h-[294px] space-y-2 cursor-pointer group select-none'>
+		<div className='relative border-2 border-dashed border-[#bdbdbd] rounded-[13px] flex flex-col items-center justify-center transition-all hover:border-[#f9329c] hover:bg-[#F7F7F7]  w-full max-md:h-[84px] md:h-[294px] space-y-2 cursor-pointer group select-none'>
 			<input
 				id='photo-input'
 				type='file'

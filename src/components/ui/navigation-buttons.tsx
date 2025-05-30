@@ -23,8 +23,8 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 			text: tMyClassifieds('buttons.myClassifieds'),
 			path: `/my-classifieds`,
 			iconName: 'note',
-			className: 'w-fit min-w-[151px] h-10',
-			activeBtnClass: 'w-fit min-w-[183px] h-10',
+			className: 'max-w-fit px-4 h-10',
+			activeBtnClass: 'max-w-fit px-4 h-10',
 			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
 			type: 'myClassifieds',
 		},
@@ -32,8 +32,8 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 			text: tMyClassifieds('buttons.favorites'),
 			path: `/favorites`,
 			iconName: 'heart',
-			className: 'w-fit min-w-[109px] h-10',
-			activeBtnClass: 'w-fit min-w-[141px] h-10',
+			className: 'max-w-fit px-4 h-10',
+			activeBtnClass: 'max-w-fit px-4 h-10',
 			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
 			type: 'favorites',
 		},
@@ -41,8 +41,8 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 			text: tMyClassifieds('buttons.profile'),
 			path: null,
 			iconName: 'user-card',
-			className: 'w-fit min-w-[87px] h-10',
-			activeBtnClass: 'w-fit min-w-[119px] h-10',
+			className: 'max-w-fit px-4 h-10',
+			activeBtnClass: 'max-w-fit px-4 h-10',
 			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
 			type: 'profile',
 		},
@@ -50,7 +50,7 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 			text: tMyClassifieds('buttons.logout'),
 			path: null,
 			iconName: null,
-			className: 'w-fit min-w-[92px] h-10',
+			className: 'max-w-fit px-4 h-10',
 			iconWrapperClass: null,
 			type: 'logout',
 		},
@@ -110,7 +110,7 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 					{BUTTONS.map((btn, index) => (
 						<SwiperSlide
 							key={index}
-							className={`${btn.className} transition-transform duration-300 select-none`}
+							className={`transition-transform duration-300 select-none`}
 						>
 							<ButtonCustom
 								text={btn.text}
@@ -120,8 +120,8 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 								className={
 									activePage.toLowerCase() === btn.text.toLowerCase() &&
 									btn.type !== 'logout'
-										? `flex items-center justify-center rounded-lg text-white bg-[#3486fe]! ${btn.className}`
-										: `flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
+										? `min-w-full! rounded-lg text-white bg-[#3486fe]! ${btn.className}`
+										: `min-w-full! border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
 								}
 							/>
 						</SwiperSlide>
@@ -140,8 +140,8 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 						className={
 							activePage.toLowerCase() === btn.text.toLowerCase() &&
 							btn.type !== 'logout'
-								? `flex flex-row-reverse items-center justify-center rounded-lg text-white bg-[#3486fe]! ${btn.activeBtnClass}`
-								: `flex items-center justify-center border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
+								? `flex flex-row-reverse items-center rounded-lg text-white bg-[#3486fe]! ${btn.activeBtnClass}`
+								: `border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
 						}
 						iconWrapperClass={
 							activePage.toLowerCase() === btn.text.toLowerCase() &&

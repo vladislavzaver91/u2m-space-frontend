@@ -2,8 +2,8 @@
 	"Home": {
 		"title1": "Cześć,",
 		"title2": "jestem U2M Space",
-		"description1": "Twój nowy, prostszy i niezawodny sposób",
-		"description2": "na wymianę.",
+		"description1": "Twój nowy, prostszy i niezawodny",
+		"description2": "sposób wymiany.",
 		"benefit1": "Daj swoim rzeczom drugie życie",
 		"benefit2": "Pomagamy się odnaleźć",
 		"benefit3": "Szybka komunikacja w celu wymiany lub sprzedaży"
@@ -19,8 +19,8 @@
 	"Classified": {
 		"similarOffers": "Podobne oferty",
 		"userButtons": {
-			"sendMessage": "Wyślij wiadomość",
-			"safeBuy/deal": "Bezpieczny zakup/transakcja",
+			"sendMessage": "Wiadomość",
+			"safeBuy/deal": "Zakup/transakcja",
 			"tr": "tr",
 			"trustRating": "Ocena zaufania"
 		}
@@ -36,8 +36,9 @@
 			"myClassifieds": "Moje ogłoszenia",
 			"favorites": "Ulubione",
 			"profile": "Profil",
-			"logout": "Wyloguj się",
+			"logout": "Wyloguj",
 			"addClassifieds": "Dodaj ogłoszenie",
+			"show": "pokazywać",
 			"hide": "ukryj",
 			"edit": "edytuj",
 			"up": "do góry"
@@ -72,11 +73,11 @@
 		"tooltips": {
 			"title": {
 				"name": "Tytuł",
-				"description": "Wprowadź chwytliwy tytuł, aby przyciągnąć potencjalnych kupujących (maks. 60 znaków)."
+				"description": "Nagłówek Twojej reklamy, który użytkownicy widzą w wyszukiwarce lub na stronie. Powinien być krótki i jasny."
 			},
 			"description": {
 				"name": "Opis",
-				"description": "To meta tag, który krótko opisuje zawartość danej strony internetowej. Słowa kluczowe to wyrazy lub frazy używane na danej stronie, które są dla niej główne (czyli ujawniają temat i treść)."
+				"description": "Krótki opis reklamy. Wyjaśnia, czego dotyczy reklama i zachęca użytkownika do zakupu lub wymiany."
 			},
 			"price": {
 				"name": "Cena",
@@ -90,7 +91,7 @@
 			"all": "Wszystkie",
 			"selling": "Sprzedaż",
 			"bidding": "Licytacja",
-			"barter": "Wymiana"
+			"barter": "Wymieniam"
 		}
 	},
 
@@ -104,14 +105,14 @@
 		"informationTooltips": {
 			"nickname": {
 				"name": "Pseudonim",
-				"description": "Pseudonim wyświetlany na stronie musi być unikalny. Długość musi przekraczać 4 znaki."
+				"description": "Pseudonim, który będzie wyświetlany na stronie, musi być unikalny. Musi mieć więcej niż 4 znaki."
 			},
 			"legalName": {
-				"name": "Imię urzędowe",
-				"description": "Imię wskazane w paszporcie, prawie jazdy lub innym dokumencie podróży. Nie będzie wyświetlane na stronie."
+				"name": "Imię i nazwisko",
+				"description": "Nazwa podana w paszporcie, prawie jazdy lub innym dokumencie podróży. Nie będzie wyświetlana na stronie."
 			},
 			"legalSurname": {
-				"name": "Nazwisko urzędowe",
+				"name": "Nazwisko prawne",
 				"description": "Nazwisko zgodne z oficjalnymi dokumentami, takimi jak paszport lub dowód. Nie będzie widoczne na stronie."
 			},
 			"gender": {
@@ -139,17 +140,19 @@
 			"yourNickname": "Twój pseudonim",
 			"errorNickname": "wymagane więcej niż 3 znaki",
 			"infoNickname": "Twój pseudonim (Wyświetlany zamiast imienia i nazwiska)",
-			"documentName": "Imię z dokumentu",
-			"documentNameDescr": "Imię wskazane w paszporcie, prawie jazdy lub innym dokumencie podróży.",
-			"legalName": "Imię urzędowe",
-			"legalSurname": "Nazwisko urzędowe",
+			"documentName": "Nazwa dokumentu",
+			"documentNameDescr": "Nazwa podana w paszporcie, prawie jazdy lub innym dokumencie podróży.",
+			"legalName": "Imię i nazwisko",
+			"legalSurname": "Nazwisko prawne",
 			"gender": "Płeć",
 			"male": "Mężczyzna",
 			"female": "Kobieta",
 			"birthday": "Data urodzenia",
 			"emailAddress": "Adres e-mail",
 			"phoneNumber": "Numer telefonu",
-			"extraPhoneNumber": "Dodatkowy numer telefonu"
+			"extraPhoneNumber": "Dodatkowy numer telefonu",
+			"month": "Miesiąc",
+			"year": "Rok"
 		},
 		"settingTooltips": {
 			"languageRegion": {
@@ -186,20 +189,20 @@
 			"currency": "Waluta",
 			"place": "Miejsce",
 			"notifications": "Powiadomienia",
-			"showPhone": "Pokaż telefon",
-			"advancedUser": "Zaawansowany użytkownik",
+			"showPhone": "Pokaż numer telefonu",
+			"advancedUser": "Użytkownik zaawansowany",
 			"deleteAccount": "Usuń konto",
-			"deleteAccountOption1": "Już nie korzystam z usługi",
+			"deleteAccountOption1": "Nie korzystam już z usługi",
 			"deleteAccountOption2": "Zbyt drogie",
 			"deleteAccountOption3": "Znalazłem lepszą alternatywę",
-			"deleteAccountOption4": "Niezadowolony z jakości",
+			"deleteAccountOption4": "Nie jestem zadowolony z jakości",
 			"deleteAccountOption5": "Mam obawy dotyczące bezpieczeństwa lub prywatności",
-			"deleteAccountOption6": "Za dużo spamu lub niepotrzebnych wiadomości",
-			"deleteAccountOption7": "Tymczasowe usunięcie, planuję wrócić później",
+			"deleteAccountOption6": "Zbyt dużo spamu lub niepotrzebnych wiadomości",
+			"deleteAccountOption7": "Tymczasowe usuwanie, planuję wrócić później",
 			"deleteAccountOption8": "Utworzyłem nowe konto",
-			"deleteAccountOption9": "Nie mogę znaleźć potrzebnej funkcjonalności",
+			"deleteAccountOption9": "Nie mogę znaleźć potrzebnej mi funkcjonalności",
 			"deleteAccountOption10": "Problemy techniczne, częste awarie",
-			"deleteAccountOption11": "Nie podoba mi się polityka firmy",
+			"deleteAccountOption11": "Nie jestem zadowolony z polityki firmy",
 			"deleteAccountOption12": "Konto zostało zhakowane",
 			"deleteAccountOption13": "Inne powody osobiste"
 		}
@@ -209,7 +212,7 @@
 		"chooseLanguageRegion": {
 			"title": "Wybierz język i region",
 			"english": "Angielski",
-			"unitedKingdom": "Wielka Brytania",
+			"unitedKingdom": "Zjednoczone Królestwo",
 			"ukrainian": "Ukraiński",
 			"ukraine": "Ukraina",
 			"polish": "Polski",
@@ -238,7 +241,7 @@
 
 	"LoginModal": {
 		"welcome": "Witamy",
-		"logInWith": "Zaloguj się przez"
+		"logInWith": "Zaloguj się za pomocą"
 	},
 
 	"Buttons": {
@@ -246,7 +249,7 @@
 		"favorites": "Ulubione",
 		"letsStart": "Zacznijmy",
 		"login": "Zaloguj się",
-		"next": "Dalej",
+		"next": "Następny",
 		"back": "Wstecz",
 		"publish": "Opublikuj",
 		"save": "Zapisz"

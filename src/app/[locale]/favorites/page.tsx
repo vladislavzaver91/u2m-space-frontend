@@ -68,13 +68,13 @@ export default function FavoritesPage() {
 	// Фильтрация по категориям
 	useEffect(() => {
 		setHasHiddenClassifieds(classifieds.some(item => !item.isActive))
-		if (activeCategory === tFavorites('tabs.selling.all')) {
+		if (activeCategory === tFavorites('tabs.all')) {
 			setFilteredClassifieds(classifieds)
-		} else if (activeCategory === tFavorites('tabs.selling.selling')) {
+		} else if (activeCategory === tFavorites('tabs.selling')) {
 			setFilteredClassifieds(classifieds.filter(item => item.isActive))
-		} else if (activeCategory === tFavorites('tabs.selling.bidding')) {
+		} else if (activeCategory === tFavorites('tabs.bidding')) {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
-		} else if (activeCategory === tFavorites('tabs.selling.barter')) {
+		} else if (activeCategory === tFavorites('tabs.barter')) {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
 		}
 	}, [classifieds, activeCategory])
@@ -114,20 +114,6 @@ export default function FavoritesPage() {
 		return () => window.removeEventListener('popstate', handlePopstate)
 	}, [])
 
-	const handleToggleActive = async (id: string, currentIsActive: boolean) => {
-		console.log('Toggling classified:', { id, currentIsActive })
-		try {
-			const updated = await apiService.toggleClassifiedActive(
-				id,
-				!currentIsActive
-			)
-			console.log('Updated classified:', updated)
-			setClassifieds(prev => prev.map(c => (c.id === id ? updated : c)))
-		} catch (error) {
-			console.error('Error toggling classified:', error)
-		}
-	}
-
 	return (
 		<div className='min-h-screen flex flex-col'>
 			{isLoading ? (
@@ -164,14 +150,8 @@ export default function FavoritesPage() {
 													title={item.title}
 													price={item.price.toFixed(2)}
 													image={item.images[0]}
-													isActive={item.isActive}
-													views={item.views}
-													messages={item.messages}
 													favorites={item.favorites}
 													href={`/selling-classifieds/${item.id}`}
-													onToggleActive={() =>
-														handleToggleActive(item.id, item.isActive)
-													}
 												/>
 											</div>
 										))}

@@ -357,11 +357,11 @@ export function ClientClassifiedDetail({
 													<div className='flex items-center gap-4 max-sm:flex-col'>
 														<ButtonCustom
 															text={tClassified('userButtons.sendMessage')}
-															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[155px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
+															className='max-2xs:text-[14px]! w-full px-4 border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10 text-nowrap'
 														/>
 														<ButtonCustom
 															text={tClassified('userButtons.safeBuy/deal')}
-															className='max-sm:max-w-[178px] max-sm:w-full sm:min-w-[145px] sm:w-fit border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10'
+															className='max-2xs:text-[14px]!  w-full px-4 border border-[#4f4f4f] hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] rounded-lg items-center justify-center h-10 text-nowrap'
 														/>
 													</div>
 												</div>

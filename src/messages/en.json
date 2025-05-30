@@ -38,6 +38,7 @@
 			"profile": "Profile",
 			"logout": "Logout",
 			"addClassifieds": "Add Classifieds",
+			"show": "show",
 			"hide": "hide",
 			"edit": "edit",
 			"up": "up"
@@ -72,12 +73,12 @@
 		"tooltips": {
 			"title": {
 				"name": "Title",
-				"description": "Enter a catchy title to attract potential buyers (max 60 characters)."
+				"description": "The headline of your ad that users see in search or on the page. It should be short and clear."
 			},
 
 			"description": {
 				"name": "Description",
-				"description": "Is a meta tag that briefly describes the content of a given web page. Keywords are keywords or phrases that are used on a given web page and are the main ones for it (i.e., they reveal the topic and content)."
+				"description": "A short description of the ad. Explains what the ad is about and encourages the user to purchase or trade."
 			},
 			"price": {
 				"name": "Price",
@@ -150,7 +151,9 @@
 			"birthday": "Date of Birth",
 			"emailAddress": "Email Address",
 			"phoneNumber": "Phone number",
-			"extraPhoneNumber": "Extra phone number"
+			"extraPhoneNumber": "Extra phone number",
+			"month": "Month",
+			"year": "Year"
 		},
 		"settingTooltips": {
 			"languageRegion": {
@@ -218,8 +221,8 @@
 		},
 		"chooseCurrency": {
 			"title": "Choose currency",
-			"americanDollar": "Dollar",
-			"ukrainianHryvnia": "Ukrainian hryvnia",
+			"americanDollar": "US Dollar",
+			"ukrainianHryvnia": "Ukrainian Hryvnia",
 			"euro": "Euro"
 		},
 		"chooseCity": {

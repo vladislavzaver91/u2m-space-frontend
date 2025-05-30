@@ -16,6 +16,7 @@ interface ButtonCustom {
 	isHover?: boolean
 	onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 	className?: string
+	textClass?: string
 	iconWrapperClass?: string
 	disableClass?: string
 	disabled?: boolean
@@ -29,6 +30,7 @@ export const ButtonCustom = ({
 	isHover = false,
 	onClick,
 	className = '',
+	textClass = '',
 	iconWrapperClass = '',
 	disableClass = '',
 	disabled = false,
@@ -54,7 +56,7 @@ export const ButtonCustom = ({
 					))}
 				</span>
 			)}
-			{text && <p>{text}</p>}
+			{text && <p className={textClass}>{text}</p>}
 		</>
 	)
 

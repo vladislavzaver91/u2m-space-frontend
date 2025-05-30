@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import imageCompression from 'browser-image-compression'
@@ -20,9 +20,11 @@ import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
+import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
+	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [classified, setClassified] = useState<Classified | null>(null)
 	const [imageFiles, setImageFiles] = useState<File[]>([])
@@ -36,8 +38,17 @@ export default function ClassifiedsCreate() {
 		description: false,
 		price: false,
 	})
-	const [isFormValid, setIsFormValid] = useState(false)
+	const [formData, setFormData] = useState<{
+		title: string
+		description: string
+		price: string
+	}>({
+		title: '',
+		description: '',
+		price: '',
+	})
 	const tButtons = useTranslations('Buttons')
+	const tMyClassifieds = useTranslations('MyClassifieds')
 	const router = useRouter()
 
 	const handleBack = () => {
@@ -103,49 +114,53 @@ export default function ClassifiedsCreate() {
 		})
 	}
 
-	const handleSubmit = async (formData: {
-		title: string
-		description: string
-		price: string
-	}) => {
-		console.log('handleSubmit called with:', formData, new Date().toISOString()) // Лог с временной меткой
-
-		setIsLoading(true)
-		setError('')
-
-		try {
-			const formDataToSend = new FormData()
-			formDataToSend.append('title', formData.title)
-			formDataToSend.append('description', formData.description)
-			formDataToSend.append('price', formData.price)
-			if (tags.length > 0) {
-				tags.forEach(tag => formDataToSend.append('tags[]', tag))
-			}
-			imageFiles.forEach(file => {
-				formDataToSend.append('images', file)
-			})
-
-			// Логирование FormData для отладки
-			for (const [key, value] of formDataToSend.entries()) {
-				console.log(`FormData: ${key} =`, value)
-			}
-
-			console.log('Sending request to /api/classifieds') // Лог перед запросом
-			const res = await apiService.createClassified(formDataToSend)
-			console.log('Response from createClassified:', res)
-			setClassified(res)
-			router.push(`/selling-classifieds/${res.id}`)
-		} catch (error: any) {
-			console.error('Create classified error:', error)
-			console.error('Error response data:', error.response?.data)
-			console.error('Error status:', error.response?.status)
-			setError(
-				error.response?.data?.error ||
-					error.message ||
-					'Failed to create classified'
+	const handleSubmit = useCallback(
+		async (formData: { title: string; description: string; price: string }) => {
+			console.log(
+				'handleSubmit called with:',
+				formData,
+				new Date().toISOString()
 			)
-		}
-	}
+
+			setIsLoading(true)
+			setError('')
+
+			try {
+				const formDataToSend = new FormData()
+				formDataToSend.append('title', formData.title)
+				formDataToSend.append('description', formData.description)
+				formDataToSend.append('price', formData.price)
+				if (tags.length > 0) {
+					tags.forEach(tag => formDataToSend.append('tags[]', tag))
+				}
+				imageFiles.forEach(file => {
+					formDataToSend.append('images', file)
+				})
+
+				for (const [key, value] of formDataToSend.entries()) {
+					console.log(`FormData: ${key} =`, value)
+				}
+
+				console.log('Sending request to /api/classifieds')
+				const res = await apiService.createClassified(formDataToSend)
+				console.log('Response from createClassified:', res)
+				setClassified(res)
+				router.push(`/selling-classifieds/${res.id}`)
+			} catch (error: any) {
+				console.error('Create classified error:', error)
+				console.error('Error response data:', error.response?.data)
+				console.error('Error status:', error.response?.status)
+				setError(
+					error.response?.data?.error ||
+						error.message ||
+						'Failed to create classified'
+				)
+			} finally {
+				setIsLoading(false)
+			}
+		},
+		[tags, imageFiles, router]
+	)
 
 	const handleOpenModal = () => {
 		setIsModalOpen(true)
@@ -172,12 +187,34 @@ export default function ClassifiedsCreate() {
 		[]
 	)
 
-	const handleFormStateChange = (state: {
-		isValid: boolean
-		values: { title: string; description: string; price: string }
-	}) => {
-		setIsFormValid(state.isValid)
-	}
+	const handleFormStateChange = useCallback(
+		(state: {
+			isValid: boolean
+			values: { title: string; description: string; price: string }
+		}) => {
+			setIsFormValid(state.isValid)
+			setFormData(prev => {
+				if (
+					prev.title !== state.values.title ||
+					prev.description !== state.values.description ||
+					prev.price !== state.values.price
+				) {
+					return state.values
+				}
+				return prev
+			})
+		},
+		[]
+	)
+
+	useEffect(() => {
+		setFormState({
+			isValid: isFormValid,
+			imageFiles,
+			formData,
+			submit: handleSubmit,
+		})
+	}, [isFormValid, imageFiles, setFormState, handleSubmit])
 
 	const isPublishDisabled = !isFormValid || imageFiles.length === 0
 
@@ -212,21 +249,13 @@ export default function ClassifiedsCreate() {
 									isHover
 									className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
 								/>
-
-								<div className='pr-4 md:hidden'>
-									<ButtonCustom
-										onClick={() =>
-											document.querySelector('form')?.requestSubmit()
-										}
-										text={tButtons('publish')}
-										className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-										disabled={isPublishDisabled}
-										disableClass='text-white! bg-[#bdbdbd]!'
-									/>
-								</div>
 							</div>
 
-							<NavigationButtons activePage='My classifieds' />
+							<div className='max-md:mb-4 max-2-5xl:mb-8 max-md:pl-4 max-2-5xl:pl-8 max-2-5xl:py-6 max-sm:py-[11px] 2-5xl:absolute 2-5xl:pl-40 text-nowrap'>
+								<NavigationButtons
+									activePage={tMyClassifieds('buttons.myClassifieds')}
+								/>
+							</div>
 						</div>
 
 						{/* контент создания продукта */}
@@ -335,17 +364,6 @@ export default function ClassifiedsCreate() {
 												<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full relative'>
 													<TagsManager onTagsChange={setTags} />
 												</div>
-											</div>
-											<div className='hidden md:flex justify-end'>
-												<ButtonCustom
-													onClick={() =>
-														document.querySelector('form')?.requestSubmit()
-													}
-													text={tButtons('publish')}
-													className='min-w-[95px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-													disabled={isPublishDisabled}
-													disableClass='text-white! bg-[#bdbdbd]!'
-												/>
 											</div>
 										</div>
 									</div>

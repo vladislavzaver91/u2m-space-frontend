@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import imageCompression from 'browser-image-compression'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -20,9 +20,11 @@ import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
+import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
 
 export default function ClassifiedsEdit() {
-	const { user, logout } = useAuth()
+	const { user } = useAuth()
+	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [existingImages, setExistingImages] = useState<string[]>([])
 	const [imageFiles, setImageFiles] = useState<File[]>([])
@@ -33,6 +35,15 @@ export default function ClassifiedsEdit() {
 		description: string
 		price: string
 	} | null>(null)
+	const [formData, setFormData] = useState<{
+		title: string
+		description: string
+		price: string
+	}>({
+		title: '',
+		description: '',
+		price: '',
+	})
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentSlide, setCurrentSlide] = useState(0)
@@ -42,6 +53,7 @@ export default function ClassifiedsEdit() {
 		price: false,
 	})
 	const tButtons = useTranslations('Buttons')
+	const tMyClassifieds = useTranslations('MyClassifieds')
 	const router = useRouter()
 	const params = useParams()
 	const id = params.id as string
@@ -55,11 +67,13 @@ export default function ClassifiedsEdit() {
 			try {
 				setIsLoading(true)
 				const classified = await apiService.getClassifiedById(id)
-				setInitialData({
+				const initial = {
 					title: classified.title,
 					description: classified.description,
 					price: classified.price.toString(),
-				})
+				}
+				setInitialData(initial)
+				setFormData(initial)
 				setImagePreviews(classified.images)
 				setExistingImages(classified.images)
 				setTags(classified.tags || [])
@@ -209,54 +223,57 @@ export default function ClassifiedsEdit() {
 	// 	})
 	// }
 
-	const handleSubmit = async (formData: {
-		title: string
-		description: string
-		price: string
-	}) => {
-		if (imagePreviews.length < 1) {
-			setError('At least 1 image is required')
-			return
-		}
+	const handleSubmit = useCallback(
+		async (formData: { title: string; description: string; price: string }) => {
+			console.log(
+				'handleSubmit called with:',
+				formData,
+				new Date().toISOString()
+			)
 
-		setIsLoading(true)
-		setError('')
-
-		try {
-			const formDataToSend = new FormData()
-			formDataToSend.append('title', formData.title)
-			formDataToSend.append('description', formData.description)
-			formDataToSend.append('price', formData.price)
-			tags.forEach(tag => formDataToSend.append('tags[]', tag))
-
-			existingImages.forEach(url => {
-				formDataToSend.append('existingImages[]', url)
-			})
-
-			imageFiles.forEach(file => {
-				formDataToSend.append('images', file)
-			})
-
-			for (const [key, value] of formDataToSend.entries()) {
-				console.log(`${key}:`, value)
+			if (imagePreviews.length < 1) {
+				setError('At least 1 image is required')
+				return
 			}
 
-			const res = await apiService.updateClassified(id, formDataToSend)
-			console.log('Update response:', res)
-			setTags(res.tags || [])
-			router.push(`/selling-classifieds/${res.id}`)
-		} catch (error: any) {
-			console.error(
-				'Classified update error:',
-				error.response?.data || error.message
-			)
-			setError(error.response?.data?.error || 'Failed to update classified')
-		} finally {
-			setIsLoading(false)
-		}
-	}
+			setIsLoading(true)
+			setError('')
 
-	const handleDelete = async (id: string) => {
+			try {
+				const formDataToSend = new FormData()
+				formDataToSend.append('title', formData.title)
+				formDataToSend.append('description', formData.description)
+				formDataToSend.append('price', formData.price)
+				tags.forEach(tag => formDataToSend.append('tags[]', tag))
+				existingImages.forEach(url => {
+					formDataToSend.append('existingImages[]', url)
+				})
+				imageFiles.forEach(file => {
+					formDataToSend.append('images', file)
+				})
+
+				for (const [key, value] of formDataToSend.entries()) {
+					console.log(`FormData: ${key} =`, value)
+				}
+
+				const res = await apiService.updateClassified(id, formDataToSend)
+				console.log('Update response:', res)
+				setTags(res.tags || [])
+				router.push(`/selling-classifieds/${res.id}`)
+			} catch (error: any) {
+				console.error(
+					'Classified update error:',
+					error.response?.data || error.message
+				)
+				setError(error.response?.data?.error || 'Failed to update classified')
+			} finally {
+				setIsLoading(false)
+			}
+		},
+		[id, tags, existingImages, imageFiles, router]
+	)
+
+	const handleDelete = useCallback(async () => {
 		try {
 			await apiService.deleteClassified(id)
 			router.push('/my-classifieds')
@@ -267,7 +284,7 @@ export default function ClassifiedsEdit() {
 			)
 			setError(error.response?.data?.error || 'Failed to delete classified')
 		}
-	}
+	}, [id, router])
 
 	const handleOpenModal = () => {
 		setIsModalOpen(true)
@@ -285,11 +302,50 @@ export default function ClassifiedsEdit() {
 		setTooltipVisible(prev => ({ ...prev, [field]: false }))
 	}
 
+	const handleFormStateChange = useCallback(
+		(state: {
+			isValid: boolean
+			values: { title: string; description: string; price: string }
+		}) => {
+			setIsFormValid(state.isValid)
+			setFormData(prev => {
+				if (
+					prev.title !== state.values.title ||
+					prev.description !== state.values.description ||
+					prev.price !== state.values.price
+				) {
+					return state.values
+				}
+				return prev
+			})
+		},
+		[]
+	)
+
+	useEffect(() => {
+		setFormState({
+			isValid: isFormValid,
+			imageFiles: [
+				...existingImages.map(url => new File([], url)),
+				...imageFiles,
+			],
+			formData,
+			submit: handleSubmit,
+		})
+	}, [
+		isFormValid,
+		existingImages,
+		imageFiles,
+		formData,
+		handleSubmit,
+		setFormState,
+	])
+
 	if (!user) {
 		return <div className='text-center mt-20'>Authorization required</div>
 	}
 
-	if (isLoading) {
+	if (isLoading || !initialData) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
@@ -319,19 +375,13 @@ export default function ClassifiedsEdit() {
 								isHover
 								className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
 							/>
-
-							<div className='pr-4 md:hidden'>
-								<ButtonCustom
-									onClick={() =>
-										document.querySelector('form')?.requestSubmit()
-									}
-									text={tButtons('save')}
-									className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-								/>
-							</div>
 						</div>
 
-						<NavigationButtons activePage='My classifieds' />
+						<div className='max-md:mb-4 max-2-5xl:mb-8 max-md:pl-4 max-2-5xl:pl-8 max-2-5xl:py-6 max-sm:py-[11px] 2-5xl:absolute 2-5xl:pl-40 text-nowrap'>
+							<NavigationButtons
+								activePage={tMyClassifieds('buttons.myClassifieds')}
+							/>
+						</div>
 					</div>
 
 					{/* контент создания продукта */}
@@ -422,13 +472,7 @@ export default function ClassifiedsEdit() {
 
 											<div className='grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4 lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
 												<ClassifiedForm
-													initialData={
-														initialData || {
-															title: '',
-															description: '',
-															price: '',
-														}
-													}
+													initialData={initialData}
 													onSubmit={handleSubmit}
 													onMouseEnter={(field: keyof typeof tooltipVisible) =>
 														handleMouseEnter(field)
@@ -437,6 +481,7 @@ export default function ClassifiedsEdit() {
 														handleMouseLeave(field)
 													}
 													tooltipVisible={tooltipVisible}
+													onFormStateChange={handleFormStateChange}
 												/>
 											</div>
 										</div>
@@ -447,15 +492,6 @@ export default function ClassifiedsEdit() {
 													initialTags={tags}
 												/>
 											</div>
-										</div>
-										<div className='hidden md:flex justify-end'>
-											<ButtonCustom
-												onClick={() =>
-													document.querySelector('form')?.requestSubmit()
-												}
-												text={tButtons('save')}
-												className='min-w-[72px] w-fit h-10 px-4 bg-[#3486fe]! text-white rounded-lg'
-											/>
 										</div>
 									</div>
 								</div>

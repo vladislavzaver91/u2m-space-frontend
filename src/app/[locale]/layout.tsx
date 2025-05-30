@@ -8,6 +8,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { Header } from '@/components/header'
 import ClientLayout from './client-layout'
+import { ClassifiedFormProvider } from '@/helpers/contexts/ClassifiedFormContext'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -55,8 +56,10 @@ export default async function RootLayout({
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					<AuthProvider>
 						<ModalProvider>
-							<Header />
-							<ClientLayout>{children}</ClientLayout>
+							<ClassifiedFormProvider>
+								<Header />
+								<ClientLayout>{children}</ClientLayout>
+							</ClassifiedFormProvider>
 						</ModalProvider>
 					</AuthProvider>
 				</NextIntlClientProvider>

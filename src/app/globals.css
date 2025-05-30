@@ -303,10 +303,3 @@ body.has-scroll::-webkit-scrollbar-thumb {
 	border-radius: 13px;
 	z-index: 0;
 }
-
-.btn-info {
-	max-width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}

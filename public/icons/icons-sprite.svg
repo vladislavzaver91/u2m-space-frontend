@@ -85,4 +85,7 @@
   <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="globe">
     <path d="M3 12L8 12M3 12C3 16.9706 7.02944 21 12 21M3 12C3 7.02944 7.02944 3 12 3M8 12L16 12M8 12C8 16.9706 9.79086 21 12 21M8 12C8 7.02944 9.79086 3 12 3M16 12L21 12M16 12C16 7.02944 14.2091 3 12 3M16 12C16 16.9706 14.2091 21 12 21M21 12C21 7.02944 16.9706 3 12 3M21 12C21 16.9706 16.9706 21 12 21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
   </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25" id="search-glass">
+    <path d="M15 15.4199L21 21.4199M10 17.4199C6.13401 17.4199 3 14.2859 3 10.4199C3 6.55393 6.13401 3.41992 10 3.41992C13.866 3.41992 17 6.55393 17 10.4199C17 14.2859 13.866 17.4199 10 17.4199Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
 </svg>

@@ -50,6 +50,8 @@
 		"tags": "Tagi",
 		"addTag": "Dodaj tag",
 		"recommendedTags": "Zalecane tagi",
+		"setTheMain": "Ustaw główny",
+		"delete": "Usuwać",
 		"formInputs": {
 			"title": "Tytuł",
 			"description": "Opis",
@@ -212,7 +214,7 @@
 		"chooseLanguageRegion": {
 			"title": "Wybierz język i region",
 			"english": "Angielski",
-			"unitedKingdom": "Zjednoczone Królestwo",
+			"unitedStates": "Stany Zjednoczone",
 			"ukrainian": "Ukraiński",
 			"ukraine": "Ukraina",
 			"polish": "Polski",
@@ -262,7 +264,8 @@
 			"imLookingFor": "Szukam..."
 		},
 		"inputs": {
-			"error": "Osiągnięto limit znaków"
+			"error": "Osiągnięto limit znaków",
+			"noCitiesFound": "Nie znaleziono miast"
 		}
 	}
 }

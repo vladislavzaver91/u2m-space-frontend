@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
+import { useWindowSize } from '@/helpers/hooks/use-window-size'
 
 const ItemTypes = {
 	IMAGE: 'image',
@@ -13,7 +14,8 @@ interface ImagePreviewProps {
 	src: string
 	index: number
 	moveImage: (dragIndex: number, hoverIndex: number) => void
-	onRemove: (index: number) => void
+	onRemove: () => void
+	onClick?: () => void
 }
 
 export const ImagePreview = ({
@@ -21,9 +23,11 @@ export const ImagePreview = ({
 	index,
 	moveImage,
 	onRemove,
+	onClick,
 }: ImagePreviewProps) => {
 	const [isHovered, setIsHovered] = useState(false)
 	const ref = useRef<HTMLDivElement>(null)
+	const { width } = useWindowSize()
 
 	const [{ isDragging }, drag] = useDrag({
 		type: ItemTypes.IMAGE,
@@ -31,6 +35,7 @@ export const ImagePreview = ({
 		collect: monitor => ({
 			isDragging: monitor.isDragging(),
 		}),
+		canDrag: width >= 1024,
 	})
 
 	const [, drop] = useDrop({
@@ -45,14 +50,19 @@ export const ImagePreview = ({
 
 	drag(drop(ref))
 
+	const handleClick = () => {
+		if (width < 1024 && onClick) onClick()
+	}
+
 	return (
 		<div
 			ref={ref}
 			className={`relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 ${
-				isDragging ? 'shadow-2xl opacity-50 z-10' : 'shadow-md'
+				isDragging ? 'border border-[#BDBDBD] opacity-50 z-10' : ''
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
+			onClick={handleClick}
 		>
 			<img
 				src={src}
@@ -67,10 +77,13 @@ export const ImagePreview = ({
 					/>
 				</div>
 			)}
-			{isHovered && (
+			{isHovered && width >= 1024 && (
 				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
 					<ButtonCustom
-						onClick={() => onRemove(index)}
+						onClick={e => {
+							e.stopPropagation()
+							onRemove()
+						}}
 						iconWrapperClass='w-6 h-6'
 						icon={
 							<IconCustom

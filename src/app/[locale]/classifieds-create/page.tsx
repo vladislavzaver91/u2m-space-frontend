@@ -8,8 +8,6 @@ import { useAuth } from '@/helpers/contexts/auth-context'
 import { Classified } from '@/types'
 import { apiService } from '@/services/api.service'
 import { Loader } from '@/components/ui/loader'
-import { ButtonCustom } from '@/components/ui/button-custom'
-import { IconCustom } from '@/components/ui/icon-custom'
 import { ImageSlider } from '@/components/ui/image-slider'
 import { AddPhotoButton } from '@/components/ui/add-photo-button'
 import { ImagePreview } from '@/components/ui/image-preview'
@@ -21,6 +19,7 @@ import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
+import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 
 export default function ClassifiedsCreate() {
 	const { user, logout } = useAuth()
@@ -30,6 +29,10 @@ export default function ClassifiedsCreate() {
 	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[]>([])
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
+	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+		null
+	)
 	const [isLoading, setIsLoading] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [error, setError] = useState<string>('')
@@ -109,6 +112,27 @@ export default function ClassifiedsCreate() {
 		})
 	}
 
+	const makeMainImage = (index: number) => {
+		if (index === 0) return // Уже главное фото
+		setImagePreviews(prev => {
+			const updated = [...prev]
+			const [selected] = updated.splice(index, 1)
+			updated.unshift(selected)
+			return updated
+		})
+		setImageFiles(prev => {
+			const updated = [...prev]
+			const [selected] = updated.splice(index, 1)
+			updated.unshift(selected)
+			return updated
+		})
+	}
+
+	const deleteImage = (index: number) => {
+		setImagePreviews(prev => prev.filter((_, i) => i !== index))
+		setImageFiles(prev => prev.filter((_, i) => i !== index))
+	}
+
 	const handleSubmit = useCallback(
 		async (formData: { title: string; description: string; price: string }) => {
 			console.log(
@@ -163,6 +187,16 @@ export default function ClassifiedsCreate() {
 
 	const handleCloseModal = () => {
 		setIsModalOpen(false)
+	}
+
+	const handleOpenContextMenu = (index: number) => {
+		setSelectedImageIndex(index)
+		setIsContextMenuOpen(true)
+	}
+
+	const handleCloseContextMenu = () => {
+		setIsContextMenuOpen(false)
+		setSelectedImageIndex(null)
 	}
 
 	const handleMouseEnter = (field: keyof typeof tooltipVisible) => {
@@ -270,14 +304,10 @@ export default function ClassifiedsCreate() {
 																				src={imagePreviews[idx]}
 																				index={idx}
 																				moveImage={moveImage}
-																				onRemove={() => {
-																					setImagePreviews(prev =>
-																						prev.filter((_, i) => i !== idx)
-																					)
-																					setImageFiles(prev =>
-																						prev.filter((_, i) => i !== idx)
-																					)
-																				}}
+																				onRemove={() => deleteImage(idx)}
+																				onClick={() =>
+																					handleOpenContextMenu(idx)
+																				}
 																			/>
 																		) : (
 																			<AddPhotoSmallButton
@@ -298,14 +328,7 @@ export default function ClassifiedsCreate() {
 																			src={imagePreviews[idx]}
 																			index={idx}
 																			moveImage={moveImage}
-																			onRemove={() => {
-																				setImagePreviews(prev =>
-																					prev.filter((_, i) => i !== idx)
-																				)
-																				setImageFiles(prev =>
-																					prev.filter((_, i) => i !== idx)
-																				)
-																			}}
+																			onRemove={() => deleteImage(idx)}
 																		/>
 																	) : (
 																		<AddPhotoSmallButton
@@ -352,6 +375,16 @@ export default function ClassifiedsCreate() {
 						images={imagePreviews}
 						title={classified?.title}
 						onSlideChange={index => setCurrentSlide(index)}
+					/>
+					<ImageContextMenuModal
+						isOpen={isContextMenuOpen}
+						onClose={handleCloseContextMenu}
+						onMakeMain={() =>
+							selectedImageIndex !== null && makeMainImage(selectedImageIndex)
+						}
+						onDelete={() =>
+							selectedImageIndex !== null && deleteImage(selectedImageIndex)
+						}
 					/>
 				</div>
 			)}

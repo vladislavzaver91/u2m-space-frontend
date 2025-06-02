@@ -21,6 +21,7 @@ import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
+import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 
 export default function ClassifiedsEdit() {
 	const { user } = useAuth()
@@ -45,6 +46,10 @@ export default function ClassifiedsEdit() {
 		price: '',
 	})
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
+	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+		null
+	)
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [tooltipVisible, setTooltipVisible] = useState({
@@ -155,21 +160,32 @@ export default function ClassifiedsEdit() {
 		})
 	}
 
-	const handleRemoveImage = (index: number) => {
-		setImagePreviews(prev => prev.filter((_, i) => i !== index))
-		setExistingImages(prev => {
-			if (index < prev.length) {
-				return prev.filter((_, i) => i !== index)
-			}
-			return prev
+	const makeMainImage = (index: number) => {
+		if (index === 0) return // Уже главное фото
+		setImagePreviews(prev => {
+			const updated = [...prev]
+			const [selected] = updated.splice(index, 1)
+			updated.unshift(selected)
+			return updated
 		})
 		setImageFiles(prev => {
-			const adjustedIndex = index - existingImages.length
-			if (adjustedIndex >= 0) {
-				return prev.filter((_, i) => i !== adjustedIndex)
-			}
-			return prev
+			const updated = [...prev]
+			const [selected] = updated.splice(index, 1)
+			updated.unshift(selected)
+			return updated
 		})
+		setExistingImages(prev => {
+			const updated = [...prev]
+			const [selected] = updated.splice(index, 1)
+			updated.unshift(selected)
+			return updated
+		})
+	}
+
+	const deleteImage = (index: number) => {
+		setImagePreviews(prev => prev.filter((_, i) => i !== index))
+		setImageFiles(prev => prev.filter((_, i) => i !== index))
+		setExistingImages(prev => prev.filter((_, i) => i !== index))
 	}
 
 	// const moveImage = (dragIndex: number, hoverIndex: number) => {
@@ -290,6 +306,16 @@ export default function ClassifiedsEdit() {
 		setIsModalOpen(false)
 	}
 
+	const handleOpenContextMenu = (index: number) => {
+		setSelectedImageIndex(index)
+		setIsContextMenuOpen(true)
+	}
+
+	const handleCloseContextMenu = () => {
+		setIsContextMenuOpen(false)
+		setSelectedImageIndex(null)
+	}
+
 	const handleMouseEnter = (field: keyof typeof tooltipVisible) => {
 		setTooltipVisible(prev => ({ ...prev, [field]: true }))
 	}
@@ -396,14 +422,8 @@ export default function ClassifiedsEdit() {
 																			src={imagePreviews[idx]}
 																			index={idx}
 																			moveImage={moveImage}
-																			onRemove={() => {
-																				setImagePreviews(prev =>
-																					prev.filter((_, i) => i !== idx)
-																				)
-																				setImageFiles(prev =>
-																					prev.filter((_, i) => i !== idx)
-																				)
-																			}}
+																			onRemove={() => deleteImage(idx)}
+																			onClick={() => handleOpenContextMenu(idx)}
 																		/>
 																	) : (
 																		<AddPhotoSmallButton
@@ -424,14 +444,7 @@ export default function ClassifiedsEdit() {
 																		src={imagePreviews[idx]}
 																		index={idx}
 																		moveImage={moveImage}
-																		onRemove={() => {
-																			setImagePreviews(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																			setImageFiles(prev =>
-																				prev.filter((_, i) => i !== idx)
-																			)
-																		}}
+																		onRemove={() => deleteImage(idx)}
 																	/>
 																) : (
 																	<AddPhotoSmallButton
@@ -480,6 +493,16 @@ export default function ClassifiedsEdit() {
 					images={imagePreviews}
 					title={initialData?.title}
 					onSlideChange={index => setCurrentSlide(index)}
+				/>
+				<ImageContextMenuModal
+					isOpen={isContextMenuOpen}
+					onClose={handleCloseContextMenu}
+					onMakeMain={() =>
+						selectedImageIndex !== null && makeMainImage(selectedImageIndex)
+					}
+					onDelete={() =>
+						selectedImageIndex !== null && deleteImage(selectedImageIndex)
+					}
 				/>
 			</div>
 		</DndProvider>

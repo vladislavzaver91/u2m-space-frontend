@@ -50,6 +50,8 @@
 		"tags": "Tags",
 		"addTag": "Add tag",
 		"recommendedTags": "Recommended tags",
+		"setTheMain": "Set the main",
+		"delete": "Delete",
 		"formInputs": {
 			"title": "Title",
 			"description": "Description",
@@ -213,7 +215,7 @@
 		"chooseLanguageRegion": {
 			"title": "Choose language and region",
 			"english": "English",
-			"unitedKingdom": "United Kingdom",
+			"unitedStates": "United States",
 			"ukrainian": "Ukrainian",
 			"ukraine": "Ukraine",
 			"polish": "Polish",
@@ -263,7 +265,8 @@
 			"imLookingFor": "I'm looking for..."
 		},
 		"inputs": {
-			"error": "Character limit reached"
+			"error": "Character limit reached",
+			"noCitiesFound": "No cities found"
 		}
 	}
 }

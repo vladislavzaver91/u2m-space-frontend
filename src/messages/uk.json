@@ -50,6 +50,8 @@
 		"tags": "Теги",
 		"addTag": "Додати тег",
 		"recommendedTags": "Рекомендовані теги",
+		"setTheMain": "Зробити основним",
+		"delete": "Видалити",
 		"formInputs": {
 			"title": "Назва",
 			"description": "Опис",
@@ -212,7 +214,7 @@
 		"chooseLanguageRegion": {
 			"title": "Виберіть мову та регіон",
 			"english": "Англійська",
-			"unitedKingdom": "Велика Британія",
+			"unitedStates": "Сполучені Штати Америки",
 			"ukrainian": "Українська",
 			"ukraine": "Україна",
 			"polish": "Польська",
@@ -262,7 +264,8 @@
 			"imLookingFor": "Я шукаю..."
 		},
 		"inputs": {
-			"error": "Досягнуто ліміту символів"
+			"error": "Досягнуто ліміту символів",
+			"noCitiesFound": "Міста не знайдено"
 		}
 	}
 }

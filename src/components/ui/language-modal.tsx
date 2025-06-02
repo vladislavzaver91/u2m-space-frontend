@@ -1,30 +1,34 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { startTransition, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Loader } from './loader'
 import { ButtonCustom } from './button-custom'
-import { CustomSelect } from './custom-select'
 import { IconCustom } from './icon-custom'
 import { useModal } from '@/helpers/contexts/modal-context'
 import { usePathname, useRouter } from 'next/navigation'
+import { CustomSearchSelect } from './custom-search-select'
+import { City, geoService } from '@/services/geo.service'
 
 const LANGUAGE_BTN_ITEMS = [
 	{
 		language: 'English',
-		country: 'United Kingdom',
-		code: 'en',
+		country: 'United States',
+		languageCode: 'en',
+		countryCode: 'US',
 	},
 	{
 		language: 'Українська',
 		country: 'Україна',
-		code: 'uk',
+		languageCode: 'uk',
+		countryCode: 'UA',
 	},
 	{
 		language: 'Polski',
 		country: 'Polska',
-		code: 'pl',
+		languageCode: 'pl',
+		countryCode: 'PL',
 	},
 ]
 
@@ -48,19 +52,64 @@ export const LanguageModal = () => {
 	const [error, setError] = useState<string | null>(null)
 	const [formData, setFormData] = useState({
 		city: '',
+		countryCode: 'US',
+		languageCode: 'en',
 	})
+	const [cities, setCities] = useState<City[]>([])
+	const [offset, setOffset] = useState<number>(0)
+	const [hasMore, setHasMore] = useState<boolean>(true)
 	const { handleOverlayClick, closeModal } = useModal()
 	const router = useRouter()
 	const pathname = usePathname()
 	const localActive = useLocale()
 	const tLanguageModal = useTranslations('LanguageModal')
+	const limit = 10
 
-	const changeLanguage = (nextLocale: string) => {
+	useEffect(() => {
+		const loadCities = async () => {
+			try {
+				setIsLoading(true)
+				const fetchCities = await geoService.fetchCitiesByCountry(
+					formData.countryCode,
+					limit,
+					offset,
+					formData.languageCode
+				)
+				console.log('cities', fetchCities)
+				setCities(prev =>
+					offset === 0 ? fetchCities : [...prev, ...fetchCities]
+				)
+				setHasMore(fetchCities.length === 10)
+				setError(null)
+			} catch (error) {
+				setError('Failed to load list of cities')
+			} finally {
+				setIsLoading(false)
+			}
+		}
+		loadCities()
+	}, [formData.countryCode, formData.languageCode, offset])
+
+	const loadMoreCities = () => {
+		if (hasMore && !isLoading) {
+			setOffset(prev => prev + 10)
+		}
+	}
+
+	const changeLanguage = (
+		nextLocale: string,
+		countryCode: string,
+		languageCode: string
+	) => {
 		startTransition(() => {
 			setIsLoading(true)
 			const pathWithoutLocal = pathname.replace(`/${localActive}`, '')
 			const newPath = `/${nextLocale}${pathWithoutLocal}`
 			router.push(newPath)
+			setFormData({ ...formData, countryCode, languageCode, city: '' })
+			setCities([])
+			setOffset(0)
+			setHasMore(true)
 			closeModal()
 			setIsLoading(false)
 		})
@@ -88,7 +137,7 @@ export const LanguageModal = () => {
 					className='bg-white rounded-[13px] shadow-lg max-w-[744px] w-full p-8 flex flex-col items-center space-y-8'
 				>
 					{/* language and region */}
-					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
+					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
 						{tLanguageModal('chooseLanguageRegion.title')}
 					</h2>
 
@@ -106,7 +155,13 @@ export const LanguageModal = () => {
 								{LANGUAGE_BTN_ITEMS.map((item, index) => (
 									<div
 										key={index}
-										onClick={() => changeLanguage(item.code)}
+										onClick={() =>
+											changeLanguage(
+												item.languageCode,
+												item.countryCode,
+												item.languageCode
+											)
+										}
 										className='min-w-[216px] w-fit h-[74px] text-[16px] p-4 font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer'
 									>
 										<p className='font-bold text-[16px] text-[#4F4F4F] leading-[18px]'>
@@ -122,7 +177,7 @@ export const LanguageModal = () => {
 					</div>
 
 					{/* currency */}
-					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
+					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
 						{tLanguageModal('chooseCurrency.title')}
 					</h2>
 
@@ -157,24 +212,19 @@ export const LanguageModal = () => {
 					</div>
 
 					{/* city */}
-					<h2 className='text-[24px] font-bold text-[#4f4f4f] text-center'>
+					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
 						{tLanguageModal('chooseCity.title')}
 					</h2>
 
 					<div className='w-full mx-auto sm:w-[300px]'>
-						<CustomSelect
+						<CustomSearchSelect
 							label={tLanguageModal('chooseCity.city')}
-							options={[
-								tLanguageModal('chooseCity.cities.newYork'),
-								tLanguageModal('chooseCity.cities.london'),
-								tLanguageModal('chooseCity.cities.kyiv'),
-								tLanguageModal('chooseCity.cities.poltava'),
-								tLanguageModal('chooseCity.cities.odessa'),
-								tLanguageModal('chooseCity.cities.kharkiv'),
-								tLanguageModal('chooseCity.cities.warsaw'),
-							]}
+							options={cities.map(city => city.name)}
 							value={formData.city}
 							onChange={value => setFormData({ ...formData, city: value })}
+							loadMore={loadMoreCities}
+							hasMore={hasMore}
+							isLoading={isLoading}
 						/>
 					</div>
 

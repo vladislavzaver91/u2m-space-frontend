@@ -63,7 +63,7 @@ export const TagsManager = ({
 	}
 
 	return (
-		<div className='flex flex-col max-sm:gap-4'>
+		<div className='flex flex-col gap-4'>
 			{error && <div className='text-red-500 text-[14px] mb-2'>{error}</div>}
 			<TagsSection
 				tags={tags}

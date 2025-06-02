@@ -43,7 +43,6 @@ export function ClientClassifiedDetail({
 	)
 	const [classifieds, setClassifieds] =
 		useState<Classified[]>(initialClassifieds)
-	const [activeCategory, setActiveCategory] = useState('Selling')
 	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -60,7 +59,9 @@ export function ClientClassifiedDetail({
 	const locale = useLocale()
 	const tClassified = useTranslations('Classified')
 	const tSellingClassifieds = useTranslations('SellingClassifieds')
-	const tButtons = useTranslations('Buttons')
+	const [activeCategory, setActiveCategory] = useState(
+		tSellingClassifieds('tabs.selling')
+	)
 	const limit = 10
 
 	useEffect(() => {
@@ -143,10 +144,6 @@ export function ClientClassifiedDetail({
 		}
 	}
 
-	const handleBack = () => {
-		router.push(`${locale}/selling-classifieds`)
-	}
-
 	const handleOpenModal = () => {
 		setIsModalOpen(true)
 	}
@@ -214,21 +211,6 @@ export function ClientClassifiedDetail({
 		<div className='min-h-screen flex flex-col'>
 			<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
 				<div className='flex max-2-5xl:flex-col flex-wrap max-2-5xl:justify-center items-baseline w-full'>
-					<ButtonCustom
-						onClick={handleBack}
-						text={tButtons('back')}
-						iconWrapperClass='w-6 h-6'
-						icon={
-							<IconCustom
-								name='arrow-prev'
-								hover={true}
-								hoverColor='#f9329c'
-								className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-							/>
-						}
-						isHover
-						className='flex justify-start px-8 py-2.5 min-w-[147px] w-fit h-[88px]'
-					/>
 					<div className='max-sm:hidden flex-1 flex justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
 							<CategoryTabs

@@ -47,13 +47,8 @@ export default function ClassifiedsCreate() {
 		description: '',
 		price: '',
 	})
-	const tButtons = useTranslations('Buttons')
 	const tMyClassifieds = useTranslations('MyClassifieds')
 	const router = useRouter()
-
-	const handleBack = () => {
-		window.history.back()
-	}
 
 	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files
@@ -231,31 +226,10 @@ export default function ClassifiedsCreate() {
 			) : (
 				<div className='min-h-screen flex flex-col'>
 					<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
-						<div className='flex max-md:flex-wrap-reverse max-md:mb-4 max-2-5xl:justify-start'>
-							{/* кнопки слева */}
-							<div className='flex max-md:items-center justify-between max-md:w-full 2-5xl:absolute 2-5xl:left-0 z-10'>
-								<ButtonCustom
-									onClick={handleBack}
-									text={tButtons('back')}
-									iconWrapperClass='w-6 h-6'
-									icon={
-										<IconCustom
-											name='arrow-prev'
-											hover={true}
-											hoverColor='#f9329c'
-											className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-										/>
-									}
-									isHover
-									className='flex justify-center h-[88px] items-center min-w-[147px] w-fit'
-								/>
-							</div>
-
-							<div className='max-md:mb-4 max-2-5xl:mb-8 max-md:pl-4 max-2-5xl:pl-8 max-2-5xl:py-6 max-sm:py-[11px] 2-5xl:absolute 2-5xl:pl-40 text-nowrap'>
-								<NavigationButtons
-									activePage={tMyClassifieds('buttons.myClassifieds')}
-								/>
-							</div>
+						<div className='max-2-5xl:mb-8'>
+							<NavigationButtons
+								activePage={tMyClassifieds('buttons.myClassifieds')}
+							/>
 						</div>
 
 						{/* контент создания продукта */}
@@ -279,7 +253,7 @@ export default function ClassifiedsCreate() {
 															className='slider-classified-info'
 														/>
 													) : (
-														<div className='relative max-md:px-4'>
+														<div className='relative max-md:p-4'>
 															<AddPhotoButton onChange={handleImageChange} />
 														</div>
 													)}
@@ -360,7 +334,7 @@ export default function ClassifiedsCreate() {
 													/>
 												</div>
 											</div>
-											<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px] max-md:px-4'>
+											<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-6 gap-4 md:gap-[60px] max-md:px-4 max-md:pb-4 max-xl:pb-8'>
 												<div className='col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 w-full relative'>
 													<TagsManager onTagsChange={setTags} />
 												</div>

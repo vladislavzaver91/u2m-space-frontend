@@ -267,5 +267,32 @@
 			"error": "Досягнуто ліміту символів",
 			"noCitiesFound": "Міста не знайдено"
 		}
+	},
+	"DatePicker": {
+		"month": "Місяць",
+		"year": "Рік",
+		"months": {
+			"january": "Січень",
+			"february": "Лютий",
+			"march": "Березень",
+			"april": "Квітень",
+			"may": "Травень",
+			"june": "Червень",
+			"july": "Липень",
+			"august": "Серпень",
+			"september": "Вересень",
+			"october": "Жовтень",
+			"november": "Листопад",
+			"december": "Грудень"
+		},
+		"weekDays": {
+			"monday": "Пн",
+			"tuesday": "Вт",
+			"wednesday": "Ср",
+			"thursday": "Чт",
+			"friday": "Пт",
+			"saturday": "Сб",
+			"sunday": "Нд"
+		}
 	}
 }

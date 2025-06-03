@@ -88,4 +88,10 @@
   <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25" id="search-glass">
     <path d="M15 15.4199L21 21.4199M10 17.4199C6.13401 17.4199 3 14.2859 3 10.4199C3 6.55393 6.13401 3.41992 10 3.41992C13.866 3.41992 17 6.55393 17 10.4199C17 14.2859 13.866 17.4199 10 17.4199Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
   </symbol>
+  <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" id="arrow-drop-down">
+    <path d="M5.71967 0.700251L0.28033 6.13959C-0.192143 6.61207 0.142482 7.41992 0.81066 7.41992H5.5C6.32843 7.41992 7 6.74835 7 5.91992V1.23058C7 0.562403 6.19214 0.227777 5.71967 0.700251Z" fill="#3486FE"></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15" id="arrow-right">
+    <path d="M1 7.41992L15 7.41992M15 7.41992L9 1.41992M15 7.41992L9 13.4199" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
 </svg>

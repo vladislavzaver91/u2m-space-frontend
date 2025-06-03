@@ -6,6 +6,7 @@ import { ProfileFormInput } from './profile-form-input'
 import { User } from '@/types'
 import { useTranslations } from 'next-intl'
 import { Tooltip } from './tooltip'
+import { CustomDatePicker } from './custom-date-picker'
 
 interface ProfileInformationFormProps {
 	user: User
@@ -192,9 +193,8 @@ export const ProfileInformationForm = ({
 					onMouseEnter={() => onMouseEnter('birthday')}
 					onMouseLeave={() => onMouseLeave('birthday')}
 				>
-					<CustomSelect
+					<CustomDatePicker
 						label={tProfile('informationFormInputs.birthday')}
-						options={years}
 						value={formData.birthday}
 						onChange={value => setFormData({ ...formData, birthday: value })}
 					/>

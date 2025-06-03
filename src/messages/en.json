@@ -268,5 +268,32 @@
 			"error": "Character limit reached",
 			"noCitiesFound": "No cities found"
 		}
+	},
+	"DatePicker": {
+		"month": "Month",
+		"year": "Year",
+		"months": {
+			"january": "January",
+			"february": "February",
+			"march": "March",
+			"april": "April",
+			"may": "May",
+			"june": "June",
+			"july": "July",
+			"august": "August",
+			"september": "September",
+			"october": "October",
+			"november": "November",
+			"december": "December"
+		},
+		"weekDays": {
+			"monday": "Mo",
+			"tuesday": "Tu",
+			"wednesday": "We",
+			"thursday": "Th",
+			"friday": "Fr",
+			"saturday": "Sa",
+			"sunday": "Sa"
+		}
 	}
 }

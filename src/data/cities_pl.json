@@ -1,0 +1,902 @@
+[
+	{
+		"id": 416,
+		"name": {
+			"en": "Warsaw",
+			"uk": "Варшава",
+			"pl": "Warszawa"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 417,
+		"name": {
+			"en": "Kraków",
+			"uk": "Краків",
+			"pl": "Kraków"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 418,
+		"name": {
+			"en": "Łódź",
+			"uk": "Лодзь",
+			"pl": "Łódź"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 419,
+		"name": {
+			"en": "Wrocław",
+			"uk": "Вроцлав",
+			"pl": "Wrocław"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 420,
+		"name": {
+			"en": "Poznań",
+			"uk": "Познань",
+			"pl": "Poznań"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 421,
+		"name": {
+			"en": "Gdańsk",
+			"uk": "Гданськ",
+			"pl": "Gdańsk"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 422,
+		"name": {
+			"en": "Szczecin",
+			"uk": "Щецин",
+			"pl": "Szczecin"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 423,
+		"name": {
+			"en": "Bydgoszcz",
+			"uk": "Бидгощ",
+			"pl": "Bydgoszcz"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 424,
+		"name": {
+			"en": "Lublin",
+			"uk": "Люблін",
+			"pl": "Lublin"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 425,
+		"name": {
+			"en": "Białystok",
+			"uk": "Білосток",
+			"pl": "Białystok"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 426,
+		"name": {
+			"en": "Katowice",
+			"uk": "Катовіце",
+			"pl": "Katowice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 427,
+		"name": {
+			"en": "Gdynia",
+			"uk": "Гдиня",
+			"pl": "Gdynia"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 428,
+		"name": {
+			"en": "Częstochowa",
+			"uk": "Ченстохова",
+			"pl": "Częstochowa"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 429,
+		"name": {
+			"en": "Radom",
+			"uk": "Радом",
+			"pl": "Radom"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 430,
+		"name": {
+			"en": "Sosnowiec",
+			"uk": "Сосновець",
+			"pl": "Sosnowiec"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 431,
+		"name": {
+			"en": "Toruń",
+			"uk": "Торунь",
+			"pl": "Toruń"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 432,
+		"name": {
+			"en": "Kielce",
+			"uk": "Кельце",
+			"pl": "Kielce"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 433,
+		"name": {
+			"en": "Rzeszów",
+			"uk": "Жешув",
+			"pl": "Rzeszów"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 434,
+		"name": {
+			"en": "Gliwice",
+			"uk": "Глівіце",
+			"pl": "Gliwice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 435,
+		"name": {
+			"en": "Zabrze",
+			"uk": "Забже",
+			"pl": "Zabrze"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 436,
+		"name": {
+			"en": "Bytom",
+			"uk": "Битом",
+			"pl": "Bytom"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 437,
+		"name": {
+			"en": "Olsztyn",
+			"uk": "Ольштин",
+			"pl": "Olsztyn"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 438,
+		"name": {
+			"en": "Bielsko-Biała",
+			"uk": "Бельсько-Бяла",
+			"pl": "Bielsko-Biała"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 439,
+		"name": {
+			"en": "Ruda Śląska",
+			"uk": "Руда-Шльонська",
+			"pl": "Ruda Śląska"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 440,
+		"name": {
+			"en": "Rybnik",
+			"uk": "Рибник",
+			"pl": "Rybnik"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 441,
+		"name": {
+			"en": "Tychy",
+			"uk": "Тихи",
+			"pl": "Tychy"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 442,
+		"name": {
+			"en": "Dąbrowa Górnicza",
+			"uk": "Домброва-Гурнича",
+			"pl": "Dąbrowa Górnicza"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 443,
+		"name": {
+			"en": "Opole",
+			"uk": "Ополе",
+			"pl": "Opole"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 444,
+		"name": {
+			"en": "Elbląg",
+			"uk": "Ельблонг",
+			"pl": "Elbląg"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 445,
+		"name": {
+			"en": "Płock",
+			"uk": "Плоцьк",
+			"pl": "Płock"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 446,
+		"name": {
+			"en": "Wałbrzych",
+			"uk": "Валбжих",
+			"pl": "Wałbrzych"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 447,
+		"name": {
+			"en": "Włocławek",
+			"uk": "Влоцлавек",
+			"pl": "Włocławek"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 448,
+		"name": {
+			"en": "Tarnów",
+			"uk": "Тарнув",
+			"pl": "Tarnów"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 449,
+		"name": {
+			"en": "Chorzów",
+			"uk": "Хожув",
+			"pl": "Chorzów"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 450,
+		"name": {
+			"en": "Koszalin",
+			"uk": "Кошалін",
+			"pl": "Koszalin"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 451,
+		"name": {
+			"en": "Kalisz",
+			"uk": "Каліш",
+			"pl": "Kalisz"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 452,
+		"name": {
+			"en": "Legionowo, Masovian Voivodeship",
+			"uk": "Легьоново, Мазовецьке воєводство",
+			"pl": "Legionowo, Województwo mazowieckie"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 453,
+		"name": {
+			"en": "Grudziądz, Kuyavian-Pomeranian Voivodeship",
+			"uk": "Грудзьондз, Куявсько-Поморське воєводство",
+			"pl": "Grudziądz, Województwo kujawsko-pomorskie"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 454,
+		"name": {
+			"en": "Słupsk",
+			"uk": "Слупськ",
+			"pl": "Słupsk"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 455,
+		"name": {
+			"en": "Jaworzno",
+			"uk": "Явожно",
+			"pl": "Jaworzno"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 456,
+		"name": {
+			"en": "Jastrzębie-Zdrój",
+			"uk": "Ястшембе-Здруй",
+			"pl": "Jastrzębie-Zdrój"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 457,
+		"name": {
+			"en": "Nowy Sącz",
+			"uk": "Новий Сонч",
+			"pl": "Nowy Sącz"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 458,
+		"name": {
+			"en": "Jelenia Góra",
+			"uk": "Єленя-Гура",
+			"pl": "Jelenia Góra"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 459,
+		"name": {
+			"en": "Siedlce",
+			"uk": "Седльце",
+			"pl": "Siedlce"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 460,
+		"name": {
+			"en": "Mysłowice",
+			"uk": "Мисловіце",
+			"pl": "Mysłowice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 461,
+		"name": {
+			"en": "Konin",
+			"uk": "Конін",
+			"pl": "Konin"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 462,
+		"name": {
+			"en": "Piła",
+			"uk": "Піла",
+			"pl": "Piła"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 463,
+		"name": {
+			"en": "Piotrków Trybunalski",
+			"uk": "Пйотркув-Трибунальський",
+			"pl": "Piotrków Trybunalski"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 464,
+		"name": {
+			"en": "Inowrocław",
+			"uk": "Іновроцлав",
+			"pl": "Inowrocław"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 465,
+		"name": {
+			"en": "Lubin",
+			"uk": "Любін",
+			"pl": "Lubin"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 466,
+		"name": {
+			"en": "Ostrów Wielkopolski",
+			"uk": "Острув-Велькопольський",
+			"pl": "Ostrów Wielkopolski"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 467,
+		"name": {
+			"en": "Suwałki, Podlaskie Voivodeship",
+			"uk": "Сувалки, Підляське воєводство",
+			"pl": "Suwałki, Województwo podlaskie"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 468,
+		"name": {
+			"en": "Gniezno",
+			"uk": "Гнезно",
+			"pl": "Gniezno"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 469,
+		"name": {
+			"en": "Stargard",
+			"uk": "Старгард",
+			"pl": "Stargard"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 470,
+		"name": {
+			"en": "Ostrowiec Świętokrzyski",
+			"uk": "Островець-Свентокшиський",
+			"pl": "Ostrowiec Świętokrzyski"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 471,
+		"name": {
+			"en": "Siemianowice Śląskie",
+			"uk": "Семяновіце-Шльонські",
+			"pl": "Siemianowice Śląskie"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 472,
+		"name": {
+			"en": "Głogów",
+			"uk": "Глогув",
+			"pl": "Głogów"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 473,
+		"name": {
+			"en": "Pabianice",
+			"uk": "Паб’яніце",
+			"pl": "Pabianice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 474,
+		"name": {
+			"en": "Tomaszów Mazowiecki",
+			"uk": "Томашув-Мазовецький",
+			"pl": "Tomaszów Mazowiecki"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 475,
+		"name": {
+			"en": "Zamość",
+			"uk": "Замость",
+			"pl": "Zamość"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 476,
+		"name": {
+			"en": "Chełm",
+			"uk": "Хелм",
+			"pl": "Chełm"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 477,
+		"name": {
+			"en": "Świdnica",
+			"uk": "Свідниця",
+			"pl": "Świdnica"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 478,
+		"name": {
+			"en": "Zgierz",
+			"uk": "Згеж",
+			"pl": "Zgierz"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 479,
+		"name": {
+			"en": "Biała Podlaska",
+			"uk": "Бяла-Подляська",
+			"pl": "Biała Podlaska"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 480,
+		"name": {
+			"en": "Bełchatów",
+			"uk": "Белхатув",
+			"pl": "Bełchatów"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 481,
+		"name": {
+			"en": "Pruszków",
+			"uk": "Прушкув",
+			"pl": "Pruszków"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 482,
+		"name": {
+			"en": "Świętochłowice",
+			"uk": "Сьвентохловіце",
+			"pl": "Świętochłowice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 483,
+		"name": {
+			"en": "Ełk",
+			"uk": "Елк",
+			"pl": "Ełk"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 484,
+		"name": {
+			"en": "Kędzierzyn-Koźle",
+			"uk": "Кендзежин-Козле",
+			"pl": "Kędzierzyn-Koźle"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 485,
+		"name": {
+			"en": "Legnica",
+			"uk": "Легниця",
+			"pl": "Legnica"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 486,
+		"name": {
+			"en": "Tczew",
+			"uk": "Тчев",
+			"pl": "Tczew"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 487,
+		"name": {
+			"en": "Skierniewice",
+			"uk": "Скерневіце",
+			"pl": "Skierniewice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 488,
+		"name": {
+			"en": "Mielec",
+			"uk": "Мелець",
+			"pl": "Mielec"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 489,
+		"name": {
+			"en": "Przemyśl",
+			"uk": "Перемишль",
+			"pl": "Przemyśl"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 490,
+		"name": {
+			"en": "Zgorzelec",
+			"uk": "Згожелець",
+			"pl": "Zgorzelec"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 491,
+		"name": {
+			"en": "Żory",
+			"uk": "Жори",
+			"pl": "Żory"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 492,
+		"name": {
+			"en": "Ostrołęka",
+			"uk": "Остроленка",
+			"pl": "Ostrołęka"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 493,
+		"name": {
+			"en": "Rumia",
+			"uk": "Румія",
+			"pl": "Rumia"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 494,
+		"name": {
+			"en": "Starachowice",
+			"uk": "Стараховице",
+			"pl": "Starachowice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 495,
+		"name": {
+			"en": "Wejherowo",
+			"uk": "Вейгерово",
+			"pl": "Wejherowo"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 496,
+		"name": {
+			"en": "Puławy",
+			"uk": "Пулави",
+			"pl": "Puławy"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 497,
+		"name": {
+			"en": "Tarnobrzeg",
+			"uk": "Тарнобжег",
+			"pl": "Tarnobrzeg"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 498,
+		"name": {
+			"en": "Krosno",
+			"uk": "Кросно",
+			"pl": "Krosno"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 499,
+		"name": {
+			"en": "Dębica",
+			"uk": "Дембіца",
+			"pl": "Dębica"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 500,
+		"name": {
+			"en": "Kołobrzeg",
+			"uk": "Колобжег",
+			"pl": "Kołobrzeg"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 501,
+		"name": {
+			"en": "Świnoujście",
+			"uk": "Свіноуйсьце",
+			"pl": "Świnoujście"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 502,
+		"name": {
+			"en": "Sopot",
+			"uk": "Сопот",
+			"pl": "Sopot"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 503,
+		"name": {
+			"en": "Nysa",
+			"uk": "Ниса",
+			"pl": "Nysa"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 504,
+		"name": {
+			"en": "Ciechanów",
+			"uk": "Цеханув",
+			"pl": "Ciechanów"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 505,
+		"name": {
+			"en": "Sieradz",
+			"uk": "Серадз",
+			"pl": "Sieradz"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 506,
+		"name": {
+			"en": "Świdnik",
+			"uk": "Свідник",
+			"pl": "Świdnik"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 507,
+		"name": {
+			"en": "Chojnice",
+			"uk": "Хойніце",
+			"pl": "Chojnice"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 508,
+		"name": {
+			"en": "Kutno",
+			"uk": "Кутно",
+			"pl": "Kutno"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 509,
+		"name": {
+			"en": "Otwock",
+			"uk": "Отвоцьк",
+			"pl": "Otwock"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 510,
+		"name": {
+			"en": "Łomża",
+			"uk": "Ломжа",
+			"pl": "Łomża"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 511,
+		"name": {
+			"en": "Sandomierz",
+			"uk": "Сандомеж",
+			"pl": "Sandomierz"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 512,
+		"name": {
+			"en": "Leszno",
+			"uk": "Лешно",
+			"pl": "Leszno"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 513,
+		"name": {
+			"en": "Malbork",
+			"uk": "Мальборк",
+			"pl": "Malbork"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 514,
+		"name": {
+			"en": "Kwidzyn",
+			"uk": "Квідзин",
+			"pl": "Kwidzyn"
+		},
+		"countryCode": "PL"
+	},
+	{
+		"id": 515,
+		"name": {
+			"en": "Sochaczew",
+			"uk": "Сохачев",
+			"pl": "Sochaczew"
+		},
+		"countryCode": "PL"
+	}
+]

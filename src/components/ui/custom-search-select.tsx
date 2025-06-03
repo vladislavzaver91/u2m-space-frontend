@@ -5,15 +5,14 @@ import { motion } from 'framer-motion'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useTranslations } from 'next-intl'
+import { cityService } from '@/services/cities.service'
 
 interface CustomSearchSelectProps {
 	label: string
 	options: string[]
 	value: string
 	onChange: (value: string) => void
-	loadMore: () => void
-	hasMore: boolean
-	isLoading: boolean
+	languageCode: 'en' | 'uk' | 'pl'
 }
 
 export const CustomSearchSelect = ({
@@ -21,16 +20,14 @@ export const CustomSearchSelect = ({
 	options,
 	value,
 	onChange,
-	loadMore,
-	hasMore,
-	isLoading,
+	languageCode,
 }: CustomSearchSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
 	const [searchTerm, setSearchTerm] = useState('')
+	const [filteredOptions, setFilteredOptions] = useState<string[]>(options)
 	const containerRef = useRef<HTMLDivElement>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
-	const listRef = useRef<HTMLDivElement>(null)
 
 	const tComponents = useTranslations('Components')
 
@@ -57,25 +54,17 @@ export const CustomSearchSelect = ({
 		}
 	}, [isOpen])
 
-	// Обработчик скролла для подгрузки
+	// Обновление отфильтрованных опций при изменении поискового запроса
 	useEffect(() => {
-		const listElement = listRef.current
-		if (!listElement) return
-
-		const handleScroll = () => {
-			if (
-				listElement.scrollTop + listElement.clientHeight >=
-					listElement.scrollHeight - 10 &&
-				hasMore &&
-				!isLoading
-			) {
-				loadMore()
-			}
+		if (searchTerm) {
+			const filtered = cityService
+				.searchCities(searchTerm, languageCode)
+				.map(city => city.name)
+			setFilteredOptions(filtered)
+		} else {
+			setFilteredOptions(options)
 		}
-
-		listElement.addEventListener('scroll', handleScroll)
-		return () => listElement.removeEventListener('scroll', handleScroll)
-	}, [hasMore, isLoading, loadMore])
+	}, [searchTerm, options, languageCode])
 
 	const handleToggle = () => {
 		setIsOpen(!isOpen)
@@ -102,11 +91,6 @@ export const CustomSearchSelect = ({
 			inputRef.current.focus()
 		}
 	}
-
-	// Фильтрация опций по поисковому запросу
-	const filteredOptions = options.filter(option =>
-		option.toLowerCase().includes(searchTerm.toLowerCase())
-	)
 
 	return (
 		<motion.div
@@ -145,7 +129,6 @@ export const CustomSearchSelect = ({
 			{isOpen && (
 				<div
 					className={`absolute z-10 bg-white shadow-custom-xl rounded-b-[13px] max-h-[250px] overflow-y-auto custom-scrollbar w-[316px]`}
-					ref={listRef}
 				>
 					{/* Инпут для поиска */}
 					<div className='relative flex items-center p-2 border-b border-[#bdbdbd] h-14'>
@@ -198,13 +181,6 @@ export const CustomSearchSelect = ({
 					) : (
 						<div className='p-4 text-[16px] font-normal text-[#4f4f4f]'>
 							{tComponents('inputs.noCitiesFound')}
-						</div>
-					)}
-
-					{/* Индикатор загрузки */}
-					{isLoading && (
-						<div className='p-4 text-[16px] font-normal text-[#4f4f4f] text-center'>
-							Loading...
 						</div>
 					)}
 				</div>

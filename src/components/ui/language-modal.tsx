@@ -9,9 +9,21 @@ import { IconCustom } from './icon-custom'
 import { useModal } from '@/helpers/contexts/modal-context'
 import { usePathname, useRouter } from 'next/navigation'
 import { CustomSearchSelect } from './custom-search-select'
-import { City, geoService } from '@/services/geo.service'
+import { cityService } from '@/services/cities.service'
 
-const LANGUAGE_BTN_ITEMS = [
+interface CityOption {
+	id: number
+	name: string
+}
+
+interface LanguageButtonItem {
+	language: string
+	country: string
+	languageCode: 'en' | 'uk' | 'pl'
+	countryCode: 'US' | 'UA' | 'PL'
+}
+
+const LANGUAGE_BTN_ITEMS: LanguageButtonItem[] = [
 	{
 		language: 'English',
 		country: 'United States',
@@ -52,66 +64,74 @@ export const LanguageModal = () => {
 	const [error, setError] = useState<string | null>(null)
 	const [formData, setFormData] = useState({
 		city: '',
+		cityId: 0,
 		countryCode: 'US',
-		languageCode: 'en',
+		languageCode: 'en' as 'en' | 'uk' | 'pl',
 	})
-	const [cities, setCities] = useState<City[]>([])
-	const [offset, setOffset] = useState<number>(0)
-	const [hasMore, setHasMore] = useState<boolean>(true)
+	const [cities, setCities] = useState<CityOption[]>([])
 	const { handleOverlayClick, closeModal } = useModal()
 	const router = useRouter()
 	const pathname = usePathname()
-	const localActive = useLocale()
+	const localActive = useLocale() as 'en' | 'uk' | 'pl'
 	const tLanguageModal = useTranslations('LanguageModal')
 	const limit = 10
 
 	useEffect(() => {
+		// Блокируем скролл страницы при открытии модального окна
+		document.body.style.overflow = 'hidden'
+		return () => {
+			// Восстанавливаем скролл при закрытии
+			document.body.style.overflow = ''
+		}
+	}, [])
+
+	// Синхронизация formData.languageCode с локалью сайта
+	useEffect(() => {
+		setFormData(prev => ({
+			...prev,
+			languageCode: localActive,
+		}))
+
 		const loadCities = async () => {
 			try {
 				setIsLoading(true)
-				const fetchCities = await geoService.fetchCitiesByCountry(
-					formData.countryCode,
-					limit,
-					offset,
-					formData.languageCode
-				)
-				console.log('cities', fetchCities)
-				setCities(prev =>
-					offset === 0 ? fetchCities : [...prev, ...fetchCities]
-				)
-				setHasMore(fetchCities.length === 10)
+				const fetchedCities = cityService.fetchAllCities(localActive)
+				setCities(fetchedCities)
 				setError(null)
 			} catch (error) {
-				setError('Failed to load list of cities')
+				setError(tLanguageModal('errors.failedToLoadCities'))
 			} finally {
 				setIsLoading(false)
 			}
 		}
 		loadCities()
-	}, [formData.countryCode, formData.languageCode, offset])
+	}, [localActive, tLanguageModal])
 
-	const loadMoreCities = () => {
-		if (hasMore && !isLoading) {
-			setOffset(prev => prev + 10)
-		}
-	}
-
+	// Смена языка и страны
 	const changeLanguage = (
 		nextLocale: string,
 		countryCode: string,
-		languageCode: string
+		languageCode: 'en' | 'uk' | 'pl'
 	) => {
 		startTransition(() => {
 			setIsLoading(true)
-			const pathWithoutLocal = pathname.replace(`/${localActive}`, '')
-			const newPath = `/${nextLocale}${pathWithoutLocal}`
+			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
+			const newPath = `/${nextLocale}${pathWithoutLocale}`
 			router.push(newPath)
-			setFormData({ ...formData, countryCode, languageCode, city: '' })
+			setFormData({ city: '', cityId: 0, countryCode, languageCode })
 			setCities([])
-			setOffset(0)
-			setHasMore(true)
 			closeModal()
 			setIsLoading(false)
+		})
+	}
+
+	// Обработка выбора города
+	const handleCityChange = (cityName: string) => {
+		const selectedCity = cities.find(city => city.name === cityName)
+		setFormData({
+			...formData,
+			city: cityName,
+			cityId: selectedCity ? selectedCity.id : 0,
 		})
 	}
 
@@ -221,10 +241,8 @@ export const LanguageModal = () => {
 							label={tLanguageModal('chooseCity.city')}
 							options={cities.map(city => city.name)}
 							value={formData.city}
-							onChange={value => setFormData({ ...formData, city: value })}
-							loadMore={loadMoreCities}
-							hasMore={hasMore}
-							isLoading={isLoading}
+							onChange={handleCityChange}
+							languageCode={formData.languageCode}
 						/>
 					</div>
 

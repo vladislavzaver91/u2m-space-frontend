@@ -1,0 +1,902 @@
+[
+	{
+		"id": 516,
+		"name": {
+			"en": "New York",
+			"uk": "Нью-Йорк",
+			"pl": "Nowy Jork"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 517,
+		"name": {
+			"en": "Los Angeles",
+			"uk": "Лос-Анджелес",
+			"pl": "Los Angeles"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 518,
+		"name": {
+			"en": "Chicago",
+			"uk": "Чикаго",
+			"pl": "Chicago"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 519,
+		"name": {
+			"en": "Houston",
+			"uk": "Г’юстон",
+			"pl": "Houston"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 520,
+		"name": {
+			"en": "Phoenix",
+			"uk": "Фінікс",
+			"pl": "Phoenix"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 521,
+		"name": {
+			"en": "Philadelphia",
+			"uk": "Філадельфія",
+			"pl": "Filadelfia"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 522,
+		"name": {
+			"en": "San Antonio",
+			"uk": "Сан-Антоніо",
+			"pl": "San Antonio"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 523,
+		"name": {
+			"en": "San Diego",
+			"uk": "Сан-Дієго",
+			"pl": "San Diego"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 524,
+		"name": {
+			"en": "Dallas",
+			"uk": "Даллас",
+			"pl": "Dallas"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 525,
+		"name": {
+			"en": "Austin",
+			"uk": "Остін",
+			"pl": "Austin"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 526,
+		"name": {
+			"en": "Jacksonville, Florida",
+			"uk": "Джексонвіль, Флорида",
+			"pl": "Jacksonville, Floryda"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 527,
+		"name": {
+			"en": "San Jose",
+			"uk": "Сан-Хосе",
+			"pl": "San Jose"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 528,
+		"name": {
+			"en": "Columbus, Ohio",
+			"uk": "Колумбус, Огайо",
+			"pl": "Columbus, Ohio"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 529,
+		"name": {
+			"en": "Fort Worth",
+			"uk": "Форт Ворт",
+			"pl": "Fort Worth"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 530,
+		"name": {
+			"en": "Indianapolis",
+			"uk": "Індіанаполіс",
+			"pl": "Indianapolis"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 531,
+		"name": {
+			"en": "Charlotte",
+			"uk": "Шарлотт",
+			"pl": "Charlotte"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 532,
+		"name": {
+			"en": "Seattle",
+			"uk": "Сіетл",
+			"pl": "Seattle"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 533,
+		"name": {
+			"en": "Denver",
+			"uk": "Денвер",
+			"pl": "Denver"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 534,
+		"name": {
+			"en": "Boston",
+			"uk": "Бостон",
+			"pl": "Boston"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 535,
+		"name": {
+			"en": "El Paso",
+			"uk": "Ель-Пасо",
+			"pl": "El Paso"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 536,
+		"name": {
+			"en": "Nashville",
+			"uk": "Нашвілл",
+			"pl": "Nashville"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 537,
+		"name": {
+			"en": "Oklahoma City",
+			"uk": "Оклахома-Сіті",
+			"pl": "Oklahoma City"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 538,
+		"name": {
+			"en": "Las Vegas",
+			"uk": "Лас-Вегас",
+			"pl": "Las Vegas"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 539,
+		"name": {
+			"en": "Portland, Oregon",
+			"uk": "Портленд, Орегон",
+			"pl": "Portland, Oregon"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 540,
+		"name": {
+			"en": "Detroit",
+			"uk": "Детройт",
+			"pl": "Detroit"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 541,
+		"name": {
+			"en": "Memphis",
+			"uk": "Мемфіс",
+			"pl": "Memphis"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 542,
+		"name": {
+			"en": "Louisville",
+			"uk": "Луїсвіль",
+			"pl": "Louisville"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 543,
+		"name": {
+			"en": "Baltimore",
+			"uk": "Балтимор",
+			"pl": "Baltimore"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 544,
+		"name": {
+			"en": "Milwaukee",
+			"uk": "Мілвокі",
+			"pl": "Milwaukee"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 545,
+		"name": {
+			"en": "Albuquerque",
+			"uk": "Альбукерке",
+			"pl": "Albuquerque"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 546,
+		"name": {
+			"en": "Tucson",
+			"uk": "Тусон",
+			"pl": "Tucson"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 547,
+		"name": {
+			"en": "Fresno",
+			"uk": "Фресно",
+			"pl": "Fresno"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 548,
+		"name": {
+			"en": "Sacramento",
+			"uk": "Сакраменто",
+			"pl": "Sacramento"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 549,
+		"name": {
+			"en": "Kansas City, Missouri",
+			"uk": "Канзас-Сіті, Міссурі",
+			"pl": "Kansas City, Missouri"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 550,
+		"name": {
+			"en": "Mesa",
+			"uk": "Меса",
+			"pl": "Mesa"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 551,
+		"name": {
+			"en": "Atlanta",
+			"uk": "Атланта",
+			"pl": "Atlanta"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 552,
+		"name": {
+			"en": "Omaha",
+			"uk": "Омаха",
+			"pl": "Omaha"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 553,
+		"name": {
+			"en": "Raleigh",
+			"uk": "Ролі",
+			"pl": "Raleigh"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 554,
+		"name": {
+			"en": "Miami",
+			"uk": "Маямі",
+			"pl": "Miami"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 555,
+		"name": {
+			"en": "Long Beach",
+			"uk": "Лонг-Біч",
+			"pl": "Long Beach"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 556,
+		"name": {
+			"en": "Virginia Beach",
+			"uk": "Вірджинія-Біч",
+			"pl": "Virginia Beach"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 557,
+		"name": {
+			"en": "Oakland",
+			"uk": "Окленд",
+			"pl": "Oakland"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 558,
+		"name": {
+			"en": "Minneapolis",
+			"uk": "Міннеаполіс",
+			"pl": "Minneapolis"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 559,
+		"name": {
+			"en": "Tulsa",
+			"uk": "Талса",
+			"pl": "Tulsa"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 560,
+		"name": {
+			"en": "Arlington, Texas",
+			"uk": "Арлінгтон, Техас",
+			"pl": "Arlington, Teksas"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 561,
+		"name": {
+			"en": "Tampa",
+			"uk": "Тампа",
+			"pl": "Tampa"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 562,
+		"name": {
+			"en": "New Orleans",
+			"uk": "Новий Орлеан",
+			"pl": "Nowy Orlean"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 563,
+		"name": {
+			"en": "Wichita",
+			"uk": "Вічіта",
+			"pl": "Wichita"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 564,
+		"name": {
+			"en": "Cleveland",
+			"uk": "Клівленд",
+			"pl": "Cleveland"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 565,
+		"name": {
+			"en": "Bakersfield",
+			"uk": "Бейкерсфілд",
+			"pl": "Bakersfield"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 566,
+		"name": {
+			"en": "Aurora, Colorado",
+			"uk": "Аврора, Колорадо",
+			"pl": "Aurora, Kolorado"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 567,
+		"name": {
+			"en": "Honolulu",
+			"uk": "Гонолулу",
+			"pl": "Honolulu"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 568,
+		"name": {
+			"en": "Anaheim",
+			"uk": "Анагайм",
+			"pl": "Anaheim"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 569,
+		"name": {
+			"en": "Santa Ana",
+			"uk": "Санта-Ана",
+			"pl": "Santa Ana"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 570,
+		"name": {
+			"en": "Riverside",
+			"uk": "Ріверсайд",
+			"pl": "Riverside"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 571,
+		"name": {
+			"en": "Corpus Christi",
+			"uk": "Корпус-Крісті",
+			"pl": "Corpus Christi"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 572,
+		"name": {
+			"en": "Lexington",
+			"uk": "Лексінгтон",
+			"pl": "Lexington"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 573,
+		"name": {
+			"en": "Henderson",
+			"uk": "Гендерсон",
+			"pl": "Henderson"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 574,
+		"name": {
+			"en": "Stockton",
+			"uk": "Стоктон",
+			"pl": "Stockton"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 575,
+		"name": {
+			"en": "Saint Paul",
+			"uk": "Сент-Пол",
+			"pl": "Saint Paul"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 576,
+		"name": {
+			"en": "Cincinnati",
+			"uk": "Цинциннаті",
+			"pl": "Cincinnati"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 577,
+		"name": {
+			"en": "St. Louis",
+			"uk": "Сент-Луїс",
+			"pl": "St. Louis"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 578,
+		"name": {
+			"en": "Pittsburgh",
+			"uk": "Піттсбург",
+			"pl": "Pittsburgh"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 579,
+		"name": {
+			"en": "Greensboro",
+			"uk": "Грінсборо",
+			"pl": "Greensboro"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 580,
+		"name": {
+			"en": "Lincoln",
+			"uk": "Лінкольн",
+			"pl": "Lincoln"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 581,
+		"name": {
+			"en": "Anchorage",
+			"uk": "Анкоридж",
+			"pl": "Anchorage"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 582,
+		"name": {
+			"en": "Plano",
+			"uk": "Плано",
+			"pl": "Plano"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 583,
+		"name": {
+			"en": "Orlando",
+			"uk": "Орландо",
+			"pl": "Orlando"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 584,
+		"name": {
+			"en": "Irvine",
+			"uk": "Ірвайн",
+			"pl": "Irvine"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 585,
+		"name": {
+			"en": "Newark",
+			"uk": "Ньюарк",
+			"pl": "Newark"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 586,
+		"name": {
+			"en": "Toledo",
+			"uk": "Толедо",
+			"pl": "Toledo"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 587,
+		"name": {
+			"en": "Durham",
+			"uk": "Дарем",
+			"pl": "Durham"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 588,
+		"name": {
+			"en": "Chula Vista",
+			"uk": "Чула-Віста",
+			"pl": "Chula Vista"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 589,
+		"name": {
+			"en": "Fort Wayne",
+			"uk": "Форт-Вейн",
+			"pl": "Fort Wayne"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 590,
+		"name": {
+			"en": "Jersey City",
+			"uk": "Джерсі-Сіті",
+			"pl": "Jersey City"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 591,
+		"name": {
+			"en": "St. Petersburg",
+			"uk": "Сент-Пітерсбург",
+			"pl": "St. Petersburg"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 592,
+		"name": {
+			"en": "Laredo",
+			"uk": "Ларедо",
+			"pl": "Laredo"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 593,
+		"name": {
+			"en": "Madison",
+			"uk": "Медісон",
+			"pl": "Madison"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 594,
+		"name": {
+			"en": "Chandler",
+			"uk": "Чандлер",
+			"pl": "Chandler"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 595,
+		"name": {
+			"en": "Buffalo",
+			"uk": "Баффало",
+			"pl": "Buffalo"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 596,
+		"name": {
+			"en": "Lubbock",
+			"uk": "Лаббок",
+			"pl": "Lubbock"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 597,
+		"name": {
+			"en": "Scottsdale",
+			"uk": "Скоттсдейл",
+			"pl": "Scottsdale"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 598,
+		"name": {
+			"en": "Reno",
+			"uk": "Ріно",
+			"pl": "Reno"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 599,
+		"name": {
+			"en": "Glendale, Arizona",
+			"uk": "Глендейл, Аризона",
+			"pl": "Glendale, Arizona"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 600,
+		"name": {
+			"en": "Gilbert",
+			"uk": "Гілберт",
+			"pl": "Gilbert"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 601,
+		"name": {
+			"en": "Winston-Salem",
+			"uk": "Вінстон-Сейлем",
+			"pl": "Winston-Salem"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 602,
+		"name": {
+			"en": "North Las Vegas",
+			"uk": "Північний Лас-Вегас",
+			"pl": "North Las Vegas"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 603,
+		"name": {
+			"en": "Norfolk",
+			"uk": "Норфолк",
+			"pl": "Norfolk"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 604,
+		"name": {
+			"en": "Chesapeake",
+			"uk": "Чесапік",
+			"pl": "Chesapeake"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 605,
+		"name": {
+			"en": "Garland",
+			"uk": "Гарленд",
+			"pl": "Garland"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 606,
+		"name": {
+			"en": "Irving",
+			"uk": "Ірвінг",
+			"pl": "Irving"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 607,
+		"name": {
+			"en": "Hialeah",
+			"uk": "Гайаліа",
+			"pl": "Hialeah"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 608,
+		"name": {
+			"en": "Fremont",
+			"uk": "Фрімонт",
+			"pl": "Fremont"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 609,
+		"name": {
+			"en": "Boise",
+			"uk": "Бойсе",
+			"pl": "Boise"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 610,
+		"name": {
+			"en": "Richmond",
+			"uk": "Ричмонд",
+			"pl": "Richmond"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 611,
+		"name": {
+			"en": "Baton Rouge",
+			"uk": "Батон-Руж",
+			"pl": "Baton Rouge"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 612,
+		"name": {
+			"en": "Spokane",
+			"uk": "Спокан",
+			"pl": "Spokane"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 613,
+		"name": {
+			"en": "Des Moines",
+			"uk": "Де-Мойн",
+			"pl": "Des Moines"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 614,
+		"name": {
+			"en": "Tacoma",
+			"uk": "Такома",
+			"pl": "Tacoma"
+		},
+		"countryCode": "US"
+	},
+	{
+		"id": 615,
+		"name": {
+			"en": "San Bernardino",
+			"uk": "Сан-Бернардіно",
+			"pl": "San Bernardino"
+		},
+		"countryCode": "US"
+	}
+]

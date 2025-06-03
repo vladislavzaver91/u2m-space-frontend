@@ -1,0 +1,3737 @@
+[
+	{
+		"id": 1,
+		"name": {
+			"en": "Kyiv",
+			"uk": "Київ",
+			"pl": "Kijów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 2,
+		"name": {
+			"en": "Berezan",
+			"uk": "Березань",
+			"pl": "Berezan"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 3,
+		"name": {
+			"en": "Bila Tserkva",
+			"uk": "Біла Церква",
+			"pl": "Biała Cerkiew"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 4,
+		"name": {
+			"en": "Bohuslav",
+			"uk": "Богуслав",
+			"pl": "Bohusław"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 5,
+		"name": {
+			"en": "Boryspil",
+			"uk": "Бориспіль",
+			"pl": "Borysów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 6,
+		"name": {
+			"en": "Boiarka",
+			"uk": "Боярка",
+			"pl": "Bojarka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 7,
+		"name": {
+			"en": "Brovary",
+			"uk": "Бровари",
+			"pl": "Browary"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 8,
+		"name": {
+			"en": "Bucha",
+			"uk": "Буча",
+			"pl": "Bucza"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 9,
+		"name": {
+			"en": "Vasylkiv",
+			"uk": "Васильків",
+			"pl": "Wasylków"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 10,
+		"name": {
+			"en": "Vyshhorod",
+			"uk": "Вишгород",
+			"pl": "Wiszgorod"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 11,
+		"name": {
+			"en": "Vyshneve",
+			"uk": "Вишневе",
+			"pl": "Wysznewe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 12,
+		"name": {
+			"en": "Irpin",
+			"uk": "Ірпінь",
+			"pl": "Irpień"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 13,
+		"name": {
+			"en": "Kaharlyk",
+			"uk": "Кагарлик",
+			"pl": "Kagarlyk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 14,
+		"name": {
+			"en": "Myronivka",
+			"uk": "Миронівка",
+			"pl": "Mironówka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 15,
+		"name": {
+			"en": "Obukhiv",
+			"uk": "Обухів",
+			"pl": "Obuchów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 16,
+		"name": {
+			"en": "Pereiaslav",
+			"uk": "Переяслав",
+			"pl": "Perejasław"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 17,
+		"name": {
+			"en": "Rzhyshchiv",
+			"uk": "Ржищів",
+			"pl": "Rzyszczów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 18,
+		"name": {
+			"en": "Skvyra",
+			"uk": "Сквира",
+			"pl": "Skwira"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 19,
+		"name": {
+			"en": "Slavutych",
+			"uk": "Славутич",
+			"pl": "Sławutycz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 20,
+		"name": {
+			"en": "Tarashcha",
+			"uk": "Тараща",
+			"pl": "Taraszcz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 21,
+		"name": {
+			"en": "Tetiiv",
+			"uk": "Тетіїв",
+			"pl": "Tetiew"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 22,
+		"name": {
+			"en": "Uzyn",
+			"uk": "Узин",
+			"pl": "Uzin"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 23,
+		"name": {
+			"en": "Ukrainka",
+			"uk": "Українка",
+			"pl": "Ukrainka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 24,
+		"name": {
+			"en": "Fastiv",
+			"uk": "Фастів",
+			"pl": "Fastów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 25,
+		"name": {
+			"en": "Yahotyn",
+			"uk": "Яготин",
+			"pl": "Jahotyń"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 26,
+		"name": {
+			"en": "Pripyat",
+			"uk": "Прип’ять",
+			"pl": "Prypeć"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 27,
+		"name": {
+			"en": "Chernobyl",
+			"uk": "Чорнобиль",
+			"pl": "Czarnobyl"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 28,
+		"name": {
+			"en": "Bar",
+			"uk": "Бар",
+			"pl": "Bar"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 29,
+		"name": {
+			"en": "Bershad",
+			"uk": "Бершадь",
+			"pl": "Berszad"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 30,
+		"name": {
+			"en": "Haisyn",
+			"uk": "Гайсин",
+			"pl": "Hajsyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 31,
+		"name": {
+			"en": "Hnivan",
+			"uk": "Гнівань",
+			"pl": "Hniwań"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 32,
+		"name": {
+			"en": "Illintsi",
+			"uk": "Іллінці",
+			"pl": "Ilińce"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 33,
+		"name": {
+			"en": "Kalynivka",
+			"uk": "Калинівка",
+			"pl": "Kalinówka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 34,
+		"name": {
+			"en": "Khmilnyk",
+			"uk": "Хмільник",
+			"pl": "Chmielnik"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 35,
+		"name": {
+			"en": "Koziatyn",
+			"uk": "Козятин",
+			"pl": "Koziatyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 36,
+		"name": {
+			"en": "Ladyzhyn",
+			"uk": "Ладижин",
+			"pl": "Ładyżyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 37,
+		"name": {
+			"en": "Lypovets",
+			"uk": "Липовець",
+			"pl": "Lipowiec"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 38,
+		"name": {
+			"en": "Mohyliv-Podilskyi",
+			"uk": "Могилів-Подільський",
+			"pl": "Mohylów Podolski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 39,
+		"name": {
+			"en": "Nemyriv",
+			"uk": "Немирів",
+			"pl": "Niemirów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 40,
+		"name": {
+			"en": "Pohrebyshche",
+			"uk": "Погребище",
+			"pl": "Pohrebyszcze"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 41,
+		"name": {
+			"en": "Sharhorod",
+			"uk": "Шаргород",
+			"pl": "Szarogród"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 42,
+		"name": {
+			"en": "Tulchyn",
+			"uk": "Тульчин",
+			"pl": "Tulczyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 43,
+		"name": {
+			"en": "Vinnytsia",
+			"uk": "Вінниця",
+			"pl": "Winnica"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 44,
+		"name": {
+			"en": "Zhmerynka",
+			"uk": "Жмеринка",
+			"pl": "Zmierzynka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 45,
+		"name": {
+			"en": "Yampil",
+			"uk": "Ямпіль",
+			"pl": "Jampol"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 46,
+		"name": {
+			"en": "Berestechko",
+			"uk": "Берестечко",
+			"pl": "Beresteczko"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 47,
+		"name": {
+			"en": "Horokhiv",
+			"uk": "Горохів",
+			"pl": "Horochów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 48,
+		"name": {
+			"en": "Kamin-Kashyrskyi",
+			"uk": "Камінь-Каширський",
+			"pl": "Kamień Koszyrski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 49,
+		"name": {
+			"en": "Kivertsi",
+			"uk": "Ківерці",
+			"pl": "Kiwerce"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 50,
+		"name": {
+			"en": "Kovel",
+			"uk": "Ковель",
+			"pl": "Kowel"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 51,
+		"name": {
+			"en": "Liuboml",
+			"uk": "Любомль",
+			"pl": "Luboml"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 52,
+		"name": {
+			"en": "Lutsk",
+			"uk": "Луцьк",
+			"pl": "Łuck"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 53,
+		"name": {
+			"en": "Novovolynsk",
+			"uk": "Нововолинськ",
+			"pl": "Nowowołyńsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 54,
+		"name": {
+			"en": "Rozhyshche",
+			"uk": "Рожище",
+			"pl": "Rożyszcze"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 55,
+		"name": {
+			"en": "Ustyluh",
+			"uk": "Устилуг",
+			"pl": "Uściług"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 56,
+		"name": {
+			"en": "Volodymyr",
+			"uk": "Володимир",
+			"pl": "Włodzimierz Wołyński"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 57,
+		"name": {
+			"en": "Apostolove",
+			"uk": "Апостолове",
+			"pl": "Apostolowe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 58,
+		"name": {
+			"en": "Dnipro",
+			"uk": "Дніпро",
+			"pl": "Dniepr"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 59,
+		"name": {
+			"en": "Kamianske",
+			"uk": "Кам’янське",
+			"pl": "Kamieńskie"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 60,
+		"name": {
+			"en": "Kryvyi Rih",
+			"uk": "Кривий Ріг",
+			"pl": "Krzywy Róg"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 61,
+		"name": {
+			"en": "Marhanets",
+			"uk": "Марганець",
+			"pl": "Marhaniec"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 62,
+		"name": {
+			"en": "Nikopol",
+			"uk": "Нікополь",
+			"pl": "Nikopol"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 63,
+		"name": {
+			"en": "Novomoskovsk",
+			"uk": "Новомосковськ",
+			"pl": "Nowomoskowsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 64,
+		"name": {
+			"en": "Pavlohrad",
+			"uk": "Павлоград",
+			"pl": "Pawłohrad"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 65,
+		"name": {
+			"en": "Pershotravensk",
+			"uk": "Першотравенськ",
+			"pl": "Perszotrawensk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 66,
+		"name": {
+			"en": "Pokrov",
+			"uk": "Покров",
+			"pl": "Pokrow"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 67,
+		"name": {
+			"en": "Synelnykove",
+			"uk": "Синельникове",
+			"pl": "Synelnykowe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 68,
+		"name": {
+			"en": "Ternivka",
+			"uk": "Тернівка",
+			"pl": "Terniwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 69,
+		"name": {
+			"en": "Vilnohirsk",
+			"uk": "Вільногірськ",
+			"pl": "Wilnohirsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 70,
+		"name": {
+			"en": "Zhovti Vody",
+			"uk": "Жовті Води",
+			"pl": "Żółte Wody"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 71,
+		"name": {
+			"en": "Verkhniodniprovsk",
+			"uk": "Верхньодніпровськ",
+			"pl": "Werchniodniprowsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 72,
+		"name": {
+			"en": "Verkhnodniprovsk",
+			"uk": "Верхівцеве",
+			"pl": "Werchiwcewe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 73,
+		"name": {
+			"en": "Pidhorodne",
+			"uk": "Підгородне",
+			"pl": "Pidhorodne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 74,
+		"name": {
+			"en": "Piatykhatky",
+			"uk": "П’ятихатки",
+			"pl": "Piatychatki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 75,
+		"name": {
+			"en": "Tsarychanka",
+			"uk": "Царичанка",
+			"pl": "Tsaryczanka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 76,
+		"name": {
+			"en": "Shyroke",
+			"uk": "Широке",
+			"pl": "Szyroke"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 77,
+		"name": {
+			"en": "Solone",
+			"uk": "Солоне",
+			"pl": "Sołone"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 78,
+		"name": {
+			"en": "Amvrosiivka",
+			"uk": "Амвросіївка",
+			"pl": "Amwrosiówka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 79,
+		"name": {
+			"en": "Avdiivka",
+			"uk": "Авдіївка",
+			"pl": "Awdijiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 80,
+		"name": {
+			"en": "Bakhmut",
+			"uk": "Бахмут",
+			"pl": "Bachmut"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 81,
+		"name": {
+			"en": "Chasiv Yar",
+			"uk": "Часів Яр",
+			"pl": "Czasiw Jar"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 82,
+		"name": {
+			"en": "Dobropillia",
+			"uk": "Добропілля",
+			"pl": "Dobropilla"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 83,
+		"name": {
+			"en": "Donetsk",
+			"uk": "Донецьк",
+			"pl": "Donieck"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 84,
+		"name": {
+			"en": "Druzhkivka",
+			"uk": "Дружківка",
+			"pl": "Drużkiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 85,
+		"name": {
+			"en": "Horlivka",
+			"uk": "Горлівка",
+			"pl": "Horliwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 86,
+		"name": {
+			"en": "Kostiantynivka",
+			"uk": "Костянтинівка",
+			"pl": "Kostiantyniwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 87,
+		"name": {
+			"en": "Kramatorsk",
+			"uk": "Краматорськ",
+			"pl": "Kramatorsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 88,
+		"name": {
+			"en": "Kurakhove",
+			"uk": "Курахове",
+			"pl": "Kurachowe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 89,
+		"name": {
+			"en": "Lyman",
+			"uk": "Лиман",
+			"pl": "Łyman"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 90,
+		"name": {
+			"en": "Mariupol",
+			"uk": "Маріуполь",
+			"pl": "Mariupol"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 91,
+		"name": {
+			"en": "Myrnohrad",
+			"uk": "Мирноград",
+			"pl": "Myrnohrad"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 92,
+		"name": {
+			"en": "Novohrodivka",
+			"uk": "Новогродівка",
+			"pl": "Nowohrodiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 93,
+		"name": {
+			"en": "Pokrovsk",
+			"uk": "Покровськ",
+			"pl": "Pokrowsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 94,
+		"name": {
+			"en": "Selydove",
+			"uk": "Селидове",
+			"pl": "Selydowe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 95,
+		"name": {
+			"en": "Shakhtarsk",
+			"uk": "Шахтарськ",
+			"pl": "Szachtarsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 96,
+		"name": {
+			"en": "Sloviansk",
+			"uk": "Слов’янськ",
+			"pl": "Słowiańsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 97,
+		"name": {
+			"en": "Snizhne",
+			"uk": "Сніжне",
+			"pl": "Sniżne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 98,
+		"name": {
+			"en": "Soledar",
+			"uk": "Соледар",
+			"pl": "Sołedar"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 99,
+		"name": {
+			"en": "Toretsk",
+			"uk": "Торецьк",
+			"pl": "Torećk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 100,
+		"name": {
+			"en": "Vuhledar",
+			"uk": "Вугледар",
+			"pl": "Wuhledar"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 101,
+		"name": {
+			"en": "Vuhlehirsk",
+			"uk": "Вуглегірськ",
+			"pl": "Wuhlehirsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 102,
+		"name": {
+			"en": "Yenakiieve",
+			"uk": "Єнакієве",
+			"pl": "Jenakijewe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 103,
+		"name": {
+			"en": "Zhdanivka",
+			"uk": "Жданівка",
+			"pl": "Żdaniwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 104,
+		"name": {
+			"en": "Andrushivka",
+			"uk": "Андрушівка",
+			"pl": "Andrusziwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 105,
+		"name": {
+			"en": "Berdychiv",
+			"uk": "Бердичів",
+			"pl": "Berdyczów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 106,
+		"name": {
+			"en": "Chudniv",
+			"uk": "Чуднів",
+			"pl": "Cudnów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 107,
+		"name": {
+			"en": "Korosten",
+			"uk": "Коростень",
+			"pl": "Korosteń"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 108,
+		"name": {
+			"en": "Korostyshiv",
+			"uk": "Коростишів",
+			"pl": "Korostyszew"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 109,
+		"name": {
+			"en": "Malyn",
+			"uk": "Малин",
+			"pl": "Małyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 110,
+		"name": {
+			"en": "Novohrad-Volynskyi",
+			"uk": "Новоград-Волинський",
+			"pl": "Nowohrad Wołyński"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 111,
+		"name": {
+			"en": "Ovruch",
+			"uk": "Овруч",
+			"pl": "Owrucz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 112,
+		"name": {
+			"en": "Radomyshl",
+			"uk": "Радомишль",
+			"pl": "Radomyśl"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 113,
+		"name": {
+			"en": "Zhytomyr",
+			"uk": "Житомир",
+			"pl": "Żytomierz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 114,
+		"name": {
+			"en": "Baranivka",
+			"uk": "Баранівка",
+			"pl": "Baraniwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 115,
+		"name": {
+			"en": "Olevsk",
+			"uk": "Олевськ",
+			"pl": "Olewsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 116,
+		"name": {
+			"en": "Berehove",
+			"uk": "Берегове",
+			"pl": "Berehowo"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 117,
+		"name": {
+			"en": "Chop",
+			"uk": "Чоп",
+			"pl": "Czop"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 118,
+		"name": {
+			"en": "Irshava",
+			"uk": "Іршава",
+			"pl": "Irszawa"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 119,
+		"name": {
+			"en": "Khust",
+			"uk": "Хуст",
+			"pl": "Chust"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 120,
+		"name": {
+			"en": "Mukachevo",
+			"uk": "Мукачево",
+			"pl": "Mukaczewo"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 121,
+		"name": {
+			"en": "Perechyn",
+			"uk": "Перечин",
+			"pl": "Pereczyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 122,
+		"name": {
+			"en": "Rakhiv",
+			"uk": "Рахів",
+			"pl": "Rachów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 123,
+		"name": {
+			"en": "Svaliava",
+			"uk": "Свалява",
+			"pl": "Svalava"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 124,
+		"name": {
+			"en": "Tiachiv",
+			"uk": "Тячів",
+			"pl": "Tiaczew"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 125,
+		"name": {
+			"en": "Uzhhorod",
+			"uk": "Ужгород",
+			"pl": "Użhorod"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 126,
+		"name": {
+			"en": "Velykyi Bereznyi",
+			"uk": "Великий Березний",
+			"pl": "Wielki Berezny"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 127,
+		"name": {
+			"en": "Vynohradiv",
+			"uk": "Виноградів",
+			"pl": "Wynohradiw"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 128,
+		"name": {
+			"en": "Vynohradivka",
+			"uk": "Воловець",
+			"pl": "Wołowiec"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 129,
+		"name": {
+			"en": "Berdiansk",
+			"uk": "Бердянськ",
+			"pl": "Berdiańsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 130,
+		"name": {
+			"en": "Dniprorudne",
+			"uk": "Дніпрорудне",
+			"pl": "Dniprorudne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 131,
+		"name": {
+			"en": "Enerhodar",
+			"uk": "Енергодар",
+			"pl": "Enerhodar"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 132,
+		"name": {
+			"en": "Huliaipole",
+			"uk": "Гуляйполе",
+			"pl": "Hulajpole"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 133,
+		"name": {
+			"en": "Kamianka-Dniprovska",
+			"uk": "Кам’янка-Дніпровська",
+			"pl": "Kamianka Dniprowska"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 134,
+		"name": {
+			"en": "Melitopol",
+			"uk": "Мелітополь",
+			"pl": "Melitopol"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 135,
+		"name": {
+			"en": "Molotsk",
+			"uk": "Молочанськ",
+			"pl": "Mołoczańsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 136,
+		"name": {
+			"en": "Orikhiv",
+			"uk": "Оріхів",
+			"pl": "Orichiw"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 137,
+		"name": {
+			"en": "Polohy",
+			"uk": "Пологи",
+			"pl": "Połohy"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 138,
+		"name": {
+			"en": "Prymorsk",
+			"uk": "Приморськ",
+			"pl": "Prymorsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 139,
+		"name": {
+			"en": "Tokmak",
+			"uk": "Токмак",
+			"pl": "Tokmak"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 140,
+		"name": {
+			"en": "Vasylivka",
+			"uk": "Василівка",
+			"pl": "Wasylówka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 141,
+		"name": {
+			"en": "Velyka Bilozerka",
+			"uk": "Велика Білозерка",
+			"pl": "Wełyka Biłozerka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 142,
+		"name": {
+			"en": "Zaporizhzhia",
+			"uk": "Запоріжжя",
+			"pl": "Zaporoże"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 143,
+		"name": {
+			"en": "Bolekhiv",
+			"uk": "Болехів",
+			"pl": "Bolechów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 144,
+		"name": {
+			"en": "Burshtyn",
+			"uk": "Бурштин",
+			"pl": "Bursztyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 145,
+		"name": {
+			"en": "Dolyna",
+			"uk": "Долина",
+			"pl": "Dolina"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 146,
+		"name": {
+			"en": "Halych",
+			"uk": "Галич",
+			"pl": "Halicz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 147,
+		"name": {
+			"en": "Horodenka",
+			"uk": "Городенка",
+			"pl": "Horodenka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 148,
+		"name": {
+			"en": "Ivano-Frankivsk",
+			"uk": "Івано-Франківськ",
+			"pl": "Iwano-Frankiwsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 149,
+		"name": {
+			"en": "Kalush",
+			"uk": "Калуш",
+			"pl": "Kałusz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 150,
+		"name": {
+			"en": "Kolomyia",
+			"uk": "Коломия",
+			"pl": "Kołomyja"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 151,
+		"name": {
+			"en": "Kosiv",
+			"uk": "Косів",
+			"pl": "Kosów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 152,
+		"name": {
+			"en": "Nadvirna",
+			"uk": "Надвірна",
+			"pl": "Nadwórna"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 153,
+		"name": {
+			"en": "Rohatyn",
+			"uk": "Рогатин",
+			"pl": "Rohatyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 154,
+		"name": {
+			"en": "Sniatyn",
+			"uk": "Снятин",
+			"pl": "Śniatyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 155,
+		"name": {
+			"en": "Tlumach",
+			"uk": "Тлумач",
+			"pl": "Tłumacz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 156,
+		"name": {
+			"en": "Tysmenytsia",
+			"uk": "Тисмениця",
+			"pl": "Tysmenica"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 157,
+		"name": {
+			"en": "Verkhovyna",
+			"uk": "Верховина",
+			"pl": "Werchowyna"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 158,
+		"name": {
+			"en": "Yaremche",
+			"uk": "Яремче",
+			"pl": "Jaremcze"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 159,
+		"name": {
+			"en": "Radekhiv",
+			"uk": "Делятин",
+			"pl": "Delatyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 160,
+		"name": {
+			"en": "Blahovishchenske",
+			"uk": "Благовіщенське",
+			"pl": "Błahowiszczeńskie"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 161,
+		"name": {
+			"en": "Bobrynets",
+			"uk": "Бобринець",
+			"pl": "Bobryneć"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 162,
+		"name": {
+			"en": "Dolynska",
+			"uk": "Долинська",
+			"pl": "Dolinśka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 163,
+		"name": {
+			"en": "Haivoron",
+			"uk": "Гайворон",
+			"pl": "Hajworon"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 164,
+		"name": {
+			"en": "Kropyvnytskyi",
+			"uk": "Кропивницький",
+			"pl": "Kropywnyćkyj"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 165,
+		"name": {
+			"en": "Mala Vyska",
+			"uk": "Мала Виска",
+			"pl": "Mała Wyska"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 166,
+		"name": {
+			"en": "Novomyrhorod",
+			"uk": "Новомиргород",
+			"pl": "Nowomyrhorod"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 167,
+		"name": {
+			"en": "Novoukrainka",
+			"uk": "Новоукраїнка",
+			"pl": "Nowoukrajinka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 168,
+		"name": {
+			"en": "Oleksandriia",
+			"uk": "Олександрія",
+			"pl": "Oleksandrija"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 169,
+		"name": {
+			"en": "Pomichna",
+			"uk": "Помічна",
+			"pl": "Pomiczna"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 170,
+		"name": {
+			"en": "Svitlovodsk",
+			"uk": "Світловодськ",
+			"pl": "Switłowodśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 171,
+		"name": {
+			"en": "Znamianka",
+			"uk": "Знам’янка",
+			"pl": "Znamianka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 172,
+		"name": {
+			"en": "Alchevsk",
+			"uk": "Алчевськ",
+			"pl": "Ałczewsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 173,
+		"name": {
+			"en": "Antratsyt",
+			"uk": "Антрацит",
+			"pl": "Antracyt"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 174,
+		"name": {
+			"en": "Brianka",
+			"uk": "Брянка",
+			"pl": "Brianka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 175,
+		"name": {
+			"en": "Dovzhansk",
+			"uk": "Довжанськ",
+			"pl": "Dowżansk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 176,
+		"name": {
+			"en": "Holubivka",
+			"uk": "Голубівка",
+			"pl": "Hołubiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 177,
+		"name": {
+			"en": "Kadiivka",
+			"uk": "Кадіївка",
+			"pl": "Kadiiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 178,
+		"name": {
+			"en": "Khrustalnyi",
+			"uk": "Хрустальний",
+			"pl": "Chrustałnyj"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 179,
+		"name": {
+			"en": "Kreminna",
+			"uk": "Кремінна",
+			"pl": "Kreminna"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 180,
+		"name": {
+			"en": "Luhansk",
+			"uk": "Луганськ",
+			"pl": "Ługańsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 181,
+		"name": {
+			"en": "Lysychansk",
+			"uk": "Лисичанськ",
+			"pl": "Łysyczańsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 182,
+		"name": {
+			"en": "Molodohvardiisk",
+			"uk": "Молодогвардійськ",
+			"pl": "Mołodohwardijśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 183,
+		"name": {
+			"en": "Pervomaisk, Luhansk Oblast",
+			"uk": "Первомайськ, Луганська область",
+			"pl": "Perwomajśk, Obwód ługański"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 184,
+		"name": {
+			"en": "Popasna",
+			"uk": "Попасна",
+			"pl": "Popasna"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 185,
+		"name": {
+			"en": "Rovenky",
+			"uk": "Ровеньки",
+			"pl": "Rowenky"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 186,
+		"name": {
+			"en": "Rubizhne",
+			"uk": "Рубіжне",
+			"pl": "Rubiżne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 187,
+		"name": {
+			"en": "Sievierodonetsk",
+			"uk": "Сєвєродонецьк",
+			"pl": "Siewierodonieck"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 188,
+		"name": {
+			"en": "Sorokyne",
+			"uk": "Сорокине",
+			"pl": "Sorokyne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 189,
+		"name": {
+			"en": "Starobilsk",
+			"uk": "Старобільськ",
+			"pl": "Starobilśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 190,
+		"name": {
+			"en": "Belz",
+			"uk": "Белз",
+			"pl": "Bełz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 191,
+		"name": {
+			"en": "Bibrka",
+			"uk": "Бібрка",
+			"pl": "Bóbrka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 192,
+		"name": {
+			"en": "Boryslav",
+			"uk": "Борислав",
+			"pl": "Borysław"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 193,
+		"name": {
+			"en": "Brody",
+			"uk": "Броди",
+			"pl": "Brody"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 194,
+		"name": {
+			"en": "Busk",
+			"uk": "Буськ",
+			"pl": "Busk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 195,
+		"name": {
+			"en": "Chervonohrad",
+			"uk": "Червоноград",
+			"pl": "Czerwonograd"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 196,
+		"name": {
+			"en": "Dobromyl",
+			"uk": "Добромиль",
+			"pl": "Dobromil"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 197,
+		"name": {
+			"en": "Drohobych",
+			"uk": "Дрогобич",
+			"pl": "Drohobycz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 198,
+		"name": {
+			"en": "Dubliany",
+			"uk": "Дубляни",
+			"pl": "Dublany"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 199,
+		"name": {
+			"en": "Hlyniany",
+			"uk": "Глиняни",
+			"pl": "Gliniany"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 200,
+		"name": {
+			"en": "Horodok",
+			"uk": "Городок",
+			"pl": "Gródek"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 201,
+		"name": {
+			"en": "Kamianka-Buzka",
+			"uk": "Кам’янка-Бузька",
+			"pl": "Kamionka Buzka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 202,
+		"name": {
+			"en": "Khodoriv",
+			"uk": "Ходорів",
+			"pl": "Chodorów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 203,
+		"name": {
+			"en": "Khyriv",
+			"uk": "Хирів",
+			"pl": "Chyrów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 204,
+		"name": {
+			"en": "Komarno",
+			"uk": "Комарно",
+			"pl": "Komarno"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 205,
+		"name": {
+			"en": "Lviv",
+			"uk": "Львів",
+			"pl": "Lwów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 206,
+		"name": {
+			"en": "Morshyn",
+			"uk": "Моршин",
+			"pl": "Morszyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 207,
+		"name": {
+			"en": "Mostyska",
+			"uk": "Мостиська",
+			"pl": "Mościska"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 208,
+		"name": {
+			"en": "Mykolaiv, Lviv Oblast",
+			"uk": "Миколаїв, Львівська область",
+			"pl": "Mikołajów, Obwód lwowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 209,
+		"name": {
+			"en": "Novoiavorivsk",
+			"uk": "Новояворівськ",
+			"pl": "Nowojaworowsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 210,
+		"name": {
+			"en": "Novyi Kalyniv",
+			"uk": "Новий Калинів",
+			"pl": "Nowy Kalinów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 211,
+		"name": {
+			"en": "Novyi Rozdil",
+			"uk": "Новий Розділ",
+			"pl": "Nowy Rozdół"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 212,
+		"name": {
+			"en": "Peremyshliany",
+			"uk": "Перемишляни",
+			"pl": "Przemyślany"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 213,
+		"name": {
+			"en": "Pustomyty",
+			"uk": "Пустомити",
+			"pl": "Pustomyty"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 214,
+		"name": {
+			"en": "Radekhiv",
+			"uk": "Радехів",
+			"pl": "Radziechów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 215,
+		"name": {
+			"en": "Rava-Ruska",
+			"uk": "Рава-Руська",
+			"pl": "Rawa Ruska"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 216,
+		"name": {
+			"en": "Rudky",
+			"uk": "Рудки",
+			"pl": "Rudki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 217,
+		"name": {
+			"en": "Sambir",
+			"uk": "Самбір",
+			"pl": "Sambor"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 218,
+		"name": {
+			"en": "Skole",
+			"uk": "Сколе",
+			"pl": "Skole"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 219,
+		"name": {
+			"en": "Sokal",
+			"uk": "Сокаль",
+			"pl": "Sokal"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 220,
+		"name": {
+			"en": "Sosnivka",
+			"uk": "Соснівка",
+			"pl": "Sosnówka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 221,
+		"name": {
+			"en": "Staryi Sambir",
+			"uk": "Старий Самбір",
+			"pl": "Stary Sambor"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 222,
+		"name": {
+			"en": "Stebnyk",
+			"uk": "Стебник",
+			"pl": "Stebnik"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 223,
+		"name": {
+			"en": "Stryi",
+			"uk": "Стрий",
+			"pl": "Stryj"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 224,
+		"name": {
+			"en": "Sudova Vyshnia",
+			"uk": "Судова Вишня",
+			"pl": "Sadowa Wisznia"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 225,
+		"name": {
+			"en": "Truskavets",
+			"uk": "Трускавець",
+			"pl": "Truskawiec"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 226,
+		"name": {
+			"en": "Turka",
+			"uk": "Турка",
+			"pl": "Turka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 227,
+		"name": {
+			"en": "Uhniv",
+			"uk": "Угнів",
+			"pl": "Uhnów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 228,
+		"name": {
+			"en": "Velyki Mosty",
+			"uk": "Великі Мости",
+			"pl": "Wielkie Mosty"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 229,
+		"name": {
+			"en": "Vynnyky",
+			"uk": "Винники",
+			"pl": "Winniki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 230,
+		"name": {
+			"en": "Yavoriv",
+			"uk": "Яворів",
+			"pl": "Jaworów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 231,
+		"name": {
+			"en": "Zhovkva",
+			"uk": "Жовква",
+			"pl": "Żółkiew"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 232,
+		"name": {
+			"en": "Zhydachiv",
+			"uk": "Жидачів",
+			"pl": "Żydaczów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 233,
+		"name": {
+			"en": "Zolochiv",
+			"uk": "Золочів",
+			"pl": "Złoczów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 234,
+		"name": {
+			"en": "Bashtanka",
+			"uk": "Баштанка",
+			"pl": "Basztanka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 235,
+		"name": {
+			"en": "Mykolaiv, Mykolaiv Oblast",
+			"uk": "Миколаїв, Миколаївська область",
+			"pl": "Mikołajów, Obwód mikołajowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 236,
+		"name": {
+			"en": "Nova Odesa",
+			"uk": "Нова Одеса",
+			"pl": "Nowa Odessa"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 237,
+		"name": {
+			"en": "Novyi Buh",
+			"uk": "Новий Буг",
+			"pl": "Nowyj Buh"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 238,
+		"name": {
+			"en": "Ochakiv",
+			"uk": "Очаків",
+			"pl": "Oczaków"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 239,
+		"name": {
+			"en": "Pervomaisk, Mykolaiv Oblast",
+			"uk": "Первомайськ, Миколаївська область",
+			"pl": "Perwomajśk, Obwód mikołajowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 240,
+		"name": {
+			"en": "Snihurivka",
+			"uk": "Снігурівка",
+			"pl": "Snihuriwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 241,
+		"name": {
+			"en": "Voznesensk",
+			"uk": "Вознесенськ",
+			"pl": "Woznesenśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 242,
+		"name": {
+			"en": "Yuzhnoukrainsk",
+			"uk": "Южноукраїнськ",
+			"pl": "Jużnoukrajinśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 243,
+		"name": {
+			"en": "Ananiiv",
+			"uk": "Ананьїв",
+			"pl": "Ananijiw"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 244,
+		"name": {
+			"en": "Artsyz",
+			"uk": "Арциз",
+			"pl": "Arcyz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 245,
+		"name": {
+			"en": "Balta",
+			"uk": "Балта",
+			"pl": "Bałta"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 246,
+		"name": {
+			"en": "Berezivka",
+			"uk": "Березівка",
+			"pl": "Bereziwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 247,
+		"name": {
+			"en": "Bilhorod-Dnistrovskyi",
+			"uk": "Білгород-Дністровський",
+			"pl": "Białogród Dnistrzański"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 248,
+		"name": {
+			"en": "Biliaivka",
+			"uk": "Біляївка",
+			"pl": "Bilajiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 249,
+		"name": {
+			"en": "Bolhrad",
+			"uk": "Болград",
+			"pl": "Bołhrad"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 250,
+		"name": {
+			"en": "Chornomorsk",
+			"uk": "Чорноморськ",
+			"pl": "Czornomorśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 251,
+		"name": {
+			"en": "Izmail",
+			"uk": "Ізмаїл",
+			"pl": "Izmaił"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 252,
+		"name": {
+			"en": "Kiliia",
+			"uk": "Кілія",
+			"pl": "Kilija"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 253,
+		"name": {
+			"en": "Kodymа",
+			"uk": "Кодима",
+			"pl": "Kodymа"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 254,
+		"name": {
+			"en": "Odesa",
+			"uk": "Одеса",
+			"pl": "Odessa"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 255,
+		"name": {
+			"en": "Podilsk",
+			"uk": "Подільськ",
+			"pl": "Podilśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 256,
+		"name": {
+			"en": "Reni",
+			"uk": "Рені",
+			"pl": "Reni"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 257,
+		"name": {
+			"en": "Rozdilna",
+			"uk": "Роздільна",
+			"pl": "Rozdilna"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 258,
+		"name": {
+			"en": "Sarata",
+			"uk": "Сарата",
+			"pl": "Sarata"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 259,
+		"name": {
+			"en": "Tatarbunary",
+			"uk": "Татарбунари",
+			"pl": "Tatarbunary"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 260,
+		"name": {
+			"en": "Teplodar",
+			"uk": "Теплодар",
+			"pl": "Teplodar"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 261,
+		"name": {
+			"en": "Vylkove",
+			"uk": "Вилкове",
+			"pl": "Wyłkowe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 262,
+		"name": {
+			"en": "Gadyach, Poltava Oblast",
+			"uk": "Гадяч, Полтавська область",
+			"pl": "Gadzacz, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 263,
+		"name": {
+			"en": "Globyno, Poltava Oblast",
+			"uk": "Глобине, Полтавська область",
+			"pl": "Głobyno, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 264,
+		"name": {
+			"en": "Horyshni Plavni, Poltava Oblast",
+			"uk": "Горішні Плавні, Полтавська область",
+			"pl": "Horiszny Pławni, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 265,
+		"name": {
+			"en": "Hrebinka",
+			"uk": "Гребінка",
+			"pl": "Hrebinka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 266,
+		"name": {
+			"en": "Kremenchuk",
+			"uk": "Кременчук",
+			"pl": "Krzemieńczuk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 267,
+		"name": {
+			"en": "Kobelyaky",
+			"uk": "Кобеляки",
+			"pl": "Kobelaky"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 268,
+		"name": {
+			"en": "Khorol",
+			"uk": "Хорол",
+			"pl": "Choroł"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 269,
+		"name": {
+			"en": "Lokhvytsia, Poltava Oblast",
+			"uk": "Лохвиця, Полтавська область",
+			"pl": "Łochwyca, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 270,
+		"name": {
+			"en": "Lubny",
+			"uk": "Лубни",
+			"pl": "Łubny"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 271,
+		"name": {
+			"en": "Myrhorod, Poltava Oblast",
+			"uk": "Миргород, Полтавська область",
+			"pl": "Myrhorod, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 272,
+		"name": {
+			"en": "Poltava",
+			"uk": "Полтава",
+			"pl": "Połtawa"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 273,
+		"name": {
+			"en": "Pyryatyn, Poltava Oblast",
+			"uk": "Пирятин, Полтавська область",
+			"pl": "Pyriatyn, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 274,
+		"name": {
+			"en": "Reshetylivka",
+			"uk": "Решетилівка",
+			"pl": "Reszetyliwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 275,
+		"name": {
+			"en": "Velyka Bahachka",
+			"uk": "Велика Багачка",
+			"pl": "Wełyka Bahaczka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 276,
+		"name": {
+			"en": "Zenkov, Poltava Oblast",
+			"uk": "Зіньків, Полтавська область",
+			"pl": "Zin’kiw, Obwód połtawski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 277,
+		"name": {
+			"en": "Karliwka",
+			"uk": "Карлівка",
+			"pl": "Karliwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 278,
+		"name": {
+			"en": "Opishnya",
+			"uk": "Опішня",
+			"pl": "Opisznia"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 279,
+		"name": {
+			"en": "Berezne",
+			"uk": "Березне",
+			"pl": "Bereźne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 280,
+		"name": {
+			"en": "Dubno",
+			"uk": "Дубно",
+			"pl": "Dubno"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 281,
+		"name": {
+			"en": "Dubrovytsia",
+			"uk": "Дубровиця",
+			"pl": "Dubrowyca"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 282,
+		"name": {
+			"en": "Korets",
+			"uk": "Корець",
+			"pl": "Korzec"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 283,
+		"name": {
+			"en": "Kostopil",
+			"uk": "Костопіль",
+			"pl": "Kostopol"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 284,
+		"name": {
+			"en": "Kuznetsovsk",
+			"uk": "Кузнецовськ",
+			"pl": "Kuźniecowsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 285,
+		"name": {
+			"en": "Ostroh",
+			"uk": "Острог",
+			"pl": "Ostroh"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 286,
+		"name": {
+			"en": "Radyvyliv",
+			"uk": "Радивилів",
+			"pl": "Radywyliw"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 287,
+		"name": {
+			"en": "Rivne",
+			"uk": "Рівне",
+			"pl": "Równe"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 288,
+		"name": {
+			"en": "Sarny",
+			"uk": "Сарни",
+			"pl": "Sarny"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 289,
+		"name": {
+			"en": "Zdolbuniv",
+			"uk": "Здолбунів",
+			"pl": "Zdołbunów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 290,
+		"name": {
+			"en": "Bilopillia, Sumy Oblast",
+			"uk": "Білопілля, Сумська область",
+			"pl": "Biłopilla, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 291,
+		"name": {
+			"en": "Buryn",
+			"uk": "Буринь",
+			"pl": "Buryn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 292,
+		"name": {
+			"en": "Velyka Pysarivka, Sumy Oblast",
+			"uk": "Велика Писарівка, Сумська область",
+			"pl": "Wełyka Pysariwka, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 293,
+		"name": {
+			"en": "Vorozhba, Sumy Oblast",
+			"uk": "Ворожба, Сумська область",
+			"pl": "Worożba, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 294,
+		"name": {
+			"en": "Hlukhiv, Sumy Oblast",
+			"uk": "Глухів, Сумська область",
+			"pl": "Hłuchiw, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 295,
+		"name": {
+			"en": "Druzhba, Sumy Oblast",
+			"uk": "Дружба, Сумська область",
+			"pl": "Drużba, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 296,
+		"name": {
+			"en": "Konotop",
+			"uk": "Конотоп",
+			"pl": "Konotop"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 297,
+		"name": {
+			"en": "Krolevets, Sumy Oblast",
+			"uk": "Кролевець, Сумська область",
+			"pl": "Kroleweć, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 298,
+		"name": {
+			"en": "Lebedyn, Sumy Oblast",
+			"uk": "Лебедин, Сумська область",
+			"pl": "Łebedyn, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 299,
+		"name": {
+			"en": "Okhtyrka, Sumy Oblast",
+			"uk": "Охтирка, Сумська область",
+			"pl": "Ochtirka, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 300,
+		"name": {
+			"en": "Putyvl",
+			"uk": "Путивль",
+			"pl": "Putywl"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 301,
+		"name": {
+			"en": "Romny, Sumy Oblast",
+			"uk": "Ромни, Сумська область",
+			"pl": "Romny, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 302,
+		"name": {
+			"en": "Sumy",
+			"uk": "Суми",
+			"pl": "Sumy"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 303,
+		"name": {
+			"en": "Trostianets, Sumy Oblast",
+			"uk": "Тростянець, Сумська область",
+			"pl": "Trostianeć, Obwód sumski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 304,
+		"name": {
+			"en": "Shostka",
+			"uk": "Шостка",
+			"pl": "Szostka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 305,
+		"name": {
+			"en": "Berezhany",
+			"uk": "Бережани",
+			"pl": "Brzeżany"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 306,
+		"name": {
+			"en": "Borshchiv",
+			"uk": "Борщів",
+			"pl": "Borszczów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 307,
+		"name": {
+			"en": "Buchach",
+			"uk": "Бучач",
+			"pl": "Buczacz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 308,
+		"name": {
+			"en": "Chortkiv",
+			"uk": "Чортків",
+			"pl": "Czortków"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 309,
+		"name": {
+			"en": "Kopychyntsi",
+			"uk": "Копичинці",
+			"pl": "Kopyczyńce"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 310,
+		"name": {
+			"en": "Zalishchyky, Ternopil Oblast",
+			"uk": "Заліщики, Тернопільська область",
+			"pl": "Zalishchyky, Obwód tarnopolski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 311,
+		"name": {
+			"en": "Zbarazh",
+			"uk": "Збараж",
+			"pl": "Zbaraż"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 312,
+		"name": {
+			"en": "Zboriv",
+			"uk": "Зборів",
+			"pl": "Zborów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 313,
+		"name": {
+			"en": "Kremenets, Ternopil Oblast",
+			"uk": "Кременець, Тернопільська область",
+			"pl": "Krzemieniec, Obwód tarnopolski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 314,
+		"name": {
+			"en": "Lanivtsi, Ternopil Oblast",
+			"uk": "Ланівці, Тернопільська область",
+			"pl": "Łanowice, Obwód tarnopolski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 315,
+		"name": {
+			"en": "Monastyryska",
+			"uk": "Монастириська",
+			"pl": "Monasterzyska"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 316,
+		"name": {
+			"en": "Pidhaitsi",
+			"uk": "Підгайці",
+			"pl": "Podhajce"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 317,
+		"name": {
+			"en": "Pochaiv",
+			"uk": "Почаїв",
+			"pl": "Poczajów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 318,
+		"name": {
+			"en": "Shumsk",
+			"uk": "Шумськ",
+			"pl": "Szumsk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 319,
+		"name": {
+			"en": "Ternopil",
+			"uk": "Тернопіль",
+			"pl": "Tarnopol"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 320,
+		"name": {
+			"en": "Terebovlia",
+			"uk": "Теребовля",
+			"pl": "Trembowla"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 321,
+		"name": {
+			"en": "Khorostkiv, Ternopil Oblast",
+			"uk": "Хоростків, Тернопільська область",
+			"pl": "Chorostków, Obwód tarnopolski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 322,
+		"name": {
+			"en": "Balakliia, Kharkiv Oblast",
+			"uk": "Балаклія, Харківська область",
+			"pl": "Bałaklija, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 323,
+		"name": {
+			"en": "Barvinkove, Kharkiv Oblast",
+			"uk": "Барвінкове, Харківська область",
+			"pl": "Barwinkowe, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 324,
+		"name": {
+			"en": "Bohodukhiv",
+			"uk": "Богодухів",
+			"pl": "Bohoduchiw"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 325,
+		"name": {
+			"en": "Valky, Kharkiv Oblast",
+			"uk": "Валки, Харківська область",
+			"pl": "Wałky, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 326,
+		"name": {
+			"en": "Vovchansk, Kharkiv Oblast",
+			"uk": "Вовчанськ, Харківська область",
+			"pl": "Wowczańsk, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 327,
+		"name": {
+			"en": "Derhachi, Kharkiv Oblast",
+			"uk": "Дергачі, Харківська область",
+			"pl": "Derhaczi, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 328,
+		"name": {
+			"en": "Zmiiv, Kharkiv Oblast",
+			"uk": "Зміїв, Харківська область",
+			"pl": "Zmiiv, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 329,
+		"name": {
+			"en": "Izium, Kharkiv Oblast",
+			"uk": "Ізюм, Харківська область",
+			"pl": "Izium, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 330,
+		"name": {
+			"en": "Krasnohrad, Kharkiv Oblast",
+			"uk": "Красноград, Харківська область",
+			"pl": "Krasnohrad, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 331,
+		"name": {
+			"en": "Kupiansk, Kharkiv Oblast",
+			"uk": "Куп’янськ, Харківська область",
+			"pl": "Kupiańsk, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 332,
+		"name": {
+			"en": "Lozova, Kharkiv Oblast",
+			"uk": "Лозова, Харківська область",
+			"pl": "Łozowa, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 333,
+		"name": {
+			"en": "Liubotyn, Kharkiv Oblast",
+			"uk": "Люботин, Харківська область",
+			"pl": "Lubotyn, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 334,
+		"name": {
+			"en": "Merefa",
+			"uk": "Мерефа",
+			"pl": "Merefa"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 335,
+		"name": {
+			"en": "Pervomaiskyi, Kharkiv Oblast",
+			"uk": "Первомайський, Харківська область",
+			"pl": "Perwomajskyj, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 336,
+		"name": {
+			"en": "Kharkiv",
+			"uk": "Харків",
+			"pl": "Charków"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 337,
+		"name": {
+			"en": "Chuhuiv, Kharkiv Oblast",
+			"uk": "Чугуїв, Харківська область",
+			"pl": "Czuhujiw, Obwód charkowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 338,
+		"name": {
+			"en": "Panyutyne",
+			"uk": "Панютине",
+			"pl": "Paniutyne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 339,
+		"name": {
+			"en": "Kivsharivka",
+			"uk": "Ківшарівка",
+			"pl": "Kiwszariwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 340,
+		"name": {
+			"en": "Vysokyi",
+			"uk": "Високий",
+			"pl": "Wysokyj"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 341,
+		"name": {
+			"en": "Novopokrovka",
+			"uk": "Новопокровка",
+			"pl": "Nowopokrowka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 342,
+		"name": {
+			"en": "Slobozhanske",
+			"uk": "Слобожанське",
+			"pl": "Słobożańskie"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 343,
+		"name": {
+			"en": "Bilyi Kolodiaz",
+			"uk": "Білий Колодязь",
+			"pl": "Biłyj Kołodiaz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 344,
+		"name": {
+			"en": "Solonytsivka",
+			"uk": "Солоницівка",
+			"pl": "Sołonyciwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 345,
+		"name": {
+			"en": "Malynivka",
+			"uk": "Малинівка",
+			"pl": "Małyniwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 346,
+		"name": {
+			"en": "Prudianka",
+			"uk": "Прудянка",
+			"pl": "Prudanka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 347,
+		"name": {
+			"en": "Vilshany",
+			"uk": "Вільшани",
+			"pl": "Wilszany"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 348,
+		"name": {
+			"en": "Kochetok",
+			"uk": "Кочеток",
+			"pl": "Koczetok"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 349,
+		"name": {
+			"en": "Beryslav, Kherson Oblast",
+			"uk": "Берислав, Херсонська область",
+			"pl": "Berysław, Obwód chersoński"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 350,
+		"name": {
+			"en": "Henichesk",
+			"uk": "Генічеськ",
+			"pl": "Heniczesk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 351,
+		"name": {
+			"en": "Hola Prystan, Kherson Oblast",
+			"uk": "Гола Пристань, Херсонська область",
+			"pl": "Hoła Prystań, Obwód chersoński"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 352,
+		"name": {
+			"en": "Kakhovka, Kherson Oblast",
+			"uk": "Каховка, Херсонська область",
+			"pl": "Kachowka, Obwód chersoński"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 353,
+		"name": {
+			"en": "Nova Kakhovka, Kherson Oblast",
+			"uk": "Нова Каховка, Херсонська область",
+			"pl": "Nowa Kachowka, Obwód chersoński"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 354,
+		"name": {
+			"en": "Oleshky",
+			"uk": "Олешки",
+			"pl": "Ołeszky"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 355,
+		"name": {
+			"en": "Skadovsk",
+			"uk": "Скадовськ",
+			"pl": "Skadowśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 356,
+		"name": {
+			"en": "Tavriysk",
+			"uk": "Таврійськ",
+			"pl": "Tawrijśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 357,
+		"name": {
+			"en": "Kherson",
+			"uk": "Херсон",
+			"pl": "Chersoń"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 358,
+		"name": {
+			"en": "Volochysk, Khmelnytskyi Oblast",
+			"uk": "Волочиськ, Хмельницька область",
+			"pl": "Wołoczysk, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 359,
+		"name": {
+			"en": "Horodok",
+			"uk": "Городок",
+			"pl": "Horodok"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 360,
+		"name": {
+			"en": "Dunaivtsi, Khmelnytskyi Oblast",
+			"uk": "Дунаївці, Хмельницька область",
+			"pl": "Dunajowce, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 361,
+		"name": {
+			"en": "Iziaslav, Khmelnytskyi Oblast",
+			"uk": "Ізяслав, Хмельницька область",
+			"pl": "Iziasław, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 362,
+		"name": {
+			"en": "Kamianets-Podilskyi",
+			"uk": "Кам’янець-Подільський",
+			"pl": "Kamieniec Podolski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 363,
+		"name": {
+			"en": "Krasyliv, Khmelnytskyi Oblast",
+			"uk": "Красилів, Хмельницька область",
+			"pl": "Krasiłów, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 364,
+		"name": {
+			"en": "Netishyn",
+			"uk": "Нетішин",
+			"pl": "Netiszyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 365,
+		"name": {
+			"en": "Polonne, Khmelnytskyi Oblast",
+			"uk": "Полонне, Хмельницька область",
+			"pl": "Połonnoje, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 366,
+		"name": {
+			"en": "Slavuta",
+			"uk": "Славута",
+			"pl": "Sławuta"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 367,
+		"name": {
+			"en": "Starokostiantyniv, Khmelnytskyi Oblast",
+			"uk": "Старокостянтинів, Хмельницька область",
+			"pl": "Starokostiantynów, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 368,
+		"name": {
+			"en": "Khmelnytskyi",
+			"uk": "Хмельницький",
+			"pl": "Chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 369,
+		"name": {
+			"en": "Shepetivka, Khmelnytskyi Oblast",
+			"uk": "Шепетівка, Хмельницька область",
+			"pl": "Szepetówka, Obwód chmielnicki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 370,
+		"name": {
+			"en": "Derazhnia",
+			"uk": "Деражня",
+			"pl": "Derazhnia"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 371,
+		"name": {
+			"en": "Vatutine",
+			"uk": "Ватутіне",
+			"pl": "Watutyne"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 372,
+		"name": {
+			"en": "Horodyshche, Cherkasy Oblast",
+			"uk": "Городище, Черкаська область",
+			"pl": "Horodyszcze, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 373,
+		"name": {
+			"en": "Drabiv, Cherkasy Oblast",
+			"uk": "Драбів, Черкаська область",
+			"pl": "Drabiw, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 374,
+		"name": {
+			"en": "Zhashkiv, Cherkasy Oblast",
+			"uk": "Жашків, Черкаська область",
+			"pl": "Żaszków, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 375,
+		"name": {
+			"en": "Zvenyhorodka, Cherkasy Oblast",
+			"uk": "Звенигородка, Черкаська область",
+			"pl": "Zwienigorodka, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 376,
+		"name": {
+			"en": "Zolotonosha, Cherkasy Oblast",
+			"uk": "Золотоноша, Черкаська область",
+			"pl": "Zołotonosza, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 377,
+		"name": {
+			"en": "Kaniv",
+			"uk": "Канів",
+			"pl": "Kaniów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 378,
+		"name": {
+			"en": "Kamianka, Cherkasy Oblast",
+			"uk": "Кам’янка, Черкаська область",
+			"pl": "Kamionka, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 379,
+		"name": {
+			"en": "Korsun-Shevchenkivskyi, Cherkasy Oblast",
+			"uk": "Корсунь-Шевченківський, Черкаська область",
+			"pl": "Korsuń Szewczenkowski, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 380,
+		"name": {
+			"en": "Lysianka",
+			"uk": "Лисянка",
+			"pl": "Łysianka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 381,
+		"name": {
+			"en": "Mankivka",
+			"uk": "Маньківка",
+			"pl": "Mańkiwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 382,
+		"name": {
+			"en": "Monastyryshche",
+			"uk": "Монастирище",
+			"pl": "Monasterzyska"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 383,
+		"name": {
+			"en": "Smila",
+			"uk": "Сміла",
+			"pl": "Smiła"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 384,
+		"name": {
+			"en": "Talne, Cherkasy Oblast",
+			"uk": "Тальне, Черкаська область",
+			"pl": "Talnoje, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 385,
+		"name": {
+			"en": "Uman",
+			"uk": "Умань",
+			"pl": "Humań"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 386,
+		"name": {
+			"en": "Khrystynivka, Cherkasy Oblast",
+			"uk": "Христинівка, Черкаська область",
+			"pl": "Chrystyniwka, Obwód czerkaski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 387,
+		"name": {
+			"en": "Cherkasy",
+			"uk": "Черкаси",
+			"pl": "Czerkasy"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 388,
+		"name": {
+			"en": "Chyhyryn",
+			"uk": "Чигирин",
+			"pl": "Czehryń"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 389,
+		"name": {
+			"en": "Bakhmach",
+			"uk": "Бахмач",
+			"pl": "Bachmacz"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 390,
+		"name": {
+			"en": "Baturyn",
+			"uk": "Батурин",
+			"pl": "Baturyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 391,
+		"name": {
+			"en": "Bobrovytsia",
+			"uk": "Бобровиця",
+			"pl": "Bobrowycia"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 392,
+		"name": {
+			"en": "Borzna, Chernihiv Oblast",
+			"uk": "Борзна, Чернігівська область",
+			"pl": "Borzna, Obwód czernihowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 393,
+		"name": {
+			"en": "Chernihiv",
+			"uk": "Чернігів",
+			"pl": "Czernihów"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 394,
+		"name": {
+			"en": "Horodnia, Chernihiv Oblast",
+			"uk": "Городня, Чернігівська область",
+			"pl": "Horodnia, Obwód czernihowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 395,
+		"name": {
+			"en": "Ichnia",
+			"uk": "Ічня",
+			"pl": "Icznia"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 396,
+		"name": {
+			"en": "Koriukivka, Chernihiv Oblast",
+			"uk": "Корюківка, Чернігівська область",
+			"pl": "Koriukiwka, Obwód czernihowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 397,
+		"name": {
+			"en": "Mena, Chernihiv Oblast",
+			"uk": "Мена, Чернігівська область",
+			"pl": "Mena, Obwód czernihowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 398,
+		"name": {
+			"en": "Nizhyn",
+			"uk": "Ніжин",
+			"pl": "Niżyn"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 399,
+		"name": {
+			"en": "Novhorod-Siverskyi",
+			"uk": "Новгород-Сіверський",
+			"pl": "Nowogród Siewierski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 400,
+		"name": {
+			"en": "Nosivka, Chernihiv Oblast",
+			"uk": "Носівка, Чернігівська область",
+			"pl": "Nosiwka, Obwód czernihowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 401,
+		"name": {
+			"en": "Pryluky",
+			"uk": "Прилуки",
+			"pl": "Pryłuky"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 402,
+		"name": {
+			"en": "Ripky",
+			"uk": "Ріпки",
+			"pl": "Ripky"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 403,
+		"name": {
+			"en": "Snovsk, Chernihiv Oblast",
+			"uk": "Сновськ, Чернігівська область",
+			"pl": "Snowśk, Obwód czernihowski"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 404,
+		"name": {
+			"en": "Semenivka",
+			"uk": "Семенівка",
+			"pl": "Semeniwka"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 405,
+		"name": {
+			"en": "Vyzhnytsia",
+			"uk": "Вижниця",
+			"pl": "Wyżnica"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 406,
+		"name": {
+			"en": "Hertsa",
+			"uk": "Герца",
+			"pl": "Herca"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 407,
+		"name": {
+			"en": "Zastavna, Chernivtsi Oblast",
+			"uk": "Заставна, Чернівецька область",
+			"pl": "Zastawna, Obwód czerniowiecki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 408,
+		"name": {
+			"en": "Khotyn, Chernivtsi Oblast",
+			"uk": "Хотин, Чернівецька область",
+			"pl": "Chocim, Obwód czerniowiecki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 409,
+		"name": {
+			"en": "Kitsman",
+			"uk": "Кіцмань",
+			"pl": "Kicmań"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 410,
+		"name": {
+			"en": "Novodnistrovsk",
+			"uk": "Новодністровськ",
+			"pl": "Nowodnistrowśk"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 411,
+		"name": {
+			"en": "Novoselytsia",
+			"uk": "Новоселиця",
+			"pl": "Nowosielica"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 412,
+		"name": {
+			"en": "Sokyriany",
+			"uk": "Сокиряни",
+			"pl": "Sokiery"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 413,
+		"name": {
+			"en": "Storozhynets, Chernivtsi Oblast",
+			"uk": "Сторожинець, Чернівецька область",
+			"pl": "Storożyniec, Obwód czerniowiecki"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 414,
+		"name": {
+			"en": "Chernivtsi",
+			"uk": "Чернівці",
+			"pl": "Czerniowce"
+		},
+		"countryCode": "UA"
+	},
+	{
+		"id": 415,
+		"name": {
+			"en": "Vashkivtsi",
+			"uk": "Вашківці",
+			"pl": "Waszkowce"
+		},
+		"countryCode": "UA"
+	}
+]

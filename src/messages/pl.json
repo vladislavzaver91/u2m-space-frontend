@@ -285,6 +285,20 @@
 			"november": "Listopad",
 			"december": "Grudzień"
 		},
+		"monthsShort": {
+			"january": "Sty",
+			"february": "Lut",
+			"march": "Mar",
+			"april": "Kwi",
+			"may": "Maj",
+			"june": "Cze",
+			"july": "Lip",
+			"august": "Sie",
+			"september": "Wrz",
+			"october": "Paź",
+			"november": "Lis",
+			"december": "Gru"
+		},
 		"weekDays": {
 			"monday": "Pn",
 			"tuesday": "Wt",

@@ -2,24 +2,29 @@
 
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
+import { IconCustom } from './icon-custom'
 
 interface ProfileFormInputProps {
 	label: string
 	maxLength?: number
 	value: string
 	onChange: (value: string) => void
+	onClick?: () => void
 	type?: string
-	error?: string
 	prefix?: string
+	error?: string
+	isValid?: boolean
 }
 export const ProfileFormInput = ({
 	label,
 	maxLength,
 	value,
 	onChange,
+	onClick,
 	type,
-	error,
 	prefix,
+	error,
+	isValid,
 }: ProfileFormInputProps) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const [isFilled, setIsFilled] = useState<boolean>(false)
@@ -40,14 +45,14 @@ export const ProfileFormInput = ({
 	const showPrefix = prefix && (isFocused || isFilled)
 
 	return (
-		<div className='relative w-full h-[102px]'>
+		<div className='relative w-full h-[102px]' onClick={onClick}>
 			<label
 				htmlFor={`${label.toLowerCase()}-input`}
 				className={`absolute left-2 transition-all duration-300 ease-in-out ${
 					isFocused || isFilled
 						? 'top-0 text-[13px] font-normal text-[#4f4f4f]'
 						: 'top-[32px] text-[16px] font-bold text-[#4f4f4f]'
-				}`}
+				} `}
 			>
 				{label}
 			</label>
@@ -55,7 +60,7 @@ export const ProfileFormInput = ({
 				{showPrefix && (
 					<span
 						className={`absolute left-0 top-[28px] text-[16px] font-bold text-[#4f4f4f] ${
-							error ? 'text-red-500' : ''
+							error ? 'text-[#F9329C] text-[13px] font-normal' : ''
 						}`}
 					>
 						{prefix}
@@ -68,30 +73,37 @@ export const ProfileFormInput = ({
 					onChange={handleInputChange}
 					onFocus={handleFocus}
 					onBlur={handleBlur}
-					className={`w-full h-[38px] mt-8 px-2 text-[#4f4f4f] outline-none border-b ${
-						error ? 'border-red-500' : 'border-[#bdbdbd]'
-					} bg-transparent ${
+					className={`w-full h-[38px] mt-8 px-2 text-[#4f4f4f] outline-none border-b border-[#bdbdbd] bg-transparent ${
 						label !== 'Description'
 							? 'text-[16px] font-bold'
 							: 'text-[16px] font-normal'
-					} ${showPrefix ? 'pl-3' : ''}`}
+					} ${showPrefix ? 'pl-3' : ''} ${isValid ? 'pr-8' : ''} ${
+						error ? 'text-[#F9329C]' : ''
+					}`}
 				/>
+				{isValid && (
+					<IconCustom
+						name='check'
+						className='fill-none text-[#6FCF97] absolute right-2 bottom-2'
+					/>
+				)}
 			</div>
 			{maxLength && (
-				<div className='absolute bottom-0 right-0 flex items-center gap-2'>
-					{label !== 'Price' && (
-						<span className='text-[13px] font-normal text-[#4f4f4f]'>
-							{value?.length || 0}/{maxLength}
-						</span>
-					)}
+				<div className='absolute bottom-0 flex items-center justify-between gap-2 w-full'>
 					{isMaxLengthReached && (
-						<span className='text-[13px] font-normal text-red-500'>
+						<span className='text-[13px] font-normal text-[#F9329C]'>
 							{tComponents('inputs.error')}
 						</span>
 					)}
 					{error && (
-						<span className='text-[13px] font-normal text-red-500'>
+						<span className='text-[13px] font-normal text-[#F9329C]'>
 							{error}
+						</span>
+					)}
+
+					{label !== 'Price' && (
+						<span className='text-[13px] font-normal text-[#4f4f4f]'>
+							{value?.length || 0}/{maxLength}
 						</span>
 					)}
 				</div>

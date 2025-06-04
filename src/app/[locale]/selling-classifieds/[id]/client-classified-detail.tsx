@@ -381,7 +381,7 @@ export function ClientClassifiedDetail({
 														image={item.images[0]}
 														favoritesBool={item.favoritesBool}
 														favorites={item.favorites}
-														href={`${locale}/selling-classifieds/${item.id}`}
+														href={`/selling-classifieds/${item.id}`}
 														isSmall={true}
 													/>
 												</div>
@@ -437,7 +437,7 @@ export function ClientClassifiedDetail({
 												image={item.images[0]}
 												favoritesBool={item.favoritesBool}
 												favorites={item.favorites}
-												href={`${locale}/selling-classifieds/${item.id}`}
+												href={`/selling-classifieds/${item.id}`}
 												isSmall={true}
 											/>
 										</SwiperSlide>

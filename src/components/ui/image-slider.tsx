@@ -34,7 +34,7 @@ export const ImageSlider = ({
 
 	useEffect(() => {
 		const handleResize = () => {
-			setIsDesktop(window.innerWidth >= 769)
+			setIsDesktop(window.innerWidth >= 768)
 		}
 		handleResize()
 		window.addEventListener('resize', handleResize)
@@ -73,7 +73,7 @@ export const ImageSlider = ({
 	}
 
 	const handleImageClick = (e: React.MouseEvent) => {
-		if (isDesktop && onOpenModal) {
+		if (!isDesktop && onOpenModal) {
 			e.stopPropagation()
 			onOpenModal()
 		}
@@ -135,7 +135,7 @@ export const ImageSlider = ({
 									/>
 								}
 								isHover
-								className='max-[769px]:hidden rounded-lg  inline-flex p-2 w-10 h-10'
+								className='max-md:hidden rounded-lg  inline-flex p-2 w-10 h-10'
 								onClick={onOpenModal}
 							/>
 						</div>
@@ -249,7 +249,7 @@ export const ImageSlider = ({
 							/>
 						}
 						isHover
-						className='rounded-lg max-[769px]:hidden inline-flex p-2 w-10 h-10'
+						className='rounded-lg max-md:hidden inline-flex p-2 w-10 h-10'
 						onClick={onOpenModal}
 					/>
 				)}

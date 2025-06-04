@@ -10,6 +10,8 @@ interface CustomDatePickerProps {
 	label: string
 	value: string
 	onChange: (value: string) => void
+	onClick?: () => void
+	onOpenChange?: (isOpen: boolean) => void
 }
 
 type ViewMode = 'months' | 'years' | 'days'
@@ -18,10 +20,16 @@ export const CustomDatePicker = ({
 	label,
 	value,
 	onChange,
+	onClick,
+	onOpenChange,
 }: CustomDatePickerProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
 	const [viewMode, setViewMode] = useState<ViewMode>('days')
+	const [isMobile, setIsMobile] = useState(false)
+	const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>(
+		'top'
+	)
 	const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 	const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth())
 	const [yearRange, setYearRange] = useState({ start: 2018, end: 2035 })
@@ -44,6 +52,21 @@ export const CustomDatePicker = ({
 		tDatePicker('months.october'),
 		tDatePicker('months.november'),
 		tDatePicker('months.december'),
+	]
+
+	const shortMonths = [
+		tDatePicker('monthsShort.january'),
+		tDatePicker('monthsShort.february'),
+		tDatePicker('monthsShort.march'),
+		tDatePicker('monthsShort.april'),
+		tDatePicker('monthsShort.may'),
+		tDatePicker('monthsShort.june'),
+		tDatePicker('monthsShort.july'),
+		tDatePicker('monthsShort.august'),
+		tDatePicker('monthsShort.september'),
+		tDatePicker('monthsShort.october'),
+		tDatePicker('monthsShort.november'),
+		tDatePicker('monthsShort.december'),
 	]
 
 	// Сокращенные названия дней недели
@@ -75,6 +98,50 @@ export const CustomDatePicker = ({
 		document.addEventListener('mousedown', handleClickOutside)
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [])
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768)
+		}
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
+
+	useEffect(() => {
+		if (isOpen && buttonRef.current && isMobile) {
+			const rect = buttonRef.current.getBoundingClientRect()
+			const windowHeight = window.innerHeight
+			const buffer = window.innerHeight * 0.2 // Порог для определения "низа области видимости"
+
+			// Если нижняя граница элемента близко к нижней части экрана
+			if (windowHeight - rect.bottom <= buffer) {
+				setDropdownPosition('bottom') // Открываем календарь снизу
+			} else {
+				setDropdownPosition('top') // Открываем календарь поверх
+			}
+		}
+	}, [isOpen, isMobile])
+
+	const getDropdownClasses = () => {
+		let baseClasses =
+			'absolute bg-white shadow-custom-xl rounded-b-[13px] max-h-[424px] z-50 w-full max-w-[410px]'
+
+		if (isMobile) {
+			if (dropdownPosition === 'top') {
+				// Календарь поверх элемента
+				baseClasses += ' bottom-[60px] left-0 right-0 mx-auto'
+			} else {
+				// Календарь снизу элемента с отступом 16px
+				baseClasses += ' top-4 left-0 right-0 mx-auto'
+			}
+		} else {
+			// Для десктопа стандартная позиция
+			baseClasses += ' top-[60px] left-0'
+		}
+
+		return baseClasses
+	}
 
 	const getDaysInMonth = (year: number, month: number) => {
 		const firstDay = new Date(year, month, 1)
@@ -196,11 +263,16 @@ export const CustomDatePicker = ({
 	const handleToggleOpen = (e: React.MouseEvent) => {
 		e.preventDefault()
 		e.stopPropagation()
-		setIsOpen(!isOpen)
+		setIsOpen(prev => {
+			const newIsOpen = !prev
+			onOpenChange?.(newIsOpen)
+			return newIsOpen
+		})
 		setIsFocused(!isOpen)
 		if (!isOpen) {
 			setViewMode('days')
 		}
+		onClick?.()
 	}
 
 	const renderMonthsView = () => (
@@ -214,13 +286,14 @@ export const CustomDatePicker = ({
 						key={month}
 						type='button'
 						onClick={e => handleMonthSelect(index, e)}
-						className={`px-5 py-2.5 rounded-md text-[16px] font-bold transition-colors border border-transparent h-11  ${
+						className={`md:px-5 md:py-2.5 text-center rounded-md text-[16px] font-bold transition-colors border border-transparent h-11  ${
 							index === selectedMonth
 								? 'bg-[#3486FE] text-white hover:text-black hover:bg-[#F7F7F7] hover:border-[#3486FE]'
 								: 'bg-[#F7F7F7] text-black hover:bg-[#F7F7F7] hover:border-[#3486FE]'
 						}`}
 					>
-						{month}
+						<span className='max-md:hidden'>{month}</span>
+						<span className='md:hidden'>{shortMonths[index]}</span>
 					</button>
 				))}
 			</div>
@@ -235,7 +308,7 @@ export const CustomDatePicker = ({
 
 		return (
 			<div className='p-4'>
-				<div className='text-center text-[16px] font-bold text-black mb-[70px]'>
+				<div className='md:px-5 md:py-2 text-center text-[16px] font-bold text-black mb-[70px]'>
 					{tDatePicker('year')}
 				</div>
 
@@ -259,7 +332,7 @@ export const CustomDatePicker = ({
 							key={year}
 							type='button'
 							onClick={e => handleYearSelect(year, e)}
-							className={`px-5 py-2 rounded-md text-[16px] font-bold transition-colors border border-transparent h-11 ${
+							className={`rounded-md text-[16px] font-bold text-center transition-colors border border-transparent h-11 ${
 								year === selectedYear
 									? 'bg-[#3486FE] text-white hover:text-black hover:bg-[#F7F7F7] hover:border-[#3486FE]'
 									: 'bg-[#F7F7F7] text-black hover:bg-[#F7F7F7] hover:border-[#3486FE]'
@@ -385,7 +458,7 @@ export const CustomDatePicker = ({
 								onClick={e =>
 									dayObj.isCurrentMonth && handleDaySelect(dayObj.date, e)
 								}
-								className={`text-[16px] font-bold transition-colors px-3 py-2.5 w-[50px] h-11 rounded-md border border-transparent ${
+								className={`text-[16px] font-bold transition-colors text-center md:px-3 md:py-2.5 max-md:w-full md:w-[50px] h-11 rounded-md border border-transparent ${
 									dayObj.isCurrentMonth
 										? 'text-black hover:bg-[#F7F7F7] hover:border-[#3486FE]'
 										: 'text-[#BDBDBD]'
@@ -409,7 +482,7 @@ export const CustomDatePicker = ({
 		<motion.div
 			className={`relative h-[102px] ${
 				isOpen
-					? 'absolute h-[102px] shadow-custom-xl rounded-[13px] max-md:w-full md:w-[410px] z-40'
+					? 'absolute h-[102px] shadow-custom-xl rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
 					: 'w-full pt-8'
 			}`}
 			transition={{ duration: 0.2 }}
@@ -442,10 +515,7 @@ export const CustomDatePicker = ({
 				</div>
 			</div>
 			{isOpen && (
-				<div
-					ref={dropdownRef}
-					className='absolute bg-white shadow-custom-xl rounded-b-[13px] max-h-[424px] z-40 max-md:w-full max-md:max-w-[410px] md:w-[410px]'
-				>
+				<div ref={dropdownRef} className={getDropdownClasses()}>
 					{viewMode === 'months' && renderMonthsView()}
 					{viewMode === 'years' && renderYearsView()}
 					{viewMode === 'days' && renderDaysView()}

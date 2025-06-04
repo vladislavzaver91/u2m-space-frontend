@@ -9,6 +9,8 @@ interface CustomSelectProps {
 	options: string[]
 	value: string
 	onChange: (value: string) => void
+	onClick?: () => void
+	onOpenChange?: (isOpen: boolean) => void
 }
 
 export const CustomSelect = ({
@@ -16,6 +18,8 @@ export const CustomSelect = ({
 	options,
 	value,
 	onChange,
+	onClick,
+	onOpenChange,
 }: CustomSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
@@ -30,21 +34,32 @@ export const CustomSelect = ({
 			) {
 				setIsOpen(false)
 				setIsFocused(false)
+				onOpenChange?.(false)
+				onClick?.()
 			}
 		}
 		document.addEventListener('mousedown', handleClickOutside)
 		return () => document.removeEventListener('mousedown', handleClickOutside)
-	}, [])
+	}, [onOpenChange, onClick])
 
-	const handleToggle = () => {
-		setIsOpen(!isOpen)
-		setIsFocused(!isOpen)
+	const handleToggle = (e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		setIsOpen(prev => {
+			const newIsOpen = !prev
+			onOpenChange?.(newIsOpen)
+			return newIsOpen
+		})
+		onClick?.()
 	}
 
-	const handleOptionClick = (option: string) => {
+	const handleOptionClick = (option: string, e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
 		onChange(option)
 		setIsOpen(false)
 		setIsFocused(true)
+		onOpenChange?.(false)
 	}
 
 	return (
@@ -93,7 +108,7 @@ export const CustomSelect = ({
 							className={`p-4 text-[16px] font-bold text-[#4f4f4f] cursor-pointer hover:bg-[#F7F7F7] ${
 								value === option ? 'bg-[#F7F7F7]' : ''
 							}`}
-							onClick={() => handleOptionClick(option)}
+							onClick={e => handleOptionClick(option, e)}
 						>
 							{option}
 						</div>

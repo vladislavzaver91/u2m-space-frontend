@@ -31,6 +31,23 @@ export default function ProfilePage() {
 		advancedUser: false,
 		deleteReason: false,
 	})
+	const [isTooltipClicked, setIsTooltipClicked] = useState({
+		nickname: false,
+		name: false,
+		surname: false,
+		gender: false,
+		birthday: false,
+		email: false,
+		phoneNumber: false,
+		extraPhoneNumber: false,
+		language: false,
+		currency: false,
+		city: false,
+		notifications: false,
+		showPhone: false,
+		advancedUser: false,
+		deleteReason: false,
+	})
 	const { user, logout } = useAuth()
 	const { id } = useParams<{ id: string }>()
 	const router = useRouter()
@@ -80,6 +97,20 @@ export default function ProfilePage() {
 		setSettingTooltipVisible(prev => ({ ...prev, [field]: false }))
 	}
 
+	const handleTooltipClick = (field: keyof typeof isTooltipClicked) => {
+		setIsTooltipClicked(prev => ({ ...prev, [field]: true }))
+
+		if (field in infoTooltipVisible) {
+			setInfoTooltipVisible(prev => ({ ...prev, [field]: false }))
+		} else if (field in settingTooltipVisible) {
+			setSettingTooltipVisible(prev => ({ ...prev, [field]: false }))
+		}
+
+		setTimeout(() => {
+			setIsTooltipClicked(prev => ({ ...prev, [field]: false }))
+		}, 50)
+	}
+
 	if (user.id !== id) {
 		return null
 	}
@@ -113,7 +144,9 @@ export default function ProfilePage() {
 											onMouseLeave={(field: keyof typeof infoTooltipVisible) =>
 												handleInfoTooltipMouseLeave(field)
 											}
+											onTooltipClick={handleTooltipClick}
 											tooltipVisible={infoTooltipVisible}
+											isTooltipClicked={isTooltipClicked}
 										/>
 									) : (
 										<ProfileSettingsForm
@@ -123,7 +156,9 @@ export default function ProfilePage() {
 											onMouseLeave={(
 												field: keyof typeof settingTooltipVisible
 											) => handleSettingTooltipMouseLeave(field)}
+											onTooltipClick={handleTooltipClick}
 											tooltipVisible={settingTooltipVisible}
+											isTooltipClicked={isTooltipClicked}
 										/>
 									)}
 								</div>

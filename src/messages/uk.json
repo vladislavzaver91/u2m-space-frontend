@@ -285,6 +285,20 @@
 			"november": "Листопад",
 			"december": "Грудень"
 		},
+		"monthsShort": {
+			"january": "Січ",
+			"february": "Лют",
+			"march": "Бер",
+			"april": "Квi",
+			"may": "Тра",
+			"june": "Чер",
+			"july": "Лип",
+			"august": "Сер",
+			"september": "Вер",
+			"october": "Жов",
+			"november": "Лис",
+			"december": "Гру"
+		},
 		"weekDays": {
 			"monday": "Пн",
 			"tuesday": "Вт",

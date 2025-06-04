@@ -94,4 +94,7 @@
   <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15" id="arrow-right">
     <path d="M1 7.41992L15 7.41992M15 7.41992L9 1.41992M15 7.41992L9 13.4199" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
   </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="check">
+    <path d="M6 12L10.2426 16.2426L18.727 7.75732" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
 </svg>

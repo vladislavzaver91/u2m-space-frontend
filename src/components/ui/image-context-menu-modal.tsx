@@ -31,7 +31,7 @@ export const ImageContextMenuModal = ({
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
 					transition={{ duration: 0.3 }}
-					className='fixed inset-0 bg-[#3486fe]/60 flex items-end justify-center z-50 px-3 pb-[22px]'
+					className='fixed inset-0 bg-[#3486fe]/60 flex items-end justify-center z-50 px-4 pb-4'
 					onClick={onClose}
 				>
 					<motion.div
@@ -39,7 +39,7 @@ export const ImageContextMenuModal = ({
 						animate={{ scale: 1, opacity: 1 }}
 						exit={{ scale: 0.8, opacity: 0 }}
 						transition={{ duration: 0.3 }}
-						className='bg-white rounded-[13px] shadow-lg w-full max-w-[300px] p-2 flex flex-col items-center space-y-8'
+						className='bg-white rounded-[13px] shadow-lg w-full p-2 flex flex-col items-center space-y-8'
 						onClick={e => e.stopPropagation()}
 					>
 						<div>

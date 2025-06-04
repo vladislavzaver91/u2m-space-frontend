@@ -25,7 +25,17 @@ export const SliderImagesModal = ({
 	onSlideChange,
 }: SliderImagesModalProps) => {
 	const [currentImageIndex, setCurrentImageIndex] = useState(0)
+	const [isDesktop, setIsDesktop] = useState(false)
 	const swiperRef = useRef<SwiperClass | null>(null)
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsDesktop(window.innerWidth >= 768)
+		}
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
 
 	const handleEscape = useCallback(
 		(event: KeyboardEvent) => {
@@ -51,6 +61,23 @@ export const SliderImagesModal = ({
 		}
 	}
 
+	const handleImageClick = (
+		e: React.MouseEvent<HTMLDivElement>,
+		swiper: SwiperClass
+	) => {
+		if (!isDesktop) return
+
+		const rect = e.currentTarget.getBoundingClientRect()
+		const clickX = e.clientX - rect.left
+		const halfWidth = rect.width / 2
+
+		if (clickX < halfWidth) {
+			swiper.slidePrev()
+		} else {
+			swiper.slideNext()
+		}
+	}
+
 	useEffect(() => {
 		if (isOpen) {
 			document.addEventListener('keydown', handleEscape)
@@ -72,26 +99,29 @@ export const SliderImagesModal = ({
 				exit={{ opacity: 0 }}
 				transition={{ duration: 0.3 }}
 				onClick={handleOverlayClick}
-				className='fixed inset-0 z-50 bg-[#3486fe]/60 flex items-center justify-center max-md:px-0 max-xl:px-8'
+				className='fixed inset-0 z-50 bg-[#3486fe]/60 flex items-center justify-center max-[1281px]:px-0 min-[1281px]:px-8'
 			>
 				<motion.div
 					initial={{ scale: 0.8, opacity: 0 }}
 					animate={{ scale: 1, opacity: 1 }}
 					exit={{ scale: 0.8, opacity: 0 }}
 					transition={{ duration: 0.3 }}
-					className='relative w-full max-w-[1216px] 2xl:max-w-[1393px] h-full md:max-h-[1010px] bg-white rounded-3xl overflow-hidden px-6 pt-6 pb-[88px] slider-images-modal'
+					className='relative w-full min-[1281px]:max-w-[1600px] h-full min-[1281px]:max-h-[1099px] bg-white min-[1281px]:rounded-[13px] overflow-hidden pb-14 md:pb-[72px] slider-images-modal'
 				>
 					<Swiper
 						initialSlide={1}
 						slidesPerView={1}
 						spaceBetween={60}
 						centeredSlides
-						grabCursor={true}
+						grabCursor={!isDesktop}
 						speed={500}
-						freeMode={true}
-						touchRatio={1.5}
-						touchReleaseOnEdges
-						pagination={SwiperPaginationService.paginationForCard}
+						freeMode={!isDesktop}
+						touchRatio={isDesktop ? 0 : 1.5}
+						touchReleaseOnEdges={!isDesktop}
+						pagination={
+							isDesktop ? SwiperPaginationService.paginationForCard : false
+						}
+						zoom={isDesktop ? false : { maxRatio: 3, minRatio: 1 }}
 						onInit={swiper => {
 							swiperRef.current = swiper
 							SwiperPaginationService.updateForCard(swiper)
@@ -102,23 +132,33 @@ export const SliderImagesModal = ({
 						}}
 						onSlideChange={handleSlideChange}
 						modules={[Pagination]}
-						className='w-full h-full  select-none'
+						className='w-full h-full select-none'
 					>
 						{images.map((image, index) => (
 							<SwiperSlide key={index}>
-								<div className='relative h-full'>
-									<Image
-										src={image}
-										alt={`${title} - ${index + 1}`}
-										fill
-										style={{ objectFit: 'cover' }}
-										className='w-full h-full rounded-[13px]'
-									/>
+								<div
+									className={`relative h-full ${
+										isDesktop ? 'cursor-pointer' : ''
+									}`}
+									onClick={e =>
+										swiperRef.current && handleImageClick(e, swiperRef.current)
+									}
+								>
+									<div
+										className={`${!isDesktop ? 'swiper-zoom-container' : ''}`}
+									>
+										<Image
+											src={image}
+											alt={`${title} - ${index + 1}`}
+											fill
+											className='w-full h-full max-[1281px]:object-contain min-[1281px]:object-cover max-[1281px]:rounded-[13px]'
+										/>
+									</div>
 								</div>
 							</SwiperSlide>
 						))}
 					</Swiper>
-					<div className='absolute bottom-9 left-0 right-0 flex items-center justify-between w-full z-10 px-6'>
+					<div className='absolute bottom-3 md:bottom-6 left-0 right-0 flex items-center justify-between w-full z-10 px-6'>
 						<div className='flex items-center'>
 							<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
 								{String(currentImageIndex + 1).padStart(2, '0')}

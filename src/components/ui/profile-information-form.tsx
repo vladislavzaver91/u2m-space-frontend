@@ -32,6 +32,17 @@ interface ProfileInformationFormProps {
 			| 'phoneNumber'
 			| 'extraPhoneNumber'
 	) => void
+	onTooltipClick: (
+		field:
+			| 'nickname'
+			| 'name'
+			| 'surname'
+			| 'gender'
+			| 'birthday'
+			| 'email'
+			| 'phoneNumber'
+			| 'extraPhoneNumber'
+	) => void
 	tooltipVisible: Record<
 		| 'nickname'
 		| 'name'
@@ -43,13 +54,33 @@ interface ProfileInformationFormProps {
 		| 'extraPhoneNumber',
 		boolean
 	>
+	isTooltipClicked: Record<
+		| 'nickname'
+		| 'name'
+		| 'surname'
+		| 'gender'
+		| 'birthday'
+		| 'email'
+		| 'phoneNumber'
+		| 'extraPhoneNumber'
+		| 'language'
+		| 'currency'
+		| 'city'
+		| 'notifications'
+		| 'showPhone'
+		| 'advancedUser'
+		| 'deleteReason',
+		boolean
+	>
 }
 
 export const ProfileInformationForm = ({
 	user,
 	onMouseEnter,
 	onMouseLeave,
+	onTooltipClick,
 	tooltipVisible,
+	isTooltipClicked,
 }: ProfileInformationFormProps) => {
 	const [formData, setFormData] = useState({
 		nickname: '',
@@ -61,11 +92,48 @@ export const ProfileInformationForm = ({
 		phoneNumber: '',
 		extraPhoneNumber: '',
 	})
+	const [isComponentOpen, setIsComponentOpen] = useState({
+		gender: false,
+		birthday: false,
+	})
+	const [errors, setErrors] = useState({
+		nickname: '',
+	})
+
 	const tProfile = useTranslations('Profile')
 
-	const years = Array.from({ length: 2025 - 1950 + 1 }, (_, i) =>
-		(1950 + i).toString()
-	)
+	const handleMouseEnter = (
+		field: keyof typeof tooltipVisible,
+		isOpen: boolean
+	) => {
+		if (!isOpen) {
+			onMouseEnter(field)
+		}
+	}
+
+	const handleMouseLeave = (
+		field: keyof typeof tooltipVisible,
+		isOpen: boolean
+	) => {
+		if (!isOpen) {
+			onMouseLeave(field)
+		}
+	}
+
+	const validateNickname = (value: string) => {
+		if (value.length <= 3 && value.length > 0) {
+			setErrors({
+				nickname: tProfile('informationFormInputs.errorNickname'),
+			})
+		} else {
+			setErrors({ nickname: '' })
+		}
+	}
+
+	const handleNicknameChange = (value: string) => {
+		setFormData({ ...formData, nickname: value })
+		validateNickname(value)
+	}
 
 	return (
 		<div className='flex justify-center gap-[74px] max-sm:flex-col max-sm:gap-[60px]'>
@@ -108,14 +176,18 @@ export const ProfileInformationForm = ({
 				>
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.yourNickname')}
-						onChange={value => setFormData({ ...formData, nickname: value })}
+						onChange={handleNicknameChange}
+						onClick={() => onTooltipClick('nickname')}
 						maxLength={16}
 						value={formData.nickname}
+						error={errors.nickname}
+						isValid={formData.nickname.length > 3}
 					/>
 					<Tooltip
 						title={tProfile('informationTooltips.nickname.name')}
 						text={tProfile('informationTooltips.nickname.description')}
 						visible={tooltipVisible.nickname}
+						isClicked={isTooltipClicked.nickname}
 					/>
 				</div>
 
@@ -138,12 +210,14 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.legalName')}
 						onChange={value => setFormData({ ...formData, name: value })}
+						onClick={() => onTooltipClick('name')}
 						value={formData.name}
 					/>
 					<Tooltip
 						title={tProfile('informationTooltips.legalName.name')}
 						text={tProfile('informationTooltips.legalName.description')}
 						visible={tooltipVisible.name}
+						isClicked={isTooltipClicked.name}
 					/>
 				</div>
 
@@ -156,20 +230,26 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.legalSurname')}
 						onChange={value => setFormData({ ...formData, surname: value })}
+						onClick={() => onTooltipClick('surname')}
 						value={formData.surname}
 					/>
 					<Tooltip
 						title={tProfile('informationTooltips.legalSurname.name')}
 						text={tProfile('informationTooltips.legalSurname.description')}
 						visible={tooltipVisible.surname}
+						isClicked={isTooltipClicked.surname}
 					/>
 				</div>
 
 				{/* gender */}
 				<div
 					className='relative'
-					onMouseEnter={() => onMouseEnter('gender')}
-					onMouseLeave={() => onMouseLeave('gender')}
+					onMouseEnter={() =>
+						handleMouseEnter('gender', isComponentOpen.gender)
+					}
+					onMouseLeave={() =>
+						handleMouseLeave('gender', isComponentOpen.gender)
+					}
 				>
 					<CustomSelect
 						label={tProfile('informationFormInputs.gender')}
@@ -179,29 +259,43 @@ export const ProfileInformationForm = ({
 						]}
 						value={formData.gender}
 						onChange={value => setFormData({ ...formData, gender: value })}
+						onClick={() => onTooltipClick('gender')}
+						onOpenChange={isOpen =>
+							setIsComponentOpen(prev => ({ ...prev, gender: isOpen }))
+						}
 					/>
 					<Tooltip
 						title={tProfile('informationTooltips.gender.name')}
 						text={tProfile('informationTooltips.gender.description')}
 						visible={tooltipVisible.gender}
+						isClicked={isTooltipClicked.gender}
 					/>
 				</div>
 
 				{/* birthday */}
 				<div
 					className='relative'
-					onMouseEnter={() => onMouseEnter('birthday')}
-					onMouseLeave={() => onMouseLeave('birthday')}
+					onMouseEnter={() =>
+						handleMouseEnter('birthday', isComponentOpen.birthday)
+					}
+					onMouseLeave={() =>
+						handleMouseLeave('birthday', isComponentOpen.birthday)
+					}
 				>
 					<CustomDatePicker
 						label={tProfile('informationFormInputs.birthday')}
 						value={formData.birthday}
 						onChange={value => setFormData({ ...formData, birthday: value })}
+						onClick={() => onTooltipClick('birthday')}
+						onOpenChange={isOpen =>
+							setIsComponentOpen(prev => ({ ...prev, birthday: isOpen }))
+						}
 					/>
 					<Tooltip
 						title={tProfile('informationTooltips.dateOfBirth.name')}
 						text={tProfile('informationTooltips.dateOfBirth.description')}
 						visible={tooltipVisible.birthday}
+						isClicked={isTooltipClicked.birthday}
 					/>
 				</div>
 
@@ -214,6 +308,7 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.emailAddress')}
 						onChange={value => setFormData({ ...formData, email: value })}
+						onClick={() => onTooltipClick('email')}
 						value={formData.email}
 						type='email'
 					/>
@@ -221,6 +316,7 @@ export const ProfileInformationForm = ({
 						title={tProfile('informationTooltips.email.name')}
 						text={tProfile('informationTooltips.email.description')}
 						visible={tooltipVisible.email}
+						isClicked={isTooltipClicked.email}
 					/>
 				</div>
 
@@ -233,6 +329,7 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.phoneNumber')}
 						onChange={value => setFormData({ ...formData, phoneNumber: value })}
+						onClick={() => onTooltipClick('phoneNumber')}
 						value={formData.phoneNumber}
 						type='tel'
 						prefix='+'
@@ -241,6 +338,7 @@ export const ProfileInformationForm = ({
 						title={tProfile('informationTooltips.phoneNumber.name')}
 						text={tProfile('informationTooltips.phoneNumber.description')}
 						visible={tooltipVisible.phoneNumber}
+						isClicked={isTooltipClicked.phoneNumber}
 					/>
 				</div>
 
@@ -255,6 +353,7 @@ export const ProfileInformationForm = ({
 						onChange={value =>
 							setFormData({ ...formData, extraPhoneNumber: value })
 						}
+						onClick={() => onTooltipClick('extraPhoneNumber')}
 						value={formData.extraPhoneNumber}
 						type='tel'
 						prefix='+'
@@ -263,6 +362,7 @@ export const ProfileInformationForm = ({
 						title={tProfile('informationTooltips.extraPhoneNumber.name')}
 						text={tProfile('informationTooltips.extraPhoneNumber.description')}
 						visible={tooltipVisible.extraPhoneNumber}
+						isClicked={isTooltipClicked.extraPhoneNumber}
 					/>
 				</div>
 			</form>

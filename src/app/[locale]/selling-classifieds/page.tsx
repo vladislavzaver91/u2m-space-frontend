@@ -96,6 +96,7 @@ export default function SellingClassifieds() {
 						activeCategory={activeCategory}
 						onCategoryChange={setActiveCategory}
 						disabled
+						shouldSlider
 					/>
 				</div>
 

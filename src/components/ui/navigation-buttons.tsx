@@ -85,7 +85,7 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 
 	return (
 		<div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-0 max-sm:py-[11px] sm:pl-8 max-2-5xl:py-6 2-5xl:absolute 2-5xl:pl-40! 2-5xl:flex-col gap-4'>
-			<div className='navigation-btn block w-full sm:hidden'>
+			<div className='navigation-btn-slider block w-full sm:hidden'>
 				<Swiper
 					slidesPerView='auto'
 					spaceBetween={16}

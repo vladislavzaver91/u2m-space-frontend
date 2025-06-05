@@ -23,7 +23,15 @@ export const CustomSelect = ({
 }: CustomSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
+	const [isMobile, setIsMobile] = useState(false)
+	const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>(
+		'top'
+	)
+	const [dropdownHeight, setDropdownHeight] = useState(200)
+
 	const containerRef = useRef<HTMLDivElement>(null)
+	const modalContainerRef = useRef<HTMLDivElement>(null)
+	const dropdownRef = useRef<HTMLDivElement>(null)
 
 	// Закрытие списка при клике вне селекта
 	useEffect(() => {
@@ -41,6 +49,76 @@ export const CustomSelect = ({
 		document.addEventListener('mousedown', handleClickOutside)
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [onOpenChange, onClick])
+
+	// Обработчик изменения размера окна
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768)
+		}
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
+
+	useEffect(() => {
+		if (isOpen && dropdownRef.current) {
+			const height = dropdownRef.current.getBoundingClientRect().height
+			setDropdownHeight(height || 200) // Используем измеренную высоту или fallback
+		}
+	}, [isOpen])
+
+	// Обновление позиции календаря при открытии и прокрутке
+	useEffect(() => {
+		const updateDropdownPosition = () => {
+			if (isOpen && containerRef.current && isMobile) {
+				const rect = containerRef.current.getBoundingClientRect()
+				const windowHeight = window.innerHeight
+
+				// Если элемент в нижней половине экрана
+				if (rect.top >= windowHeight / 2) {
+					setDropdownPosition('bottom')
+				} else {
+					setDropdownPosition('top')
+				}
+			}
+		}
+
+		if (isOpen && isMobile) {
+			updateDropdownPosition()
+			window.addEventListener('scroll', updateDropdownPosition)
+			return () => window.removeEventListener('scroll', updateDropdownPosition)
+		}
+	}, [isOpen, isMobile])
+
+	const getDropdownClasses = () => {
+		let baseClasses = 'bg-white max-h-[200px] custom-scrollbar overflow-y-auto'
+
+		if (isMobile) {
+			if (dropdownPosition === 'bottom') {
+				// Для модального режима стили минимальны, так как тень и ширина уже на контейнере
+				baseClasses += ' w-full rounded-b-[13px]'
+			} else {
+				// Для списка поверх инпута
+				baseClasses +=
+					' w-full max-w-[316px] absolute top-[60px] left-0 right-0 mx-auto shadow-custom-xl rounded-[13px] z-40'
+			}
+		} else {
+			// Для десктопов
+			baseClasses +=
+				' w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-[13px] z-40'
+		}
+
+		return baseClasses
+	}
+
+	const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (e.target === e.currentTarget) {
+			setIsOpen(false)
+			setIsFocused(false)
+			onOpenChange?.(false)
+			onClick?.()
+		}
+	}
 
 	const handleToggle = (e: React.MouseEvent) => {
 		e.preventDefault()
@@ -62,7 +140,23 @@ export const CustomSelect = ({
 		onOpenChange?.(false)
 	}
 
-	return (
+	const renderOptionsView = () => (
+		<>
+			{options.map(option => (
+				<div
+					key={option}
+					className={`p-4 text-[16px] font-bold text-[#4f4f4f] cursor-pointer hover:bg-[#F7F7F7] ${
+						value === option ? 'bg-[#F7F7F7]' : ''
+					}`}
+					onClick={e => handleOptionClick(option, e)}
+				>
+					{option}
+				</div>
+			))}
+		</>
+	)
+
+	const renderSelect = () => (
 		<motion.div
 			className={`relative h-[102px] ${
 				isOpen ? 'shadow-custom-xl rounded-[13px] w-[316px]' : 'w-full pt-8'
@@ -97,24 +191,31 @@ export const CustomSelect = ({
 				</div>
 			</div>
 			{isOpen && (
-				<div
-					className={`absolute z-10 bg-white shadow-custom-xl rounded-b-[13px] max-h-[200px] custom-scrollbar ${
-						isOpen ? 'w-[316px]' : 'w-full'
-					}`}
-				>
-					{options.map(option => (
-						<div
-							key={option}
-							className={`p-4 text-[16px] font-bold text-[#4f4f4f] cursor-pointer hover:bg-[#F7F7F7] ${
-								value === option ? 'bg-[#F7F7F7]' : ''
-							}`}
-							onClick={e => handleOptionClick(option, e)}
-						>
-							{option}
-						</div>
-					))}
+				<div ref={dropdownRef} className={getDropdownClasses()}>
+					{renderOptionsView()}
 				</div>
 			)}
 		</motion.div>
+	)
+
+	return (
+		<>
+			{isOpen && isMobile && dropdownPosition === 'bottom' ? (
+				<div
+					className='fixed inset-0 z-50 flex items-end justify-center pb-4 px-4'
+					onClick={handleOverlayClick}
+				>
+					<motion.div
+						className='bg-white shadow-custom-xl rounded-[13px] w-full max-h-[160px] h-full max-w-[316px]'
+						transition={{ duration: 0.2 }}
+						ref={modalContainerRef}
+					>
+						{renderSelect()}
+					</motion.div>
+				</div>
+			) : (
+				renderSelect()
+			)}
+		</>
 	)
 }

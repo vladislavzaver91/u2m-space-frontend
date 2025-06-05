@@ -30,6 +30,7 @@ export const CustomDatePicker = ({
 	const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>(
 		'top'
 	)
+	const [dropdownHeight, setDropdownHeight] = useState(424)
 	const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 	const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth())
 	const [yearRange, setYearRange] = useState({ start: 2018, end: 2035 })
@@ -99,6 +100,7 @@ export const CustomDatePicker = ({
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [])
 
+	// Обработчик изменения размера окна
 	useEffect(() => {
 		const handleResize = () => {
 			setIsMobile(window.innerWidth < 768)
@@ -108,39 +110,55 @@ export const CustomDatePicker = ({
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
+	// Измерение высоты календаря
 	useEffect(() => {
-		if (isOpen && buttonRef.current && isMobile) {
-			const rect = buttonRef.current.getBoundingClientRect()
-			const windowHeight = window.innerHeight
-			const buffer = window.innerHeight * 0.2 // Порог для определения "низа области видимости"
+		if (isOpen && dropdownRef.current) {
+			const height = dropdownRef.current.getBoundingClientRect().height
+			setDropdownHeight(height || 424) // Используем измеренную высоту или fallback
+		}
+	}, [isOpen, viewMode])
 
-			// Если нижняя граница элемента близко к нижней части экрана
-			if (windowHeight - rect.bottom <= buffer) {
-				setDropdownPosition('bottom') // Открываем календарь снизу
-			} else {
-				setDropdownPosition('top') // Открываем календарь поверх
+	// Обновление позиции календаря при открытии и прокрутке
+	useEffect(() => {
+		const updateDropdownPosition = () => {
+			if (isOpen && buttonRef.current && isMobile) {
+				const rect = buttonRef.current.getBoundingClientRect()
+				const windowHeight = window.innerHeight
+
+				// Если элемент в нижней половине экрана
+				if (rect.top >= windowHeight / 2) {
+					setDropdownPosition('bottom')
+				} else {
+					setDropdownPosition('top')
+				}
 			}
 		}
-	}, [isOpen, isMobile])
+
+		updateDropdownPosition()
+		window.addEventListener('scroll', updateDropdownPosition)
+		return () => window.removeEventListener('scroll', updateDropdownPosition)
+	}, [isOpen, isMobile, dropdownHeight])
 
 	const getDropdownClasses = () => {
 		let baseClasses =
-			'absolute bg-white shadow-custom-xl rounded-b-[13px] max-h-[424px] z-50 w-full max-w-[410px]'
+			'bg-white shadow-custom-xl rounded-b-[13px] max-h-[424px] z-50'
 
 		if (isMobile) {
-			if (dropdownPosition === 'top') {
-				// Календарь поверх элемента
-				baseClasses += ' bottom-[60px] left-0 right-0 mx-auto'
-			} else {
-				// Календарь снизу элемента с отступом 16px
-				baseClasses += ' top-4 left-0 right-0 mx-auto'
-			}
+			baseClasses += ' w-full max-w-[410px]'
 		} else {
-			// Для десктопа стандартная позиция
-			baseClasses += ' top-[60px] left-0'
+			// Для десктопов
+			baseClasses += ' w-full max-w-[410px] absolute top-[60px] left-0'
 		}
 
 		return baseClasses
+	}
+
+	const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (e.target === e.currentTarget) {
+			setIsOpen(false)
+			setIsFocused(false)
+			setViewMode('days')
+		}
 	}
 
 	const getDaysInMonth = (year: number, month: number) => {
@@ -478,6 +496,7 @@ export const CustomDatePicker = ({
 		)
 	}
 
+	// элемент датапикер
 	return (
 		<motion.div
 			className={`relative h-[102px] ${
@@ -515,11 +534,30 @@ export const CustomDatePicker = ({
 				</div>
 			</div>
 			{isOpen && (
-				<div ref={dropdownRef} className={getDropdownClasses()}>
-					{viewMode === 'months' && renderMonthsView()}
-					{viewMode === 'years' && renderYearsView()}
-					{viewMode === 'days' && renderDaysView()}
-				</div>
+				<>
+					{isMobile ? (
+						<div
+							onClick={handleOverlayClick}
+							className={`fixed inset-0 z-50 flex px-4 max-sm:justify-start sm:justify-end ${
+								dropdownPosition === 'bottom'
+									? 'items-end pb-4'
+									: 'items-center'
+							}`}
+						>
+							<div ref={dropdownRef} className={getDropdownClasses()}>
+								{viewMode === 'months' && renderMonthsView()}
+								{viewMode === 'years' && renderYearsView()}
+								{viewMode === 'days' && renderDaysView()}
+							</div>
+						</div>
+					) : (
+						<div ref={dropdownRef} className={getDropdownClasses()}>
+							{viewMode === 'months' && renderMonthsView()}
+							{viewMode === 'years' && renderYearsView()}
+							{viewMode === 'days' && renderDaysView()}
+						</div>
+					)}
+				</>
 			)}
 		</motion.div>
 	)

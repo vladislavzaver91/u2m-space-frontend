@@ -205,7 +205,8 @@ body.has-scroll::-webkit-scrollbar-thumb {
 	opacity: 1;
 }
 
-.navigation-btn {
+.navigation-btn-slider,
+.category-tabs-slider {
 	& .swiper-slide {
 		width: auto !important;
 	}

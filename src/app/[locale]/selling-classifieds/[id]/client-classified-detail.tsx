@@ -205,7 +205,7 @@ export function ClientClassifiedDetail({
 	console.log('user data:', user)
 	console.log('classified user data id:', classified?.user.id)
 
-	const isOwner = user && classified && user.id === classified.user.id
+	// const isOwner = user && classified && user.id === classified.user.id
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -277,21 +277,20 @@ export function ClientClassifiedDetail({
 													{classified.description}
 												</p>
 												{/* информация показывается для авторизованного владельца своего объявления */}
-												{isOwner && (
-													<div className='flex flex-wrap gap-8'>
-														{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
-															<div
-																key={index}
-																className='flex items-center gap-2'
-															>
-																<span className='w-6 h-6'>{item.icon}</span>
-																<p className='font-bold text-[13px] text-[#4f4f4f]'>
-																	{item.data}
-																</p>
-															</div>
-														))}
-													</div>
-												)}
+
+												<div className='flex flex-wrap gap-8'>
+													{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
+														<div
+															key={index}
+															className='flex items-center gap-2'
+														>
+															<span className='w-6 h-6'>{item.icon}</span>
+															<p className='font-bold text-[13px] text-[#4f4f4f]'>
+																{item.data}
+															</p>
+														</div>
+													))}
+												</div>
 											</div>
 											{/* инфо о продавце */}
 											<div className='flex items-center gap-[30px]'>
@@ -403,6 +402,7 @@ export function ClientClassifiedDetail({
 									touchRatio={1.5}
 									touchReleaseOnEdges
 									slidesOffsetBefore={16}
+									slidesOffsetAfter={16}
 									className='h-[300px] select-none'
 									breakpoints={{
 										320: {
@@ -422,6 +422,7 @@ export function ClientClassifiedDetail({
 											slidesPerView: 'auto',
 											spaceBetween: 32,
 											slidesOffsetBefore: 32,
+											slidesOffsetAfter: 32,
 										},
 									}}
 								>

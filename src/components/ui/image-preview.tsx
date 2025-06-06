@@ -57,8 +57,8 @@ export const ImagePreview = ({
 	return (
 		<div
 			ref={ref}
-			className={`relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 ${
-				isDragging ? 'border border-[#BDBDBD] opacity-50 z-10' : ''
+			className={`relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD] ${
+				isDragging ? 'opacity-50 z-10' : ''
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}

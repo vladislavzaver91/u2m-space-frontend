@@ -52,6 +52,12 @@ interface ToggleFavoriteResponse {
 	favoritesBool: boolean
 }
 
+interface CurrencyConversionResponse {
+	USD: number
+	UAH: number
+	EUR: number
+}
+
 export class ApiService {
 	async getClassifieds(params: {
 		page: number
@@ -144,11 +150,29 @@ export class ApiService {
 		await $api.delete(`/api/tags/${id}`)
 	}
 
+	async updateUserCurrency(
+		userId: string,
+		currency: 'USD' | 'UAH' | 'EUR'
+	): Promise<void> {
+		await $api.put(`/api/users/${userId}/currency`, { currency })
+	}
+
+	async convertCurrency(
+		amount: number,
+		fromCurrency: 'USD' | 'UAH' | 'EUR'
+	): Promise<CurrencyConversionResponse> {
+		const res = await $api.post('/api/currency/convert', {
+			amount,
+			fromCurrency,
+		})
+		return res.data
+	}
+
 	async exchangeAuthState(state: string): Promise<AuthResponse> {
-		const response = await $api.get('/api/auth/exchange', {
+		const res = await $api.get('/api/auth/exchange', {
 			params: { state },
 		})
-		return response.data
+		return res.data
 	}
 
 	async login(data: LoginData): Promise<AuthResponse> {

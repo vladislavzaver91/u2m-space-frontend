@@ -12,7 +12,7 @@ import { IconCustom } from './ui/icon-custom'
 import { LanguageModal } from './ui/language-modal'
 import { useLocale, useTranslations } from 'next-intl'
 import { useParams, usePathname } from 'next/navigation'
-import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
+import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { useRouter } from '@/i18n/routing'
 
 export const Header = () => {

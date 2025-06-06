@@ -10,7 +10,8 @@ import { Link, useRouter } from '@/i18n/routing'
 interface MyFavoritesCardProps {
 	id: string
 	title: string
-	price: string
+	convertedPrice: number
+	convertedCurrency: 'USD' | 'UAH' | 'EUR'
 	image?: string
 	href: string
 	favorites?: number
@@ -29,7 +30,8 @@ interface ApiError {
 export const MyFavoritesCard = ({
 	id,
 	title,
-	price,
+	convertedPrice,
+	convertedCurrency,
 	image,
 	href,
 	favorites: initialFavorites,
@@ -54,6 +56,9 @@ export const MyFavoritesCard = ({
 			}
 		}
 	}
+
+	const symbol =
+		convertedCurrency === 'USD' ? '$' : convertedCurrency === 'UAH' ? '₴' : '€'
 
 	const containerProps = {
 		className:
@@ -82,7 +87,8 @@ export const MyFavoritesCard = ({
 							favoritesBool ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
 						}`}
 					>
-						${price}
+						{symbol}
+						{convertedPrice.toFixed(0)}
 					</h2>
 					<ButtonCustom
 						iconWrapperClass='w-6 h-6'

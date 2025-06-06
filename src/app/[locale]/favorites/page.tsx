@@ -5,6 +5,7 @@ import { Loader } from '@/components/ui/loader'
 import { MyFavoritesCard } from '@/components/ui/my-favorites-card'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useAuth } from '@/helpers/contexts/auth-context'
+import { useLanguage } from '@/helpers/contexts/language-context'
 import { apiService } from '@/services/api.service'
 import { Classified } from '@/types'
 import { useTranslations } from 'next-intl'
@@ -19,7 +20,8 @@ export default function FavoritesPage() {
 	const [hasMore, setHasMore] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
 	const [hasHiddenClassifieds, setHasHiddenClassifieds] = useState(false)
-	const { user, logout } = useAuth()
+	const { user } = useAuth()
+	const { selectedCurrency } = useLanguage()
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
 	const tFavorites = useTranslations('Favorites')
@@ -78,6 +80,16 @@ export default function FavoritesPage() {
 			setFilteredClassifieds(classifieds.filter(item => !item.isActive))
 		}
 	}, [classifieds, activeCategory])
+
+	// Обновление цен при смене валюты
+	useEffect(() => {
+		setClassifieds(prev =>
+			prev.map(item => ({
+				...item,
+				convertedCurrency: selectedCurrency.code,
+			}))
+		)
+	}, [selectedCurrency.code])
 
 	// Infinite Scroll
 	useEffect(() => {
@@ -148,7 +160,8 @@ export default function FavoritesPage() {
 												<MyFavoritesCard
 													id={item.id}
 													title={item.title}
-													price={item.price.toFixed(2)}
+													convertedPrice={item.convertedPrice}
+													convertedCurrency={item.convertedCurrency}
 													image={item.images[0]}
 													favorites={item.favorites}
 													href={`/selling-classifieds/${item.id}`}

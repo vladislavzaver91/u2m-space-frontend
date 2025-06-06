@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { IconCustom } from './icon-custom'
 
@@ -24,10 +24,8 @@ export const CustomSelect = ({
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
 	const [isMobile, setIsMobile] = useState(false)
-	const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>(
-		'top'
-	)
-	const [dropdownHeight, setDropdownHeight] = useState(200)
+	const [showAsModal, setShowAsModal] = useState(false)
+	const [isOpening, setIsOpening] = useState(false)
 
 	const containerRef = useRef<HTMLDivElement>(null)
 	const modalContainerRef = useRef<HTMLDivElement>(null)
@@ -38,7 +36,9 @@ export const CustomSelect = ({
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
 				containerRef.current &&
-				!containerRef.current.contains(event.target as Node)
+				!containerRef.current.contains(event.target as Node) &&
+				modalContainerRef.current &&
+				!modalContainerRef.current.contains(event.target as Node)
 			) {
 				setIsOpen(false)
 				setIsFocused(false)
@@ -60,56 +60,29 @@ export const CustomSelect = ({
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
-	useEffect(() => {
-		if (isOpen && dropdownRef.current) {
-			const height = dropdownRef.current.getBoundingClientRect().height
-			setDropdownHeight(height || 200) // Используем измеренную высоту или fallback
+	const checkShouldShowModal = useCallback(() => {
+		if (isMobile && containerRef.current) {
+			const rect = containerRef.current.getBoundingClientRect()
+			const windowHeight = window.innerHeight
+			return rect.top >= windowHeight / 2
 		}
-	}, [isOpen])
+		return false
+	}, [isMobile])
 
-	// Обновление позиции календаря при открытии и прокрутке
+	// Обновляем режим при скролле (только если селект уже открыт)
 	useEffect(() => {
-		const updateDropdownPosition = () => {
-			if (isOpen && containerRef.current && isMobile) {
-				const rect = containerRef.current.getBoundingClientRect()
-				const windowHeight = window.innerHeight
-
-				// Если элемент в нижней половине экрана
-				if (rect.top >= windowHeight / 2) {
-					setDropdownPosition('bottom')
-				} else {
-					setDropdownPosition('top')
-				}
+		const handleScroll = () => {
+			if (isOpen) {
+				const shouldShowModal = checkShouldShowModal()
+				setShowAsModal(shouldShowModal)
 			}
 		}
 
-		if (isOpen && isMobile) {
-			updateDropdownPosition()
-			window.addEventListener('scroll', updateDropdownPosition)
-			return () => window.removeEventListener('scroll', updateDropdownPosition)
+		if (isOpen) {
+			window.addEventListener('scroll', handleScroll)
+			return () => window.removeEventListener('scroll', handleScroll)
 		}
-	}, [isOpen, isMobile])
-
-	const getDropdownClasses = () => {
-		let baseClasses = 'bg-white max-h-[200px] custom-scrollbar overflow-y-auto'
-
-		if (isMobile) {
-			if (dropdownPosition === 'bottom') {
-				// Для модального режима стили минимальны, так как тень и ширина уже на контейнере
-				baseClasses += ' w-full rounded-b-[13px]'
-			} else {
-				// Для списка поверх инпута
-				baseClasses +=
-					' w-full max-w-[316px] absolute top-[60px] left-0 right-0 mx-auto shadow-custom-xl rounded-[13px] z-40'
-			}
-		} else {
-			// Для десктопов
-			baseClasses +=
-				' w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-[13px] z-40'
-		}
-
-		return baseClasses
-	}
+	}, [isOpen, checkShouldShowModal])
 
 	const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (e.target === e.currentTarget) {
@@ -123,11 +96,22 @@ export const CustomSelect = ({
 	const handleToggle = (e: React.MouseEvent) => {
 		e.preventDefault()
 		e.stopPropagation()
-		setIsOpen(prev => {
-			const newIsOpen = !prev
-			onOpenChange?.(newIsOpen)
-			return newIsOpen
-		})
+
+		if (!isOpen) {
+			const shouldShowModal = checkShouldShowModal()
+			setShowAsModal(shouldShowModal)
+			setIsOpening(true)
+
+			requestAnimationFrame(() => {
+				setIsOpen(true)
+				setIsOpening(false)
+				onOpenChange?.(true)
+			})
+		} else {
+			setIsOpen(false)
+			setShowAsModal(false)
+			onOpenChange?.(false)
+		}
 		onClick?.()
 	}
 
@@ -136,6 +120,7 @@ export const CustomSelect = ({
 		e.stopPropagation()
 		onChange(option)
 		setIsOpen(false)
+		setShowAsModal(false)
 		setIsFocused(true)
 		onOpenChange?.(false)
 	}
@@ -156,12 +141,12 @@ export const CustomSelect = ({
 		</>
 	)
 
-	const renderSelect = () => (
+	const renderNormalDropdown = () => (
 		<motion.div
 			className={`relative h-[102px] ${
 				isOpen ? 'shadow-custom-xl rounded-[13px] w-[316px]' : 'w-full pt-8'
 			}`}
-			transition={{ duration: 0.2 }}
+			transition={{ duration: 0.3 }}
 			ref={containerRef}
 		>
 			<label
@@ -190,32 +175,90 @@ export const CustomSelect = ({
 					/>
 				</div>
 			</div>
-			{isOpen && (
-				<div ref={dropdownRef} className={getDropdownClasses()}>
+			{isOpen && !isOpening && (
+				<div
+					ref={dropdownRef}
+					className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-[13px] z-40'
+				>
 					{renderOptionsView()}
 				</div>
 			)}
 		</motion.div>
 	)
 
-	return (
+	const renderModalDropdown = () => (
 		<>
-			{isOpen && isMobile && dropdownPosition === 'bottom' ? (
+			{/* Обычный селект (закрытое состояние) */}
+			<motion.div
+				className='relative h-[102px] w-full pt-8'
+				transition={{ duration: 0.3 }}
+				ref={containerRef}
+			>
+				{/* Label */}
+				<label
+					htmlFor={`${label.toLowerCase()}-select`}
+					className={`w-fit absolute transition-all duration-300 ease-in-out text-[16px] font-bold top-9 left-2 ${
+						isOpen ? 'text-transparent' : 'text-[#4f4f4f] '
+					}`}
+				>
+					{label}
+				</label>
+
+				{/* Select input */}
 				<div
-					className='fixed inset-0 z-50 flex items-end justify-center pb-4 px-4'
+					id={`${label.toLowerCase()}-select`}
+					className='relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-end items-center w-full h-[38px] px-2 border-[#bdbdbd]'
+					onClick={handleToggle}
+				>
+					<div className='flex justify-center items-center w-6 h-6'>
+						<IconCustom
+							name='arrow-down-select'
+							className='w-2.5 h-1.5 fill-none text-[#3486fe]'
+						/>
+					</div>
+				</div>
+			</motion.div>
+
+			{/* Модальное окно с опциями */}
+			{isOpen && !isOpening && (
+				<div
+					className='fixed inset-0 z-50 flex items-end max-sm:justify-start sm:justify-end pb-4 px-4'
 					onClick={handleOverlayClick}
 				>
 					<motion.div
-						className='bg-white shadow-custom-xl rounded-[13px] w-full max-h-[160px] h-full max-w-[316px]'
-						transition={{ duration: 0.2 }}
+						className='bg-white shadow-custom-xl rounded-[13px] w-full max-w-[316px] max-h-[60vh]'
+						transition={{ duration: 0.3 }}
 						ref={modalContainerRef}
+						onClick={handleToggle}
 					>
-						{renderSelect()}
+						{/* Header модального окна */}
+						<div className='p-4 border-b border-transparent bg-transparent flex items-center justify-between'>
+							<div className='text-[16px] font-bold text-[#3486fe] '>
+								{label}
+							</div>
+							<div className='flex justify-center items-center w-6 h-6'>
+								<IconCustom
+									name='arrow-down-select'
+									className='w-2.5 h-1.5 fill-none text-[#3486fe]'
+								/>
+							</div>
+						</div>
+
+						{/* Опции в модальном окне */}
+						<div className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto'>
+							{renderOptionsView()}
+						</div>
 					</motion.div>
 				</div>
-			) : (
-				renderSelect()
 			)}
 		</>
 	)
+
+	const shouldRenderAsModal = isMobile && showAsModal
+
+	if (shouldRenderAsModal) {
+		return renderModalDropdown()
+	} else {
+		return renderNormalDropdown()
+	}
 }

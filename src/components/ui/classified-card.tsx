@@ -10,7 +10,8 @@ import { Link } from '@/i18n/routing'
 interface ClassifiedCardProps {
 	classifiedId: string
 	title: string
-	price: string
+	convertedPrice: number
+	convertedCurrency: 'USD' | 'UAH' | 'EUR'
 	image?: string
 	favorites?: number
 	favoritesBool: boolean
@@ -31,7 +32,8 @@ interface ApiError {
 export const ClassifiedCard = ({
 	classifiedId,
 	title,
-	price,
+	convertedPrice,
+	convertedCurrency,
 	image,
 	favorites: initialFavorites,
 	favoritesBool: initialFavoritesBool,
@@ -57,6 +59,9 @@ export const ClassifiedCard = ({
 			}
 		}
 	}
+
+	const symbol =
+		convertedCurrency === 'USD' ? '$' : convertedCurrency === 'UAH' ? '₴' : '€'
 
 	return (
 		<Link
@@ -90,7 +95,8 @@ export const ClassifiedCard = ({
 							favoritesBool ? 'text-[#f9329c]' : 'text-[#4f4f4f]'
 						}`}
 					>
-						${price}
+						{symbol}
+						{convertedPrice.toFixed(0)}
 					</h2>
 					<ButtonCustom
 						iconWrapperClass='w-6 h-6'

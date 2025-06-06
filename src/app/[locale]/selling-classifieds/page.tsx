@@ -13,6 +13,7 @@ import { Loader } from '@/components/ui/loader'
 import { ClassifiedCard } from '@/components/ui/classified-card'
 import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 import { useTranslations } from 'next-intl'
+import { useLanguage } from '@/helpers/contexts/language-context'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -31,6 +32,7 @@ export default function SellingClassifieds() {
 	const [activeCategory, setActiveCategory] = useState(
 		tSellingClassifieds('tabs.selling')
 	)
+	const { selectedCurrency } = useLanguage()
 
 	const limit = 20
 
@@ -51,6 +53,16 @@ export default function SellingClassifieds() {
 
 		fetchClassifieds()
 	}, [page])
+
+	// Обновление цен при смене валюты
+	useEffect(() => {
+		setClassifieds(prev =>
+			prev.map(item => ({
+				...item,
+				convertedCurrency: selectedCurrency.code,
+			}))
+		)
+	}, [selectedCurrency.code])
 
 	// Infinite Scroll
 	useEffect(() => {
@@ -115,8 +127,9 @@ export default function SellingClassifieds() {
 													<ClassifiedCard
 														classifiedId={item.id}
 														title={item.title}
-														price={item.price.toFixed(2)}
-														image={item.images[0]} //
+														convertedPrice={item.convertedPrice}
+														convertedCurrency={item.convertedCurrency}
+														image={item.images[0]}
 														favoritesBool={item.favoritesBool}
 														favorites={item.favorites}
 														href={`/selling-classifieds/${item.id}`}
@@ -192,7 +205,8 @@ export default function SellingClassifieds() {
 										<ClassifiedCard
 											classifiedId={item.id}
 											title={item.title}
-											price={item.price.toFixed(2)}
+											convertedPrice={item.convertedPrice}
+											convertedCurrency={item.convertedCurrency}
 											image={item.images[0]}
 											favoritesBool={item.favoritesBool}
 											favorites={item.favorites}
@@ -219,7 +233,8 @@ export default function SellingClassifieds() {
 														<ClassifiedCard
 															classifiedId={item.id}
 															title={item.title}
-															price={item.price.toFixed(2)}
+															convertedPrice={item.convertedPrice}
+															convertedCurrency={item.convertedCurrency}
 															image={item.images[0]}
 															favoritesBool={item.favoritesBool}
 															favorites={item.favorites}

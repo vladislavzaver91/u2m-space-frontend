@@ -9,6 +9,9 @@ export interface Classified {
 	title: string
 	description: string
 	price: number
+	currency: 'USD' | 'UAH' | 'EUR' // Оригинальная валюта
+	convertedPrice: number // Конвертированная цена
+	convertedCurrency: 'USD' | 'UAH' | 'EUR' // Конвертированная валюта
 	images: string[]
 	isActive: boolean
 	favoritesBool: boolean

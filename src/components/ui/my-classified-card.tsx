@@ -10,7 +10,8 @@ import { useTranslations } from 'next-intl'
 interface MyClassifiedCardProps {
 	id: string
 	title: string
-	price: string
+	convertedPrice: number
+	convertedCurrency: 'USD' | 'UAH' | 'EUR'
 	image?: string
 	href: string
 	isActive: boolean
@@ -23,7 +24,8 @@ interface MyClassifiedCardProps {
 export const MyClassifiedCard = ({
 	id,
 	title,
-	price,
+	convertedCurrency,
+	convertedPrice,
 	image,
 	href,
 	isActive,
@@ -83,6 +85,9 @@ export const MyClassifiedCard = ({
 		},
 	]
 
+	const symbol =
+		convertedCurrency === 'USD' ? '$' : convertedCurrency === 'UAH' ? '₴' : '€'
+
 	const containerProps = {
 		onMouseEnter: handleMouseEnter,
 		onMouseLeave: handleMouseLeave,
@@ -137,7 +142,8 @@ export const MyClassifiedCard = ({
 							{/* цена + заголовок */}
 							<div>
 								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[7px]'>
-									${price}
+									{symbol}
+									{convertedPrice.toFixed(0)}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
 									{title}
@@ -207,7 +213,8 @@ export const MyClassifiedCard = ({
 								}`}
 							>
 								<h2 className='text-[18px] text-[#4f4f4f] uppercase font-bold transition-all'>
-									${price}
+									{symbol}
+									{convertedPrice.toFixed(0)}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 									{title}
@@ -337,7 +344,8 @@ export const MyClassifiedCard = ({
 							{/* цена + заголовок */}
 							<div>
 								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[7px]'>
-									${price}
+									{symbol}
+									{convertedPrice.toFixed(0)}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
 									{title}
@@ -407,7 +415,8 @@ export const MyClassifiedCard = ({
 								}`}
 							>
 								<h2 className='text-[18px] text-[#4f4f4f] uppercase font-bold transition-all'>
-									${price}
+									{symbol}
+									{convertedPrice.toFixed(0)}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 									{title}

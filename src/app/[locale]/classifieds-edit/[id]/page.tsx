@@ -20,7 +20,7 @@ import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
-import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
+import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 
 export default function ClassifiedsEdit() {

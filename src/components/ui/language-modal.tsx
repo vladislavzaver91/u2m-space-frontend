@@ -10,54 +10,56 @@ import { useModal } from '@/helpers/contexts/modal-context'
 import { usePathname, useRouter } from 'next/navigation'
 import { CustomSearchSelect } from './custom-search-select'
 import { cityService } from '@/services/cities.service'
+import { useLanguage } from '@/helpers/contexts/language-context'
+import { useAuth } from '@/helpers/contexts/auth-context'
 
 interface CityOption {
 	id: number
 	name: string
 }
 
-interface LanguageButtonItem {
-	language: string
-	country: string
-	languageCode: 'en' | 'uk' | 'pl'
-	countryCode: 'US' | 'UA' | 'PL'
-}
+// interface LanguageButtonItem {
+// 	language: string
+// 	country: string
+// 	languageCode: 'en' | 'uk' | 'pl'
+// 	countryCode: 'US' | 'UA' | 'PL'
+// }
 
-const LANGUAGE_BTN_ITEMS: LanguageButtonItem[] = [
-	{
-		language: 'English',
-		country: 'United States',
-		languageCode: 'en',
-		countryCode: 'US',
-	},
-	{
-		language: 'Українська',
-		country: 'Україна',
-		languageCode: 'uk',
-		countryCode: 'UA',
-	},
-	{
-		language: 'Polski',
-		country: 'Polska',
-		languageCode: 'pl',
-		countryCode: 'PL',
-	},
-]
+// const LANGUAGE_BTN_ITEMS: LanguageButtonItem[] = [
+// 	{
+// 		language: 'English',
+// 		country: 'United States',
+// 		languageCode: 'en',
+// 		countryCode: 'US',
+// 	},
+// 	{
+// 		language: 'Українська',
+// 		country: 'Україна',
+// 		languageCode: 'uk',
+// 		countryCode: 'UA',
+// 	},
+// 	{
+// 		language: 'Polski',
+// 		country: 'Polska',
+// 		languageCode: 'pl',
+// 		countryCode: 'PL',
+// 	},
+// ]
 
-const CURRENCY_BTN_ITEMS = [
-	{
-		name: 'Американський долар',
-		symbol: 'USD – $',
-	},
-	{
-		name: 'Українська гривня',
-		symbol: 'UAH – ₴',
-	},
-	{
-		name: 'Євро',
-		symbol: 'EUR – €',
-	},
-]
+// const CURRENCY_BTN_ITEMS = [
+// 	{
+// 		name: 'Американський долар',
+// 		symbol: 'USD – $',
+// 	},
+// 	{
+// 		name: 'Українська гривня',
+// 		symbol: 'UAH – ₴',
+// 	},
+// 	{
+// 		name: 'Євро',
+// 		symbol: 'EUR – €',
+// 	},
+// ]
 
 export const LanguageModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -70,6 +72,15 @@ export const LanguageModal = () => {
 	})
 	const [cities, setCities] = useState<CityOption[]>([])
 	const { handleOverlayClick, closeModal } = useModal()
+	const {
+		languageOptions,
+		currencyOptions,
+		selectedLanguage,
+		selectedCurrency,
+		setLanguage,
+		setCurrency,
+	} = useLanguage()
+	const { user } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
 	const localActive = useLocale() as 'en' | 'uk' | 'pl'
@@ -107,25 +118,25 @@ export const LanguageModal = () => {
 		loadCities()
 	}, [localActive, tLanguageModal])
 
-	// Смена языка и страны
-	const changeLanguage = (
-		nextLocale: string,
-		countryCode: string,
-		languageCode: 'en' | 'uk' | 'pl'
-	) => {
-		startTransition(() => {
-			setIsLoading(true)
-			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
-			const newPath = `/${nextLocale}${pathWithoutLocale}`
-			router.push(newPath)
-			setFormData({ city: '', cityId: 0, countryCode, languageCode })
-			setCities([])
-			closeModal()
-			setIsLoading(false)
-		})
-	}
+	// const changeLanguage = (
+	// 	nextLocale: string,
+	// 	countryCode: string,
+	// 	languageCode: 'en' | 'uk' | 'pl'
+	// ) => {
+	// 	startTransition(() => {
+	// 		setIsLoading(true)
+	// 		const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
+	// 		const newPath = `/${nextLocale}${pathWithoutLocale}`
+	// 		router.push(newPath)
+	// 		setFormData({ city: '', cityId: 0, countryCode, languageCode })
+	// 		setCities([])
+	// 		closeModal()
+	// 		setIsLoading(false)
+	// 	})
+	// }
 
 	// Обработка выбора города
+
 	const handleCityChange = (cityName: string) => {
 		const selectedCity = cities.find(city => city.name === cityName)
 		setFormData({
@@ -172,15 +183,11 @@ export const LanguageModal = () => {
 							<Loader />
 						) : (
 							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full'>
-								{LANGUAGE_BTN_ITEMS.map((item, index) => (
+								{languageOptions.map((item, index) => (
 									<div
 										key={index}
 										onClick={() =>
-											changeLanguage(
-												item.languageCode,
-												item.countryCode,
-												item.languageCode
-											)
+											setLanguage(item.languageCode, item.countryCode)
 										}
 										className='min-w-[216px] w-fit h-[74px] text-[16px] p-4 font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer'
 									>
@@ -212,12 +219,17 @@ export const LanguageModal = () => {
 							<Loader />
 						) : (
 							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full'>
-								{CURRENCY_BTN_ITEMS.map((item, index) => (
+								{currencyOptions.map((item, index) => (
 									<div
 										key={index}
+										onClick={() => user && setCurrency(item.code)}
 										className={`min-w-[216px] w-fit ${
-											index === 0 ? 'h-[94px]' : 'h-[74px]'
-										} p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer`}
+											item.code === 'USD' ? 'h-[94px]' : 'h-[74px]'
+										} p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer ${
+											selectedCurrency.code === item.code
+												? ''
+												: 'border-[#bdbdbd] hover:border-[#f9329c] active:bg-[#F7F7F7]'
+										} ${!user ? 'opacity-50 cursor-not-allowed' : ''}`}
 									>
 										<p className='font-bold text-[16px] text-[#4F4F4F] leading-[18px]'>
 											{item.name}

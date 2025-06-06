@@ -18,11 +18,11 @@ import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 import { useRouter } from '@/i18n/routing'
 import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
-import { useClassifiedForm } from '@/helpers/contexts/ClassifiedFormContext'
+import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 
 export default function ClassifiedsCreate() {
-	const { user, logout } = useAuth()
+	const { user } = useAuth()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [classified, setClassified] = useState<Classified | null>(null)
@@ -244,8 +244,6 @@ export default function ClassifiedsCreate() {
 			submit: handleSubmit,
 		})
 	}, [isFormValid, imageFiles, setFormState, handleSubmit])
-
-	const isPublishDisabled = !isFormValid || imageFiles.length === 0
 
 	if (!user) {
 		return <div className='text-center mt-20'>Authorization required</div>

@@ -8,8 +8,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { apiService } from '@/services/api.service'
 import { Loader } from '@/components/ui/loader'
-import { ButtonCustom } from '@/components/ui/button-custom'
-import { IconCustom } from '@/components/ui/icon-custom'
 import { ImageSlider } from '@/components/ui/image-slider'
 import { AddPhotoButton } from '@/components/ui/add-photo-button'
 import { ImagePreview } from '@/components/ui/image-preview'
@@ -22,9 +20,18 @@ import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
+import { useLanguage } from '@/helpers/contexts/language-context'
+import { CurrencyConversionResponse } from '@/types'
+
+export const currencySymbols: Record<'USD' | 'UAH' | 'EUR', string> = {
+	USD: '$',
+	UAH: '₴',
+	EUR: '€',
+}
 
 export default function ClassifiedsEdit() {
 	const { user } = useAuth()
+	const { selectedCurrency } = useLanguage()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [existingImages, setExistingImages] = useState<string[]>([])
@@ -45,6 +52,10 @@ export default function ClassifiedsEdit() {
 		description: '',
 		price: '',
 	})
+	const [originalPrice, setOriginalPrice] = useState<number | null>(null)
+	const [originalCurrency, setOriginalCurrency] = useState<
+		'USD' | 'UAH' | 'EUR' | null
+	>(null)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
 	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
@@ -57,6 +68,9 @@ export default function ClassifiedsEdit() {
 		description: false,
 		price: false,
 	})
+	const [convertedPrices, setConvertedPrices] =
+		useState<CurrencyConversionResponse | null>(null)
+	const [conversionError, setConversionError] = useState<string>('')
 
 	const tMyClassifieds = useTranslations('MyClassifieds')
 	const router = useRouter()
@@ -68,12 +82,34 @@ export default function ClassifiedsEdit() {
 			try {
 				setIsLoading(true)
 				const classified = await apiService.getClassifiedById(id)
+				console.log('classified on edit page:', classified)
+
 				const initial = {
 					title: classified.title,
 					description: classified.description,
-					price: classified.price.toString(),
+					price: classified.price.toFixed(0),
 				}
+
+				setOriginalPrice(classified.price)
+				setOriginalCurrency(classified.currency)
+
+				// Если валюта пользователя отличается от валюты объявления, конвертируем цену
+				if (selectedCurrency.code !== classified.currency) {
+					try {
+						const res = await apiService.convertCurrency(
+							classified.price,
+							classified.currency
+						)
+						const convertedPrice = res[selectedCurrency.code].toFixed(0)
+						initial.price = convertedPrice
+					} catch (error) {
+						setConversionError('Failed to convert price')
+						console.error('Conversion error:', error)
+					}
+				}
+
 				setInitialData(initial)
+
 				setFormData(initial)
 				setImagePreviews(classified.images)
 				setExistingImages(classified.images)
@@ -85,7 +121,7 @@ export default function ClassifiedsEdit() {
 			}
 		}
 		fetchClassified()
-	}, [id])
+	}, [id, selectedCurrency.code])
 
 	console.log('Initial data tags: ', tags)
 
@@ -255,6 +291,19 @@ export default function ClassifiedsEdit() {
 				const formDataToSend = new FormData()
 				formDataToSend.append('title', formData.title)
 				formDataToSend.append('description', formData.description)
+
+				// Если цена изменилась, отправляем новую цену и валюту
+				if (formData.price !== initialData?.price) {
+					formDataToSend.append('price', formData.price)
+					formDataToSend.append('currency', selectedCurrency.code)
+				} else {
+					// Если цена не изменилась, используем оригинальные значения
+					if (originalPrice !== null && originalCurrency !== null) {
+						formDataToSend.append('price', originalPrice.toFixed(0))
+						formDataToSend.append('currency', originalCurrency)
+					}
+				}
+
 				formDataToSend.append('price', formData.price)
 				tags.forEach(tag => formDataToSend.append('tags[]', tag))
 				existingImages.forEach(url => {
@@ -282,7 +331,17 @@ export default function ClassifiedsEdit() {
 				setIsLoading(false)
 			}
 		},
-		[id, tags, existingImages, imageFiles, router]
+		[
+			id,
+			tags,
+			existingImages,
+			imageFiles,
+			router,
+			selectedCurrency.code,
+			initialData,
+			originalPrice,
+			originalCurrency,
+		]
 	)
 
 	const handleDelete = useCallback(async () => {

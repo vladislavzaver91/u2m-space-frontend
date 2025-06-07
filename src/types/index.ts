@@ -45,3 +45,15 @@ export interface Tag {
 	createdAt: string
 	updatedAt: string
 }
+
+export interface CurrencyConversionResponse {
+	USD: number
+	UAH: number
+	EUR: number
+}
+
+export interface convertedCurrencyItems {
+	currency: string
+	symbol: string
+	price: string | undefined
+}

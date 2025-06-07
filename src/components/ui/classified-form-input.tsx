@@ -13,6 +13,7 @@ interface ClassifiedFormInputProps {
 	error?: string
 	prefix?: string
 }
+
 export const ClassifiedFormInput = ({
 	label,
 	register,
@@ -51,8 +52,8 @@ export const ClassifiedFormInput = ({
 			<div className='relative'>
 				{showPrefix && (
 					<span
-						className={`absolute left-0 top-[28px] text-[16px] font-bold text-[#4f4f4f] ${
-							error ? 'text-red-500' : ''
+						className={`absolute left-0 top-[29px] text-[16px] font-bold text-[#4f4f4f] ${
+							error ? 'text-[#F9329C]' : ''
 						}`}
 					>
 						{prefix}
@@ -64,8 +65,8 @@ export const ClassifiedFormInput = ({
 					{...register}
 					onFocus={handleFocus}
 					onBlur={handleBlur}
-					className={`w-full h-[38px] mt-[22px] px-2 text-[#4f4f4f] outline-none border-b ${
-						error ? 'border-red-500' : 'border-[#bdbdbd]'
+					className={`w-full h-[38px] mt-[22px] px-2 text-[#4f4f4f] outline-none border-b border-[#bdbdbd] ${
+						error ? 'text-[#F9329C]' : ''
 					} bg-transparent ${
 						label !== 'Description'
 							? 'text-[16px] font-bold'
@@ -73,19 +74,21 @@ export const ClassifiedFormInput = ({
 					} ${showPrefix ? 'pl-3' : ''}`}
 				/>
 			</div>
-			<div className='absolute bottom-0 right-0 flex items-center gap-2'>
-				{label !== 'Price' && (
-					<span className='text-[13px] font-normal text-[#4f4f4f]'>
-						{value?.length || 0}/{maxLength}
-					</span>
-				)}
+			<div className='absolute bottom-0 right-0 flex items-center justify-between gap-2 w-full'>
 				{isMaxLengthReached && (
-					<span className='text-[13px] font-normal text-red-500'>
+					<span className='text-[13px] font-normal text-[#F9329C]'>
 						{tComponents('inputs.error')}
 					</span>
 				)}
 				{error && (
-					<span className='text-[13px] font-normal text-red-500'>{error}</span>
+					<span className='text-[13px] font-normal text-[#F9329C]'>
+						{error}
+					</span>
+				)}
+				{label !== 'Price' && (
+					<span className='text-[13px] font-normal text-[#4f4f4f]'>
+						{value?.length || 0}/{maxLength}
+					</span>
 				)}
 			</div>
 		</div>

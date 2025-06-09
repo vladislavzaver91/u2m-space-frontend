@@ -10,6 +10,8 @@ import { Header } from '@/components/header'
 import ClientLayout from './client-layout'
 import { ClassifiedFormProvider } from '@/helpers/contexts/classified-form-context'
 import { LanguageProvider } from '@/helpers/contexts/language-context'
+import { UserProvider } from '@/helpers/contexts/user-context'
+import { ProfileFormProvider } from '@/helpers/contexts/profile-form-context'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -56,14 +58,18 @@ export default async function RootLayout({
 			<body className={bodyClass}>
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					<AuthProvider>
-						<LanguageProvider>
-							<ModalProvider>
-								<ClassifiedFormProvider>
-									<Header />
-									<ClientLayout>{children}</ClientLayout>
-								</ClassifiedFormProvider>
-							</ModalProvider>
-						</LanguageProvider>
+						<UserProvider>
+							<LanguageProvider>
+								<ModalProvider>
+									<ClassifiedFormProvider>
+										<ProfileFormProvider>
+											<Header />
+											<ClientLayout>{children}</ClientLayout>
+										</ProfileFormProvider>
+									</ClassifiedFormProvider>
+								</ModalProvider>
+							</LanguageProvider>
+						</UserProvider>
 					</AuthProvider>
 				</NextIntlClientProvider>
 			</body>

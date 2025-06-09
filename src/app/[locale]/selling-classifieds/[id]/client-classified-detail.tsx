@@ -17,6 +17,8 @@ import { SliderImagesModal } from '@/components/ui/slider-images-modal'
 import { useLocale } from 'next-intl'
 import { useTranslations } from 'use-intl'
 import { useLanguage } from '@/helpers/contexts/language-context'
+import { useUser } from '@/helpers/contexts/user-context'
+import { formatPhoneNumber } from '@/helpers/functions/format-phone-number'
 
 interface ApiError {
 	response?: {
@@ -55,7 +57,7 @@ export function ClientClassifiedDetail({
 		initialClassified?.favorites || 0
 	)
 	const [page, setPage] = useState(1)
-	const { user } = useAuth()
+	const { user } = useUser()
 	const { selectedCurrency } = useLanguage()
 	const router = useRouter()
 	const locale = useLocale()
@@ -202,7 +204,7 @@ export function ClientClassifiedDetail({
 		},
 	]
 
-	if (isLoading || !classified) {
+	if (isLoading || !classified || !user) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
@@ -333,20 +335,20 @@ export function ClientClassifiedDetail({
 												<div className='space-y-4'>
 													<div className='flex sm:items-center sm:gap-8'>
 														<h2 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
-															{classified.user.name}
+															{user!.nickname}
 														</h2>
 														<div className='max-sm:hidden flex items-center gap-2'>
 															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
 																{tClassified('userButtons.tr')}
 															</p>
 															<p className='text-[16px] font-bold text-[#3486fe]'>
-																50
+																{user!.trustRating}
 															</p>
 														</div>
 													</div>
 													{classified.user.phoneNumber ? (
 														<p className='text-[16px] font-bold text-[#f9329c]'>
-															{classified.user.phoneNumber}
+															{formatPhoneNumber(classified.user.phoneNumber)}
 														</p>
 													) : (
 														<p className='text-[16px] font-bold text-[#f9329c]'>

@@ -1,10 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CustomSelect } from './custom-select'
 import { CustomToggle } from './custom-toggle'
 import { useTranslations } from 'next-intl'
 import { Tooltip } from './tooltip'
+import { User } from '@/types'
+import { apiService } from '@/services/api.service'
+import { useUser } from '@/helpers/contexts/user-context'
+import { useRouter } from '@/i18n/routing'
 
 interface ProfileSettingsFormProps {
 	onMouseEnter: (
@@ -74,11 +78,13 @@ export const ProfileSettingsForm = ({
 	tooltipVisible,
 	isTooltipClicked,
 }: ProfileSettingsFormProps) => {
+	const { user } = useUser()
+	const [isLoading, setIsLoading] = useState(false)
 	const [formData, setFormData] = useState({
-		language: '',
-		currency: '',
+		language: 'en',
+		currency: 'USD',
 		city: '',
-		notifications: false,
+		notifications: true,
 		showPhone: false,
 		advancedUser: false,
 		deleteReason: '',
@@ -89,6 +95,8 @@ export const ProfileSettingsForm = ({
 		city: false,
 		deleteReason: false,
 	})
+
+	const router = useRouter()
 
 	const tProfile = useTranslations('Profile')
 	const tLanguageModal = useTranslations('LanguageModal')
@@ -109,6 +117,31 @@ export const ProfileSettingsForm = ({
 		tProfile('settingFormInputs.deleteAccountOption13'),
 	]
 
+	const userId = user!.id
+
+	// Загрузка данных пользователя
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const updatedUser: User = await apiService.getUserProfile(userId)
+				setFormData({
+					language: updatedUser.language || 'en',
+					currency: updatedUser.currency || 'USD',
+					city: updatedUser.city || '',
+					notifications: updatedUser.notifications ?? true,
+					showPhone: updatedUser.showPhone ?? false,
+					advancedUser: updatedUser.advancedUser ?? false,
+					deleteReason: updatedUser.deleteReason || '',
+				})
+			} catch (error: any) {
+				const errorMessage =
+					error.response?.data?.error || tProfile('errors.serverError')
+				console.error(errorMessage)
+			}
+		}
+		fetchUser()
+	}, [userId, tProfile])
+
 	const handleMouseEnter = (
 		field: keyof typeof tooltipVisible,
 		isOpen: boolean
@@ -127,8 +160,53 @@ export const ProfileSettingsForm = ({
 		}
 	}
 
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+		setIsLoading(true)
+		try {
+			const updatedData = {
+				language: formData.language,
+				currency: formData.currency,
+				city: formData.city || null,
+				notifications: formData.notifications,
+				showPhone: formData.showPhone,
+				advancedUser: formData.advancedUser,
+			}
+			await apiService.updateUserProfile(userId, updatedData)
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.error || tProfile('errors.serverError')
+			console.error(errorMessage)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	const handleDeleteAccount = async () => {
+		if (!formData.deleteReason) {
+			console.log(tProfile('errors.selectDeleteReason'))
+			return
+		}
+		if (confirm(tProfile('confirm.deleteAccount'))) {
+			setIsLoading(true)
+			try {
+				await apiService.deleteUserProfile(userId)
+				router.push(`/selling-classifieds`)
+			} catch (error: any) {
+				const errorMessage =
+					error.response?.data?.error || tProfile('errors.serverError')
+				console.error(errorMessage)
+			} finally {
+				setIsLoading(false)
+			}
+		}
+	}
+
 	return (
-		<form className='space-y-2 w-full mx-auto sm:w-[300px]'>
+		<form
+			className='space-y-2 w-full mx-auto sm:w-[300px]'
+			onSubmit={handleSubmit}
+		>
 			{/* Language and region */}
 			<div
 				className='relative'
@@ -154,12 +232,14 @@ export const ProfileSettingsForm = ({
 						setIsComponentOpen(prev => ({ ...prev, language: isOpen }))
 					}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.languageRegion.name')}
-					text={tProfile('settingTooltips.languageRegion.description')}
-					visible={tooltipVisible.language}
-					isClicked={isTooltipClicked.language}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.languageRegion.name')}
+						text={tProfile('settingTooltips.languageRegion.description')}
+						visible={tooltipVisible.language}
+						isClicked={isTooltipClicked.language}
+					/>
+				)}
 			</div>
 
 			{/* currency */}
@@ -186,12 +266,14 @@ export const ProfileSettingsForm = ({
 						setIsComponentOpen(prev => ({ ...prev, currency: isOpen }))
 					}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.currency.name')}
-					text={tProfile('settingTooltips.currency.description')}
-					visible={tooltipVisible.currency}
-					isClicked={isTooltipClicked.currency}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.currency.name')}
+						text={tProfile('settingTooltips.currency.description')}
+						visible={tooltipVisible.currency}
+						isClicked={isTooltipClicked.currency}
+					/>
+				)}
 			</div>
 
 			{/* Place */}
@@ -218,12 +300,14 @@ export const ProfileSettingsForm = ({
 						setIsComponentOpen(prev => ({ ...prev, city: isOpen }))
 					}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.place.name')}
-					text={tProfile('settingTooltips.place.description')}
-					visible={tooltipVisible.city}
-					isClicked={isTooltipClicked.city}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.place.name')}
+						text={tProfile('settingTooltips.place.description')}
+						visible={tooltipVisible.city}
+						isClicked={isTooltipClicked.city}
+					/>
+				)}
 			</div>
 
 			{/* notifications */}
@@ -240,12 +324,14 @@ export const ProfileSettingsForm = ({
 					}
 					onClick={() => onTooltipClick('notifications')}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.notifications.name')}
-					text={tProfile('settingTooltips.notifications.description')}
-					visible={tooltipVisible.notifications}
-					isClicked={isTooltipClicked.notifications}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.notifications.name')}
+						text={tProfile('settingTooltips.notifications.description')}
+						visible={tooltipVisible.notifications}
+						isClicked={isTooltipClicked.notifications}
+					/>
+				)}
 			</div>
 
 			{/* showPhone */}
@@ -260,12 +346,14 @@ export const ProfileSettingsForm = ({
 					onChange={checked => setFormData({ ...formData, showPhone: checked })}
 					onClick={() => onTooltipClick('showPhone')}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.showPhone.name')}
-					text={tProfile('settingTooltips.showPhone.description')}
-					visible={tooltipVisible.showPhone}
-					isClicked={isTooltipClicked.showPhone}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.showPhone.name')}
+						text={tProfile('settingTooltips.showPhone.description')}
+						visible={tooltipVisible.showPhone}
+						isClicked={isTooltipClicked.showPhone}
+					/>
+				)}
 			</div>
 
 			{/* Advanced user */}
@@ -282,12 +370,14 @@ export const ProfileSettingsForm = ({
 					}
 					onClick={() => onTooltipClick('advancedUser')}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.advancedUser.name')}
-					text={tProfile('settingTooltips.advancedUser.description')}
-					visible={tooltipVisible.advancedUser}
-					isClicked={isTooltipClicked.advancedUser}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.advancedUser.name')}
+						text={tProfile('settingTooltips.advancedUser.description')}
+						visible={tooltipVisible.advancedUser}
+						isClicked={isTooltipClicked.advancedUser}
+					/>
+				)}
 			</div>
 
 			{/* Delete Account */}
@@ -310,12 +400,33 @@ export const ProfileSettingsForm = ({
 						setIsComponentOpen(prev => ({ ...prev, deleteReason: isOpen }))
 					}
 				/>
-				<Tooltip
-					title={tProfile('settingTooltips.deleteAccount.name')}
-					text={tProfile('settingTooltips.deleteAccount.description')}
-					visible={tooltipVisible.deleteReason}
-					isClicked={isTooltipClicked.deleteReason}
-				/>
+				{!formData.advancedUser && (
+					<Tooltip
+						title={tProfile('settingTooltips.deleteAccount.name')}
+						text={tProfile('settingTooltips.deleteAccount.description')}
+						visible={tooltipVisible.deleteReason}
+						isClicked={isTooltipClicked.deleteReason}
+					/>
+				)}
+			</div>
+
+			{/* Кнопки действий */}
+			<div className='flex justify-between mt-4'>
+				<button
+					type='submit'
+					disabled={isLoading}
+					className='px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50'
+				>
+					{isLoading ? tProfile('loading') : tProfile('save')}
+				</button>
+				<button
+					type='button'
+					onClick={handleDeleteAccount}
+					disabled={isLoading || !formData.deleteReason}
+					className='px-4 py-2 bg-red-500 text-white rounded disabled:opacity-50'
+				>
+					{tProfile('deleteAccount')}
+				</button>
 			</div>
 		</form>
 	)

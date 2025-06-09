@@ -1,5 +1,5 @@
 import $api from '../lib/http'
-import { Classified, User } from '../types'
+import { Classified, UpdateUserProfileData, User } from '../types'
 
 interface AuthResponse {
 	user: User
@@ -178,6 +178,38 @@ export class ApiService {
 	async login(data: LoginData): Promise<AuthResponse> {
 		const res = await $api.post('/api/auth/login', data)
 		return res.data
+	}
+
+	async getUserProfile(id: string): Promise<User> {
+		const res = await $api.get(`/api/users/${id}`)
+		return res.data.user
+	}
+
+	async updateUserProfile(
+		id: string,
+		data: UpdateUserProfileData
+	): Promise<User> {
+		const formData = new FormData()
+		Object.entries(data).forEach(([key, value]) => {
+			if (value !== undefined) {
+				if (key === 'avatar' && value instanceof File) {
+					formData.append(key, value)
+				} else if (value === null) {
+					formData.append(key, '')
+				} else {
+					formData.append(key, String(value))
+				}
+			}
+		})
+
+		const res = await $api.post(`/api/users/${id}/update`, formData, {
+			headers: { 'Content-Type': 'multipart/form-data' },
+		})
+		return res.data.user
+	}
+
+	async deleteUserProfile(id: string): Promise<void> {
+		await $api.delete(`/api/user/${id}`)
 	}
 }
 

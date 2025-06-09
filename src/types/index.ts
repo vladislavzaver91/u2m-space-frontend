@@ -18,8 +18,10 @@ export interface Classified {
 	createdAt: string
 	user: {
 		id: string
-		name: string
+		nickname: string
 		avatarUrl: string
+		trustRating: number
+		bonuses: number
 		phoneNumber?: string
 		successfulDeals?: number
 	}
@@ -33,10 +35,46 @@ export interface User {
 	id: string
 	email: string
 	name: string
-	provider: string
-	avatarUrl?: string
+	legalSurname: string | null
+	nickname: string
 	phoneNumber?: string
+	provider: string
+	avatarUrl?: string | null
+	extraPhoneNumber: string | null
+	gender: 'Male' | 'Female' | null
+	birthday: string | null
+	trustRating: number
+	bonuses: number
+	language: 'en' | 'uk' | 'pl'
+	currency: 'USD' | 'UAH' | 'EUR'
+	city: string | null
 	successfulDeals?: string
+	notifications: boolean
+	showPhone: boolean
+	advancedUser: boolean
+	deleteReason: string | null
+	createdAt: string
+	updatedAt: string
+}
+
+export interface UpdateUserProfileData {
+	email?: string
+	name?: string | null
+	legalSurname?: string | null
+	nickname?: string
+	phoneNumber?: string
+	extraPhoneNumber?: string | null
+	gender?: 'Male' | 'Female' | null
+	birthday?: string | null
+	language?: 'en' | 'uk' | 'pl'
+	currency?: 'USD' | 'UAH' | 'EUR'
+	city?: string | null
+	notifications?: boolean
+	showPhone?: boolean
+	advancedUser?: boolean
+	deleteReason?: string | null
+	removeAvatar?: boolean
+	avatar?: File
 }
 
 export interface Tag {

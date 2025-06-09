@@ -14,12 +14,14 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useParams, usePathname } from 'next/navigation'
 import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { useRouter } from '@/i18n/routing'
+import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 
 export const Header = () => {
 	const { user } = useAuth()
 	const { isLoginModalOpen, openLoginModal, openModal, isModalOpen } =
 		useModal()
 	const { isPublishDisabled, submitForm } = useClassifiedForm()
+	const { isSubmitDisabled, submitForm: submitProfileForm } = useProfileForm()
 	const pathname = usePathname()
 	const locale = useLocale()
 	const router = useRouter()
@@ -408,12 +410,12 @@ export const Header = () => {
 				{isProfileLabel && (
 					<div className='flex items-center absolute top-0 right-0'>
 						<ButtonCustom
-							onClick={submitForm}
-							disabled={isPublishDisabled}
+							onClick={submitProfileForm}
+							disabled={isSubmitDisabled}
 							text={tButtons('save')}
 							isHover
 							textClass={`${
-								isPublishDisabled ? 'bg-[#bdbdbd]' : 'bg-[#6FCF97]'
+								isSubmitDisabled ? 'bg-[#bdbdbd]' : 'bg-[#6FCF97]'
 							} h-10 px-4  text-white text-[16px] font-bold rounded-lg flex items-center justify-center`}
 							className='w-full px-4 md:px-8 py-2 md:py-6 text-white'
 						/>

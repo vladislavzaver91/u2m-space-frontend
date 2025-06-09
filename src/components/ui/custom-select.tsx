@@ -157,7 +157,7 @@ export const CustomSelect = ({
 						: 'top-9 left-2 text-[#4f4f4f]'
 				}`}
 			>
-				{label}
+				{value || label}
 			</label>
 			<div
 				id={`${label.toLowerCase()}-select`}
@@ -201,7 +201,7 @@ export const CustomSelect = ({
 						isOpen ? 'text-transparent' : 'text-[#4f4f4f] '
 					}`}
 				>
-					{label}
+					{value || label}
 				</label>
 
 				{/* Select input */}

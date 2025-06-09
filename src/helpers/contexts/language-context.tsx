@@ -89,10 +89,42 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			languageOptions[0]
 	)
 	const [selectedCurrency, setSelectedCurrency] = useState<CurrencyOption>(
-		currencyOptions.find(
-			opt => opt.code === selectedLanguage.defaultCurrency
-		) || currencyOptions[0]
+		currencyOptions[0]
 	)
+
+	// Загрузка валюты пользователя с бэкенда
+	useEffect(() => {
+		const fetchUserCurrency = async () => {
+			if (!userId) return
+			try {
+				const { currency } = await apiService.getUserProfile(userId)
+				const userCurrency = currencyOptions.find(opt => opt.code === currency)
+				if (userCurrency) {
+					setSelectedCurrency(userCurrency)
+				} else {
+					// Если валюта с бэкенда не найдена, используем defaultCurrency текущего языка
+					const defaultCurrency = languageOptions.find(
+						opt => opt.languageCode === locale
+					)?.defaultCurrency
+					setSelectedCurrency(
+						currencyOptions.find(opt => opt.code === defaultCurrency) ||
+							currencyOptions[0]
+					)
+				}
+			} catch (error) {
+				console.error('Ошибка при загрузке валюты пользователя:', error)
+				// Fallback на defaultCurrency языка
+				const defaultCurrency = languageOptions.find(
+					opt => opt.languageCode === locale
+				)?.defaultCurrency
+				setSelectedCurrency(
+					currencyOptions.find(opt => opt.code === defaultCurrency) ||
+						currencyOptions[0]
+				)
+			}
+		}
+		fetchUserCurrency()
+	}, [userId, locale])
 
 	// Синхронизация языка с локалью
 	useEffect(() => {
@@ -104,11 +136,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			currentLanguage.languageCode !== selectedLanguage.languageCode
 		) {
 			setSelectedLanguage(currentLanguage)
-			setSelectedCurrency(
-				currencyOptions.find(
-					opt => opt.code === currentLanguage.defaultCurrency
-				) || currencyOptions[0]
-			)
+			// setSelectedCurrency(
+			// 	currencyOptions.find(
+			// 		opt => opt.code === currentLanguage.defaultCurrency
+			// 	) || currencyOptions[0]
+			// )
 		}
 	}, [locale])
 

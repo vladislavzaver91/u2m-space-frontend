@@ -5,10 +5,15 @@ import { CustomSelect } from './custom-select'
 import { CustomToggle } from './custom-toggle'
 import { useTranslations } from 'next-intl'
 import { Tooltip } from './tooltip'
-import { User } from '@/types'
+import { CityOption, UpdateUserProfileData, User } from '@/types'
 import { apiService } from '@/services/api.service'
 import { useUser } from '@/helpers/contexts/user-context'
 import { useRouter } from '@/i18n/routing'
+import { useProfileForm } from '@/helpers/contexts/profile-form-context'
+import { Loader } from './loader'
+import { cityService } from '@/services/cities.service'
+import { useLanguage } from '@/helpers/contexts/language-context'
+import { CustomLanguageSelect } from './custom-language-select'
 
 interface ProfileSettingsFormProps {
 	onMouseEnter: (
@@ -78,16 +83,34 @@ export const ProfileSettingsForm = ({
 	tooltipVisible,
 	isTooltipClicked,
 }: ProfileSettingsFormProps) => {
-	const { user } = useUser()
+	const { user, updateUser, loading } = useUser()
+	const { setSubmitForm, setIsSubmitDisabled } = useProfileForm()
+	const { languageOptions, currencyOptions, setLanguage, setCurrency } =
+		useLanguage()
+
 	const [isLoading, setIsLoading] = useState(false)
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<{
+		language: 'en' | 'uk' | 'pl'
+		currency: 'USD' | 'UAH' | 'EUR'
+		city: string | null
+		notifications: boolean
+		showPhone: boolean
+		advancedUser: boolean
+		deleteReason: string | null
+	}>({
 		language: 'en',
 		currency: 'USD',
-		city: '',
+		city: null,
 		notifications: true,
 		showPhone: false,
 		advancedUser: false,
-		deleteReason: '',
+		deleteReason: null,
+	})
+
+	const [cities, setCities] = useState<CityOption[]>([])
+
+	const [errors, setErrors] = useState<{ server: string }>({
+		server: '',
 	})
 	const [isComponentOpen, setIsComponentOpen] = useState({
 		language: false,
@@ -100,6 +123,29 @@ export const ProfileSettingsForm = ({
 
 	const tProfile = useTranslations('Profile')
 	const tLanguageModal = useTranslations('LanguageModal')
+
+	// Маппинг для валют
+	const currencyOptionsMapped = currencyOptions.map(opt => ({
+		code: opt.code,
+		label: opt.name,
+	}))
+
+	// Маппинг languageOptions с переводами
+	const translatedLanguageOptions = languageOptions.map(opt => ({
+		...opt,
+		language:
+			opt.languageCode === 'en'
+				? tLanguageModal('chooseLanguageRegion.english')
+				: opt.languageCode === 'uk'
+				? tLanguageModal('chooseLanguageRegion.ukrainian')
+				: tLanguageModal('chooseLanguageRegion.polish'),
+		country:
+			opt.countryCode === 'US'
+				? tLanguageModal('chooseLanguageRegion.unitedStates')
+				: opt.countryCode === 'UA'
+				? tLanguageModal('chooseLanguageRegion.ukraine')
+				: tLanguageModal('chooseLanguageRegion.poland'),
+	}))
 
 	const deleteReasons = [
 		tProfile('settingFormInputs.deleteAccountOption1'),
@@ -117,30 +163,42 @@ export const ProfileSettingsForm = ({
 		tProfile('settingFormInputs.deleteAccountOption13'),
 	]
 
-	const userId = user!.id
-
-	// Загрузка данных пользователя
+	// Загрузка данных пользователя и городов
 	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const updatedUser: User = await apiService.getUserProfile(userId)
-				setFormData({
-					language: updatedUser.language || 'en',
-					currency: updatedUser.currency || 'USD',
-					city: updatedUser.city || '',
-					notifications: updatedUser.notifications ?? true,
-					showPhone: updatedUser.showPhone ?? false,
-					advancedUser: updatedUser.advancedUser ?? false,
-					deleteReason: updatedUser.deleteReason || '',
-				})
-			} catch (error: any) {
-				const errorMessage =
-					error.response?.data?.error || tProfile('errors.serverError')
-				console.error(errorMessage)
+		if (user) {
+			setFormData({
+				language: user.language || 'en',
+				currency: user.currency || 'USD',
+				city: user.city || null,
+				notifications: user.notifications ?? true,
+				showPhone: user.showPhone ?? false,
+				advancedUser: user.advancedUser ?? false,
+				deleteReason: user.deleteReason || null,
+			})
+
+			const loadCities = async () => {
+				try {
+					setIsLoading(true)
+					const fetchedCities = await cityService.fetchAllCities(
+						user.language || 'en'
+					)
+					setCities(fetchedCities)
+					setErrors({ server: '' })
+				} catch (error) {
+					setErrors({ server: tProfile('errors.failedToLoadCities') })
+				} finally {
+					setIsLoading(false)
+				}
 			}
+			loadCities()
 		}
-		fetchUser()
-	}, [userId, tProfile])
+	}, [user, tProfile])
+
+	// Обновление состояния кнопки submit
+	useEffect(() => {
+		const isFormValid = !isLoading && !errors.server
+		setIsSubmitDisabled(!isFormValid)
+	}, [formData, errors, isLoading, setIsSubmitDisabled])
 
 	const handleMouseEnter = (
 		field: keyof typeof tooltipVisible,
@@ -160,11 +218,44 @@ export const ProfileSettingsForm = ({
 		}
 	}
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault()
+	const handleLanguageChange = async (
+		languageCode: 'en' | 'uk' | 'pl',
+		countryCode: 'US' | 'UA' | 'PL'
+	) => {
 		setIsLoading(true)
 		try {
-			const updatedData = {
+			setFormData({ ...formData, language: languageCode })
+			setLanguage(languageCode, countryCode)
+			if (user) {
+				const updateData = { language: languageCode }
+				const updatedUser = await apiService.updateUserProfile(
+					user.id,
+					updateData
+				)
+				updateUser(updatedUser)
+			}
+		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.error || tProfile('errors.serverError')
+			setErrors({
+				server: Array.isArray(errorMessage)
+					? errorMessage.join(', ')
+					: errorMessage,
+			})
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+		if (!user) return
+
+		setIsLoading(true)
+		setErrors({ server: '' })
+
+		try {
+			const updateData: UpdateUserProfileData = {
 				language: formData.language,
 				currency: formData.currency,
 				city: formData.city || null,
@@ -172,41 +263,72 @@ export const ProfileSettingsForm = ({
 				showPhone: formData.showPhone,
 				advancedUser: formData.advancedUser,
 			}
-			await apiService.updateUserProfile(userId, updatedData)
+
+			const updatedUser = await apiService.updateUserProfile(
+				user.id,
+				updateData
+			)
+			updateUser(updatedUser)
+			setFormData({
+				language: updatedUser.language || 'en',
+				currency: updatedUser.currency || 'USD',
+				city: updatedUser.city || null,
+				notifications: updatedUser.notifications ?? true,
+				showPhone: updatedUser.showPhone ?? false,
+				advancedUser: updatedUser.advancedUser ?? false,
+				deleteReason: updatedUser.deleteReason || null,
+			})
 		} catch (error: any) {
 			const errorMessage =
 				error.response?.data?.error || tProfile('errors.serverError')
-			console.error(errorMessage)
+			setErrors({
+				server: Array.isArray(errorMessage)
+					? errorMessage.join(', ')
+					: errorMessage,
+			})
 		} finally {
 			setIsLoading(false)
 		}
 	}
 
-	const handleDeleteAccount = async () => {
-		if (!formData.deleteReason) {
-			console.log(tProfile('errors.selectDeleteReason'))
-			return
-		}
+	const handleDeleteAccount = async (reason: string) => {
+		if (!user) return
+
 		if (confirm(tProfile('confirm.deleteAccount'))) {
 			setIsLoading(true)
+			setErrors({ server: '' })
 			try {
-				await apiService.deleteUserProfile(userId)
-				router.push(`/selling-classifieds`)
+				await apiService.deleteUserProfile(user.id, { deleteReason: reason })
+				router.push('/selling-classifieds')
 			} catch (error: any) {
 				const errorMessage =
-					error.response?.data?.error || tProfile('errors.serverError')
-				console.error(errorMessage)
+					error.response?.data?.error || tProfile('errors.deleteAccount')
+				setErrors({
+					server: Array.isArray(errorMessage)
+						? errorMessage.join(', ')
+						: errorMessage,
+				})
 			} finally {
 				setIsLoading(false)
 			}
 		}
 	}
 
+	// Установка функции сабмита в контекст
+	useEffect(() => {
+		setSubmitForm(() => handleSubmit)
+	}, [formData, user, setSubmitForm])
+
+	if (isLoading || loading || !user) {
+		return (
+			<div className='min-h-screen flex flex-col items-center justify-center'>
+				<Loader />
+			</div>
+		)
+	}
+
 	return (
-		<form
-			className='space-y-2 w-full mx-auto sm:w-[300px]'
-			onSubmit={handleSubmit}
-		>
+		<form className='space-y-2 w-full mx-auto sm:w-[300px]'>
 			{/* Language and region */}
 			<div
 				className='relative'
@@ -217,17 +339,12 @@ export const ProfileSettingsForm = ({
 					handleMouseLeave('language', isComponentOpen.language)
 				}
 			>
-				<CustomSelect
+				<CustomLanguageSelect
 					label={tProfile('settingFormInputs.languageRegion')}
-					options={[
-						tLanguageModal('chooseLanguageRegion.english'),
-
-						tLanguageModal('chooseLanguageRegion.ukrainian'),
-						tLanguageModal('chooseLanguageRegion.polish'),
-					]}
+					options={translatedLanguageOptions}
 					value={formData.language}
-					onChange={value => setFormData({ ...formData, language: value })}
-					onClick={() => onTooltipClick('language')}
+					onChange={handleLanguageChange}
+					onClick={() => !formData.advancedUser && onTooltipClick('language')}
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, language: isOpen }))
 					}
@@ -254,14 +371,23 @@ export const ProfileSettingsForm = ({
 			>
 				<CustomSelect
 					label={tProfile('settingFormInputs.currency')}
-					options={[
-						tLanguageModal('chooseCurrency.americanDollar'),
-						tLanguageModal('chooseCurrency.ukrainianHryvnia'),
-						tLanguageModal('chooseCurrency.euro'),
-					]}
-					value={formData.currency}
-					onChange={value => setFormData({ ...formData, currency: value })}
-					onClick={() => onTooltipClick('currency')}
+					options={currencyOptionsMapped.map(opt => opt.label)}
+					value={
+						currencyOptionsMapped.find(opt => opt.code === formData.currency)
+							?.label || ''
+					}
+					onChange={value => {
+						const selected = currencyOptionsMapped.find(
+							opt => opt.label === value
+						)
+						if (selected) {
+							setFormData({ ...formData, currency: selected.code })
+							if (user) {
+								setCurrency(selected.code)
+							}
+						}
+					}}
+					onClick={() => !formData.advancedUser && onTooltipClick('currency')}
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, currency: isOpen }))
 					}
@@ -284,18 +410,10 @@ export const ProfileSettingsForm = ({
 			>
 				<CustomSelect
 					label={tProfile('settingFormInputs.place')}
-					options={[
-						tLanguageModal('chooseCity.cities.newYork'),
-						tLanguageModal('chooseCity.cities.london'),
-						tLanguageModal('chooseCity.cities.kyiv'),
-						tLanguageModal('chooseCity.cities.poltava'),
-						tLanguageModal('chooseCity.cities.odessa'),
-						tLanguageModal('chooseCity.cities.kharkiv'),
-						tLanguageModal('chooseCity.cities.warsaw'),
-					]}
-					value={formData.city}
-					onChange={value => setFormData({ ...formData, city: value })}
-					onClick={() => onTooltipClick('city')}
+					options={cities.map(city => city.name)}
+					value={formData.city || ''}
+					onChange={value => setFormData({ ...formData, city: value || null })}
+					onClick={() => !formData.advancedUser && onTooltipClick('city')}
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, city: isOpen }))
 					}
@@ -322,7 +440,9 @@ export const ProfileSettingsForm = ({
 					onChange={checked =>
 						setFormData({ ...formData, notifications: checked })
 					}
-					onClick={() => onTooltipClick('notifications')}
+					onClick={() =>
+						!formData.advancedUser && onTooltipClick('notifications')
+					}
 				/>
 				{!formData.advancedUser && (
 					<Tooltip
@@ -344,7 +464,7 @@ export const ProfileSettingsForm = ({
 					label={tProfile('settingFormInputs.showPhone')}
 					checked={formData.showPhone}
 					onChange={checked => setFormData({ ...formData, showPhone: checked })}
-					onClick={() => onTooltipClick('showPhone')}
+					onClick={() => !formData.advancedUser && onTooltipClick('showPhone')}
 				/>
 				{!formData.advancedUser && (
 					<Tooltip
@@ -368,7 +488,9 @@ export const ProfileSettingsForm = ({
 					onChange={checked =>
 						setFormData({ ...formData, advancedUser: checked })
 					}
-					onClick={() => onTooltipClick('advancedUser')}
+					onClick={() =>
+						!formData.advancedUser && onTooltipClick('advancedUser')
+					}
 				/>
 				{!formData.advancedUser && (
 					<Tooltip
@@ -393,9 +515,16 @@ export const ProfileSettingsForm = ({
 				<CustomSelect
 					label={tProfile('settingFormInputs.deleteAccount')}
 					options={deleteReasons}
-					value={formData.deleteReason}
-					onChange={value => setFormData({ ...formData, deleteReason: value })}
-					onClick={() => onTooltipClick('deleteReason')}
+					value={formData.deleteReason || ''}
+					onChange={value => {
+						setFormData({ ...formData, deleteReason: value || null })
+						if (value) {
+							handleDeleteAccount(value)
+						}
+					}}
+					onClick={() =>
+						!formData.advancedUser && onTooltipClick('deleteReason')
+					}
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, deleteReason: isOpen }))
 					}
@@ -408,25 +537,6 @@ export const ProfileSettingsForm = ({
 						isClicked={isTooltipClicked.deleteReason}
 					/>
 				)}
-			</div>
-
-			{/* Кнопки действий */}
-			<div className='flex justify-between mt-4'>
-				<button
-					type='submit'
-					disabled={isLoading}
-					className='px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50'
-				>
-					{isLoading ? tProfile('loading') : tProfile('save')}
-				</button>
-				<button
-					type='button'
-					onClick={handleDeleteAccount}
-					disabled={isLoading || !formData.deleteReason}
-					className='px-4 py-2 bg-red-500 text-white rounded disabled:opacity-50'
-				>
-					{tProfile('deleteAccount')}
-				</button>
 			</div>
 		</form>
 	)

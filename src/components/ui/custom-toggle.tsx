@@ -15,13 +15,18 @@ export const CustomToggle = ({
 	onChange,
 	onClick,
 }: CustomToggleProps) => {
+	const handleToggle = () => {
+		onChange(!checked)
+		if (onClick) onClick()
+	}
+
 	return (
 		<div
 			className='flex items-center justify-between w-full h-[102px] py-8 px-2'
 			onClick={onClick}
 		>
 			<label className='text-[16px] font-bold text-[#4f4f4f]'>{label}</label>
-			<div className='relative w-6 h-6'>
+			<div className='relative w-6 h-6 cursor-pointer' onClick={handleToggle}>
 				<input
 					type='checkbox'
 					checked={checked}

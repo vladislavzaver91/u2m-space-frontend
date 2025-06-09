@@ -95,3 +95,8 @@ export interface convertedCurrencyItems {
 	symbol: string
 	price: string | undefined
 }
+
+export type CityOption = {
+	id: number
+	name: string
+}

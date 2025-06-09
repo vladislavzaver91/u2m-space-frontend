@@ -2,11 +2,12 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useAuth } from './auth-context'
 import { apiService } from '@/services/api.service'
+import { useUser } from './user-context'
 
-interface LanguageOption {
+export interface LanguageOption {
 	language: string
 	country: string
 	languageCode: 'en' | 'uk' | 'pl'
@@ -36,50 +37,52 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 	undefined
 )
 
-const languageOptions: LanguageOption[] = [
-	{
-		language: 'English',
-		country: 'United States',
-		languageCode: 'en',
-		countryCode: 'US',
-		defaultCurrency: 'USD',
-	},
-	{
-		language: 'Українська',
-		country: 'Україна',
-		languageCode: 'uk',
-		countryCode: 'UA',
-		defaultCurrency: 'UAH',
-	},
-	{
-		language: 'Polski',
-		country: 'Polska',
-		languageCode: 'pl',
-		countryCode: 'PL',
-		defaultCurrency: 'EUR',
-	},
-]
-
-const currencyOptions: CurrencyOption[] = [
-	{
-		name: 'Американський долар',
-		symbol: 'USD – $',
-		code: 'USD',
-	},
-	{
-		name: 'Українська гривня',
-		symbol: 'UAH – ₴',
-		code: 'UAH',
-	},
-	{
-		name: 'Євро',
-		symbol: 'EUR – €',
-		code: 'EUR',
-	},
-]
-
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
+	const tLanguageModal = useTranslations('LanguageModal')
+	const languageOptions: LanguageOption[] = [
+		{
+			language: tLanguageModal('chooseLanguageRegion.english'),
+			country: tLanguageModal('chooseLanguageRegion.unitedStates'),
+			languageCode: 'en',
+			countryCode: 'US',
+			defaultCurrency: 'USD',
+		},
+		{
+			language: tLanguageModal('chooseLanguageRegion.ukrainian'),
+			country: tLanguageModal('chooseLanguageRegion.ukraine'),
+			languageCode: 'uk',
+			countryCode: 'UA',
+			defaultCurrency: 'UAH',
+		},
+		{
+			language: tLanguageModal('chooseLanguageRegion.polish'),
+			country: tLanguageModal('chooseLanguageRegion.poland'),
+			languageCode: 'pl',
+			countryCode: 'PL',
+			defaultCurrency: 'EUR',
+		},
+	]
+
+	const currencyOptions: CurrencyOption[] = [
+		{
+			name: tLanguageModal('chooseCurrency.americanDollar'),
+			symbol: 'USD – $',
+			code: 'USD',
+		},
+		{
+			name: tLanguageModal('chooseCurrency.ukrainianHryvnia'),
+			symbol: 'UAH – ₴',
+			code: 'UAH',
+		},
+		{
+			name: tLanguageModal('chooseCurrency.euro'),
+			symbol: 'EUR – €',
+			code: 'EUR',
+		},
+	]
+
 	const { user } = useAuth()
+	const { updateUser } = useUser()
 	const userId = user?.id
 	const router = useRouter()
 	const pathname = usePathname()
@@ -89,42 +92,45 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			languageOptions[0]
 	)
 	const [selectedCurrency, setSelectedCurrency] = useState<CurrencyOption>(
-		currencyOptions[0]
+		currencyOptions.find(opt => opt.code === user?.currency) ||
+			currencyOptions[0]
 	)
 
 	// Загрузка валюты пользователя с бэкенда
 	useEffect(() => {
-		const fetchUserCurrency = async () => {
+		const fetchUserData = async () => {
 			if (!userId) return
 			try {
-				const { currency } = await apiService.getUserProfile(userId)
-				const userCurrency = currencyOptions.find(opt => opt.code === currency)
-				if (userCurrency) {
-					setSelectedCurrency(userCurrency)
-				} else {
-					// Если валюта с бэкенда не найдена, используем defaultCurrency текущего языка
-					const defaultCurrency = languageOptions.find(
-						opt => opt.languageCode === locale
-					)?.defaultCurrency
-					setSelectedCurrency(
-						currencyOptions.find(opt => opt.code === defaultCurrency) ||
-							currencyOptions[0]
-					)
-				}
-			} catch (error) {
-				console.error('Ошибка при загрузке валюты пользователя:', error)
-				// Fallback на defaultCurrency языка
-				const defaultCurrency = languageOptions.find(
-					opt => opt.languageCode === locale
-				)?.defaultCurrency
+				const userData = await apiService.getUserProfile(userId)
+				setSelectedLanguage(
+					languageOptions.find(opt => opt.languageCode === userData.language) ||
+						languageOptions.find(opt => opt.languageCode === locale) ||
+						languageOptions[0]
+				)
 				setSelectedCurrency(
-					currencyOptions.find(opt => opt.code === defaultCurrency) ||
+					currencyOptions.find(opt => opt.code === userData.currency) ||
+						currencyOptions.find(
+							opt =>
+								opt.code ===
+								(languageOptions.find(opt => opt.languageCode === locale)
+									?.defaultCurrency || 'USD')
+						) ||
 						currencyOptions[0]
+				)
+			} catch (error) {
+				console.error('Ошибка при загрузке данных пользователя:', error)
+				setSelectedCurrency(
+					currencyOptions.find(
+						opt =>
+							opt.code ===
+							(languageOptions.find(opt => opt.languageCode === locale)
+								?.defaultCurrency || 'USD')
+					) || currencyOptions[0]
 				)
 			}
 		}
-		fetchUserCurrency()
-	}, [userId, locale])
+		fetchUserData()
+	}, [userId, locale, user?.currency])
 
 	// Синхронизация языка с локалью
 	useEffect(() => {
@@ -136,11 +142,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			currentLanguage.languageCode !== selectedLanguage.languageCode
 		) {
 			setSelectedLanguage(currentLanguage)
-			// setSelectedCurrency(
-			// 	currencyOptions.find(
-			// 		opt => opt.code === currentLanguage.defaultCurrency
-			// 	) || currencyOptions[0]
-			// )
 		}
 	}, [locale])
 
@@ -148,17 +149,19 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 	const setCurrency = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
 		if (!userId) return
 		try {
-			await apiService.updateUserCurrency(userId, currencyCode)
+			const updateData = { currency: currencyCode }
+			const updatedUser = await apiService.updateUserProfile(userId, updateData)
 			setSelectedCurrency(
 				currencyOptions.find(opt => opt.code === currencyCode)!
 			)
+			updateUser(updatedUser)
 		} catch (error) {
 			console.error('Ошибка при обновлении валюты:', error)
 		}
 	}
 
 	// Смена языка и страны
-	const setLanguage = (
+	const setLanguage = async (
 		languageCode: 'en' | 'uk' | 'pl',
 		countryCode: 'US' | 'UA' | 'PL'
 	) => {
@@ -166,12 +169,27 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			opt =>
 				opt.languageCode === languageCode && opt.countryCode === countryCode
 		)
-		if (newLanguage) {
-			const pathWithoutLocale = pathname.replace(`/${locale}`, '')
-			const newPath = `/${languageCode}${pathWithoutLocale}`
-			router.push(newPath)
-			setSelectedLanguage(newLanguage)
-			setCurrency(newLanguage.defaultCurrency) // Автоматически устанавливаем валюту страны
+		if (newLanguage && userId) {
+			try {
+				const updateData = {
+					language: languageCode,
+					currency: newLanguage.defaultCurrency,
+				}
+				const updatedUser = await apiService.updateUserProfile(
+					userId,
+					updateData
+				)
+				setSelectedLanguage(newLanguage)
+				setSelectedCurrency(
+					currencyOptions.find(opt => opt.code === newLanguage.defaultCurrency)!
+				)
+				updateUser(updatedUser)
+				const pathWithoutLocale = pathname.replace(`/${locale}`, '')
+				const newPath = `/${languageCode}${pathWithoutLocale}`
+				router.push(newPath)
+			} catch (error) {
+				console.error('Ошибка при обновлении языка:', error)
+			}
 		}
 	}
 

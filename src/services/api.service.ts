@@ -208,8 +208,11 @@ export class ApiService {
 		return res.data.user
 	}
 
-	async deleteUserProfile(id: string): Promise<void> {
-		await $api.delete(`/api/user/${id}`)
+	async deleteUserProfile(
+		id: string,
+		data?: { deleteReason?: string | null }
+	): Promise<void> {
+		await $api.delete(`/api/user/${id}`, { data })
 	}
 }
 

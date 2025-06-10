@@ -137,7 +137,6 @@ export default function ProfilePage() {
 								<div className='w-full mx-auto'>
 									{activeTab === tProfile('tabs.information') ? (
 										<ProfileInformationForm
-											user={user}
 											onMouseEnter={(field: keyof typeof infoTooltipVisible) =>
 												handleInfoTooltipMouseEnter(field)
 											}

@@ -155,6 +155,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 				currencyOptions.find(opt => opt.code === currencyCode)!
 			)
 			updateUser(updatedUser)
+			const pathWithoutLocale = pathname.replace(`/${locale}`, '')
+			router.push(`/${locale}${pathWithoutLocale}`)
 		} catch (error) {
 			console.error('Ошибка при обновлении валюты:', error)
 		}

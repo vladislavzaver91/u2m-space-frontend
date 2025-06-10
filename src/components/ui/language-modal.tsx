@@ -155,9 +155,7 @@ export const LanguageModal = () => {
 		if (user && cityName) {
 			try {
 				setIsLoading(true)
-				const updateData = {
-					city: cityName || null,
-				}
+				const updateData = { city: cityName || null }
 				const updatedUser = await apiService.updateUserProfile(
 					user.id,
 					updateData
@@ -179,11 +177,9 @@ export const LanguageModal = () => {
 	) => {
 		setIsLoading(true)
 		try {
-			setLanguage(languageCode, countryCode)
+			await setLanguage(languageCode, countryCode)
 			if (user) {
-				const updateData = {
-					language: languageCode,
-				}
+				const updateData = { language: languageCode }
 				const updatedUser = await apiService.updateUserProfile(
 					user.id,
 					updateData
@@ -193,7 +189,6 @@ export const LanguageModal = () => {
 			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
 			const newPath = `/${languageCode}${pathWithoutLocale}`
 			router.push(newPath)
-			closeModal()
 		} catch (error: any) {
 			setError(
 				error.response?.data?.error || tLanguageModal('errors.serverError')
@@ -204,25 +199,25 @@ export const LanguageModal = () => {
 	}
 
 	const handleCurrencyChange = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
-		if (user) {
-			try {
-				setIsLoading(true)
-				setCurrency(currencyCode)
-				const updateData = {
-					currency: currencyCode,
-				}
-				const updatedUser = await apiService.updateUserProfile(
-					user.id,
-					updateData
-				)
-				updateUser(updatedUser)
-			} catch (error: any) {
-				setError(
-					error.response?.data?.error || tLanguageModal('errors.serverError')
-				)
-			} finally {
-				setIsLoading(false)
-			}
+		if (!user) return
+		try {
+			setIsLoading(true)
+			await setCurrency(currencyCode)
+			const updateData = { currency: currencyCode }
+			const updatedUser = await apiService.updateUserProfile(
+				user.id,
+				updateData
+			)
+			updateUser(updatedUser)
+			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
+			const newPath = `/${localActive}${pathWithoutLocale}`
+			router.push(newPath)
+		} catch (error: any) {
+			setError(
+				error.response?.data?.error || tLanguageModal('errors.serverError')
+			)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -267,9 +262,14 @@ export const LanguageModal = () => {
 									<div
 										key={index}
 										onClick={() =>
-											setLanguage(item.languageCode, item.countryCode)
+											handleLanguageChange(item.languageCode, item.countryCode)
 										}
-										className='min-w-[216px] w-fit h-[74px] text-[16px] p-4 font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer'
+										className={`min-w-[216px] w-fit h-[74px] text-[16px] p-4 font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${
+											selectedLanguage.languageCode === item.languageCode &&
+											selectedLanguage.countryCode === item.countryCode
+												? 'border-[#f9329c]'
+												: ''
+										}`}
 									>
 										<p className='font-bold text-[16px] text-[#4F4F4F] leading-[18px]'>
 											{item.language}
@@ -302,14 +302,14 @@ export const LanguageModal = () => {
 								{currencyOptions.map((item, index) => (
 									<div
 										key={index}
-										onClick={() => user && setCurrency(item.code)}
+										onClick={() => setCurrency(item.code)}
 										className={`min-w-[216px] w-fit ${
 											item.code === 'USD' ? 'h-[94px]' : 'h-[74px]'
-										} p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] hover:border-[#f9329c] active:bg-[#F7F7F7] transition-colors cursor-pointer ${
+										} p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${
 											selectedCurrency.code === item.code
-												? ''
-												: 'border-[#bdbdbd] hover:border-[#f9329c] active:bg-[#F7F7F7]'
-										} ${!user ? 'opacity-50 cursor-not-allowed' : ''}`}
+												? 'border-[#f9329c]'
+												: ''
+										} `}
 									>
 										<p className='font-bold text-[16px] text-[#4F4F4F] leading-[18px]'>
 											{item.name}

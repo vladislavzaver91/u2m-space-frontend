@@ -17,7 +17,6 @@ export const CustomToggle = ({
 }: CustomToggleProps) => {
 	const handleToggle = () => {
 		onChange(!checked)
-		if (onClick) onClick()
 	}
 
 	return (

@@ -48,7 +48,7 @@ export default function ProfilePage() {
 		advancedUser: false,
 		deleteReason: false,
 	})
-	const { user, logout } = useAuth()
+	const { user } = useAuth()
 	const { id } = useParams<{ id: string }>()
 	const router = useRouter()
 	const locale = useLocale()

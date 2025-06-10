@@ -343,6 +343,8 @@ export const ProfileInformationForm = ({
 				removeAvatar: formData.removeAvatar || undefined,
 			}
 
+			console.log('User:', user)
+
 			const updatedUser = await apiService.updateUserProfile(
 				user!.id,
 				updateData
@@ -365,8 +367,18 @@ export const ProfileInformationForm = ({
 				removeAvatar: false,
 			})
 		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.error || tProfile('errors.serverError')
+			let errorMessage = tProfile('errors.serverError')
+			if (error.response?.data?.error) {
+				if (error.response.data.error.includes('Failed to upload avatar')) {
+					errorMessage = tProfile('errors.avatarUploadFailed')
+				} else if (
+					error.response.data.error.includes('Failed to remove avatar')
+				) {
+					errorMessage = tProfile('errors.avatarRemoveFailed')
+				} else {
+					errorMessage = error.response.data.error
+				}
+			}
 			setErrors({ ...errors, server: errorMessage })
 		} finally {
 			setIsLoading(false)

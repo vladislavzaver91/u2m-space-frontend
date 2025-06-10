@@ -133,18 +133,8 @@ export const ProfileSettingsForm = ({
 	// Маппинг languageOptions с переводами
 	const translatedLanguageOptions = languageOptions.map(opt => ({
 		...opt,
-		language:
-			opt.languageCode === 'en'
-				? tLanguageModal('chooseLanguageRegion.english')
-				: opt.languageCode === 'uk'
-				? tLanguageModal('chooseLanguageRegion.ukrainian')
-				: tLanguageModal('chooseLanguageRegion.polish'),
-		country:
-			opt.countryCode === 'US'
-				? tLanguageModal('chooseLanguageRegion.unitedStates')
-				: opt.countryCode === 'UA'
-				? tLanguageModal('chooseLanguageRegion.ukraine')
-				: tLanguageModal('chooseLanguageRegion.poland'),
+		language: opt.language,
+		country: opt.country,
 	}))
 
 	const deleteReasons = [
@@ -218,33 +208,9 @@ export const ProfileSettingsForm = ({
 		}
 	}
 
-	const handleLanguageChange = async (
-		languageCode: 'en' | 'uk' | 'pl',
-		countryCode: 'US' | 'UA' | 'PL'
-	) => {
-		setIsLoading(true)
-		try {
-			setFormData({ ...formData, language: languageCode })
-			setLanguage(languageCode, countryCode)
-			if (user) {
-				const updateData = { language: languageCode }
-				const updatedUser = await apiService.updateUserProfile(
-					user.id,
-					updateData
-				)
-				updateUser(updatedUser)
-			}
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.error || tProfile('errors.serverError')
-			setErrors({
-				server: Array.isArray(errorMessage)
-					? errorMessage.join(', ')
-					: errorMessage,
-			})
-		} finally {
-			setIsLoading(false)
-		}
+	const handleLanguageChange = (languageCode: 'en' | 'uk' | 'pl') => {
+		setFormData({ ...formData, language: languageCode })
+		setErrors({ server: '' })
 	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -269,6 +235,19 @@ export const ProfileSettingsForm = ({
 				updateData
 			)
 			updateUser(updatedUser)
+
+			// Применяем язык и валюту в контексте после успешного обновления
+			const selectedLanguageOption = languageOptions.find(
+				opt => opt.languageCode === updatedUser.language
+			)
+			if (selectedLanguageOption) {
+				setLanguage(
+					selectedLanguageOption.languageCode,
+					selectedLanguageOption.countryCode
+				)
+				setCurrency(updatedUser.currency)
+			}
+
 			setFormData({
 				language: updatedUser.language || 'en',
 				currency: updatedUser.currency || 'USD',

@@ -174,9 +174,16 @@ export const CustomLanguageSelect = ({
 						: 'top-9 left-2 text-[#4f4f4f]'
 				}`}
 			>
-				{selectedOption
-					? `${selectedOption.language} - ${selectedOption.country}`
-					: label}
+				{selectedOption ? (
+					<p className='font-bold text-[16px]'>
+						{selectedOption.language} -{' '}
+						<span className='font-normal text-[14px]'>
+							{selectedOption.country}
+						</span>
+					</p>
+				) : (
+					label
+				)}
 			</label>
 			<div
 				id={`${label.toLowerCase()}-select`}
@@ -220,9 +227,16 @@ export const CustomLanguageSelect = ({
 						isOpen ? 'text-transparent' : 'text-[#4f4f4f] '
 					}`}
 				>
-					{selectedOption
-						? `${selectedOption.language} - ${selectedOption.country}`
-						: label}
+					{selectedOption ? (
+						<p className='font-bold text-[16px]'>
+							{selectedOption.language} -{' '}
+							<span className='font-normal text-[14px]'>
+								{selectedOption.country}
+							</span>
+						</p>
+					) : (
+						label
+					)}
 				</label>
 
 				{/* Select input */}

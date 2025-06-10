@@ -66,6 +66,8 @@ export const Header = () => {
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
+	console.log('User', user)
+
 	// Отслеживание прокрутки
 	useEffect(() => {
 		const handleScroll = () => {

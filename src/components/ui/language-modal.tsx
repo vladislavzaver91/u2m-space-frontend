@@ -16,49 +16,6 @@ import { useUser } from '@/helpers/contexts/user-context'
 import { apiService } from '@/services/api.service'
 import { CityOption } from '@/types'
 
-// interface LanguageButtonItem {
-// 	language: string
-// 	country: string
-// 	languageCode: 'en' | 'uk' | 'pl'
-// 	countryCode: 'US' | 'UA' | 'PL'
-// }
-
-// const LANGUAGE_BTN_ITEMS: LanguageButtonItem[] = [
-// 	{
-// 		language: 'English',
-// 		country: 'United States',
-// 		languageCode: 'en',
-// 		countryCode: 'US',
-// 	},
-// 	{
-// 		language: 'Українська',
-// 		country: 'Україна',
-// 		languageCode: 'uk',
-// 		countryCode: 'UA',
-// 	},
-// 	{
-// 		language: 'Polski',
-// 		country: 'Polska',
-// 		languageCode: 'pl',
-// 		countryCode: 'PL',
-// 	},
-// ]
-
-// const CURRENCY_BTN_ITEMS = [
-// 	{
-// 		name: 'Американський долар',
-// 		symbol: 'USD – $',
-// 	},
-// 	{
-// 		name: 'Українська гривня',
-// 		symbol: 'UAH – ₴',
-// 	},
-// 	{
-// 		name: 'Євро',
-// 		symbol: 'EUR – €',
-// 	},
-// ]
-
 export const LanguageModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
@@ -202,16 +159,11 @@ export const LanguageModal = () => {
 		if (!user) return
 		try {
 			setIsLoading(true)
+			await apiService.updateUserCurrency(user.id, currencyCode)
 			await setCurrency(currencyCode)
-			const updateData = { currency: currencyCode }
-			const updatedUser = await apiService.updateUserProfile(
-				user.id,
-				updateData
-			)
+			const updatedUser = await apiService.getUserProfile(user.id)
 			updateUser(updatedUser)
-			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
-			const newPath = `/${localActive}${pathWithoutLocale}`
-			router.push(newPath)
+			window.location.reload()
 		} catch (error: any) {
 			setError(
 				error.response?.data?.error || tLanguageModal('errors.serverError')
@@ -302,7 +254,7 @@ export const LanguageModal = () => {
 								{currencyOptions.map((item, index) => (
 									<div
 										key={index}
-										onClick={() => setCurrency(item.code)}
+										onClick={() => handleCurrencyChange(item.code)}
 										className={`min-w-[216px] w-fit ${
 											item.code === 'USD' ? 'h-[94px]' : 'h-[74px]'
 										} p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${

@@ -39,7 +39,7 @@ export const ImageContextMenuModal = ({
 						animate={{ scale: 1, opacity: 1 }}
 						exit={{ scale: 0.8, opacity: 0 }}
 						transition={{ duration: 0.3 }}
-						className='bg-white rounded-[13px] shadow-lg w-full p-2 flex flex-col items-center space-y-8'
+						className='bg-white rounded-[13px] shadow-lg w-full max-w-[328px] p-2 flex flex-col items-center space-y-8'
 						onClick={e => e.stopPropagation()}
 					>
 						<div>

@@ -56,7 +56,7 @@ export function ClientClassifiedDetail({
 		initialClassified?.favorites || 0
 	)
 	const [page, setPage] = useState(1)
-	const { user } = useUser()
+	const { user, updateFavorites } = useUser()
 	const { selectedCurrency } = useLanguage()
 	const router = useRouter()
 	const locale = useLocale()
@@ -143,6 +143,7 @@ export function ClientClassifiedDetail({
 						  }
 						: prev
 				)
+				updateFavorites(classified.id, res.favoritesBool)
 			}
 		} catch (error: unknown) {
 			const apiError = error as ApiError
@@ -295,7 +296,6 @@ export function ClientClassifiedDetail({
 												<p className='text-[16px] font-normal text-[#4f4f4f]'>
 													{classified.description}
 												</p>
-												{/* информация показывается для авторизованного владельца своего объявления */}
 
 												<div className='flex flex-wrap gap-8'>
 													{INFO_AND_ANALYTICAL_DATA.map((item, index) => (

@@ -9,9 +9,9 @@ import { apiService } from '@/services/api.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { convertedCurrencyItems, CurrencyConversionResponse } from '@/types'
 import { IconCustom } from './icon-custom'
-import { currencySymbols } from '@/app/[locale]/classifieds-edit/[id]/page'
 import { useUser } from '@/helpers/contexts/user-context'
 import { Loader } from './loader'
+import { CURRENCY_SYMBOLS } from '@/helpers/constants/currency'
 
 interface ClassifiedFormData {
 	title: string
@@ -218,7 +218,7 @@ export const ClassifiedForm = ({
 					value={priceValue}
 					error={errors.price?.message}
 					maxLength={10}
-					prefix={currencySymbols[selectedCurrency.code]}
+					prefix={CURRENCY_SYMBOLS[selectedCurrency.code]}
 				/>
 
 				<Tooltip

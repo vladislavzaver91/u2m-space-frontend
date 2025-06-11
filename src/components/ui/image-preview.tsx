@@ -1,10 +1,11 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useWindowSize } from '@/helpers/hooks/use-window-size'
+import { Loader } from './loader'
 
 const ItemTypes = {
 	IMAGE: 'image',
@@ -66,9 +67,11 @@ export const ImagePreview = ({
 		>
 			<img
 				src={src}
-				alt={`Image ${index}`}
+				alt={`Image ${index + 1}`}
 				className='w-full max-sm:h-16 h-20 object-cover rounded-[13px]'
+				aria-label={`Preview image ${index + 1}`}
 			/>
+
 			{index === 0 && (
 				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
 					<IconCustom

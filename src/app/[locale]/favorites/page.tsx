@@ -38,14 +38,16 @@ export default function FavoritesPage() {
 	useEffect(() => {
 		if (!authUser) {
 			setIsLoading(false)
+			setClassifieds([])
+			setFilteredClassifieds([])
 			return
 		}
 
-		const fetchClassifieds = async () => {
+		const fetchFavorites = async () => {
 			try {
 				setIsLoading(true)
-				const data = await apiService.getUserClassifieds({ page, limit })
-				console.log('User classifieds:', data)
+				const data = await apiService.getUserFavorites({ page, limit })
+				console.log('User favorites:', data)
 				setClassifieds(prev => {
 					const newClassifieds = [...prev, ...data.classifieds].filter(
 						(item, index, self) =>
@@ -55,7 +57,7 @@ export default function FavoritesPage() {
 				})
 				setHasMore(data.hasMore)
 			} catch (error: any) {
-				console.error('Error fetching user classifieds:', error)
+				console.error('Error fetching user favorites:', error)
 				if (error.response?.status === 404) {
 					setHasMore(false) // Останавливаем загрузку, если данных больше нет
 				}
@@ -64,7 +66,7 @@ export default function FavoritesPage() {
 			}
 		}
 
-		fetchClassifieds()
+		fetchFavorites()
 	}, [page, authUser])
 
 	// Фильтрация по категориям
@@ -126,6 +128,13 @@ export default function FavoritesPage() {
 		return () => window.removeEventListener('popstate', handlePopstate)
 	}, [])
 
+	const handleFavoriteToggle = (id: string, isFavorite: boolean) => {
+		if (!isFavorite) {
+			// Если объявление удалено из избранного, убираем его из списка
+			setClassifieds(prev => prev.filter(item => item.id !== id))
+		}
+	}
+
 	return (
 		<div className='min-h-screen flex flex-col'>
 			{isLoading ? (
@@ -163,7 +172,9 @@ export default function FavoritesPage() {
 													convertedPrice={item.convertedPrice}
 													convertedCurrency={item.convertedCurrency}
 													image={item.images[0]}
+													favoritesBool={item.favoritesBool}
 													favorites={item.favorites}
+													onFavoriteToggle={handleFavoriteToggle}
 													href={`/selling-classifieds/${item.id}`}
 												/>
 											</div>

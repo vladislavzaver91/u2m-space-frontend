@@ -32,18 +32,11 @@ export interface Classified {
 	favorites?: number
 }
 
-export interface AuthUser {
-	id: string
-	email: string
-	name: string
-	avatarUrl?: string
-	provider: string
-}
-
 export interface User {
 	id: string
 	email: string
 	name: string
+	favorites?: string[]
 	legalSurname: string | null
 	nickname: string
 	phoneNumber?: string

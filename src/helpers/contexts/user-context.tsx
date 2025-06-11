@@ -11,6 +11,7 @@ interface UserContextType {
 	loading: boolean
 	error: string | null
 	updateUser: (updatedUser: User) => void
+	updateFavorites: (classifiedId: string, add: boolean) => void
 	fetchUser: (id: string) => Promise<void>
 }
 
@@ -47,6 +48,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 		setUser(updatedUser)
 	}
 
+	const updateFavorites = (classifiedId: string, add: boolean) => {
+		setUser(prev => {
+			if (!prev) return prev
+			const newFavorites = add
+				? [...(prev.favorites || []), classifiedId]
+				: (prev.favorites || []).filter(id => id !== classifiedId)
+			return { ...prev, favorites: newFavorites }
+		})
+	}
+
 	// Загружаем данные пользователя при монтировании, если есть authUser
 	useEffect(() => {
 		if (authUser?.id) {
@@ -56,7 +67,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
 	return (
 		<UserContext.Provider
-			value={{ user, loading, error, updateUser, fetchUser }}
+			value={{ user, loading, error, updateUser, updateFavorites, fetchUser }}
 		>
 			{children}
 		</UserContext.Provider>

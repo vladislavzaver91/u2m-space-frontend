@@ -23,17 +23,12 @@ import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { CurrencyConversionResponse } from '@/types'
 
-export const currencySymbols: Record<'USD' | 'UAH' | 'EUR', string> = {
-	USD: '$',
-	UAH: '₴',
-	EUR: '€',
-}
-
 export default function ClassifiedsEdit() {
 	const { authUser } = useAuth()
 	const { selectedCurrency } = useLanguage()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
+	const [loadingIndices, setLoadingIndices] = useState<number[]>([])
 	const [existingImages, setExistingImages] = useState<string[]>([])
 	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[]>([])
@@ -141,9 +136,15 @@ export default function ClassifiedsEdit() {
 
 		for (const file of Array.from(files)) {
 			try {
+				setLoadingIndices(prev => [
+					...prev,
+					imagePreviews.length + newPreviews.length,
+				])
+
 				const compressedFile = await imageCompression(file, options)
 				if (compressedFile.size > maxFileSize) {
 					setError(`The file ${file.name} is larger than 5MB after compression`)
+					setLoadingIndices(prev => prev.slice(0, -1))
 					return
 				}
 
@@ -154,6 +155,7 @@ export default function ClassifiedsEdit() {
 				newPreviews.push(preview)
 			} catch (err) {
 				setError(`Failed to compress ${file.name}`)
+				setLoadingIndices(prev => prev.slice(0, -1))
 				return
 			}
 		}
@@ -161,11 +163,14 @@ export default function ClassifiedsEdit() {
 		const totalImages = imagePreviews.length + newFiles.length
 		if (totalImages > 8) {
 			setError('Maximum 8 images')
+			setLoadingIndices(prev => prev.slice(0, imagePreviews.length))
 			return
 		}
 
-		setImageFiles(prev => [...prev, ...newFiles])
 		setImagePreviews(prev => [...prev, ...newPreviews])
+		setImageFiles(prev => [...prev, ...newFiles])
+		// Удаляем лоадеры
+		setLoadingIndices(prev => prev.slice(0, prev.length - newPreviews.length))
 		setError('')
 	}
 
@@ -222,6 +227,9 @@ export default function ClassifiedsEdit() {
 		setImagePreviews(prev => prev.filter((_, i) => i !== index))
 		setImageFiles(prev => prev.filter((_, i) => i !== index))
 		setExistingImages(prev => prev.filter((_, i) => i !== index))
+		setLoadingIndices(prev =>
+			prev.filter(i => i !== index).map(i => (i > index ? i - 1 : i))
+		)
 	}
 
 	// const moveImage = (dragIndex: number, hoverIndex: number) => {
@@ -457,25 +465,46 @@ export default function ClassifiedsEdit() {
 
 										<div className='grid grid-cols-12 gap-4 lg:grid-cols-6 lg:gap-[60px]'>
 											<div className='col-start-1 col-end-13 w-full lg:col-start-1 lg:col-end-5 lg:max-w-[487px]'>
-												{imagePreviews.length > 0 ? (
-													<ImageSlider
-														images={imagePreviews}
-														title={initialData?.title || ''}
-														onOpenModal={handleOpenModal}
-														className='slider-classified-info'
-													/>
-												) : (
-													<div className='relative max-md:p-4'>
-														<AddPhotoButton onChange={handleImageChange} />
-													</div>
-												)}
+												<div className='relative'>
+													{imagePreviews.length > 0 ? (
+														<ImageSlider
+															images={imagePreviews}
+															title={initialData?.title || ''}
+															onOpenModal={handleOpenModal}
+															className='slider-classified-info'
+														/>
+													) : (
+														<div className='relative max-md:p-4'>
+															<AddPhotoButton onChange={handleImageChange} />
+														</div>
+													)}
+													{loadingIndices.length > 0 &&
+														imagePreviews.length === 0 && (
+															<div className='absolute inset-0 flex items-center justify-center border-2 border-dashed border-[#bdbdbd] rounded-[13px] bg-white'>
+																<Loader />
+															</div>
+														)}
+												</div>
+
 												<div className='max-md:px-4'>
 													<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-4 max-sm:px-3.5 max-sm:py-4 sm:p-8 gap-8'>
 														{/* моб */}
 														<div className='col-start-1 col-end-5 sm:col-start-3 sm:col-end-11 gap-8 lg:hidden'>
 															<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 md:gap-8'>
-																{Array.from({ length: 8 }).map((_, idx) =>
-																	idx < imagePreviews.length ? (
+																{Array.from({ length: 8 }).map((_, idx) => {
+																	if (loadingIndices.includes(idx)) {
+																		return (
+																			<div
+																				key={`loading-${idx}`}
+																				className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD]'
+																			>
+																				<div className='absolute inset-0 flex items-center justify-center rounded-[13px]'>
+																					<Loader />
+																				</div>
+																			</div>
+																		)
+																	}
+																	return idx < imagePreviews.length ? (
 																		<ImagePreview
 																			key={idx}
 																			src={imagePreviews[idx]}
@@ -490,14 +519,26 @@ export default function ClassifiedsEdit() {
 																			onChange={handleImageChange}
 																		/>
 																	)
-																)}
+																})}
 															</div>
 														</div>
 
 														{/* десктоп */}
 														<div className='max-lg:hidden contents'>
-															{Array.from({ length: 8 }).map((_, idx) =>
-																idx < imagePreviews.length ? (
+															{Array.from({ length: 8 }).map((_, idx) => {
+																if (loadingIndices.includes(idx)) {
+																	return (
+																		<div
+																			key={`loading-${idx}`}
+																			className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD]'
+																		>
+																			<div className='absolute inset-0 flex items-center justify-center rounded-[13px]'>
+																				<Loader />
+																			</div>
+																		</div>
+																	)
+																}
+																return idx < imagePreviews.length ? (
 																	<ImagePreview
 																		key={idx}
 																		src={imagePreviews[idx]}
@@ -511,7 +552,7 @@ export default function ClassifiedsEdit() {
 																		onChange={handleImageChange}
 																	/>
 																)
-															)}
+															})}
 														</div>
 													</div>
 												</div>

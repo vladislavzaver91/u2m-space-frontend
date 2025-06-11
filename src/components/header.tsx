@@ -15,9 +15,11 @@ import { useParams, usePathname } from 'next/navigation'
 import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { useRouter } from '@/i18n/routing'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
+import { useUser } from '@/helpers/contexts/user-context'
 
 export const Header = () => {
 	const { authUser } = useAuth()
+	const { user } = useUser()
 	const { isLoginModalOpen, openLoginModal, openModal, isModalOpen } =
 		useModal()
 	const { isPublishDisabled, submitForm } = useClassifiedForm()
@@ -66,7 +68,7 @@ export const Header = () => {
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
-	console.log('User', authUser)
+	console.log('authUser', authUser)
 
 	// Отслеживание прокрутки
 	useEffect(() => {
@@ -248,14 +250,19 @@ export const Header = () => {
 									<ButtonCustom
 										href={`/favorites/`}
 										text={tButtons('favorites')}
-										iconWrapperClass='w-6 h-6'
+										iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 										icon={
-											<IconCustom
-												name='heart'
-												hover={true}
-												hoverColor='#f9329c'
-												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-											/>
+											<>
+												<IconCustom
+													name='heart'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-[21px] h-[18px] text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+												{user?.favorites && user?.favorites?.length > 0 && (
+													<span className='absolute top-0 right-0 w-2 h-2 border-2 border-white rounded-full bg-[#F9329C]' />
+												)}
+											</>
 										}
 										isHover
 										className='p-8 min-w-[181px] w-fit'
@@ -280,14 +287,19 @@ export const Header = () => {
 								<div className='flex lg:hidden'>
 									<ButtonCustom
 										href={`/favorites/`}
-										iconWrapperClass='w-6 h-6'
+										iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 										icon={
-											<IconCustom
-												name='heart'
-												hover={true}
-												hoverColor='#f9329c'
-												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-											/>
+											<>
+												<IconCustom
+													name='heart'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-[21px] h-[18px] text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												/>
+												{user?.favorites && user?.favorites?.length > 0 && (
+													<span className='absolute top-0 right-0 w-2 h-2 border-2 border-white rounded-full bg-[#F9329C]' />
+												)}
+											</>
 										}
 										isHover
 										className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
@@ -318,6 +330,8 @@ export const Header = () => {
 												alt={`${authUser.name} avatar`}
 												width={32}
 												height={32}
+												priority
+												unoptimized
 												onError={e => {
 													const defaultAvatarUrl =
 														process.env.NEXT_PUBLIC_ENVIRONMENT_URL ===
@@ -351,6 +365,8 @@ export const Header = () => {
 												alt={`${authUser.name} avatar`}
 												width={32}
 												height={32}
+												priority
+												unoptimized
 												onError={e => {
 													const defaultAvatarUrl =
 														process.env.NEXT_PUBLIC_ENVIRONMENT_URL ===

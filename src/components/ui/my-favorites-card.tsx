@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { apiService } from '@/services/api.service'
 import { Link, useRouter } from '@/i18n/routing'
+import { useUser } from '@/helpers/contexts/user-context'
 
 interface MyFavoritesCardProps {
 	id: string
@@ -14,7 +15,9 @@ interface MyFavoritesCardProps {
 	convertedCurrency: 'USD' | 'UAH' | 'EUR'
 	image?: string
 	href: string
+	favoritesBool: boolean
 	favorites?: number
+	onFavoriteToggle: (id: string, isFavorite: boolean) => void
 }
 
 interface ApiError {
@@ -34,11 +37,15 @@ export const MyFavoritesCard = ({
 	convertedCurrency,
 	image,
 	href,
+	favoritesBool: initialFavoritesBool,
 	favorites: initialFavorites,
+	onFavoriteToggle,
 }: MyFavoritesCardProps) => {
-	const [favoritesBool, setFavoritesBool] = useState(false)
+	const [favoritesBool, setFavoritesBool] = useState(initialFavoritesBool)
 	const [favorites, setFavorites] = useState(initialFavorites)
 	const router = useRouter()
+
+	const { updateFavorites } = useUser()
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.preventDefault() // Предотвращаем переход по Link
@@ -48,6 +55,8 @@ export const MyFavoritesCard = ({
 			const res = await apiService.toggleFavorite(id)
 			setFavoritesBool(res.favoritesBool)
 			setFavorites(res.favorites)
+			updateFavorites(id, res.favoritesBool)
+			onFavoriteToggle(id, res.favoritesBool)
 		} catch (error: unknown) {
 			const apiError = error as ApiError
 			if (apiError.response?.status === 401) {

@@ -87,6 +87,17 @@ export class ApiService {
 		return res.data
 	}
 
+	async getUserFavorites(params: {
+		page: number
+		limit: number
+	}): Promise<ClassifiedsResponse> {
+		const offset = (params.page - 1) * params.limit
+		const res = await $api.get('/api/favorites/user', {
+			params: { limit: params.limit, offset },
+		})
+		return res.data
+	}
+
 	async createClassified(data: ClassifiedData | FormData): Promise<Classified> {
 		console.log('Sending FormData to server:', data)
 		const isFormData = data instanceof FormData

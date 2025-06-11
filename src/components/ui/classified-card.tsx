@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { apiService } from '@/services/api.service'
 import { Link } from '@/i18n/routing'
+import { useUser } from '@/helpers/contexts/user-context'
 
 interface ClassifiedCardProps {
 	classifiedId: string
@@ -43,6 +44,8 @@ export const ClassifiedCard = ({
 	const [favoritesBool, setFavoritesBool] = useState(initialFavoritesBool)
 	const [favorites, setFavorites] = useState(initialFavorites)
 
+	const { updateFavorites } = useUser()
+
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.preventDefault() // Предотвращаем переход по Link
 		e.stopPropagation()
@@ -51,6 +54,7 @@ export const ClassifiedCard = ({
 			const res = await apiService.toggleFavorite(classifiedId)
 			setFavoritesBool(res.favoritesBool)
 			setFavorites(res.favorites)
+			updateFavorites(classifiedId, res.favoritesBool)
 		} catch (error: unknown) {
 			const apiError = error as ApiError
 			if (apiError.response?.status === 401) {

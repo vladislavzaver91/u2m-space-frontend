@@ -1,19 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 import { CustomSelect } from './custom-select'
 import { CustomToggle } from './custom-toggle'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Tooltip } from './tooltip'
 import { CityOption, UpdateUserProfileData, User } from '@/types'
 import { apiService } from '@/services/api.service'
 import { useUser } from '@/helpers/contexts/user-context'
-import { useRouter } from '@/i18n/routing'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { Loader } from './loader'
 import { cityService } from '@/services/cities.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { CustomLanguageSelect } from './custom-language-select'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface ProfileSettingsFormProps {
 	onMouseEnter: (
@@ -120,6 +120,8 @@ export const ProfileSettingsForm = ({
 	})
 
 	const router = useRouter()
+	const pathname = usePathname()
+	const locale = useLocale() as 'en' | 'uk' | 'pl'
 
 	const tProfile = useTranslations('Profile')
 	const tLanguageModal = useTranslations('LanguageModal')
@@ -213,6 +215,11 @@ export const ProfileSettingsForm = ({
 		setErrors({ server: '' })
 	}
 
+	const handleCurrencyChange = (currencyCode: 'USD' | 'UAH' | 'EUR') => {
+		setFormData({ ...formData, currency: currencyCode })
+		setErrors({ server: '' })
+	}
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (!user) return
@@ -241,11 +248,11 @@ export const ProfileSettingsForm = ({
 				opt => opt.languageCode === updatedUser.language
 			)
 			if (selectedLanguageOption) {
-				setLanguage(
+				await setLanguage(
 					selectedLanguageOption.languageCode,
 					selectedLanguageOption.countryCode
 				)
-				setCurrency(updatedUser.currency)
+				await setCurrency(updatedUser.currency)
 			}
 
 			setFormData({
@@ -278,7 +285,9 @@ export const ProfileSettingsForm = ({
 			setErrors({ server: '' })
 			try {
 				await apiService.deleteUserProfile(user.id, { deleteReason: reason })
-				router.push('/selling-classifieds')
+				startTransition(() => {
+					router.push('/selling-classifieds')
+				})
 			} catch (error: any) {
 				const errorMessage =
 					error.response?.data?.error || tProfile('errors.deleteAccount')
@@ -360,10 +369,7 @@ export const ProfileSettingsForm = ({
 							opt => opt.label === value
 						)
 						if (selected) {
-							setFormData({ ...formData, currency: selected.code })
-							if (user) {
-								setCurrency(selected.code)
-							}
+							handleCurrencyChange(selected.code)
 						}
 					}}
 					onClick={() => !formData.advancedUser && onTooltipClick('currency')}

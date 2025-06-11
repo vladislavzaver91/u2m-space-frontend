@@ -14,6 +14,7 @@ import { ClassifiedCard } from '@/components/ui/classified-card'
 import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 import { useTranslations } from 'next-intl'
 import { useLanguage } from '@/helpers/contexts/language-context'
+import { SeoHead } from '@/components/seo-head'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -88,6 +89,7 @@ export default function SellingClassifieds() {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
+			<SeoHead />
 			<Suspense fallback={<div>Loading authentication...</div>}>
 				<AuthExchangeWrapper />
 			</Suspense>

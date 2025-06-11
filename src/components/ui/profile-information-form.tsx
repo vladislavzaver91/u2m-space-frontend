@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { startTransition, useEffect, useRef, useState } from 'react'
 import { CustomSelect } from './custom-select'
 import { ProfileFormInput } from './profile-form-input'
 import { UpdateUserProfileData, User } from '@/types'
@@ -15,6 +15,7 @@ import { ButtonCustom } from './button-custom'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { formatPhoneNumber } from '@/helpers/functions/format-phone-number'
 import { useRouter } from '@/i18n/routing'
+import { useAuth } from '@/helpers/contexts/auth-context'
 
 interface ProfileInformationFormProps {
 	onMouseEnter: (
@@ -89,6 +90,7 @@ export const ProfileInformationForm = ({
 	isTooltipClicked,
 }: ProfileInformationFormProps) => {
 	const { user, updateUser, loading } = useUser()
+	const { handleAuthSuccess } = useAuth()
 	const { setSubmitForm, setIsSubmitDisabled } = useProfileForm()
 	const tProfile = useTranslations('Profile')
 
@@ -374,6 +376,16 @@ export const ProfileInformationForm = ({
 				updateData
 			)
 			updateUser(updatedUser)
+
+			handleAuthSuccess(
+				{
+					user: updatedUser,
+					accessToken: localStorage.getItem('accessToken')!,
+					refreshToken: localStorage.getItem('refreshToken')!,
+				},
+				false
+			)
+
 			setFormData({
 				nickname: updatedUser.nickname,
 				name: updatedUser.name || '',
@@ -390,7 +402,10 @@ export const ProfileInformationForm = ({
 				avatar: null,
 				removeAvatar: false,
 			})
-			router.push('/selling-classifieds')
+
+			startTransition(() => {
+				router.push('/selling-classifieds')
+			})
 		} catch (error: any) {
 			let errorMessage = tProfile('errors.serverError')
 			if (error.response?.data?.error) {

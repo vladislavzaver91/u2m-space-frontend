@@ -15,6 +15,7 @@ import { useAuth } from '@/helpers/contexts/auth-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { apiService } from '@/services/api.service'
 import { CityOption } from '@/types'
+import { handleApiError } from '@/helpers/functions/handle-api-error'
 
 export const LanguageModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -135,21 +136,8 @@ export const LanguageModal = () => {
 		setIsLoading(true)
 		try {
 			await setLanguage(languageCode, countryCode)
-			if (user) {
-				const updateData = { language: languageCode }
-				const updatedUser = await apiService.updateUserProfile(
-					user.id,
-					updateData
-				)
-				updateUser(updatedUser)
-			}
-			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
-			const newPath = `/${languageCode}${pathWithoutLocale}`
-			router.push(newPath)
-		} catch (error: any) {
-			setError(
-				error.response?.data?.error || tLanguageModal('errors.serverError')
-			)
+		} catch (error) {
+			setError(handleApiError(error, tLanguageModal('errors.serverError')))
 		} finally {
 			setIsLoading(false)
 		}
@@ -157,17 +145,11 @@ export const LanguageModal = () => {
 
 	const handleCurrencyChange = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
 		if (!user) return
+		setIsLoading(true)
 		try {
-			setIsLoading(true)
-			await apiService.updateUserCurrency(user.id, currencyCode)
 			await setCurrency(currencyCode)
-			const updatedUser = await apiService.getUserProfile(user.id)
-			updateUser(updatedUser)
-			window.location.reload()
-		} catch (error: any) {
-			setError(
-				error.response?.data?.error || tLanguageModal('errors.serverError')
-			)
+		} catch (error) {
+			setError(handleApiError(error, tLanguageModal('errors.serverError')))
 		} finally {
 			setIsLoading(false)
 		}

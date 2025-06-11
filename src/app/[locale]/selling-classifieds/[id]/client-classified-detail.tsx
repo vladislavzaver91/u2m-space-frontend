@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Classified } from '@/types'
-import { useAuth } from '@/helpers/contexts/auth-context'
 import { apiService } from '@/services/api.service'
 import { IconCustom } from '@/components/ui/icon-custom'
 import { Loader } from '@/components/ui/loader'
@@ -347,12 +346,16 @@ export function ClientClassifiedDetail({
 														</div>
 													</div>
 													{classified.user.phoneNumber ? (
-														<p className='text-[16px] font-bold text-[#f9329c]'>
+														<p
+															className={` ${
+																!classified.user.showPhone ? 'blur-sm' : ''
+															} text-[16px] font-bold text-[#f9329c]`}
+														>
 															{formatPhoneNumber(classified.user.phoneNumber)}
 														</p>
 													) : (
 														<p className='text-[16px] font-bold text-[#f9329c]'>
-															+380 96 42 07 202
+															+380 93 657 73 33
 														</p>
 													)}
 													<div className='flex items-center gap-4 max-sm:flex-col'>

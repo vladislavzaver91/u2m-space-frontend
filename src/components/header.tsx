@@ -17,7 +17,7 @@ import { useRouter } from '@/i18n/routing'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 
 export const Header = () => {
-	const { user } = useAuth()
+	const { authUser } = useAuth()
 	const { isLoginModalOpen, openLoginModal, openModal, isModalOpen } =
 		useModal()
 	const { isPublishDisabled, submitForm } = useClassifiedForm()
@@ -66,7 +66,7 @@ export const Header = () => {
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
-	console.log('User', user)
+	console.log('User', authUser)
 
 	// Отслеживание прокрутки
 	useEffect(() => {
@@ -79,7 +79,7 @@ export const Header = () => {
 		return () => window.removeEventListener('scroll', handleScroll)
 	}, [])
 
-	console.log('User avatar URL:', user?.avatarUrl)
+	console.log('User avatar URL:', authUser?.avatarUrl)
 
 	return (
 		<>
@@ -151,7 +151,7 @@ export const Header = () => {
 				{!shouldShowPublishBtn && !isProfileLabel && (
 					<div className='flex items-center absolute top-0 right-0'>
 						{/* все страницы без авторизации */}
-						{pathname !== `/` && !user && (
+						{pathname !== `/` && !authUser && (
 							<>
 								<div className='hidden md:flex lg:hidden'>
 									{!isSearchVisible && (
@@ -223,7 +223,7 @@ export const Header = () => {
 							</>
 						)}
 						{/* с авторизацией */}
-						{user ? (
+						{authUser ? (
 							<>
 								{/* language */}
 								{!isSearchVisible && (
@@ -314,8 +314,8 @@ export const Header = () => {
 										iconWrapperClass='w-8 h-8'
 										icon={
 											<Image
-												src={user.avatarUrl || '/avatar-lg.png'}
-												alt={`${user.name} avatar`}
+												src={authUser.avatarUrl || '/avatar-lg.png'}
+												alt={`${authUser.name} avatar`}
 												width={32}
 												height={32}
 												onError={e => {
@@ -347,8 +347,8 @@ export const Header = () => {
 										iconWrapperClass='w-8 h-8'
 										icon={
 											<Image
-												src={user.avatarUrl || '/avatar-lg.png'}
-												alt={`${user.name} avatar`}
+												src={authUser.avatarUrl || '/avatar-lg.png'}
+												alt={`${authUser.name} avatar`}
 												width={32}
 												height={32}
 												onError={e => {

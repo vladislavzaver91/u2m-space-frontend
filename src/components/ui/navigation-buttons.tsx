@@ -13,7 +13,7 @@ interface NavigationButtonsProps {
 }
 
 export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
-	const { user, logout } = useAuth()
+	const { authUser, logout } = useAuth()
 	const router = useRouter()
 	const swiperRef = useRef<SwiperRef | null>(null)
 	const tMyClassifieds = useTranslations('MyClassifieds')
@@ -64,8 +64,8 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 		if (isLogout) {
 			logout()
 		} else if (type === 'profile') {
-			if (user && user.id) {
-				router.push(`/profile/${user.id}`)
+			if (authUser && authUser.id) {
+				router.push(`/profile/${authUser.id}`)
 			} else {
 				console.warn('User or user.id is missing')
 				router.push(`/selling-classifieds`)

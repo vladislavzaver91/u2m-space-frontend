@@ -14,6 +14,7 @@ import { Loader } from './loader'
 import { ButtonCustom } from './button-custom'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { formatPhoneNumber } from '@/helpers/functions/format-phone-number'
+import { useRouter } from '@/i18n/routing'
 
 interface ProfileInformationFormProps {
 	onMouseEnter: (
@@ -87,9 +88,11 @@ export const ProfileInformationForm = ({
 	tooltipVisible,
 	isTooltipClicked,
 }: ProfileInformationFormProps) => {
-	const { user, updateUser, loading, error: userError } = useUser()
+	const { user, updateUser, loading } = useUser()
 	const { setSubmitForm, setIsSubmitDisabled } = useProfileForm()
 	const tProfile = useTranslations('Profile')
+
+	const router = useRouter()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [isAvatarHovered, setIsAvatarHovered] = useState(false)
@@ -126,6 +129,14 @@ export const ProfileInformationForm = ({
 		gender: false,
 		birthday: false,
 	})
+
+	const genderOptions = [
+		{ value: 'Male' as const, translationKey: 'informationFormInputs.male' },
+		{
+			value: 'Female' as const,
+			translationKey: 'informationFormInputs.female',
+		},
+	]
 
 	useEffect(() => {
 		if (user) {
@@ -164,6 +175,9 @@ export const ProfileInformationForm = ({
 
 	//  Валидация полей
 	const validateNickname = (value: string) => {
+		if (!value.trim()) {
+			return tProfile('informationFormInputs.errorNicknameRequired')
+		}
 		if (value.length > 0 && value.length <= 3) {
 			return tProfile('informationFormInputs.errorNickname')
 		}
@@ -177,6 +191,9 @@ export const ProfileInformationForm = ({
 	}
 
 	const validateEmail = (value: string) => {
+		if (!value.trim()) {
+			return tProfile('informationFormInputs.errorEmailRequired')
+		}
 		if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
 			return tProfile('informationFormInputs.errorEmail')
 		}
@@ -186,7 +203,9 @@ export const ProfileInformationForm = ({
 	const validatePhoneNumber = (value: string) => {
 		// Удаляем пробелы для проверки
 		const cleanValue = value.replace(/\s/g, '')
-		if (!cleanValue) return ''
+		if (!cleanValue) {
+			return tProfile('informationFormInputs.errorPhoneRequired')
+		}
 
 		// Проверяем, что номер начинается с +
 		if (!cleanValue.startsWith('+')) {
@@ -213,6 +232,11 @@ export const ProfileInformationForm = ({
 			let newValue = value
 			if (field === 'phoneNumber' || field === 'extraPhoneNumber') {
 				newValue = formatPhoneNumber(value)
+			} else if (field === 'gender') {
+				const selectedOption = genderOptions.find(
+					opt => tProfile(opt.translationKey) === value
+				)
+				newValue = selectedOption ? selectedOption.value : ''
 			}
 			setFormData({ ...formData, [field]: newValue })
 			setErrors({
@@ -366,6 +390,7 @@ export const ProfileInformationForm = ({
 				avatar: null,
 				removeAvatar: false,
 			})
+			router.push('/selling-classifieds')
 		} catch (error: any) {
 			let errorMessage = tProfile('errors.serverError')
 			if (error.response?.data?.error) {
@@ -490,18 +515,20 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.yourNickname')}
 						onChange={handleInputChange('nickname')}
-						onClick={() => onTooltipClick('nickname')}
+						onClick={() => !user.advancedUser && onTooltipClick('nickname')}
 						maxLength={16}
 						value={formData.nickname}
 						error={errors.nickname}
 						isValid={formData.nickname.length > 3 && !errors.nickname}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.nickname.name')}
-						text={tProfile('informationTooltips.nickname.description')}
-						visible={tooltipVisible.nickname}
-						isClicked={isTooltipClicked.nickname}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.nickname.name')}
+							text={tProfile('informationTooltips.nickname.description')}
+							visible={tooltipVisible.nickname}
+							isClicked={isTooltipClicked.nickname}
+						/>
+					)}
 				</div>
 
 				{/* document name */}
@@ -523,15 +550,17 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.legalName')}
 						onChange={handleInputChange('name')}
-						onClick={() => onTooltipClick('name')}
+						onClick={() => !user.advancedUser && onTooltipClick('name')}
 						value={formData.name}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.legalName.name')}
-						text={tProfile('informationTooltips.legalName.description')}
-						visible={tooltipVisible.name}
-						isClicked={isTooltipClicked.name}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.legalName.name')}
+							text={tProfile('informationTooltips.legalName.description')}
+							visible={tooltipVisible.name}
+							isClicked={isTooltipClicked.name}
+						/>
+					)}
 				</div>
 
 				{/* surname */}
@@ -543,15 +572,17 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.legalSurname')}
 						onChange={handleInputChange('surname')}
-						onClick={() => onTooltipClick('surname')}
+						onClick={() => !user.advancedUser && onTooltipClick('surname')}
 						value={formData.surname}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.legalSurname.name')}
-						text={tProfile('informationTooltips.legalSurname.description')}
-						visible={tooltipVisible.surname}
-						isClicked={isTooltipClicked.surname}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.legalSurname.name')}
+							text={tProfile('informationTooltips.legalSurname.description')}
+							visible={tooltipVisible.surname}
+							isClicked={isTooltipClicked.surname}
+						/>
+					)}
 				</div>
 
 				{/* gender */}
@@ -566,23 +597,29 @@ export const ProfileInformationForm = ({
 				>
 					<CustomSelect
 						label={tProfile('informationFormInputs.gender')}
-						options={[
-							tProfile('informationFormInputs.male'),
-							tProfile('informationFormInputs.female'),
-						]}
-						value={formData.gender}
+						options={genderOptions.map(opt => tProfile(opt.translationKey))}
+						value={
+							formData.gender
+								? tProfile(
+										genderOptions.find(opt => opt.value === formData.gender)!
+											.translationKey
+								  )
+								: ''
+						}
 						onChange={handleInputChange('gender')}
-						onClick={() => onTooltipClick('gender')}
+						onClick={() => !user.advancedUser && onTooltipClick('gender')}
 						onOpenChange={isOpen =>
 							setIsComponentOpen(prev => ({ ...prev, gender: isOpen }))
 						}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.gender.name')}
-						text={tProfile('informationTooltips.gender.description')}
-						visible={tooltipVisible.gender}
-						isClicked={isTooltipClicked.gender}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.gender.name')}
+							text={tProfile('informationTooltips.gender.description')}
+							visible={tooltipVisible.gender}
+							isClicked={isTooltipClicked.gender}
+						/>
+					)}
 				</div>
 
 				{/* birthday */}
@@ -599,17 +636,19 @@ export const ProfileInformationForm = ({
 						label={tProfile('informationFormInputs.birthday')}
 						value={formData.birthday}
 						onChange={handleInputChange('birthday')}
-						onClick={() => onTooltipClick('birthday')}
+						onClick={() => !user.advancedUser && onTooltipClick('birthday')}
 						onOpenChange={isOpen =>
 							setIsComponentOpen(prev => ({ ...prev, birthday: isOpen }))
 						}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.dateOfBirth.name')}
-						text={tProfile('informationTooltips.dateOfBirth.description')}
-						visible={tooltipVisible.birthday}
-						isClicked={isTooltipClicked.birthday}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.dateOfBirth.name')}
+							text={tProfile('informationTooltips.dateOfBirth.description')}
+							visible={tooltipVisible.birthday}
+							isClicked={isTooltipClicked.birthday}
+						/>
+					)}
 				</div>
 
 				{/* email */}
@@ -621,18 +660,20 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.emailAddress')}
 						onChange={handleInputChange('email')}
-						onClick={() => onTooltipClick('email')}
+						onClick={() => !user.advancedUser && onTooltipClick('email')}
 						value={formData.email}
 						error={errors.email}
 						type='email'
 						isValid={formData.email.length > 0 && !errors.email}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.email.name')}
-						text={tProfile('informationTooltips.email.description')}
-						visible={tooltipVisible.email}
-						isClicked={isTooltipClicked.email}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.email.name')}
+							text={tProfile('informationTooltips.email.description')}
+							visible={tooltipVisible.email}
+							isClicked={isTooltipClicked.email}
+						/>
+					)}
 				</div>
 
 				{/* phoneNumber */}
@@ -644,18 +685,20 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.phoneNumber')}
 						onChange={handleInputChange('phoneNumber')}
-						onClick={() => onTooltipClick('phoneNumber')}
+						onClick={() => !user.advancedUser && onTooltipClick('phoneNumber')}
 						value={formData.phoneNumber}
 						type='tel'
 						error={errors.phoneNumber}
 						isValid={formData.phoneNumber.length > 0 && !errors.phoneNumber}
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.phoneNumber.name')}
-						text={tProfile('informationTooltips.phoneNumber.description')}
-						visible={tooltipVisible.phoneNumber}
-						isClicked={isTooltipClicked.phoneNumber}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.phoneNumber.name')}
+							text={tProfile('informationTooltips.phoneNumber.description')}
+							visible={tooltipVisible.phoneNumber}
+							isClicked={isTooltipClicked.phoneNumber}
+						/>
+					)}
 				</div>
 
 				{/* extraPhoneNumber */}
@@ -667,16 +710,22 @@ export const ProfileInformationForm = ({
 					<ProfileFormInput
 						label={tProfile('informationFormInputs.extraPhoneNumber')}
 						onChange={handleInputChange('extraPhoneNumber')}
-						onClick={() => onTooltipClick('extraPhoneNumber')}
+						onClick={() =>
+							!user.advancedUser && onTooltipClick('extraPhoneNumber')
+						}
 						value={formData.extraPhoneNumber}
 						type='tel'
 					/>
-					<Tooltip
-						title={tProfile('informationTooltips.extraPhoneNumber.name')}
-						text={tProfile('informationTooltips.extraPhoneNumber.description')}
-						visible={tooltipVisible.extraPhoneNumber}
-						isClicked={isTooltipClicked.extraPhoneNumber}
-					/>
+					{!user.advancedUser && (
+						<Tooltip
+							title={tProfile('informationTooltips.extraPhoneNumber.name')}
+							text={tProfile(
+								'informationTooltips.extraPhoneNumber.description'
+							)}
+							visible={tooltipVisible.extraPhoneNumber}
+							isClicked={isTooltipClicked.extraPhoneNumber}
+						/>
+					)}
 				</div>
 			</form>
 		</div>

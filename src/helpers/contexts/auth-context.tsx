@@ -8,8 +8,8 @@ import {
 	ReactNode,
 } from 'react'
 import axios from 'axios'
-import { User } from '@/types'
 import { useRouter } from '@/i18n/routing'
+import { User } from '@/types'
 
 interface ApiError {
 	response?: {
@@ -22,7 +22,7 @@ interface ApiError {
 }
 
 interface AuthContextType {
-	user: User | null
+	authUser: User | null
 	accessToken: string | null
 	refreshToken: string | null
 	handleAuthSuccess: (
@@ -48,7 +48,7 @@ const API_URL =
 		: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 export function AuthProvider({ children }: AuthProviderProps) {
-	const [user, setUser] = useState<User | null>(null)
+	const [authUser, setAuthUser] = useState<User | null>(null)
 	const [accessToken, setAccessToken] = useState<string | null>(null)
 	const [refreshToken, setRefreshToken] = useState<string | null>(null)
 	const router = useRouter()
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		if (storedAccessToken && storedRefreshToken && storedUser) {
 			setAccessToken(storedAccessToken)
 			setRefreshToken(storedRefreshToken)
-			setUser(JSON.parse(storedUser) as User)
+			setAuthUser(JSON.parse(storedUser) as User)
 			console.log('Loaded tokens from localStorage:', {
 				accessToken: storedAccessToken,
 				refreshToken: storedRefreshToken,
@@ -121,20 +121,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		},
 		isInitialLogin: boolean = true
 	) => {
-		setUser(user)
+		setAuthUser(user)
 		setAccessToken(accessToken)
 		setRefreshToken(refreshToken)
 		localStorage.setItem('accessToken', accessToken)
 		localStorage.setItem('refreshToken', refreshToken)
 		localStorage.setItem('user', JSON.stringify(user))
-		if (isInitialLogin) {
-			router.push(`/selling-classifieds`)
-		}
 	}
 
 	// Функция для выхода
 	const logout = () => {
-		setUser(null)
+		setAuthUser(null)
 		setAccessToken(null)
 		setRefreshToken(null)
 		localStorage.removeItem('accessToken')
@@ -145,7 +142,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 	return (
 		<AuthContext.Provider
-			value={{ user, accessToken, refreshToken, handleAuthSuccess, logout }}
+			value={{ authUser, accessToken, refreshToken, handleAuthSuccess, logout }}
 		>
 			{children}
 		</AuthContext.Provider>

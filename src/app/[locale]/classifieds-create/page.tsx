@@ -22,7 +22,7 @@ import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 
 export default function ClassifiedsCreate() {
-	const { user } = useAuth()
+	const { authUser } = useAuth()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [classified, setClassified] = useState<Classified | null>(null)
@@ -245,7 +245,7 @@ export default function ClassifiedsCreate() {
 		})
 	}, [isFormValid, imageFiles, setFormState, handleSubmit])
 
-	if (!user) {
+	if (!authUser) {
 		return <div className='text-center mt-20'>Authorization required</div>
 	}
 

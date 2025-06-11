@@ -24,11 +24,20 @@ export interface Classified {
 		bonuses: number
 		phoneNumber?: string
 		successfulDeals?: number
+		showPhone: boolean
 	}
 	tags?: string[]
 	views?: number
 	messages?: number
 	favorites?: number
+}
+
+export interface AuthUser {
+	id: string
+	email: string
+	name: string
+	avatarUrl?: string
+	provider: string
 }
 
 export interface User {

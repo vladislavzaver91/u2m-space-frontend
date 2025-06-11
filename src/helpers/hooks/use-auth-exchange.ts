@@ -23,22 +23,22 @@ export function useAuthExchange() {
 			if (state) {
 				try {
 					console.log('Fetching auth data with state:', state)
-					const response = await apiService.exchangeAuthState(state)
-					console.log('Auth data received:', response)
-
-					const { user, accessToken, refreshToken } = response
+					const res = await apiService.exchangeAuthState(state)
+					console.log('Auth data received:', res)
+					const { user, accessToken, refreshToken } = res
 
 					if (!user.id || !user.email || !user.provider) {
 						throw new Error('Incomplete user data')
 					}
 
 					handleAuthSuccess({ user, accessToken, refreshToken }, true)
-					router.replace(`/selling-classifieds`) // Очищаем URL и редиректим
 				} catch (err) {
 					console.error('Failed to exchange state:', err)
+					router.push('/selling-classifieds')
 				}
 			} else {
 				console.error('Invalid parameter of state')
+				router.push('/selling-classifieds')
 			}
 		}
 

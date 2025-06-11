@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useAuth } from './auth-context'
 import { apiService } from '@/services/api.service'
 import { useUser } from './user-context'
+import { handleApiError } from '../functions/handle-api-error'
 
 export interface LanguageOption {
 	language: string
@@ -81,9 +82,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 		},
 	]
 
-	const { user } = useAuth()
+	const { authUser } = useAuth()
 	const { updateUser } = useUser()
-	const userId = user?.id
+	const userId = authUser?.id
 	const router = useRouter()
 	const pathname = usePathname()
 	const locale = useLocale() as 'en' | 'uk' | 'pl'
@@ -92,7 +93,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			languageOptions[0]
 	)
 	const [selectedCurrency, setSelectedCurrency] = useState<CurrencyOption>(
-		currencyOptions.find(opt => opt.code === user?.currency) ||
+		currencyOptions.find(opt => opt.code === authUser?.currency) ||
 			currencyOptions[0]
 	)
 
@@ -130,7 +131,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			}
 		}
 		fetchUserData()
-	}, [userId, locale, user?.currency])
+	}, [userId, locale, authUser?.currency])
 
 	// Синхронизация языка с локалью
 	useEffect(() => {
@@ -147,18 +148,19 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
 	// Обновление валюты на бэкенде
 	const setCurrency = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
-		if (!userId) return
+		if (!userId) throw new Error('User not authenticated')
 		try {
-			const updateData = { currency: currencyCode }
-			const updatedUser = await apiService.updateUserProfile(userId, updateData)
+			await apiService.updateUserCurrency(userId, currencyCode)
+			const updatedUser = await apiService.getUserProfile(userId)
 			setSelectedCurrency(
 				currencyOptions.find(opt => opt.code === currencyCode)!
 			)
 			updateUser(updatedUser)
-			const pathWithoutLocale = pathname.replace(`/${locale}`, '')
-			router.push(`/${locale}${pathWithoutLocale}`)
+			window.location.reload()
 		} catch (error) {
-			console.error('Ошибка при обновлении валюты:', error)
+			throw new Error(
+				handleApiError(error, tLanguageModal('errors.serverError'))
+			)
 		}
 	}
 
@@ -171,27 +173,26 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 			opt =>
 				opt.languageCode === languageCode && opt.countryCode === countryCode
 		)
-		if (newLanguage && userId) {
-			try {
-				const updateData = {
-					language: languageCode,
-					currency: newLanguage.defaultCurrency,
-				}
-				const updatedUser = await apiService.updateUserProfile(
-					userId,
-					updateData
-				)
-				setSelectedLanguage(newLanguage)
-				setSelectedCurrency(
-					currencyOptions.find(opt => opt.code === newLanguage.defaultCurrency)!
-				)
-				updateUser(updatedUser)
-				const pathWithoutLocale = pathname.replace(`/${locale}`, '')
-				const newPath = `/${languageCode}${pathWithoutLocale}`
-				router.push(newPath)
-			} catch (error) {
-				console.error('Ошибка при обновлении языка:', error)
+		if (!newLanguage || !userId)
+			throw new Error('Invalid language or user not authenticated')
+		try {
+			const updateData = {
+				language: languageCode,
+				currency: newLanguage.defaultCurrency,
 			}
+			const updatedUser = await apiService.updateUserProfile(userId, updateData)
+			setSelectedLanguage(newLanguage)
+			setSelectedCurrency(
+				currencyOptions.find(opt => opt.code === newLanguage.defaultCurrency)!
+			)
+			updateUser(updatedUser)
+			const pathWithoutLocale = pathname.replace(`/${locale}`, '')
+			const newPath = `/${languageCode}${pathWithoutLocale}`
+			router.push(newPath)
+		} catch (error) {
+			throw new Error(
+				handleApiError(error, tLanguageModal('errors.serverError'))
+			)
 		}
 	}
 

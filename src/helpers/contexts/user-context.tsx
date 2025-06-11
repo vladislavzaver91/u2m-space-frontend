@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { User } from '@/types'
 import { useAuth } from './auth-context'
 import { apiService } from '@/services/api.service'
+import { useRouter } from '@/i18n/routing'
 
 interface UserContextType {
 	user: User | null
@@ -16,10 +17,12 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-	const { user: authUser } = useAuth()
+	const { authUser } = useAuth()
 	const [user, setUser] = useState<User | null>(null)
 	const [loading, setLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
+
+	const router = useRouter()
 
 	const fetchUser = async (id: string) => {
 		setLoading(true)
@@ -27,6 +30,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 		try {
 			const userData = await apiService.getUserProfile(id)
 			setUser(userData)
+
+			if (!userData.nickname && authUser) {
+				router.push(`/profile/${id}`)
+			} else {
+				router.push('/selling-classifieds')
+			}
 		} catch (err: any) {
 			setError(err.message || 'Failed to fetch user profile')
 		} finally {

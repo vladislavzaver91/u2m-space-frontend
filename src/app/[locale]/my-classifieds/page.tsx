@@ -21,7 +21,7 @@ export default function MyClassifieds() {
 	const [hasMore, setHasMore] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
 	const [hasHiddenClassifieds, setHasHiddenClassifieds] = useState(false)
-	const { user } = useAuth()
+	const { authUser } = useAuth()
 	const { selectedCurrency } = useLanguage()
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
@@ -37,7 +37,7 @@ export default function MyClassifieds() {
 	]
 
 	useEffect(() => {
-		if (!user) {
+		if (!authUser) {
 			setIsLoading(false)
 			return
 		}
@@ -66,7 +66,7 @@ export default function MyClassifieds() {
 		}
 
 		fetchClassifieds()
-	}, [page, user])
+	}, [page, authUser])
 
 	// Фильтрация по категориям
 	useEffect(() => {

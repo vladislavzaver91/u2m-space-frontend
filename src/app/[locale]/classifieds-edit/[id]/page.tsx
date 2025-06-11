@@ -30,7 +30,7 @@ export const currencySymbols: Record<'USD' | 'UAH' | 'EUR', string> = {
 }
 
 export default function ClassifiedsEdit() {
-	const { user } = useAuth()
+	const { authUser } = useAuth()
 	const { selectedCurrency } = useLanguage()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
@@ -422,7 +422,7 @@ export default function ClassifiedsEdit() {
 		setFormState,
 	])
 
-	if (!user) {
+	if (!authUser) {
 		return <div className='text-center mt-20'>Authorization required</div>
 	}
 

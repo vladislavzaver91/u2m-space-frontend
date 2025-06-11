@@ -16,7 +16,7 @@ export default function ClientLayout({
 }) {
 	const shouldRender = useVisitRedirect()
 	useScrollStyle()
-	const { user, handleAuthSuccess } = useAuth()
+	const { authUser, handleAuthSuccess } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
 	const locale = useLocale()
@@ -24,7 +24,7 @@ export default function ClientLayout({
 
 	useEffect(() => {
 		const checkLogin = async () => {
-			if (process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop' && !user) {
+			if (process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop' && !authUser) {
 				console.log(
 					'Attempting to login with environment:',
 					process.env.NEXT_PUBLIC_ENVIRONMENT_URL,
@@ -52,7 +52,7 @@ export default function ClientLayout({
 			}
 		}
 		checkLogin()
-	}, [user, handleAuthSuccess, router])
+	}, [authUser, handleAuthSuccess, router])
 
 	if (!shouldRender) {
 		return (

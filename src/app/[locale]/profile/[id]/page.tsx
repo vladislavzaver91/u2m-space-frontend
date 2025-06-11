@@ -48,7 +48,7 @@ export default function ProfilePage() {
 		advancedUser: false,
 		deleteReason: false,
 	})
-	const { user } = useAuth()
+	const { authUser } = useAuth()
 	const { id } = useParams<{ id: string }>()
 	const router = useRouter()
 	const locale = useLocale()
@@ -58,14 +58,14 @@ export default function ProfilePage() {
 	const [activeTab, setActiveTab] = useState(tProfile('tabs.information'))
 
 	useEffect(() => {
-		if (!user) {
+		if (!authUser) {
 			router.push(`/selling-classifieds`)
-		} else if (user.id !== id) {
+		} else if (authUser.id !== id) {
 			router.push(`/selling-classifieds`)
 		}
-	}, [user, id, router])
+	}, [authUser, id, router])
 
-	if (!user) {
+	if (!authUser) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
@@ -111,7 +111,7 @@ export default function ProfilePage() {
 		}, 50)
 	}
 
-	if (user.id !== id) {
+	if (authUser.id !== id) {
 		return null
 	}
 

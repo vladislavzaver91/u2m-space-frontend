@@ -10,6 +10,8 @@ import { useLanguage } from '@/helpers/contexts/language-context'
 import { convertedCurrencyItems, CurrencyConversionResponse } from '@/types'
 import { IconCustom } from './icon-custom'
 import { currencySymbols } from '@/app/[locale]/classifieds-edit/[id]/page'
+import { useUser } from '@/helpers/contexts/user-context'
+import { Loader } from './loader'
 
 interface ClassifiedFormData {
 	title: string
@@ -56,6 +58,7 @@ export const ClassifiedForm = ({
 	const priceValue = watch('price')
 
 	const { selectedCurrency } = useLanguage()
+	const { user, loading } = useUser()
 
 	const [convertedPrices, setConvertedPrices] =
 		useState<CurrencyConversionResponse | null>(null)
@@ -129,6 +132,14 @@ export const ClassifiedForm = ({
 		}
 	}, [isValid, titleValue, descriptionValue, priceValue, onFormStateChange])
 
+	if (loading || !user) {
+		return (
+			<div className='min-h-screen flex flex-col items-center justify-center'>
+				<Loader />
+			</div>
+		)
+	}
+
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
@@ -152,12 +163,13 @@ export const ClassifiedForm = ({
 					error={errors.title?.message}
 					maxLength={60}
 				/>
-
-				<Tooltip
-					title={tCreateEditClassified('tooltips.title.name')}
-					text={tCreateEditClassified('tooltips.title.description')}
-					visible={tooltipVisible.title}
-				/>
+				{!user.advancedUser && (
+					<Tooltip
+						title={tCreateEditClassified('tooltips.title.name')}
+						text={tCreateEditClassified('tooltips.title.description')}
+						visible={tooltipVisible.title}
+					/>
+				)}
 			</div>
 			<div
 				className='relative'
@@ -177,11 +189,13 @@ export const ClassifiedForm = ({
 					error={errors.description?.message}
 					maxLength={300}
 				/>
-				<Tooltip
-					title={tCreateEditClassified('tooltips.description.name')}
-					text={tCreateEditClassified('tooltips.description.description')}
-					visible={tooltipVisible.description}
-				/>
+				{!user.advancedUser && (
+					<Tooltip
+						title={tCreateEditClassified('tooltips.description.name')}
+						text={tCreateEditClassified('tooltips.description.description')}
+						visible={tooltipVisible.description}
+					/>
+				)}
 			</div>
 			<div
 				className='relative'

@@ -1,266 +1,90 @@
-'use client'
+import type { Metadata } from 'next'
+import { getLocale, getTranslations } from 'next-intl/server'
+import ClientSellingClassifieds from './client-selling-classifieds'
 
-import { useState, useEffect, useRef, Suspense } from 'react'
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
-import '../../globals.css'
-import { Pagination } from 'swiper/modules'
-import { useAuthExchange } from '@/helpers/hooks/use-auth-exchange'
-import { Classified } from '@/types'
-import { apiService } from '@/services/api.service'
-import { SearchInput } from '@/components/ui/search-input'
-import { CategoryTabs } from '@/components/ui/category-tabs'
-import { Loader } from '@/components/ui/loader'
-import { ClassifiedCard } from '@/components/ui/classified-card'
-import { SwiperPaginationService } from '@/services/swiper-pagination.service'
-import { useTranslations } from 'next-intl'
-import { useLanguage } from '@/helpers/contexts/language-context'
-import { SeoHead } from '@/components/seo-head'
+export async function generateMetadata(): Promise<Metadata> {
+	try {
+		const locale = await getLocale()
+		const tMetadata = await getTranslations('Metadata')
 
-function AuthExchangeWrapper() {
-	useAuthExchange()
-	return null
+		const title =
+			tMetadata('title') ||
+			'Marketplace for Trading, Selling & Auctions of Items'
+		const description =
+			tMetadata('description') ||
+			'A universal marketplace to sell, trade or auction new and used items. Safe, easy and profitable — join now and start exchanging!'
+
+		const canonicalUrl = `https://example.com/${locale}/selling-classifieds`
+
+		const alternateUrls = [
+			{ hrefLang: 'uk', href: `https://example.com/uk/selling-classifieds` },
+			{ hrefLang: 'en', href: `https://example.com/en/selling-classifieds` },
+			{ hrefLang: 'pl', href: `https://example.com/pl/selling-classifieds` },
+		]
+
+		return {
+			title,
+			description,
+			robots: {
+				index: true, // Разрешаем индексацию для списка
+				follow: true, // Разрешаем следование по ссылкам
+			},
+			other: {
+				google: 'notranslate', // Запрещаем Google переводить страницу
+			},
+			icons: {
+				icon: '/favicon.ico', // Favicon для страницы
+			},
+			openGraph: {
+				title,
+				description,
+				url: canonicalUrl,
+				type: 'website',
+				locale, // Указываем текущую локаль
+				images: [
+					{
+						url: 'https://example.com/og-image.jpg', // Общая картинка для страницы списка
+						width: 1200,
+						height: 630,
+						alt: title,
+					},
+				],
+			},
+			twitter: {
+				card: 'summary_large_image',
+				title,
+				description,
+				images: ['https://example.com/twitter-image.jpg'], // Картинка для Twitter
+			},
+			alternates: {
+				canonical: canonicalUrl,
+				languages: {
+					uk: alternateUrls[0].href,
+					en: alternateUrls[1].href,
+					pl: alternateUrls[2].href,
+				},
+			},
+		}
+	} catch (error) {
+		console.error('Error generating metadata:', error)
+		// Резервные метаданные в случае ошибки
+		return {
+			title: 'Selling Classifieds | U2M SPACE',
+			description: 'Browse our collection of classifieds for sale on U2M SPACE',
+			robots: {
+				index: true,
+				follow: true,
+			},
+			other: {
+				google: 'notranslate',
+			},
+			icons: {
+				icon: '/favicon.ico',
+			},
+		}
+	}
 }
 
-export default function SellingClassifieds() {
-	const [currentSlide, setCurrentSlide] = useState(0)
-	const [classifieds, setClassifieds] = useState<Classified[]>([])
-	const [page, setPage] = useState(1)
-	const [hasMore, setHasMore] = useState(true)
-	const [isLoading, setIsLoading] = useState(true)
-	const loaderRef = useRef<HTMLDivElement>(null)
-	const swiperRef = useRef<SwiperClass | null>(null)
-	const tSellingClassifieds = useTranslations('SellingClassifieds')
-	const [activeCategory, setActiveCategory] = useState(
-		tSellingClassifieds('tabs.selling')
-	)
-	const { selectedCurrency } = useLanguage()
-
-	const limit = 20
-
-	useEffect(() => {
-		const fetchClassifieds = async () => {
-			try {
-				setIsLoading(true)
-				const data = await apiService.getClassifieds({ page, limit })
-				console.log(data)
-				setClassifieds(prev => [...prev, ...data.classifieds])
-				setHasMore(data.hasMore)
-			} catch (error) {
-				console.error('Error fetching classifieds:', error)
-			} finally {
-				setIsLoading(false)
-			}
-		}
-
-		fetchClassifieds()
-	}, [page])
-
-	// Обновление цен при смене валюты
-	useEffect(() => {
-		setClassifieds(prev =>
-			prev.map(item => ({
-				...item,
-				convertedCurrency: selectedCurrency.code,
-			}))
-		)
-	}, [selectedCurrency.code])
-
-	// Infinite Scroll
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			entries => {
-				if (entries[0].isIntersecting && hasMore && !isLoading) {
-					setPage(prev => prev + 1)
-				}
-			},
-			{ threshold: 0.1 }
-		)
-
-		if (loaderRef.current) {
-			observer.observe(loaderRef.current)
-		}
-
-		return () => {
-			if (loaderRef.current) {
-				observer.unobserve(loaderRef.current)
-			}
-		}
-	}, [hasMore, isLoading])
-
-	return (
-		<div className='min-h-screen flex flex-col'>
-			<SeoHead />
-			<Suspense fallback={<div>Loading authentication...</div>}>
-				<AuthExchangeWrapper />
-			</Suspense>
-
-			<div className='flex-1 pt-14 md:pt-[88px] 2-5xl:pt-40!'>
-				{/* Поиск и категории */}
-				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 items-center justify-between'>
-					<SearchInput
-						className='w-full max-2xl:py-3 2xl:max-w-[770px] max-md:hidden'
-						disabled
-					/>
-					<CategoryTabs
-						categories={[
-							tSellingClassifieds('tabs.selling'),
-							tSellingClassifieds('tabs.category'),
-							tSellingClassifieds('tabs.category'),
-						]}
-						activeCategory={activeCategory}
-						onCategoryChange={setActiveCategory}
-						disabled
-						shouldSlider
-					/>
-				</div>
-
-				{isLoading && classifieds.length === 0 ? (
-					<Loader />
-				) : (
-					<>
-						{/* Первые 8 карточек */}
-						<div className='max-[1513px]:hidden w-full px-0 mb-32'>
-							<div className='hidden min-[1513px]:grid custom-container mx-auto'>
-								<div className='grid grid-cols-12 gap-[60px]'>
-									<div className='col-start-1 col-end-13'>
-										<div className='grid grid-cols-12 lg:gap-[60px] gap-4 select-none'>
-											{classifieds.slice(0, 8).map((item, index) => (
-												<div key={index} className='col-span-3'>
-													<ClassifiedCard
-														classifiedId={item.id}
-														title={item.title}
-														convertedPrice={item.convertedPrice}
-														convertedCurrency={item.convertedCurrency}
-														image={item.images[0]}
-														favoritesBool={item.favoritesBool}
-														favorites={item.favorites}
-														href={`/selling-classifieds/${item.id}`}
-														isSmall={false}
-													/>
-												</div>
-											))}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className='slider-for-card mb-4 md:mb-16 min-[1513px]:hidden'>
-							<Swiper
-								initialSlide={2}
-								slidesPerView={1}
-								spaceBetween={60}
-								centeredSlides
-								grabCursor={true}
-								speed={500}
-								freeMode={true}
-								touchRatio={1.5}
-								touchReleaseOnEdges
-								modules={[Pagination]}
-								pagination={SwiperPaginationService.paginationForCard}
-								onInit={swiper => {
-									swiperRef.current = swiper
-									SwiperPaginationService.updateForCard(swiper)
-								}}
-								onSwiper={swiper => {
-									swiperRef.current = swiper
-									SwiperPaginationService.updateForCard(swiper)
-								}}
-								onSlideChange={swiper => {
-									setCurrentSlide(swiper.activeIndex)
-									SwiperPaginationService.updateForCard(swiper)
-								}}
-								className='w-full !h-auto select-none'
-								breakpoints={{
-									320: {
-										slidesPerView: 1.2,
-										spaceBetween: 16,
-									},
-									420: {
-										slidesPerView: 1.5,
-										spaceBetween: 16,
-									},
-									640: {
-										slidesPerView: 2.5,
-										spaceBetween: 16,
-									},
-									769: {
-										slidesPerView: 4,
-										spaceBetween: 32,
-									},
-									1024: {
-										initialSlide: 2,
-										slidesPerView: 5,
-										spaceBetween: 60,
-									},
-									1280: {
-										initialSlide: 2,
-										slidesPerView: 'auto',
-										spaceBetween: 60,
-									},
-								}}
-							>
-								{classifieds.slice(0, 8).map((item, index) => (
-									<SwiperSlide
-										key={index}
-										className='min-w-[295px] max-w-[355px] h-[383px] transition-transform duration-300 overflow-visible'
-									>
-										<ClassifiedCard
-											classifiedId={item.id}
-											title={item.title}
-											convertedPrice={item.convertedPrice}
-											convertedCurrency={item.convertedCurrency}
-											image={item.images[0]}
-											favoritesBool={item.favoritesBool}
-											favorites={item.favorites}
-											href={`/selling-classifieds/${item.id}`}
-											isSmall={false}
-										/>
-									</SwiperSlide>
-								))}
-							</Swiper>
-						</div>
-
-						{/* Остальные карточки */}
-						{classifieds.length > 8 && (
-							<div className='w-full px-0'>
-								<div className='custom-container mx-auto'>
-									<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
-										<div className='col-start-1 col-end-13'>
-											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
-												{classifieds.slice(8).map((item, index) => (
-													<div
-														key={index}
-														className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
-													>
-														<ClassifiedCard
-															classifiedId={item.id}
-															title={item.title}
-															convertedPrice={item.convertedPrice}
-															convertedCurrency={item.convertedCurrency}
-															image={item.images[0]}
-															favoritesBool={item.favoritesBool}
-															favorites={item.favorites}
-															href={`/selling-classifieds/${item.id}`}
-															isSmall={true}
-														/>
-													</div>
-												))}
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						)}
-					</>
-				)}
-
-				{isLoading && classifieds.length > 0 && (
-					<div className='my-4'>
-						<Loader />
-					</div>
-				)}
-				<div ref={loaderRef} className='h-10' />
-			</div>
-		</div>
-	)
+export default function SellingClassifiedsPage() {
+	return <ClientSellingClassifieds />
 }

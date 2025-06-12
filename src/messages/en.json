@@ -317,15 +317,7 @@
 		}
 	},
 	"Metadata": {
-		"title": {
-			"uk": "Маркетплейс обміну, продажу та аукціонів речей",
-			"en": "Marketplace for Trading, Selling & Auctions of Items",
-			"pl": "Marketplace do wymiany, sprzedaży i aukcji przedmiotów"
-		},
-		"description": {
-			"uk": "Універсальний маркетплейс для продажу, обміну та аукціонів нових і вживаних речей. Безпечно, зручно та вигідно — приєднуйтесь зараз!",
-			"en": "A universal marketplace to sell, trade or auction new and used items. Safe, easy and profitable — join now and start exchanging!",
-			"pl": "Uniwersalny marketplace do sprzedaży, wymiany i aukcji nowych i używanych rzeczy. Bezpiecznie, wygodnie i korzystnie — dołącz już teraz!"
-		}
+		"title": "Marketplace for Trading, Selling & Auctions of Items",
+		"description": "A universal marketplace to sell, trade or auction new and used items. Safe, easy and profitable — join now and start exchanging!"
 	}
 }

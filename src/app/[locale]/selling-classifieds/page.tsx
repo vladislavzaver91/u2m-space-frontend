@@ -14,12 +14,12 @@ export async function generateMetadata(): Promise<Metadata> {
 			tMetadata('description') ||
 			'A universal marketplace to sell, trade or auction new and used items. Safe, easy and profitable — join now and start exchanging!'
 
-		const canonicalUrl = `https://example.com/${locale}/selling-classifieds`
+		const canonicalUrl = `https://u2m.space/${locale}/selling-classifieds`
 
 		const alternateUrls = [
-			{ hrefLang: 'uk', href: `https://example.com/uk/selling-classifieds` },
-			{ hrefLang: 'en', href: `https://example.com/en/selling-classifieds` },
-			{ hrefLang: 'pl', href: `https://example.com/pl/selling-classifieds` },
+			{ hrefLang: 'uk', href: `https://u2m.space/uk/selling-classifieds` },
+			{ hrefLang: 'en', href: `https://u2m.space/en/selling-classifieds` },
+			{ hrefLang: 'pl', href: `https://u2m.space/pl/selling-classifieds` },
 		]
 
 		return {
@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 				locale, // Указываем текущую локаль
 				images: [
 					{
-						url: 'https://example.com/og-image.jpg', // Общая картинка для страницы списка
+						url: 'https://u2m.space/og-image.jpg', // Общая картинка для страницы списка
 						width: 1200,
 						height: 630,
 						alt: title,
@@ -54,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
 				card: 'summary_large_image',
 				title,
 				description,
-				images: ['https://example.com/twitter-image.jpg'], // Картинка для Twitter
+				images: ['https://u2m.space/twitter-image.jpg'], // Картинка для Twitter
 			},
 			alternates: {
 				canonical: canonicalUrl,

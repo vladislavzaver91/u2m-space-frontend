@@ -23,19 +23,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				? `${classified.description.slice(0, 100)}...`
 				: classified.description
 
-		const canonicalUrl = `https://example.com/${locale}/selling-classifieds/${id}`
+		const canonicalUrl = `https://u2m.space/${locale}/selling-classifieds/${id}`
 		const alternateUrls = [
 			{
 				hrefLang: 'uk',
-				href: `https://example.com/uk/selling-classifieds/${id}`,
+				href: `https://u2m.space/uk/selling-classifieds/${id}`,
 			},
 			{
 				hrefLang: 'en',
-				href: `https://example.com/en/selling-classifieds/${id}`,
+				href: `https://u2m.space/en/selling-classifieds/${id}`,
 			},
 			{
 				hrefLang: 'pl',
-				href: `https://example.com/pl/selling-classifieds/${id}`,
+				href: `https://u2m.space/pl/selling-classifieds/${id}`,
 			},
 		]
 
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				type: 'website',
 				images: [
 					{
-						url: classified.images[0] || 'https://example.com/og-image.jpg',
+						url: classified.images[0] || 'https://u2m.space/og-image.jpg',
 						width: 1200,
 						height: 630,
 						alt: title,
@@ -70,9 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 				card: 'summary_large_image',
 				title,
 				description,
-				images: [
-					classified.images[0] || 'https://example.com/twitter-image.jpg',
-				],
+				images: [classified.images[0] || 'https://u2m.space/twitter-image.jpg'],
 			},
 			alternates: {
 				canonical: canonicalUrl,

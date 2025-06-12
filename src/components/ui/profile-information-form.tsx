@@ -183,12 +183,6 @@ export const ProfileInformationForm = ({
 		if (value.length > 0 && value.length <= 3) {
 			return tProfile('informationFormInputs.errorNickname')
 		}
-		if (value.length > 16) {
-			return tProfile('informationFormInputs.errorNicknameFormat')
-		}
-		if (value && !/^[a-zA-Z0-9_]+$/.test(value)) {
-			return tProfile('informationFormInputs.errorNicknameFormat')
-		}
 		return ''
 	}
 

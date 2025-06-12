@@ -142,7 +142,6 @@
 			"yourNickname": "Twój pseudonim",
 			"errorNickname": "wymagane więcej niż 3 znaki",
 			"errorNicknameRequired": "Pseudonim jest wymagany",
-			"errorNicknameFormat": "Pseudonim może zawierać tylko litery, cyfry i podkreślenia",
 			"infoNickname": "Twój pseudonim (Wyświetlany zamiast imienia i nazwiska)",
 			"documentName": "Nazwa dokumentu",
 			"documentNameDescr": "Nazwa podana w paszporcie, prawie jazdy lub innym dokumencie podróży.",

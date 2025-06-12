@@ -190,6 +190,10 @@ export const LanguageModal = () => {
 		closeModal()
 	}
 
+	if (error) {
+		console.log(error)
+	}
+
 	return (
 		<AnimatePresence>
 			<motion.div
@@ -211,12 +215,6 @@ export const LanguageModal = () => {
 					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
 						{tLanguageModal('chooseLanguageRegion.title')}
 					</h2>
-
-					{error && (
-						<div className='bg-red-100 text-red-700 p-4 rounded-lg w-full text-center animate-pulse'>
-							{error}
-						</div>
-					)}
 
 					<div className='relative w-full min-h-[74px] flex items-center justify-center'>
 						{isLoading ? (
@@ -252,12 +250,6 @@ export const LanguageModal = () => {
 					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
 						{tLanguageModal('chooseCurrency.title')}
 					</h2>
-
-					{error && (
-						<div className='bg-red-100 text-red-700 p-4 rounded-lg w-full text-center animate-pulse'>
-							{error}
-						</div>
-					)}
 
 					<div className='relative w-full min-h-[74px] flex items-center justify-center'>
 						{isLoading ? (

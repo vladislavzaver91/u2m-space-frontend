@@ -141,9 +141,8 @@
 		},
 		"informationFormInputs": {
 			"yourNickname": "Your nickname",
-			"errorNickname": "more than 3 characters are needed",
+			"errorNickname": "More than 3 characters are needed",
 			"errorNicknameRequired": "Nickname is required",
-			"errorNicknameFormat": "Nickname can only contain letters, numbers, and underscores",
 			"infoNickname": "Your nickname (Shown instead of Full Name)",
 			"documentName": "Document Name",
 			"documentNameDescr": "Name indicated on the passport, driver’s license or other travel document.",

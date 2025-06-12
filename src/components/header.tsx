@@ -113,7 +113,7 @@ export const Header = () => {
 
 				{/* SearchInput в центре (не отображается на /my-classifieds при <768px) */}
 				<div
-					className={`absolute left-0 md:left-4 lg:left-1/2 lg:transform lg:-translate-x-1/2 w-full max-w-[500px] min-[1024px]:max-w-[430px] min-[1120px]:max-w-[500px] min-[1370px]:max-w-[770px] transition-all duration-300 ease-in-out ${
+					className={`absolute left-0 md:left-4 2xl:left-1/2 2xl:transform 2xl:-translate-x-1/2 w-full max-w-[500px] min-[1024px]:max-w-[430px] min-[1120px]:max-w-[500px] min-[1370px]:max-w-[500px] min-[1669px]:max-w-[770px] transition-all duration-300 ease-in-out ${
 						isSearchVisible
 							? 'opacity-100 translate-y-0'
 							: 'md:opacity-0 md:-translate-y-4 md:pointer-events-none'

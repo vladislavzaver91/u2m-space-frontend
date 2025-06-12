@@ -1,6 +1,6 @@
 'use client'
 
-import { startTransition, useEffect, useState } from 'react'
+import { startTransition, useEffect, useLayoutEffect, useState } from 'react'
 import { CustomSelect } from './custom-select'
 import { CustomToggle } from './custom-toggle'
 import { useLocale, useTranslations } from 'next-intl'
@@ -13,7 +13,7 @@ import { Loader } from './loader'
 import { cityService } from '@/services/cities.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { CustomLanguageSelect } from './custom-language-select'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 
 interface ProfileSettingsFormProps {
 	onMouseEnter: (
@@ -93,6 +93,7 @@ export const ProfileSettingsForm = ({
 		language: 'en' | 'uk' | 'pl'
 		currency: 'USD' | 'UAH' | 'EUR'
 		city: string | null
+		cityId: number
 		notifications: boolean
 		showPhone: boolean
 		advancedUser: boolean
@@ -101,6 +102,7 @@ export const ProfileSettingsForm = ({
 		language: 'en',
 		currency: 'USD',
 		city: null,
+		cityId: 0,
 		notifications: true,
 		showPhone: false,
 		advancedUser: false,
@@ -120,8 +122,7 @@ export const ProfileSettingsForm = ({
 	})
 
 	const router = useRouter()
-	const pathname = usePathname()
-	const locale = useLocale() as 'en' | 'uk' | 'pl'
+	const localeActive = useLocale() as 'en' | 'uk' | 'pl'
 
 	const tProfile = useTranslations('Profile')
 	const tLanguageModal = useTranslations('LanguageModal')
@@ -158,36 +159,105 @@ export const ProfileSettingsForm = ({
 	// Загрузка данных пользователя и городов
 	useEffect(() => {
 		if (user) {
-			setFormData({
-				language: user.language || 'en',
-				currency: user.currency || 'USD',
-				city: user.city || null,
-				notifications: user.notifications ?? true,
-				showPhone: user.showPhone ?? false,
-				advancedUser: user.advancedUser ?? false,
-				deleteReason: user.deleteReason || null,
-			})
-
-			const loadCities = async () => {
+			const loadCitiesAndSyncCity = async () => {
 				try {
 					setIsLoading(true)
-					const fetchedCities = await cityService.fetchAllCities(
-						user.language || 'en'
-					)
+					const language = user.language || 'en' // Используем user.language
+					const fetchedCities = await cityService.fetchAllCities(language)
 					setCities(fetchedCities)
+
+					let translatedCity: string | null = null
+					let cityId = 0
+					if (user.city) {
+						const translated = cityService.getTranslatedCityName(
+							user.city,
+							language
+						)
+						translatedCity = translated || user.city
+						const selectedCity = fetchedCities.find(
+							city => city.name === translatedCity
+						)
+						cityId = selectedCity ? selectedCity.id : 0
+						console.log('Initial city:', {
+							userCity: user.city,
+							language,
+							translatedCity,
+							cityId,
+							fetchedCities: fetchedCities.map(c => c.name),
+						})
+					}
+
+					setFormData({
+						language: user.language || 'en',
+						currency: user.currency || 'USD',
+						city: translatedCity,
+						cityId,
+						notifications: user.notifications ?? true,
+						showPhone: user.showPhone ?? false,
+						advancedUser: user.advancedUser ?? false,
+						deleteReason: user.deleteReason || null,
+					})
+
 					setErrors({ server: '' })
 				} catch (error) {
+					console.error('Error loading cities:', error)
 					setErrors({ server: tProfile('errors.failedToLoadCities') })
 				} finally {
 					setIsLoading(false)
 				}
 			}
-			loadCities()
+			loadCitiesAndSyncCity()
 		}
 	}, [user, tProfile])
 
-	// Обновление состояния кнопки submit
+	// Обновление городов и перевода при смене языка
 	useEffect(() => {
+		const updateCitiesOnLanguageChange = async () => {
+			try {
+				setIsLoading(true)
+				const fetchedCities = await cityService.fetchAllCities(
+					formData.language
+				)
+				setCities(fetchedCities)
+
+				let translatedCity: string | null = formData.city
+				let cityId = formData.cityId
+				if (formData.city) {
+					const translated = cityService.getTranslatedCityName(
+						formData.city,
+						formData.language
+					)
+					translatedCity = translated || formData.city
+					const selectedCity = fetchedCities.find(
+						city => city.name === translatedCity
+					)
+					cityId = selectedCity ? selectedCity.id : 0
+					console.log('Language change:', {
+						oldCity: formData.city,
+						translatedCity,
+						cityId,
+						language: formData.language,
+						fetchedCities: fetchedCities.map(c => c.name),
+					})
+				}
+
+				setFormData(prev => ({
+					...prev,
+					city: translatedCity,
+					cityId,
+				}))
+			} catch (error) {
+				console.error('Error updating cities on language change:', error)
+				setErrors({ server: tProfile('errors.failedToLoadCities') })
+			} finally {
+				setIsLoading(false)
+			}
+		}
+		updateCitiesOnLanguageChange()
+	}, [formData.language, tProfile])
+
+	// Обновление состояния кнопки submit
+	useLayoutEffect(() => {
 		const isFormValid = !isLoading && !errors.server
 		setIsSubmitDisabled(!isFormValid)
 	}, [formData, errors, isLoading, setIsSubmitDisabled])
@@ -220,6 +290,17 @@ export const ProfileSettingsForm = ({
 		setErrors({ server: '' })
 	}
 
+	const handleCityChange = (cityName: string) => {
+		const selectedCity = cities.find(city => city.name === cityName)
+		setFormData({
+			...formData,
+			city: cityName || null,
+			cityId: selectedCity ? selectedCity.id : 0,
+		})
+		console.log('City selected:', { cityName, cityId: selectedCity?.id })
+		setErrors({ server: '' })
+	}
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (!user) return
@@ -228,10 +309,18 @@ export const ProfileSettingsForm = ({
 		setErrors({ server: '' })
 
 		try {
+			let englishCity: string | null = formData.city
+			if (formData.city) {
+				englishCity =
+					cityService.getTranslatedCityName(formData.city, 'en') ||
+					formData.city
+			}
+			console.log('Submitting:', { formDataCity: formData.city, englishCity })
+
 			const updateData: UpdateUserProfileData = {
 				language: formData.language,
 				currency: formData.currency,
-				city: formData.city || null,
+				city: englishCity,
 				notifications: formData.notifications,
 				showPhone: formData.showPhone,
 				advancedUser: formData.advancedUser,
@@ -243,7 +332,6 @@ export const ProfileSettingsForm = ({
 			)
 			updateUser(updatedUser)
 
-			// Применяем язык и валюту в контексте после успешного обновления
 			const selectedLanguageOption = languageOptions.find(
 				opt => opt.languageCode === updatedUser.language
 			)
@@ -252,19 +340,42 @@ export const ProfileSettingsForm = ({
 					selectedLanguageOption.languageCode,
 					selectedLanguageOption.countryCode
 				)
+				console.log('await setLanguage')
 				await setCurrency(updatedUser.currency)
+				console.log('await setCurrency')
+			}
+
+			let translatedCity: string | null = null
+			let cityId = 0
+			if (updatedUser.city) {
+				const translated = cityService.getTranslatedCityName(
+					updatedUser.city,
+					updatedUser.language || 'en'
+				)
+				translatedCity = translated || updatedUser.city
+				const selectedCity = cities.find(city => city.name === translatedCity)
+				cityId = selectedCity ? selectedCity.id : 0
+				console.log('After submit:', {
+					updatedUserCity: updatedUser.city,
+					translatedCity,
+					cityId,
+				})
 			}
 
 			setFormData({
 				language: updatedUser.language || 'en',
 				currency: updatedUser.currency || 'USD',
-				city: updatedUser.city || null,
+				city: translatedCity,
+				cityId,
 				notifications: updatedUser.notifications ?? true,
 				showPhone: updatedUser.showPhone ?? false,
 				advancedUser: updatedUser.advancedUser ?? false,
 				deleteReason: updatedUser.deleteReason || null,
 			})
+
+			window.location.href = `/${localeActive}/selling-classifieds`
 		} catch (error: any) {
+			console.error('Submit error:', error)
 			const errorMessage =
 				error.response?.data?.error || tProfile('errors.serverError')
 			setErrors({
@@ -285,10 +396,9 @@ export const ProfileSettingsForm = ({
 			setErrors({ server: '' })
 			try {
 				await apiService.deleteUserProfile(user.id, { deleteReason: reason })
-				startTransition(() => {
-					router.push('/selling-classifieds')
-				})
+				router.push('/selling-classifieds')
 			} catch (error: any) {
+				console.error('Delete account error:', error)
 				const errorMessage =
 					error.response?.data?.error || tProfile('errors.deleteAccount')
 				setErrors({
@@ -303,7 +413,12 @@ export const ProfileSettingsForm = ({
 	}
 
 	// Установка функции сабмита в контекст
-	useEffect(() => {
+	useLayoutEffect(() => {
+		setSubmitForm(() => handleSubmit)
+	}, [formData, user, setSubmitForm])
+
+	// Установка функции сабмита в контекст
+	useLayoutEffect(() => {
 		setSubmitForm(() => handleSubmit)
 	}, [formData, user, setSubmitForm])
 
@@ -396,8 +511,8 @@ export const ProfileSettingsForm = ({
 				<CustomSelect
 					label={tProfile('settingFormInputs.place')}
 					options={cities.map(city => city.name)}
-					value={formData.city || ''}
-					onChange={value => setFormData({ ...formData, city: value || null })}
+					value={formData.city ?? ''}
+					onChange={handleCityChange}
 					onClick={() => !formData.advancedUser && onTooltipClick('city')}
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, city: isOpen }))

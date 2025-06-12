@@ -59,28 +59,42 @@ export const LanguageModal = () => {
 
 	// Синхронизация formData.languageCode с локалью сайта
 	useEffect(() => {
-		setFormData(prev => ({
-			...prev,
-			languageCode: user?.language || localActive,
-			countryCode:
-				user?.language === 'en' ? 'US' : user?.language === 'uk' ? 'UA' : 'PL',
-			city: user?.city || '',
-			cityId: 0,
-		}))
-
-		const loadCities = async () => {
+		const loadCitiesAndSyncCity = async () => {
 			try {
 				setIsLoading(true)
 				const fetchedCities = await cityService.fetchAllCities(localActive)
 				setCities(fetchedCities)
 				setError(null)
+
+				// Переводим город пользователя, если он есть
+				let translatedCity = ''
+				if (user?.city) {
+					const translated = cityService.getTranslatedCityName(
+						user.city,
+						localActive
+					)
+					translatedCity = translated || user.city // Если перевод не найден, оставляем исходное имя
+				}
+
+				setFormData(prev => ({
+					...prev,
+					languageCode: user?.language || localActive,
+					countryCode:
+						user?.language === 'en'
+							? 'US'
+							: user?.language === 'uk'
+							? 'UA'
+							: 'PL',
+					city: translatedCity,
+					cityId: 0, // cityId можно обновить, если нужно
+				}))
 			} catch (error) {
 				setError(tLanguageModal('errors.failedToLoadCities'))
 			} finally {
 				setIsLoading(false)
 			}
 		}
-		loadCities()
+		loadCitiesAndSyncCity()
 	}, [localActive, tLanguageModal, user])
 
 	// const changeLanguage = (
@@ -113,7 +127,9 @@ export const LanguageModal = () => {
 		if (user && cityName) {
 			try {
 				setIsLoading(true)
-				const updateData = { city: cityName || null }
+				const englishCityName =
+					cityService.getTranslatedCityName(cityName, 'en') || cityName
+				const updateData = { city: englishCityName || null }
 				const updatedUser = await apiService.updateUserProfile(
 					user.id,
 					updateData
@@ -135,7 +151,22 @@ export const LanguageModal = () => {
 	) => {
 		setIsLoading(true)
 		try {
+			let translatedCity = formData.city
+			if (formData.city) {
+				const translated = cityService.getTranslatedCityName(
+					formData.city,
+					languageCode
+				)
+				translatedCity = translated || formData.city // Если перевод не найден, оставляем текущее имя
+			}
+
 			await setLanguage(languageCode, countryCode)
+			setFormData(prev => ({
+				...prev,
+				languageCode,
+				countryCode,
+				city: translatedCity,
+			}))
 		} catch (error) {
 			setError(handleApiError(error, tLanguageModal('errors.serverError')))
 		} finally {

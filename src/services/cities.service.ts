@@ -58,6 +58,26 @@ export class CityService {
 		}
 	}
 
+	getTranslatedCityName(
+		cityName: string,
+		targetLanguageCode: 'en' | 'uk' | 'pl'
+	): string | null {
+		try {
+			const foundCity = this.allCities.find(
+				city =>
+					city.name.en.toLowerCase() === cityName.toLowerCase() ||
+					city.name.uk.toLowerCase() === cityName.toLowerCase() ||
+					city.name.pl.toLowerCase() === cityName.toLowerCase()
+			)
+
+			// Если город найден, возвращаем его имя на целевом языке
+			return foundCity ? foundCity.name[targetLanguageCode] : null
+		} catch (error) {
+			console.error('Error translating city:', error)
+			return null
+		}
+	}
+
 	getTotalAllCities(): number {
 		return this.allCities.length
 	}

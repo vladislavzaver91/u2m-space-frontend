@@ -127,9 +127,9 @@ export const CustomSelect = ({
 
 	const renderOptionsView = () => (
 		<>
-			{options.map(option => (
+			{options.map((option, index) => (
 				<div
-					key={option}
+					key={`${option}-${index}`}
 					className={`p-4 text-[16px] font-bold text-[#4f4f4f] cursor-pointer hover:bg-[#F7F7F7] ${
 						value === option ? 'bg-[#F7F7F7]' : ''
 					}`}

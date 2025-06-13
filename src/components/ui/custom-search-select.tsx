@@ -202,9 +202,7 @@ export const CustomSearchSelect = ({
 			<label
 				htmlFor={`${label.toLowerCase()}-select`}
 				className={`w-fit absolute transition-all duration-300 ease-in-out text-[13px] font-normal text-[#4f4f4f] ${
-					isOpen || value
-						? 'opacity-0 top-0 left-2'
-						: 'opacity-100 top-0 left-2'
+					isOpen ? 'opacity-0 top-0 left-0' : 'opacity-100 top-0 left-0'
 				}`}
 			>
 				{label}

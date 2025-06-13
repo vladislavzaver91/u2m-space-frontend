@@ -1,6 +1,12 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useState } from 'react'
+import {
+	Dispatch,
+	SetStateAction,
+	useEffect,
+	useLayoutEffect,
+	useState,
+} from 'react'
 import { CustomSelect } from './custom-select'
 import { CustomToggle } from './custom-toggle'
 import { useLocale, useTranslations } from 'next-intl'
@@ -85,11 +91,13 @@ export const ProfileSettingsForm = ({
 	isTooltipClicked,
 }: ProfileSettingsFormProps) => {
 	const { user, updateUser } = useUser()
-	const { setSubmitForm, setIsSubmitDisabled, isLoading, setIsLoading } =
-		useProfileForm()
+	const { setSubmitForm, setIsSubmitDisabled } = useProfileForm()
 	const { languageOptions, currencyOptions, updateSettings, translateCity } =
 		useLanguage()
+
+	const [isLoading, setIsLoading] = useState(false)
 	const [cities, setCities] = useState<CityOption[]>([])
+	const [] = useState(false)
 	const [errors, setErrors] = useState<{ server: string }>({ server: '' })
 	const [isComponentOpen, setIsComponentOpen] = useState({
 		language: false,
@@ -336,8 +344,12 @@ export const ProfileSettingsForm = ({
 		setSubmitForm(() => handleSubmit)
 	}, [formData, user, setSubmitForm])
 
-	if (!user) {
-		return console.log('user not found')
+	if (!user || isLoading) {
+		return (
+			<div className='flex flex-col items-center justify-center'>
+				<Loader />
+			</div>
+		)
 	}
 
 	return (

@@ -1,6 +1,13 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+	Dispatch,
+	SetStateAction,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from 'react'
 import { CustomSelect } from './custom-select'
 import { ProfileFormInput } from './profile-form-input'
 import { UpdateUserProfileData, User } from '@/types'
@@ -91,12 +98,12 @@ export const ProfileInformationForm = ({
 }: ProfileInformationFormProps) => {
 	const { user, updateUser } = useUser()
 	const { handleAuthSuccess } = useAuth()
-	const { setSubmitForm, setIsSubmitDisabled, isLoading, setIsLoading } =
-		useProfileForm()
+	const { setSubmitForm, setIsSubmitDisabled } = useProfileForm()
 	const tProfile = useTranslations('Profile')
 
 	const router = useRouter()
 
+	const [isLoading, setIsLoading] = useState(false)
 	const [isAvatarHovered, setIsAvatarHovered] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -422,8 +429,12 @@ export const ProfileInformationForm = ({
 		setSubmitForm(() => handleSubmit)
 	}, [setSubmitForm, formData, user])
 
-	if (!user) {
-		return console.log('user not found')
+	if (!user || isLoading) {
+		return (
+			<div className='flex flex-col items-center justify-center'>
+				<Loader />
+			</div>
+		)
 	}
 
 	return (

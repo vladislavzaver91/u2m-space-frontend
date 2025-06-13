@@ -151,6 +151,14 @@ export const CustomSelect = ({
 		>
 			<label
 				htmlFor={`${label.toLowerCase()}-select`}
+				className={`w-fit absolute transition-all duration-300 ease-in-out text-[13px] font-normal text-[#4f4f4f] ${
+					isOpen ? 'opacity-0 top-0 left-0' : 'opacity-100 top-0 left-0'
+				}`}
+			>
+				{label}
+			</label>
+			<label
+				htmlFor={`${label.toLowerCase()}-select`}
 				className={`w-fit absolute transition-all duration-300 ease-in-out text-[16px] font-bold ${
 					isOpen
 						? 'text-[#3486fe] left-[18px] top-4'

@@ -48,7 +48,7 @@ export const ProfileFormInput = ({
 		<div className='relative w-full h-[102px]' onClick={onClick}>
 			<label
 				htmlFor={`${label.toLowerCase()}-input`}
-				className={`absolute left-2 transition-all duration-300 ease-in-out ${
+				className={`absolute left-0 transition-all duration-300 ease-in-out ${
 					isFocused || isFilled
 						? 'top-0 text-[13px] font-normal text-[#4f4f4f]'
 						: 'top-[32px] text-[16px] font-bold text-[#4f4f4f]'

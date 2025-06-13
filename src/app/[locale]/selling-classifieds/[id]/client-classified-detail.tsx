@@ -71,8 +71,9 @@ export function ClientClassifiedDetail({
 		try {
 			setIsLoading(true)
 			setError(null)
-			console.log('Fetching classified, user:', user)
-			const data = await apiService.getClassifiedById(id)
+			const data = await apiService.getClassifiedById(id, {
+				currency: selectedCurrency.code,
+			})
 			console.log('getClassifiedById data:', data)
 			setClassified(data)
 			setFavoritesBool(data.favoritesBool)
@@ -93,7 +94,11 @@ export function ClientClassifiedDetail({
 	const fetchClassifieds = async () => {
 		try {
 			setIsLoading(true)
-			const data = await apiService.getClassifieds({ page, limit })
+			const data = await apiService.getClassifieds({
+				page,
+				limit,
+				currency: selectedCurrency.code,
+			})
 			console.log(data)
 			setClassifieds(prev => [...prev, ...data.classifieds])
 		} catch (error) {
@@ -109,7 +114,7 @@ export function ClientClassifiedDetail({
 		} else {
 			setIsLoading(false)
 		}
-	}, [id, user, initialClassified])
+	}, [id, initialClassified])
 
 	useEffect(() => {
 		if (page > 1 || initialClassifieds.length === 0) {
@@ -204,7 +209,7 @@ export function ClientClassifiedDetail({
 		},
 	]
 
-	if (isLoading || !classified || !user) {
+	if (isLoading || !classified) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
@@ -219,7 +224,6 @@ export function ClientClassifiedDetail({
 			? '₴'
 			: '€'
 
-	console.log('user data:', user)
 	console.log('classified user data id:', classified?.user.id)
 	console.log('concertedPrice:', classified.convertedPrice)
 	console.log('selectedCurrency:', selectedCurrency.code)
@@ -327,21 +331,21 @@ export function ClientClassifiedDetail({
 															{tClassified('userButtons.trustRating')}
 														</p>
 														<p className='text-[16px] font-bold text-[#3486fe]'>
-															50
+															{classified.user.bonuses}
 														</p>
 													</div>
 												</div>
 												<div className='space-y-4'>
 													<div className='flex sm:items-center sm:gap-8'>
 														<h2 className='text-[18px] font-bold uppercase tracking-[0.03em] text-[#4f4f4f]'>
-															{user!.nickname}
+															{classified.user.nickname}
 														</h2>
 														<div className='max-sm:hidden flex items-center gap-2'>
 															<p className='text-[13px] font-bold uppercase text-[#4f4f4f]'>
 																{tClassified('userButtons.tr')}
 															</p>
 															<p className='text-[16px] font-bold text-[#3486fe]'>
-																{user!.trustRating}
+																{classified.user.trustRating}
 															</p>
 														</div>
 													</div>

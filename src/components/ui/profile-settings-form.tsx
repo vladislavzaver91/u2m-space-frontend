@@ -1,6 +1,6 @@
 'use client'
 
-import { startTransition, useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { CustomSelect } from './custom-select'
 import { CustomToggle } from './custom-toggle'
 import { useLocale, useTranslations } from 'next-intl'
@@ -13,7 +13,7 @@ import { Loader } from './loader'
 import { cityService } from '@/services/cities.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { CustomLanguageSelect } from './custom-language-select'
-import { useRouter } from '@/i18n/routing'
+import { useRouter } from 'next/navigation'
 
 interface ProfileSettingsFormProps {
 	onMouseEnter: (
@@ -372,8 +372,7 @@ export const ProfileSettingsForm = ({
 				advancedUser: updatedUser.advancedUser ?? false,
 				deleteReason: updatedUser.deleteReason || null,
 			})
-
-			window.location.href = `/${localeActive}/selling-classifieds`
+			router.push(`/${formData.language}/selling-classifieds`)
 		} catch (error: any) {
 			console.error('Submit error:', error)
 			const errorMessage =
@@ -396,7 +395,7 @@ export const ProfileSettingsForm = ({
 			setErrors({ server: '' })
 			try {
 				await apiService.deleteUserProfile(user.id, { deleteReason: reason })
-				router.push('/selling-classifieds')
+				router.push(`/${localeActive}/selling-classifieds`)
 			} catch (error: any) {
 				console.error('Delete account error:', error)
 				const errorMessage =
@@ -411,11 +410,6 @@ export const ProfileSettingsForm = ({
 			}
 		}
 	}
-
-	// Установка функции сабмита в контекст
-	useLayoutEffect(() => {
-		setSubmitForm(() => handleSubmit)
-	}, [formData, user, setSubmitForm])
 
 	// Установка функции сабмита в контекст
 	useLayoutEffect(() => {

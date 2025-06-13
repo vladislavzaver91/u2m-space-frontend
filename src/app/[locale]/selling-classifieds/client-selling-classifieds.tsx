@@ -40,7 +40,11 @@ export default function ClientSellingClassifieds() {
 		const fetchClassifieds = async () => {
 			try {
 				setIsLoading(true)
-				const data = await apiService.getClassifieds({ page, limit })
+				const data = await apiService.getClassifieds({
+					page,
+					limit,
+					currency: selectedCurrency.code,
+				})
 				console.log(data)
 				setClassifieds(prev => [...prev, ...data.classifieds])
 				setHasMore(data.hasMore)
@@ -52,17 +56,17 @@ export default function ClientSellingClassifieds() {
 		}
 
 		fetchClassifieds()
-	}, [page])
+	}, [page, selectedCurrency.code])
 
 	// Обновление цен при смене валюты
-	useEffect(() => {
-		setClassifieds(prev =>
-			prev.map(item => ({
-				...item,
-				convertedCurrency: selectedCurrency.code,
-			}))
-		)
-	}, [selectedCurrency.code])
+	// useEffect(() => {
+	// 	setClassifieds(prev =>
+	// 		prev.map(item => ({
+	// 			...item,
+	// 			convertedCurrency: selectedCurrency.code,
+	// 		}))
+	// 	)
+	// }, [selectedCurrency.code])
 
 	// Infinite Scroll
 	useEffect(() => {

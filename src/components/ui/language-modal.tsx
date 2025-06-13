@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { startTransition, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Loader } from './loader'
 import { ButtonCustom } from './button-custom'
@@ -11,7 +11,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { CustomSearchSelect } from './custom-search-select'
 import { cityService } from '@/services/cities.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
-import { useAuth } from '@/helpers/contexts/auth-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { apiService } from '@/services/api.service'
 import { CityOption } from '@/types'
@@ -74,6 +73,15 @@ export const LanguageModal = () => {
 						localActive
 					)
 					translatedCity = translated || user.city // Если перевод не найден, оставляем исходное имя
+				} else {
+					const savedCity = localStorage.getItem('guestCity')
+					if (savedCity) {
+						const translated = cityService.getTranslatedCityName(
+							savedCity,
+							localActive
+						)
+						translatedCity = translated || savedCity
+					}
 				}
 
 				setFormData(prev => ({
@@ -86,7 +94,7 @@ export const LanguageModal = () => {
 							? 'UA'
 							: 'PL',
 					city: translatedCity,
-					cityId: 0, // cityId можно обновить, если нужно
+					cityId: cities.find(city => city.name === translatedCity)?.id || 0,
 				}))
 			} catch (error) {
 				setError(tLanguageModal('errors.failedToLoadCities'))
@@ -95,27 +103,11 @@ export const LanguageModal = () => {
 			}
 		}
 		loadCitiesAndSyncCity()
-	}, [localActive, tLanguageModal, user])
-
-	// const changeLanguage = (
-	// 	nextLocale: string,
-	// 	countryCode: string,
-	// 	languageCode: 'en' | 'uk' | 'pl'
-	// ) => {
-	// 	startTransition(() => {
-	// 		setIsLoading(true)
-	// 		const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
-	// 		const newPath = `/${nextLocale}${pathWithoutLocale}`
-	// 		router.push(newPath)
-	// 		setFormData({ city: '', cityId: 0, countryCode, languageCode })
-	// 		setCities([])
-	// 		closeModal()
-	// 		setIsLoading(false)
-	// 	})
-	// }
+		console.log('formData.currencyCode', formData.countryCode)
+		console.log('formData.languageCode', formData.languageCode)
+	}, [localActive, tLanguageModal, user, selectedLanguage])
 
 	// Обработка выбора города
-
 	const handleCityChange = async (cityName: string) => {
 		const selectedCity = cities.find(city => city.name === cityName)
 		setFormData({
@@ -124,24 +116,42 @@ export const LanguageModal = () => {
 			cityId: selectedCity ? selectedCity.id : 0,
 		})
 
-		if (user && cityName) {
-			try {
-				setIsLoading(true)
-				const englishCityName =
-					cityService.getTranslatedCityName(cityName, 'en') || cityName
+		try {
+			setIsLoading(true)
+			const englishCityName =
+				cityService.getTranslatedCityName(cityName, 'en') || cityName
+
+			if (user) {
 				const updateData = { city: englishCityName || null }
 				const updatedUser = await apiService.updateUserProfile(
 					user.id,
 					updateData
 				)
 				updateUser(updatedUser)
-			} catch (error: any) {
-				setError(
-					error.response?.data?.error || tLanguageModal('errors.serverError')
+			} else {
+				// Для неавторизованных
+				const savedSettings = localStorage.getItem('guestSettings')
+				const settings = savedSettings
+					? JSON.parse(savedSettings)
+					: { language: localActive, currency: selectedCurrency.code }
+				const res = await apiService.updateGuestSettings({
+					...settings,
+					city: englishCityName || null,
+				})
+				localStorage.setItem('guestCity', englishCityName || '')
+				localStorage.setItem(
+					'guestSettings',
+					JSON.stringify({
+						language: res.language,
+						currency: res.currency,
+						city: res.city,
+					})
 				)
-			} finally {
-				setIsLoading(false)
 			}
+		} catch (error: any) {
+			setError(error.res?.data?.error || tLanguageModal('errors.serverError'))
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -167,6 +177,9 @@ export const LanguageModal = () => {
 				countryCode,
 				city: translatedCity,
 			}))
+			const pathWithoutLocale = pathname.replace(`/${localActive}`, '')
+			const newPath = `/${languageCode}${pathWithoutLocale}`
+			router.push(newPath)
 		} catch (error) {
 			setError(handleApiError(error, tLanguageModal('errors.serverError')))
 		} finally {
@@ -175,10 +188,11 @@ export const LanguageModal = () => {
 	}
 
 	const handleCurrencyChange = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
-		if (!user) return
 		setIsLoading(true)
 		try {
 			await setCurrency(currencyCode)
+
+			window.location.reload()
 		} catch (error) {
 			setError(handleApiError(error, tLanguageModal('errors.serverError')))
 		} finally {
@@ -193,6 +207,12 @@ export const LanguageModal = () => {
 	if (error) {
 		console.log(error)
 	}
+
+	useEffect(() => {
+		console.log('LanguageModal: formData', formData)
+		console.log('LanguageModal: selectedLanguage', selectedLanguage)
+		console.log('LanguageModal: selectedCurrency', selectedCurrency)
+	}, [formData, selectedLanguage, selectedCurrency])
 
 	return (
 		<AnimatePresence>

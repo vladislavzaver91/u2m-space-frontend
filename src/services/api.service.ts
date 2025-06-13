@@ -26,6 +26,13 @@ interface ClassifiedData {
 	tags: string[]
 }
 
+interface GetClassifiedsParams {
+	page?: number
+	offset?: number
+	tags?: string | string[]
+	currency?: 'USD' | 'UAH' | 'EUR'
+}
+
 interface UpdateClassifiedData extends ClassifiedData {
 	isActive?: boolean
 }
@@ -58,21 +65,36 @@ interface CurrencyConversionResponse {
 	EUR: number
 }
 
+interface GuestSettings {
+	language: 'en' | 'uk' | 'pl'
+	currency: 'USD' | 'UAH' | 'EUR'
+	city: string | null
+}
+
 export class ApiService {
 	async getClassifieds(params: {
 		page: number
 		limit: number
 		tags?: string[]
+		currency?: 'USD' | 'UAH' | 'EUR'
 	}): Promise<ClassifiedsResponse> {
 		const offset = (params.page - 1) * params.limit
 		const res = await $api.get('/api/classifieds', {
-			params: { limit: params.limit, offset, tags: params.tags },
+			params: {
+				limit: params.limit,
+				offset,
+				tags: params.tags,
+				currency: params.currency,
+			},
 		})
 		return res.data
 	}
 
-	async getClassifiedById(id: string): Promise<Classified> {
-		const res = await $api.get(`/api/classifieds/${id}`)
+	async getClassifiedById(
+		id: string,
+		params: { currency?: 'USD' | 'UAH' | 'EUR' }
+	): Promise<Classified> {
+		const res = await $api.get(`/api/classifieds/${id}`, { params })
 		return res.data
 	}
 
@@ -188,6 +210,11 @@ export class ApiService {
 
 	async login(data: LoginData): Promise<AuthResponse> {
 		const res = await $api.post('/api/auth/login', data)
+		return res.data
+	}
+
+	async updateGuestSettings(settings: GuestSettings): Promise<GuestSettings> {
+		const res = await $api.post('/api/users/guest/settings', settings)
 		return res.data
 	}
 

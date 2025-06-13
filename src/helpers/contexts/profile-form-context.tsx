@@ -7,6 +7,8 @@ interface ProfileFormContextType {
 	setSubmitForm: (submit: () => void) => void
 	isSubmitDisabled: boolean
 	setIsSubmitDisabled: (disabled: boolean) => void
+	isLoading: boolean
+	setIsLoading: (disabled: boolean) => void
 }
 
 const ProfileFormContext = createContext<ProfileFormContextType | undefined>(
@@ -20,6 +22,7 @@ export function ProfileFormProvider({
 }) {
 	const [submitForm, setSubmitForm] = useState<() => void>(() => {})
 	const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true)
+	const [isLoading, setIsLoading] = useState(false)
 
 	return (
 		<ProfileFormContext.Provider
@@ -28,6 +31,8 @@ export function ProfileFormProvider({
 				setSubmitForm,
 				isSubmitDisabled,
 				setIsSubmitDisabled,
+				isLoading,
+				setIsLoading,
 			}}
 		>
 			{children}

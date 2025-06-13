@@ -57,7 +57,7 @@ export const ClassifiedForm = ({
 	const descriptionValue = watch('description')
 	const priceValue = watch('price')
 
-	const { selectedCurrency } = useLanguage()
+	const { settings } = useLanguage()
 	const { user, loading } = useUser()
 
 	const [convertedPrices, setConvertedPrices] =
@@ -109,7 +109,7 @@ export const ClassifiedForm = ({
 				const amount = parseFloat(priceValue)
 				const response = await apiService.convertCurrency(
 					amount,
-					selectedCurrency.code
+					settings.currencyCode
 				)
 				setConvertedPrices(response)
 			} catch (error: any) {
@@ -218,7 +218,7 @@ export const ClassifiedForm = ({
 					value={priceValue}
 					error={errors.price?.message}
 					maxLength={10}
-					prefix={CURRENCY_SYMBOLS[selectedCurrency.code]}
+					prefix={CURRENCY_SYMBOLS[settings.currencyCode]}
 				/>
 
 				<Tooltip

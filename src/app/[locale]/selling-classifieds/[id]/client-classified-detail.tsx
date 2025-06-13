@@ -57,7 +57,7 @@ export function ClientClassifiedDetail({
 	)
 	const [page, setPage] = useState(1)
 	const { user, updateFavorites } = useUser()
-	const { selectedCurrency } = useLanguage()
+	const { settings } = useLanguage()
 	const router = useRouter()
 	const locale = useLocale()
 	const tClassified = useTranslations('Classified')
@@ -72,7 +72,7 @@ export function ClientClassifiedDetail({
 			setIsLoading(true)
 			setError(null)
 			const data = await apiService.getClassifiedById(id, {
-				currency: selectedCurrency.code,
+				currency: settings.currencyCode,
 			})
 			console.log('getClassifiedById data:', data)
 			setClassified(data)
@@ -97,7 +97,7 @@ export function ClientClassifiedDetail({
 			const data = await apiService.getClassifieds({
 				page,
 				limit,
-				currency: selectedCurrency.code,
+				currency: settings.currencyCode,
 			})
 			console.log(data)
 			setClassifieds(prev => [...prev, ...data.classifieds])
@@ -126,7 +126,7 @@ export function ClientClassifiedDetail({
 		fetchClassified() // Перезагружаем основное объявление
 		setClassifieds([]) // Сбрасываем похожие объявления
 		fetchClassifieds() // Загружаем новые похожие объявления
-	}, [selectedCurrency.code])
+	}, [settings.currencyCode])
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		if (!user) {
@@ -226,7 +226,7 @@ export function ClientClassifiedDetail({
 
 	console.log('classified user data id:', classified?.user.id)
 	console.log('concertedPrice:', classified.convertedPrice)
-	console.log('selectedCurrency:', selectedCurrency.code)
+	console.log('settings.currencyCode:', settings.currencyCode)
 
 	// const isOwner = user && classified && user.id === classified.user.id
 

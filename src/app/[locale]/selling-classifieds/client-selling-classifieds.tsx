@@ -32,7 +32,7 @@ export default function ClientSellingClassifieds() {
 	const [activeCategory, setActiveCategory] = useState(
 		tSellingClassifieds('tabs.selling')
 	)
-	const { selectedCurrency } = useLanguage()
+	const { settings } = useLanguage()
 
 	const limit = 20
 
@@ -43,7 +43,7 @@ export default function ClientSellingClassifieds() {
 				const data = await apiService.getClassifieds({
 					page,
 					limit,
-					currency: selectedCurrency.code,
+					currency: settings.currencyCode,
 				})
 				console.log(data)
 				setClassifieds(prev => [...prev, ...data.classifieds])
@@ -56,7 +56,7 @@ export default function ClientSellingClassifieds() {
 		}
 
 		fetchClassifieds()
-	}, [page, selectedCurrency.code])
+	}, [page, settings.currencyCode])
 
 	// Обновление цен при смене валюты
 	// useEffect(() => {

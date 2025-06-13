@@ -25,7 +25,7 @@ import { CurrencyConversionResponse } from '@/types'
 
 export default function ClassifiedsEdit() {
 	const { authUser } = useAuth()
-	const { selectedCurrency } = useLanguage()
+	const { settings } = useLanguage()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
 	const [imagePreviews, setImagePreviews] = useState<string[]>([])
 	const [loadingIndices, setLoadingIndices] = useState<number[]>([])
@@ -89,13 +89,13 @@ export default function ClassifiedsEdit() {
 				setOriginalCurrency(classified.currency)
 
 				// Если валюта пользователя отличается от валюты объявления, конвертируем цену
-				if (selectedCurrency.code !== classified.currency) {
+				if (settings.currencyCode !== classified.currency) {
 					try {
 						const res = await apiService.convertCurrency(
 							classified.price,
 							classified.currency
 						)
-						const convertedPrice = res[selectedCurrency.code].toFixed(0)
+						const convertedPrice = res[settings.currencyCode].toFixed(0)
 						initial.price = convertedPrice
 					} catch (error) {
 						setConversionError('Failed to convert price')
@@ -116,7 +116,7 @@ export default function ClassifiedsEdit() {
 			}
 		}
 		fetchClassified()
-	}, [id, selectedCurrency.code])
+	}, [id, settings.currencyCode])
 
 	console.log('Initial data tags: ', tags)
 
@@ -303,7 +303,7 @@ export default function ClassifiedsEdit() {
 				// Если цена изменилась, отправляем новую цену и валюту
 				if (formData.price !== initialData?.price) {
 					formDataToSend.append('price', formData.price)
-					formDataToSend.append('currency', selectedCurrency.code)
+					formDataToSend.append('currency', settings.currencyCode)
 				} else {
 					// Если цена не изменилась, используем оригинальные значения
 					if (originalPrice !== null && originalCurrency !== null) {
@@ -345,7 +345,7 @@ export default function ClassifiedsEdit() {
 			existingImages,
 			imageFiles,
 			router,
-			selectedCurrency.code,
+			settings.currencyCode,
 			initialData,
 			originalPrice,
 			originalCurrency,

@@ -21,7 +21,7 @@ export default function FavoritesPage() {
 	const [isLoading, setIsLoading] = useState(true)
 	const [hasHiddenClassifieds, setHasHiddenClassifieds] = useState(false)
 	const { authUser } = useAuth()
-	const { selectedCurrency } = useLanguage()
+	const { settings } = useLanguage()
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const limit = 20
 	const tFavorites = useTranslations('Favorites')
@@ -88,10 +88,10 @@ export default function FavoritesPage() {
 		setClassifieds(prev =>
 			prev.map(item => ({
 				...item,
-				convertedCurrency: selectedCurrency.code,
+				convertedCurrency: settings.currencyCode,
 			}))
 		)
-	}, [selectedCurrency.code])
+	}, [settings.currencyCode])
 
 	// Infinite Scroll
 	useEffect(() => {

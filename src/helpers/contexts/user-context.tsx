@@ -1,6 +1,12 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import {
+	createContext,
+	useContext,
+	useState,
+	useEffect,
+	useCallback,
+} from 'react'
 import { User } from '@/types'
 import { useAuth } from './auth-context'
 import { apiService } from '@/services/api.service'
@@ -22,31 +28,54 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<User | null>(null)
 	const [loading, setLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
+	const [isFetching, setIsFetching] = useState<boolean>(false)
 
 	const router = useRouter()
 
-	const fetchUser = async (id: string) => {
-		setLoading(true)
-		setError(null)
-		try {
-			const userData = await apiService.getUserProfile(id)
-			setUser(userData)
-
-			if (!userData.nickname && authUser) {
-				router.push(`/profile/${id}`)
-			} else {
-				router.push('/selling-classifieds')
+	const fetchUser = useCallback(
+		async (id: string) => {
+			if (isFetching || user?.id === id) {
+				console.log('Fetch skipped: already fetching or user loaded', {
+					isFetching,
+					userId: id,
+				})
+				return
 			}
-		} catch (err: any) {
-			setError(err.message || 'Failed to fetch user profile')
-		} finally {
-			setLoading(false)
-		}
-	}
+			setIsFetching(true)
+			setLoading(true)
+			setError(null)
+			console.log('Fetching user with id:', id)
 
-	const updateUser = (updatedUser: User) => {
-		setUser(updatedUser)
-	}
+			try {
+				const userData = await apiService.getUserProfile(id)
+				setUser(userData)
+				console.log('User fetched:', userData)
+
+				if (!userData.nickname && authUser) {
+					router.push(`/profile/${id}`)
+				} else {
+					router.push('/selling-classifieds')
+				}
+			} catch (err: any) {
+				setError(err.message || 'Failed to fetch user profile')
+			} finally {
+				setLoading(false)
+				setIsFetching(false)
+				console.log('Fetch completed, isFetching set to false')
+			}
+		},
+		[isFetching, user, authUser, router]
+	)
+
+	const updateUser = useCallback((updatedUser: User) => {
+		console.log('Updating user in UserProvider:', updatedUser)
+		setUser(prev => {
+			if (prev?.id === updatedUser.id) {
+				return { ...prev, ...updatedUser }
+			}
+			return prev
+		})
+	}, [])
 
 	const updateFavorites = (classifiedId: string, add: boolean) => {
 		setUser(prev => {
@@ -60,10 +89,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
 	// Загружаем данные пользователя при монтировании, если есть authUser
 	useEffect(() => {
-		if (authUser?.id) {
+		if (authUser?.id && !user) {
 			fetchUser(authUser.id)
 		}
-	}, [authUser])
+	}, [authUser, user])
 
 	return (
 		<UserContext.Provider

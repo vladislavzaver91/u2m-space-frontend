@@ -92,7 +92,7 @@ export class ApiService {
 
 	async getClassifiedById(
 		id: string,
-		params: { currency?: 'USD' | 'UAH' | 'EUR' }
+		params?: { currency?: 'USD' | 'UAH' | 'EUR' }
 	): Promise<Classified> {
 		const res = await $api.get(`/api/classifieds/${id}`, { params })
 		return res.data

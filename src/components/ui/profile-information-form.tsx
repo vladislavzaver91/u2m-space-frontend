@@ -1,6 +1,6 @@
 'use client'
 
-import { startTransition, useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { CustomSelect } from './custom-select'
 import { ProfileFormInput } from './profile-form-input'
 import { UpdateUserProfileData, User } from '@/types'
@@ -89,14 +89,14 @@ export const ProfileInformationForm = ({
 	tooltipVisible,
 	isTooltipClicked,
 }: ProfileInformationFormProps) => {
-	const { user, updateUser, loading } = useUser()
+	const { user, updateUser } = useUser()
 	const { handleAuthSuccess } = useAuth()
-	const { setSubmitForm, setIsSubmitDisabled } = useProfileForm()
+	const { setSubmitForm, setIsSubmitDisabled, isLoading, setIsLoading } =
+		useProfileForm()
 	const tProfile = useTranslations('Profile')
 
 	const router = useRouter()
 
-	const [isLoading, setIsLoading] = useState(false)
 	const [isAvatarHovered, setIsAvatarHovered] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -162,7 +162,7 @@ export const ProfileInformationForm = ({
 	}, [user])
 
 	// Обновление состояния кнопки submit
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const isFormValid =
 			formData.nickname.trim() !== '' &&
 			formData.email.trim() !== '' &&
@@ -397,9 +397,7 @@ export const ProfileInformationForm = ({
 				removeAvatar: false,
 			})
 
-			startTransition(() => {
-				router.push('/selling-classifieds')
-			})
+			router.replace('/selling-classifieds')
 		} catch (error: any) {
 			let errorMessage = tProfile('errors.serverError')
 			if (error.response?.data?.error) {
@@ -420,16 +418,12 @@ export const ProfileInformationForm = ({
 	}
 
 	// Установка функции сабмита в контекст
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setSubmitForm(() => handleSubmit)
 	}, [setSubmitForm, formData, user])
 
-	if (isLoading || loading || !user) {
-		return (
-			<div className='min-h-screen flex flex-col items-center justify-center'>
-				<Loader />
-			</div>
-		)
+	if (!user) {
+		return console.log('user not found')
 	}
 
 	return (

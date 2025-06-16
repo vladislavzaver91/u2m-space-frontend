@@ -55,10 +55,10 @@ export const Header = () => {
 	const isProfileLabel = pathname.startsWith(profileRoute)
 
 	const handleBack = () => {
-		if (user?.nickname) {
-			router.push(`/selling-classifieds`)
+		if (isProfileLabel && !user?.nickname) {
+			return
 		}
-		// router.push(`/selling-classifieds`)
+		router.push(`/selling-classifieds`)
 	}
 
 	useEffect(() => {

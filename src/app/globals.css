@@ -62,6 +62,13 @@ body.has-scroll::-webkit-scrollbar-thumb {
 	display: none;
 }
 
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset !important;
+	box-shadow: 0 0 0px 1000px white inset !important;
+	-webkit-text-fill-color: #000 !important;
+	transition: background-color 9999s ease-in-out 0s;
+}
+
 .custom-container {
 	margin: 0 auto;
 	padding: 0px 16px 0px 16px;

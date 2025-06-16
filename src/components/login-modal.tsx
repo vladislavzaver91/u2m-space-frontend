@@ -130,11 +130,11 @@ export const LoginModal = () => {
 							{tLoginModal('logInWith')}
 						</h3>
 
-						<div className='relative w-full min-h-[64px] flex items-center justify-center'>
+						<div className='relative w-full min-h-[64px] flex-col items-center justify-center'>
 							{isLoading ? (
 								<Loader />
 							) : (
-								<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full'>
+								<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-sm:justify-items-center'>
 									{AUTH_LINK_ITEMS.map((item, index) => (
 										<ButtonCustom
 											key={index}

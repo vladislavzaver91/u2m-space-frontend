@@ -175,18 +175,16 @@ export const LanguageModal = () => {
 									<div
 										key={index}
 										onClick={() => handleCurrencyChange(item.code)}
-										className={`min-w-[216px] w-fit ${
-											item.code === 'USD' ? 'h-[94px]' : 'h-[74px]'
-										} p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${
+										className={`min-w-[216px] w-fit min-h-[74px] max-h-[94px] p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${
 											settings.currencyCode === item.code
 												? 'border-[#f9329c]'
 												: ''
 										} `}
 									>
-										<p className='font-bold text-[16px] text-[#4F4F4F] leading-[18px]'>
+										<p className='font-bold text-[16px] text-[#4F4F4F] leading-5'>
 											{item.name}
 										</p>
-										<p className='font-normal text-[16px] text-[#4F4F4F] leading-[18px]'>
+										<p className='font-normal text-[16px] text-[#4F4F4F] leading-5'>
 											{item.symbol}
 										</p>
 									</div>

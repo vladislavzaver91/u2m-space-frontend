@@ -39,9 +39,9 @@ export const LoginModal = () => {
 			name: 'Google',
 			href: `${
 				process.env.NEXT_PUBLIC_API_URL
-			}/api/auth/google?locale=${encodeURIComponent(
-				locale
-			)}&prompt=${encodeURIComponent('select_account')}`,
+			}/api/auth/google?prompt=${encodeURIComponent(
+				'select_account'
+			)}&locale=${encodeURIComponent(locale)}`,
 		},
 	]
 

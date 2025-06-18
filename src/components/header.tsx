@@ -319,7 +319,7 @@ export const Header = () => {
 											/>
 										}
 										isHover
-										className='p-4 min-w-[56px] w-fit'
+										className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
 									/>
 								</div>
 

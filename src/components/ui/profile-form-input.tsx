@@ -42,7 +42,9 @@ export const ProfileFormInput = ({
 	}
 
 	const isMaxLengthReached = maxLength && value?.length >= maxLength
-	const showPrefix = prefix && (isFocused || isFilled)
+	const showPrefix =
+		prefix && (prefix === '+' ? isFocused && !value : isFocused || isFilled)
+	const pricePrefix = `${prefix === '+' && 'top-[40px] left-0'}`
 
 	return (
 		<div className='relative w-full h-[102px]' onClick={onClick}>
@@ -59,7 +61,7 @@ export const ProfileFormInput = ({
 			<div className='relative'>
 				{showPrefix && (
 					<span
-						className={`absolute left-0 top-[28px] text-[16px] font-bold text-[#4f4f4f] ${
+						className={`absolute left-0 top-[28px] ${pricePrefix} text-[16px] font-bold text-[#4f4f4f] ${
 							error ? 'text-[#F9329C] text-[13px] font-normal' : ''
 						}`}
 					>

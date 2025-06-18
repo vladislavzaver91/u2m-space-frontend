@@ -92,7 +92,7 @@ export const MyClassifiedCard = ({
 		onMouseEnter: handleMouseEnter,
 		onMouseLeave: handleMouseLeave,
 		className:
-			'block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent w-full max-sm:min-h-[396px] lg:h-[294px] 3xl:h-[375px]! min-w-[217px] cursor-pointer',
+			'block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent w-full max-sm:min-h-[396px] lg:h-[294px] 3xl:h-[383px]! min-w-[217px] cursor-pointer',
 	}
 
 	return (
@@ -230,7 +230,7 @@ export const MyClassifiedCard = ({
 									{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
 										<div
 											key={index}
-											className='min-w-[51px] w-full flex flex-col justify-center items-center gap-[3px] px-3'
+											className='min-w-[51px] h-[35px] w-full flex flex-col justify-center items-center gap-[3px] px-3'
 										>
 											<span className='w-4 h-4'>{item.icon}</span>
 											<p className='font-bold text-[13px] text-[#4f4f4f]'>
@@ -257,7 +257,7 @@ export const MyClassifiedCard = ({
 										onClick={handleToggle}
 										isHover
 										textClass='truncate w-full'
-										className='border border-[#bdbdbd] rounded-lg p-1 flex flex-col items-center justify-center gap-[3px] text-[13px]! font-normal min-w-[51px] w-full group'
+										className='border border-[#bdbdbd] rounded-lg p-1 flex flex-col items-center justify-center gap-[3px] text-[13px]! font-normal min-w-[51px] min-h-[43px] w-full group'
 									/>
 									<ButtonCustom
 										text={tMyClassifieds('buttons.edit')}
@@ -326,7 +326,7 @@ export const MyClassifiedCard = ({
 					{/* Нижний блок с анимацией */}
 					<>
 						{/* моб */}
-						<div className='relative p-4 min-h-[242px] overflow-hidden space-y-4 lg:hidden'>
+						<div className='relative flex flex-col p-4 min-h-[242px] overflow-hidden space-y-4 lg:hidden'>
 							{/* инфо-аналитические данные */}
 							<div className='w-full flex flex-wrap justify-between gap-4'>
 								{INFO_AND_ANALYTICAL_DATA.map((item, index) => (
@@ -352,7 +352,7 @@ export const MyClassifiedCard = ({
 								</p>
 							</div>
 							{/* кнопки */}
-							<div className='w-full flex max-2xs:flex-wrap items-center max-sm:gap-4 sm:gap-2'>
+							<div className='w-full flex max-2xs:flex-wrap items-center mt-auto max-sm:gap-4 sm:gap-2'>
 								<ButtonCustom
 									text={
 										isActive

@@ -7,16 +7,27 @@ import { ButtonCustom } from './button-custom'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/routing'
+import { useUser } from '@/helpers/contexts/user-context'
 
 interface NavigationButtonsProps {
 	activePage: string
+	setNicknameError?: (error: string) => void
 }
 
-export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
+export const NavigationButtons = ({
+	activePage,
+	setNicknameError,
+}: NavigationButtonsProps) => {
 	const { authUser, logout } = useAuth()
+	const { user } = useUser()
 	const router = useRouter()
 	const swiperRef = useRef<SwiperRef | null>(null)
 	const tMyClassifieds = useTranslations('MyClassifieds')
+	const tProfile = useTranslations('Profile')
+
+	useEffect(() => {
+		console.log('authUser nickname', authUser)
+	}, [])
 
 	const BUTTONS = [
 		{
@@ -63,6 +74,11 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 	) => {
 		if (isLogout) {
 			logout()
+		} else if (!user?.nickname && type !== 'logout') {
+			setNicknameError?.(
+				tProfile('informationFormInputs.errorNicknameRequired')
+			)
+			return
 		} else if (type === 'profile') {
 			if (authUser && authUser.id) {
 				router.push(`/profile/${authUser.id}`)
@@ -84,7 +100,7 @@ export const NavigationButtons = ({ activePage }: NavigationButtonsProps) => {
 	}, [activePage])
 
 	return (
-		<div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-0 max-sm:py-[11px] sm:pl-8 max-2-5xl:py-6 2-5xl:absolute 2-5xl:pl-40! 2-5xl:flex-col gap-4'>
+		<div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-0 max-sm:py-[11px] sm:pl-8 max-2-5xl:py-6 2-5xl:fixed 2-5xl:pl-40! 2-5xl:flex-col gap-4'>
 			<div className='navigation-btn-slider block w-full sm:hidden'>
 				<Swiper
 					slidesPerView='auto'

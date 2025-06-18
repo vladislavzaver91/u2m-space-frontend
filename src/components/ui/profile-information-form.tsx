@@ -87,6 +87,7 @@ interface ProfileInformationFormProps {
 		| 'deleteReason',
 		boolean
 	>
+	externalNicknameError?: string
 }
 
 export const ProfileInformationForm = ({
@@ -95,6 +96,7 @@ export const ProfileInformationForm = ({
 	onTooltipClick,
 	tooltipVisible,
 	isTooltipClicked,
+	externalNicknameError,
 }: ProfileInformationFormProps) => {
 	const { user, updateUser } = useUser()
 	const { handleAuthSuccess } = useAuth()
@@ -127,7 +129,7 @@ export const ProfileInformationForm = ({
 		avatarError: string
 		server: string
 	}>({
-		nickname: '',
+		nickname: externalNicknameError || '',
 		email: '',
 		phoneNumber: '',
 		avatarError: '',
@@ -167,6 +169,10 @@ export const ProfileInformationForm = ({
 			})
 		}
 	}, [user])
+
+	useLayoutEffect(() => {
+		setErrors(prev => ({ ...prev, nickname: externalNicknameError || '' }))
+	}, [externalNicknameError])
 
 	// Обновление состояния кнопки submit
 	useLayoutEffect(() => {
@@ -234,7 +240,10 @@ export const ProfileInformationForm = ({
 		(field: keyof typeof formData) => (value: string) => {
 			let newValue = value
 			if (field === 'phoneNumber' || field === 'extraPhoneNumber') {
-				newValue = formatPhoneNumber(value)
+				const cleanedValue = value
+					.replace(/[^0-9+]/g, '')
+					.replace(/^\+{2,}/, '+')
+				newValue = formatPhoneNumber(cleanedValue)
 			} else if (field === 'gender') {
 				const selectedOption = genderOptions.find(
 					opt => tProfile(opt.translationKey) === value
@@ -702,6 +711,7 @@ export const ProfileInformationForm = ({
 						onClick={() => !user.advancedUser && onTooltipClick('phoneNumber')}
 						value={formData.phoneNumber}
 						type='tel'
+						prefix='+'
 						error={errors.phoneNumber}
 						isValid={formData.phoneNumber.length > 0 && !errors.phoneNumber}
 					/>
@@ -729,6 +739,7 @@ export const ProfileInformationForm = ({
 						}
 						value={formData.extraPhoneNumber}
 						type='tel'
+						prefix='+'
 					/>
 					{!user.advancedUser && (
 						<Tooltip

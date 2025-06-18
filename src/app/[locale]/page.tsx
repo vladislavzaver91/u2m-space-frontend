@@ -133,7 +133,7 @@ export default function Home() {
 				<div className='flex-1 flex items-center justify-center pt-14 pb-[84px] md:pt-20 md:pb-[88px] '>
 					<div className='home-content-wrapper max-sm:px-2 max-2xl:px-0 px-8 max-2xl:max-w-[443px] max-w-[1546px] mx-auto flex flex-col items-center md:justify-between md:gap-[100px] flex-grow'>
 						<div className='flex flex-col items-center justify-center text-center md:space-y-8'>
-							<Logo width={150} height={48} className='z-10' />
+							<Logo width={150} height={48} className='z-20' />
 							<h1 className='font-bold text-[24px] text-[#4f4f4f] leading-7 max-md:pt-7 max-md:pb-[15px]'>
 								{tHome('title1')}
 								<br /> {tHome('title2')}

@@ -58,9 +58,9 @@ export const ImagePreview = ({
 	return (
 		<div
 			ref={ref}
-			className={`relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD] ${
-				isDragging ? 'opacity-50 z-10' : ''
-			}`}
+			className={`relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border ${
+				isHovered ? 'border-transparent' : 'border-[#BDBDBD]'
+			} ${isDragging ? 'opacity-50 z-10' : ''}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			onClick={handleClick}
@@ -68,12 +68,12 @@ export const ImagePreview = ({
 			<img
 				src={src}
 				alt={`Image ${index + 1}`}
-				className='w-full max-sm:h-16 h-20 object-cover rounded-[13px]'
+				className='w-full h-full object-cover rounded-[13px]'
 				aria-label={`Preview image ${index + 1}`}
 			/>
 
 			{index === 0 && (
-				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] flex items-center justify-center'>
+				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] rounded-tr-[13px] flex items-center justify-center'>
 					<IconCustom
 						name='star'
 						className='w-3 h-3 text-[#f9329c] fill-none'
@@ -81,7 +81,7 @@ export const ImagePreview = ({
 				</div>
 			)}
 			{isHovered && width >= 1024 && (
-				<div className='absolute inset-0 bg-black/50 rounded-[13px] flex items-center justify-center'>
+				<div className='absolute inset-0 bg-black/50 rounded-[13px] transition-all duration-300 flex items-center justify-center'>
 					<ButtonCustom
 						onClick={e => {
 							e.stopPropagation()

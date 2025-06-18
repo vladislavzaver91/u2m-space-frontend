@@ -71,12 +71,12 @@ export const MyFavoritesCard = ({
 
 	const containerProps = {
 		className:
-			'block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent min-w-full max-sm:min-h-[383px] sm:h-[294px] 3xl:h-[375px]! sm:w-[224px] lg:w-[259px] 2xl:w-[217px] 3xl:w-[355px]! cursor-pointer',
+			'block border border-[#bdbdbd] rounded-[13px] transition-all active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent min-w-full max-sm:min-h-[383px] sm:h-[294px] 3xl:h-[383px]! sm:w-[224px] lg:w-[259px] 2xl:w-[217px] 3xl:w-[355px]! cursor-pointer',
 	}
 
 	return (
 		<Link href={href} {...containerProps}>
-			<div className='relative w-full max-sm:h-[253px] sm:h-[154px] 3xl:h-[253px]'>
+			<div className='relative w-full max-sm:h-[253px] sm:h-[154px] 3xl:h-[253px]!'>
 				{image ? (
 					<Image
 						src={image}

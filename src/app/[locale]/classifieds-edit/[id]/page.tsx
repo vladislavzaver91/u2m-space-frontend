@@ -328,7 +328,7 @@ export default function ClassifiedsEdit() {
 				const res = await apiService.updateClassified(id, formDataToSend)
 				console.log('Update response:', res)
 				setTags(res.tags || [])
-				router.push(`/selling-classifieds/${res.id}`)
+				router.push(`/my-classifieds`)
 			} catch (error: any) {
 				console.error(
 					'Classified update error:',

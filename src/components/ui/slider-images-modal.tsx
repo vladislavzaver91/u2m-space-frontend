@@ -158,7 +158,7 @@ export const SliderImagesModal = ({
 							</SwiperSlide>
 						))}
 					</Swiper>
-					<div className='absolute bottom-3 md:bottom-6 left-0 right-0 flex items-center justify-between w-full z-10 px-6'>
+					<div className='absolute bottom-4 left-0 right-0 flex items-center justify-between w-full z-10 px-4'>
 						<div className='flex items-center'>
 							<span className='text-[18px] font-bold tracking-[0.03em] uppercase text-[#f9329c]'>
 								{String(currentImageIndex + 1).padStart(2, '0')}

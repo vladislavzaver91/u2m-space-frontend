@@ -127,7 +127,7 @@ export const LanguageModal = () => {
 					animate={{ scale: 1, opacity: 1 }}
 					exit={{ scale: 0.8, opacity: 0 }}
 					transition={{ duration: 0.3 }}
-					className='bg-white rounded-[13px] shadow-lg max-w-[744px] w-full p-8 flex flex-col items-center space-y-8'
+					className='bg-white rounded-[13px] shadow-lg max-w-[744px] w-full p-8 flex flex-col items-center space-y-8 select-none'
 				>
 					{/* language and region */}
 					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>

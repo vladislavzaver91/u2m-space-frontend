@@ -1,12 +1,10 @@
 'use client'
 
-import { Loader } from '@/components/ui/loader'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { ProfileInformationForm } from '@/components/ui/profile-information-form'
 import { ProfileSettingsForm } from '@/components/ui/profile-settings-form'
 import { ProfileTabs } from '@/components/ui/profile-tabs'
 import { useAuth } from '@/helpers/contexts/auth-context'
-import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { useRouter } from '@/i18n/routing'
 import { useLocale, useTranslations } from 'next-intl'
@@ -51,7 +49,10 @@ export default function ProfilePage() {
 		deleteReason: false,
 	})
 
+	const [nicknameError, setNicknameError] = useState('')
+
 	const { authUser } = useAuth()
+	const { user } = useUser()
 
 	const { id } = useParams<{ id: string }>()
 	const router = useRouter()
@@ -69,7 +70,7 @@ export default function ProfilePage() {
 		}
 	}, [authUser, id, router])
 
-	if (!authUser) {
+	if (!authUser || !user) {
 		return console.log('authUser not found')
 	}
 
@@ -111,6 +112,15 @@ export default function ProfilePage() {
 		}, 50)
 	}
 
+	const handleTabChange = (tab: string) => {
+		if (tab === tProfile('tabs.setting') && !user.nickname) {
+			setNicknameError(tProfile('informationFormInputs.errorNicknameRequired'))
+			return
+		}
+		setActiveTab(tab)
+		setNicknameError('') // Сбрасываем ошибку при успешном переключении
+	}
+
 	if (authUser.id !== id) {
 		return null
 	}
@@ -118,14 +128,17 @@ export default function ProfilePage() {
 	return (
 		<div className='min-h-screen flex flex-col'>
 			<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
-				<NavigationButtons activePage={tMyClassifieds('buttons.profile')} />
+				<NavigationButtons
+					activePage={tMyClassifieds('buttons.profile')}
+					setNicknameError={setNicknameError}
+				/>
 
 				<div className='flex-1 flex sm:justify-center w-full'>
 					<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
 						<ProfileTabs
 							tabs={[tProfile('tabs.information'), tProfile('tabs.setting')]}
 							activeTab={activeTab}
-							onTabChange={setActiveTab}
+							onTabChange={handleTabChange}
 						/>
 					</div>
 				</div>
@@ -146,6 +159,7 @@ export default function ProfilePage() {
 											onTooltipClick={handleTooltipClick}
 											tooltipVisible={infoTooltipVisible}
 											isTooltipClicked={isTooltipClicked}
+											externalNicknameError={nicknameError}
 										/>
 									) : (
 										<ProfileSettingsForm

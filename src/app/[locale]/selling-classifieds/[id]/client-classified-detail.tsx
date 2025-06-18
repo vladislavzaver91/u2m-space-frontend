@@ -232,7 +232,7 @@ export function ClientClassifiedDetail({
 
 	return (
 		<div className='min-h-screen flex flex-col'>
-			<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
+			<div className='flex-1 pt-14 pb-28 md:pt-[88px] 2-5xl:pt-40!'>
 				<div className='flex max-2-5xl:flex-col flex-wrap max-2-5xl:justify-center items-baseline w-full'>
 					<div className='max-sm:hidden flex-1 flex justify-center w-full'>
 						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>

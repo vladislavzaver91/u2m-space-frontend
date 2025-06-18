@@ -72,10 +72,20 @@ export const ImageSlider = ({
 		})
 	}
 
-	const handleImageClick = (e: React.MouseEvent) => {
+	const handleImageClick = (e: React.MouseEvent, swiper: SwiperClass) => {
 		if (!isDesktop && onOpenModal) {
 			e.stopPropagation()
 			onOpenModal()
+		}
+
+		const rect = e.currentTarget.getBoundingClientRect()
+		const clickX = e.clientX - rect.left
+		const halfWidth = rect.width / 2
+
+		if (clickX < halfWidth) {
+			swiper.slidePrev()
+		} else {
+			swiper.slideNext()
 		}
 	}
 
@@ -91,7 +101,9 @@ export const ImageSlider = ({
 		return (
 			<>
 				<div
-					onClick={handleImageClick}
+					onClick={e =>
+						swiperRef.current && handleImageClick(e, swiperRef.current)
+					}
 					className='relative max-md:mx-4 h-[228px] md:h-[470px] lg:h-[352px] cursor-pointer'
 				>
 					{!imageLoaded[0] && (
@@ -150,11 +162,11 @@ export const ImageSlider = ({
 			<Swiper
 				slidesPerView={1}
 				centeredSlides
-				grabCursor={true}
+				grabCursor={!isDesktop}
 				speed={500}
-				freeMode={true}
-				touchRatio={1.5}
-				touchReleaseOnEdges
+				freeMode={!isDesktop}
+				touchRatio={isDesktop ? 0 : 1.5}
+				touchReleaseOnEdges={!isDesktop}
 				pagination={SwiperPaginationService.paginationForCard}
 				onInit={swiper => {
 					swiperRef.current = swiper
@@ -197,8 +209,12 @@ export const ImageSlider = ({
 				{images.map((image, index) => (
 					<SwiperSlide key={index}>
 						<div
-							onClick={handleImageClick}
-							className='relative h-[228px] md:h-[470px] lg:h-[352px]'
+							onClick={e =>
+								swiperRef.current && handleImageClick(e, swiperRef.current)
+							}
+							className={`relative h-[228px] md:h-[470px] lg:h-[352px] ${
+								isDesktop ? 'cursor-pointer' : ''
+							}`}
 						>
 							{!imageLoaded[index] && (
 								<SkeletonImage

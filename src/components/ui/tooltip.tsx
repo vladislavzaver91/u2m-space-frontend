@@ -27,7 +27,7 @@ export const Tooltip = ({
 	convertedCurrencyItems,
 }: TooltipProps) => (
 	<div
-		className={`max-xl:hidden absolute ${positionClass} left-40 2xl:left-80 top-10 w-[294px] min-h-fit bg-[#f7f7f7] rounded-[13px] p-5 transition-all ease-in-out ${
+		className={`max-xl:hidden absolute ${positionClass} left-80 top-10 w-[294px] min-h-fit bg-[#f7f7f7] rounded-[13px] p-5 transition-all ease-in-out ${
 			visible
 				? 'opacity-100 translate-y-0 duration-300'
 				: `opacity-0 translate-y-2 pointer-events-none z-10 ${

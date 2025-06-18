@@ -42,14 +42,14 @@ export const ImageContextMenuModal = ({
 						className='bg-white rounded-[13px] shadow-lg w-full max-w-[328px] p-2 flex flex-col items-center space-y-8'
 						onClick={e => e.stopPropagation()}
 					>
-						<div>
+						<div className='w-full'>
 							<ButtonCustom
 								onClick={() => {
 									onMakeMain()
 									onClose()
 								}}
 								text={tCreateEditClassified('setTheMain')}
-								className='w-full p-4 bg-white text-[#4F4F4F] text-[16px] font-bold hover:bg-[#F7F7F7]'
+								className='w-full p-4 bg-white text-[#4F4F4F] text-[16px] font-bold hover:bg-[#F7F7F7] focus:bg-[#F7F7F7]'
 							/>
 							<ButtonCustom
 								onClick={() => {
@@ -57,7 +57,7 @@ export const ImageContextMenuModal = ({
 									onClose()
 								}}
 								text={tCreateEditClassified('delete')}
-								className='w-full p-4 bg-white text-[#4F4F4F] text-[16px] font-bold hover:bg-[#F7F7F7]'
+								className='w-full p-4 bg-white text-[#4F4F4F] text-[16px] font-bold hover:bg-[#F7F7F7] focus:bg-[#F7F7F7]'
 							/>
 						</div>
 

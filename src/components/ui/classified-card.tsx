@@ -2,11 +2,13 @@
 
 import Image from 'next/image'
 import { ButtonCustom } from './button-custom'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { apiService } from '@/services/api.service'
 import { Link } from '@/i18n/routing'
 import { useUser } from '@/helpers/contexts/user-context'
+import { Loader } from './loader'
+import { useLoading } from '@/helpers/contexts/loading-context'
 
 interface ClassifiedCardProps {
 	classifiedId: string
@@ -45,6 +47,7 @@ export const ClassifiedCard = ({
 	const [favorites, setFavorites] = useState(initialFavorites)
 
 	const { updateFavorites } = useUser()
+	const { setIsLoading } = useLoading()
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.preventDefault() // Предотвращаем переход по Link
@@ -64,12 +67,18 @@ export const ClassifiedCard = ({
 		}
 	}
 
+	const handleClick = () => {
+		setIsLoading(true)
+	}
+
 	const symbol =
 		convertedCurrency === 'USD' ? '$' : convertedCurrency === 'UAH' ? '₴' : '€'
 
 	return (
 		<Link
 			href={href}
+			prefetch={true}
+			onClick={handleClick}
 			className={`block border border-[#bdbdbd] rounded-xl transition-all duration-300 ease-in-out active:shadow-custom-2xl hover:shadow-custom-xl hover:border-transparent w-full ${
 				isSmall ? 'min-h-[294px]' : 'h-[383px]'
 			}`}

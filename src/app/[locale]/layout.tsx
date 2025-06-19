@@ -12,6 +12,7 @@ import { ClassifiedFormProvider } from '@/helpers/contexts/classified-form-conte
 import { LanguageProvider } from '@/helpers/contexts/language-context'
 import { UserProvider } from '@/helpers/contexts/user-context'
 import { ProfileFormProvider } from '@/helpers/contexts/profile-form-context'
+import { LoadingProvider } from '@/helpers/contexts/loading-context'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -57,20 +58,22 @@ export default async function RootLayout({
 		<html lang={locale}>
 			<body className={bodyClass}>
 				<NextIntlClientProvider locale={locale} messages={messages}>
-					<AuthProvider>
-						<UserProvider>
-							<LanguageProvider>
-								<ModalProvider>
-									<ClassifiedFormProvider>
-										<ProfileFormProvider>
-											<Header />
-											<ClientLayout>{children}</ClientLayout>
-										</ProfileFormProvider>
-									</ClassifiedFormProvider>
-								</ModalProvider>
-							</LanguageProvider>
-						</UserProvider>
-					</AuthProvider>
+					<LoadingProvider>
+						<AuthProvider>
+							<UserProvider>
+								<LanguageProvider>
+									<ModalProvider>
+										<ClassifiedFormProvider>
+											<ProfileFormProvider>
+												<Header />
+												<ClientLayout>{children}</ClientLayout>
+											</ProfileFormProvider>
+										</ClassifiedFormProvider>
+									</ModalProvider>
+								</LanguageProvider>
+							</UserProvider>
+						</AuthProvider>
+					</LoadingProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>

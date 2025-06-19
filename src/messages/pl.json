@@ -21,9 +21,10 @@
 		"userButtons": {
 			"sendMessage": "Wiadomość",
 			"safeBuy/deal": "Zakup/transakcja",
-			"tr": "tr",
+			"tr": "oz",
 			"trustRating": "Ocena zaufania"
-		}
+		},
+		"loginToView": "Zaloguj się, aby zobaczyć"
 	},
 
 	"MyClassifieds": {

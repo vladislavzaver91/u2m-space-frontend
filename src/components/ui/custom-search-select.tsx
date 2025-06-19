@@ -162,8 +162,15 @@ export const CustomSearchSelect = ({
 		setSearchTerm(e.target.value)
 	}
 
-	const handleClearSearch = () => {
-		setSearchTerm('')
+	const handleConfirmSearch = () => {
+		if (searchTerm.trim()) {
+			onChange(searchTerm)
+			setIsOpen(false)
+			setShowAsModal(false)
+			setIsFocused(true)
+			setSearchTerm('')
+			onOpenChange?.(false)
+		}
 		if (inputRef.current) {
 			inputRef.current.focus()
 		}
@@ -239,7 +246,7 @@ export const CustomSearchSelect = ({
 					className='bg-white max-h-[250px] custom-scrollbar overflow-y-auto w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-b-[13px] z-40'
 				>
 					<div className='relative flex items-center p-2 border-b border-[#bdbdbd] h-14'>
-						<div className='absolute inset-y-0 left-4 flex items-center'>
+						<div className='absolute inset-y-0 left-4 right-4 flex items-center'>
 							<IconCustom
 								name='search-glass'
 								className='w-6 h-6 fill-none text-[#BDBDBD]'
@@ -250,22 +257,22 @@ export const CustomSearchSelect = ({
 								value={searchTerm}
 								onChange={handleSearchChange}
 								placeholder={tComponents('placeholders.search')}
-								className='w-full h-10 px-2 pl-10 text-[16px] font-normal text-[#4f4f4f] outline-none bg-transparent'
+								className='w-full h-10 pl-4 text-[16px] font-normal text-[#4f4f4f] outline-none bg-transparent'
 							/>
 							{searchTerm && (
 								<ButtonCustom
-									onClick={handleClearSearch}
+									onClick={handleConfirmSearch}
 									iconWrapperClass='w-6 h-6 flex items-center justify-center'
 									icon={
 										<IconCustom
-											name='close'
-											className='w-3 h-3 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+											name='check'
+											className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 											hover={true}
 											hoverColor='#f9329c'
 										/>
 									}
 									isHover
-									className='w-10 h-10 flex items-center justify-center rounded-lg'
+									className='min-w-10 h-10 flex items-center justify-center rounded-lg'
 								/>
 							)}
 						</div>
@@ -355,12 +362,12 @@ export const CustomSearchSelect = ({
 								/>
 								{searchTerm && (
 									<ButtonCustom
-										onClick={handleClearSearch}
+										onClick={handleConfirmSearch}
 										iconWrapperClass='w-6 h-6 flex items-center justify-center'
 										icon={
 											<IconCustom
-												name='close'
-												className='w-3 h-3 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												name='check'
+												className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 												hover={true}
 												hoverColor='#f9329c'
 											/>

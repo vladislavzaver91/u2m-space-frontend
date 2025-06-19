@@ -23,7 +23,8 @@
 			"safeBuy/deal": "Safe buy/deal",
 			"tr": "tr",
 			"trustRating": "Trust rating"
-		}
+		},
+		"loginToView": "Log in to view"
 	},
 
 	"MyClassifieds": {

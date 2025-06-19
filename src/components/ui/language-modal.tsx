@@ -12,7 +12,6 @@ import { CustomSearchSelect } from './custom-search-select'
 import { cityService } from '@/services/cities.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { useUser } from '@/helpers/contexts/user-context'
-import { apiService } from '@/services/api.service'
 import { CityOption } from '@/types'
 import { handleApiError } from '@/helpers/functions/handle-api-error'
 
@@ -28,9 +27,7 @@ export const LanguageModal = () => {
 		updateSettings,
 		translateCity,
 	} = useLanguage()
-	const { user, updateUser } = useUser()
-	const router = useRouter()
-	const pathname = usePathname()
+
 	const locale = useLocale() as 'en' | 'uk' | 'pl'
 	const tLanguageModal = useTranslations('LanguageModal')
 
@@ -63,6 +60,7 @@ export const LanguageModal = () => {
 	const handleLanguageChange = async (languageCode: 'en' | 'uk' | 'pl') => {
 		setIsLoading(true)
 		try {
+			closeModal()
 			await updateSettings({
 				languageCode,
 				city: settings.city
@@ -80,6 +78,7 @@ export const LanguageModal = () => {
 	const handleCurrencyChange = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
 		setIsLoading(true)
 		try {
+			closeModal()
 			await updateSettings({ currencyCode })
 			window.location.reload()
 		} catch (error: any) {
@@ -93,10 +92,11 @@ export const LanguageModal = () => {
 	const handleCityChange = async (cityName: string) => {
 		setIsLoading(true)
 		try {
+			closeModal()
 			await updateSettings({
 				city: cityName,
 			})
-			closeModal()
+			console.log('updatedCity', cityName)
 		} catch (error: any) {
 			setError(handleApiError(error, tLanguageModal('errors.serverError')))
 		} finally {

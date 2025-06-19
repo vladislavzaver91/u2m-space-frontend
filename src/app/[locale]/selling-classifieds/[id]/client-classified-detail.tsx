@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -18,6 +18,7 @@ import { useTranslations } from 'use-intl'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { formatPhoneNumber } from '@/helpers/functions/format-phone-number'
+import { useLoading } from '@/helpers/contexts/loading-context'
 
 interface ApiError {
 	response?: {
@@ -45,7 +46,7 @@ export function ClientClassifiedDetail({
 	)
 	const [classifieds, setClassifieds] =
 		useState<Classified[]>(initialClassifieds)
-	const [isLoading, setIsLoading] = useState(true)
+	const [isFetching, setIsFetching] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
@@ -56,8 +57,11 @@ export function ClientClassifiedDetail({
 		initialClassified?.favorites || 0
 	)
 	const [page, setPage] = useState(1)
+
 	const { user, updateFavorites } = useUser()
 	const { settings } = useLanguage()
+	const { isLoading, setIsLoading } = useLoading()
+
 	const router = useRouter()
 	const locale = useLocale()
 	const tClassified = useTranslations('Classified')
@@ -69,7 +73,7 @@ export function ClientClassifiedDetail({
 
 	const fetchClassified = async () => {
 		try {
-			setIsLoading(true)
+			setIsFetching(true)
 			setError(null)
 			const data = await apiService.getClassifiedById(id, {
 				currency: settings.currencyCode,
@@ -87,13 +91,14 @@ export function ClientClassifiedDetail({
 					: 'Не удалось загрузить объявление. Пожалуйста, попробуйте позже.'
 			)
 		} finally {
+			setIsFetching(false)
 			setIsLoading(false)
 		}
 	}
 
 	const fetchClassifieds = async () => {
 		try {
-			setIsLoading(true)
+			setIsFetching(true)
 			const data = await apiService.getClassifieds({
 				page,
 				limit,
@@ -104,17 +109,18 @@ export function ClientClassifiedDetail({
 		} catch (error) {
 			console.error('Error fetching classifieds:', error)
 		} finally {
-			setIsLoading(false)
+			setIsFetching(false)
 		}
 	}
 
-	useEffect(() => {
-		if (!initialClassified) {
-			fetchClassified()
-		} else {
+	useLayoutEffect(() => {
+		if (initialClassified) {
+			setClassified(initialClassified)
 			setIsLoading(false)
+		} else {
+			fetchClassified()
 		}
-	}, [id, initialClassified])
+	}, [id, initialClassified, setIsLoading])
 
 	useEffect(() => {
 		if (page > 1 || initialClassifieds.length === 0) {
@@ -122,10 +128,12 @@ export function ClientClassifiedDetail({
 		}
 	}, [page, initialClassifieds])
 
-	useEffect(() => {
-		fetchClassified() // Перезагружаем основное объявление
-		setClassifieds([]) // Сбрасываем похожие объявления
-		fetchClassifieds() // Загружаем новые похожие объявления
+	useLayoutEffect(() => {
+		if (settings.currencyCode && initialClassified) {
+			fetchClassified() // Перезагружаем основное объявление
+			setClassifieds([]) // Сбрасываем похожие объявления
+			fetchClassifieds() // Загружаем новые похожие объявления
+		}
 	}, [settings.currencyCode])
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
@@ -209,7 +217,7 @@ export function ClientClassifiedDetail({
 		},
 	]
 
-	if (isLoading || !classified) {
+	if (isLoading || isFetching || !classified) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
@@ -223,10 +231,6 @@ export function ClientClassifiedDetail({
 			: classified.convertedCurrency === 'UAH'
 			? '₴'
 			: '€'
-
-	console.log('classified user data id:', classified?.user.id)
-	console.log('concertedPrice:', classified.convertedPrice)
-	console.log('settings.currencyCode:', settings.currencyCode)
 
 	// const isOwner = user && classified && user.id === classified.user.id
 
@@ -350,17 +354,19 @@ export function ClientClassifiedDetail({
 														</div>
 													</div>
 													{classified.user.phoneNumber ? (
-														<p
-															className={` ${
-																!classified.user.showPhone ? 'blur-sm' : ''
-															} text-[16px] font-bold text-[#f9329c]`}
-														>
-															{formatPhoneNumber(classified.user.phoneNumber)}
-														</p>
+														classified.user.showPhone ? (
+															<p className='text-[16px] font-bold text-[#f9329c]'>
+																{formatPhoneNumber(
+																	classified.user.phoneNumber!
+																)}
+															</p>
+														) : (
+															<p className='text-[16px] font-bold text-[#f9329c]'>
+																{tClassified('loginToView')}
+															</p>
+														)
 													) : (
-														<p className='text-[16px] font-bold text-[#f9329c]'>
-															+380 93 657 73 33
-														</p>
+														<p className='h-6'></p>
 													)}
 													<div className='flex items-center gap-4 max-sm:flex-col'>
 														<ButtonCustom
@@ -384,7 +390,7 @@ export function ClientClassifiedDetail({
 
 				{/* похожие предложения */}
 				<div className='w-full px-0'>
-					{isLoading && classifieds.length === 0 ? (
+					{isFetching && classifieds.length === 0 ? (
 						<Loader />
 					) : (
 						<>

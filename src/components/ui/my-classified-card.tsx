@@ -87,6 +87,7 @@ export const MyClassifiedCard = ({
 
 	const symbol =
 		convertedCurrency === 'USD' ? '$' : convertedCurrency === 'UAH' ? '₴' : '€'
+	const displayPrice = convertedPrice != null ? Math.floor(convertedPrice) : 0
 
 	const containerProps = {
 		onMouseEnter: handleMouseEnter,
@@ -143,7 +144,7 @@ export const MyClassifiedCard = ({
 							<div>
 								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[7px]'>
 									{symbol}
-									{convertedPrice.toFixed(0)}
+									{displayPrice}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
 									{title}
@@ -214,7 +215,7 @@ export const MyClassifiedCard = ({
 							>
 								<h2 className='text-[18px] text-[#4f4f4f] uppercase font-bold transition-all'>
 									{symbol}
-									{convertedPrice.toFixed(0)}
+									{displayPrice}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 									{title}
@@ -345,7 +346,7 @@ export const MyClassifiedCard = ({
 							<div>
 								<h2 className='text-[18px] uppercase font-bold text-[#4f4f4f] py-[7px]'>
 									{symbol}
-									{convertedPrice.toFixed(0)}
+									{displayPrice}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold line-clamp-2'>
 									{title}
@@ -416,7 +417,7 @@ export const MyClassifiedCard = ({
 							>
 								<h2 className='text-[18px] text-[#4f4f4f] uppercase font-bold transition-all'>
 									{symbol}
-									{convertedPrice.toFixed(0)}
+									{displayPrice}
 								</h2>
 								<p className='text-[#4f4f4f] text-[16px] font-bold leading-5 line-clamp-2'>
 									{title}

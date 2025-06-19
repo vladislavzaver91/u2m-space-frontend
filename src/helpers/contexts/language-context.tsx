@@ -7,6 +7,7 @@ import {
 	useEffect,
 	useMemo,
 	useRef,
+	useLayoutEffect,
 } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useAuth } from './auth-context'
@@ -151,7 +152,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 	})
 
 	// Синхронизация при авторизации
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (
 			!userId ||
 			isSyncingRef.current ||
@@ -247,7 +248,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 	}, [userId, locale, languageOptions, settings, updateUser])
 
 	// Синхронизация с локалью сайта
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const currentLanguage = languageOptions.find(
 			opt => opt.languageCode === locale
 		)

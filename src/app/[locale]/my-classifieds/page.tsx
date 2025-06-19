@@ -46,7 +46,11 @@ export default function MyClassifieds() {
 			try {
 				setIsLoading(true)
 				const data = await apiService.getUserClassifieds({ page, limit })
-				console.log('User classifieds:', data)
+
+				if (process.env.NODE_ENV !== 'production') {
+					console.log('User classifieds:', data)
+				}
+
 				setClassifieds(prev => {
 					const newClassifieds = [...prev, ...data.classifieds].filter(
 						(item, index, self) =>
@@ -126,14 +130,31 @@ export default function MyClassifieds() {
 	}, [])
 
 	const handleToggleActive = async (id: string, currentIsActive: boolean) => {
-		console.log('Toggling classified:', { id, currentIsActive })
+		if (process.env.NODE_ENV !== 'production') {
+			console.log('Toggling classified:', { id, currentIsActive })
+		}
 		try {
 			const updated = await apiService.toggleClassifiedActive(
 				id,
 				!currentIsActive
 			)
-			console.log('Updated classified:', updated)
-			setClassifieds(prev => prev.map(c => (c.id === id ? updated : c)))
+			if (process.env.NODE_ENV !== 'production') {
+				console.log('Updated classified:', updated)
+			}
+			setClassifieds(prev =>
+				prev.map(c => {
+					if (c.id === id) {
+						return {
+							...c,
+							isActive: updated.isActive,
+							convertedPrice:
+								c.convertedPrice ?? updated.convertedPrice ?? c.price,
+							convertedCurrency: c.convertedCurrency ?? settings.currencyCode,
+						}
+					}
+					return c
+				})
+			)
 		} catch (error) {
 			console.error('Error toggling classified:', error)
 		}

@@ -23,7 +23,8 @@
 			"safeBuy/deal": "Покупка/угода",
 			"tr": "рд",
 			"trustRating": "Рейтинг довіри"
-		}
+		},
+		"loginToView": "Увійдіть для перегляду"
 	},
 
 	"MyClassifieds": {

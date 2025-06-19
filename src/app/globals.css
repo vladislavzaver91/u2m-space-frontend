@@ -69,6 +69,10 @@ input:-webkit-autofill {
 	transition: background-color 9999s ease-in-out 0s;
 }
 
+a[href^='tel'] {
+	text-decoration: none !important;
+}
+
 .custom-container {
 	margin: 0 auto;
 	padding: 0px 16px 0px 16px;

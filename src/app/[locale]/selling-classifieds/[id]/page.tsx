@@ -3,6 +3,8 @@ import { ClientClassifiedDetail } from './client-classified-detail'
 import { apiService } from '@/services/api.service'
 import { Classified } from '@/types'
 import { getLocale } from 'next-intl/server'
+import { Suspense } from 'react'
+import { Loader } from '@/components/ui/loader'
 
 type Props = {
 	params: Promise<{ id: string }>
@@ -103,14 +105,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ClassifiedDetailPage({ params }: Props) {
 	const { id } = await params
+
 	let classified: Classified | null = null
 	let classifieds: Classified[] = []
 	let error: string | null = null
 
 	try {
-		classified = await apiService.getClassifiedById(id)
-		classifieds = (await apiService.getClassifieds({ page: 1, limit: 10 }))
-			.classifieds
+		;[classified, { classifieds }] = await Promise.all([
+			apiService.getClassifiedById(id),
+			apiService.getClassifieds({ page: 1, limit: 10 }),
+		])
 	} catch (err: any) {
 		console.error('Error fetching data:', err)
 		error =
@@ -120,10 +124,12 @@ export default async function ClassifiedDetailPage({ params }: Props) {
 	}
 
 	return (
-		<ClientClassifiedDetail
-			initialClassified={classified}
-			initialClassifieds={classifieds}
-			id={id}
-		/>
+		<Suspense fallback={<Loader />}>
+			<ClientClassifiedDetail
+				initialClassified={classified}
+				initialClassifieds={classifieds}
+				id={id}
+			/>
+		</Suspense>
 	)
 }

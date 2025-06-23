@@ -19,6 +19,7 @@ import { useLanguage } from '@/helpers/contexts/language-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { formatPhoneNumber } from '@/helpers/functions/format-phone-number'
 import { useLoading } from '@/helpers/contexts/loading-context'
+import { useAuth } from '@/helpers/contexts/auth-context'
 
 interface ApiError {
 	response?: {
@@ -58,6 +59,7 @@ export function ClientClassifiedDetail({
 	)
 	const [page, setPage] = useState(1)
 
+	const { authUser } = useAuth()
 	const { user, updateFavorites } = useUser()
 	const { settings } = useLanguage()
 	const { isLoading, setIsLoading } = useLoading()
@@ -354,7 +356,7 @@ export function ClientClassifiedDetail({
 														</div>
 													</div>
 													{classified.user.phoneNumber ? (
-														classified.user.showPhone ? (
+														classified.user.showPhone || authUser ? (
 															<p className='text-[16px] font-bold text-[#f9329c]'>
 																{formatPhoneNumber(
 																	classified.user.phoneNumber!

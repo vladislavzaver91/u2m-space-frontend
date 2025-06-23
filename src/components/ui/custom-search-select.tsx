@@ -15,6 +15,7 @@ interface CustomSearchSelectProps {
 	languageCode: 'en' | 'uk' | 'pl'
 	onOpenChange?: (isOpen: boolean) => void
 	onClick?: () => void
+	showLabel?: boolean
 }
 
 export const CustomSearchSelect = ({
@@ -25,6 +26,7 @@ export const CustomSearchSelect = ({
 	languageCode,
 	onOpenChange,
 	onClick,
+	showLabel = false,
 }: CustomSearchSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
@@ -200,84 +202,89 @@ export const CustomSearchSelect = ({
 
 	const renderNormalDropdown = () => (
 		<motion.div
-			className={`relative h-[102px] ${
-				isOpen ? 'shadow-custom-xl rounded-[13px] w-[316px]' : 'w-full pt-8'
+			className={`relative py-2 mt-8 h-[78px] ${
+				isOpen ? 'shadow-custom-xl rounded-t-[13px] w-[316px] ' : 'w-full'
 			}`}
 			transition={{ duration: 0.3 }}
 			ref={containerRef}
 		>
-			<label
-				htmlFor={`${label.toLowerCase()}-select`}
-				className={`w-fit absolute transition-all duration-300 ease-in-out text-[13px] font-normal text-[#4f4f4f] ${
-					isOpen ? 'opacity-0 top-0 left-0' : 'opacity-100 top-0 left-0'
-				}`}
-			>
-				{label}
-			</label>
-			<label
-				htmlFor={`${label.toLowerCase()}-select`}
-				className={`w-fit absolute transition-all duration-300 ease-in-out text-[16px] font-bold ${
-					isOpen
-						? 'text-[#3486fe] left-[18px] top-4'
-						: 'top-9 left-2 text-[#4f4f4f]'
-				}`}
-			>
-				{value || label}
-			</label>
+			{showLabel && (
+				<label
+					htmlFor={`${label.toLowerCase()}-select`}
+					className={`w-fit absolute transition-all duration-300 ease-in-out text-[13px] font-normal text-[#4f4f4f] ${
+						isOpen ? 'opacity-0 -top-8 left-0' : 'opacity-100 -top-8 left-0'
+					}`}
+				>
+					{label}
+				</label>
+			)}
+
 			<div
 				id={`${label.toLowerCase()}-select`}
-				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-end items-center ${
+				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group ${
 					isOpen
-						? 'w-[316px] h-14 py-[18px] px-4 border-transparent'
-						: 'w-full h-[38px] px-2 border-[#bdbdbd]'
+						? 'w-[316px] border-transparent pr-6'
+						: 'w-full border-[#bdbdbd]'
 				}`}
 				onClick={handleToggle}
 			>
-				<div className='flex justify-center items-center w-6 h-6'>
+				<label
+					htmlFor={`${label.toLowerCase()}-select`}
+					className={`w-fit transition-all duration-300 ease-in-out text-[16px] font-bold group ${
+						isOpen ? 'text-[#3486fe]' : 'text-[#4f4f4f]'
+					}`}
+				>
+					{value || label}
+				</label>
+				<div className='flex justify-center items-center w-6 h-6 group'>
 					<IconCustom
 						name='arrow-down-select'
-						className='w-2.5 h-1.5 fill-none text-[#3486fe]'
+						className='w-2.5 h-1.5 fill-none text-[#3486fe] group'
 					/>
 				</div>
 			</div>
 			{isOpen && !isOpening && (
 				<div
 					ref={dropdownRef}
-					className='bg-white max-h-[250px] custom-scrollbar overflow-y-auto w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-b-[13px] z-40'
+					className='bg-white w-full max-w-[316px] absolute top-[54px] left-0 shadow-custom-xl rounded-b-[13px] z-40'
 				>
-					<div className='relative flex items-center p-2 border-b border-[#bdbdbd] h-14'>
-						<div className='absolute inset-y-0 left-4 right-4 flex items-center'>
-							<IconCustom
-								name='search-glass'
-								className='w-6 h-6 fill-none text-[#BDBDBD]'
-							/>
-							<input
-								ref={inputRef}
-								type='text'
-								value={searchTerm}
-								onChange={handleSearchChange}
-								placeholder={tComponents('placeholders.search')}
-								className='w-full h-10 pl-4 text-[16px] font-normal text-[#4f4f4f] outline-none bg-transparent'
-							/>
-							{searchTerm && (
-								<ButtonCustom
-									onClick={handleConfirmSearch}
-									iconWrapperClass='w-6 h-6 flex items-center justify-center'
-									icon={
-										<IconCustom
-											name='check'
-											className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-											hover={true}
-											hoverColor='#f9329c'
-										/>
-									}
-									isHover
-									className='min-w-10 h-10 flex items-center justify-center rounded-lg'
+					<div className='sticky top-0 bg-white z-50 border-b border-[#bdbdbd]'>
+						<div className='relative flex items-center p-2 h-14'>
+							<div className='absolute inset-y-0 left-4 right-4 flex items-center'>
+								<IconCustom
+									name='search-glass'
+									className='w-6 h-6 fill-none text-[#BDBDBD]'
 								/>
-							)}
+								<input
+									ref={inputRef}
+									type='text'
+									value={searchTerm}
+									onChange={handleSearchChange}
+									placeholder={tComponents('placeholders.search')}
+									className='w-full h-10 pl-4 text-[16px] font-normal text-[#4f4f4f] outline-none bg-transparent'
+								/>
+								{searchTerm && (
+									<ButtonCustom
+										onClick={handleConfirmSearch}
+										iconWrapperClass='w-6 h-6 flex items-center justify-center'
+										icon={
+											<IconCustom
+												name='check'
+												className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+												hover={true}
+												hoverColor='#f9329c'
+											/>
+										}
+										isHover
+										className='min-w-10 h-10 flex items-center justify-center rounded-lg'
+									/>
+								)}
+							</div>
 						</div>
 					</div>
-					{renderOptionsView()}
+					<div className='max-h-[200px] custom-scrollbar overflow-y-scroll rounded-b-[13px]'>
+						{renderOptionsView()}
+					</div>
 				</div>
 			)}
 		</motion.div>
@@ -293,7 +300,7 @@ export const CustomSearchSelect = ({
 				<label
 					htmlFor={`${label.toLowerCase()}-select`}
 					className={`w-fit absolute transition-all duration-300 ease-in-out text-[13px] font-normal text-[#4f4f4f] ${
-						isOpen || value
+						isOpen || label
 							? 'opacity-0 top-0 left-2'
 							: 'opacity-100 top-0 left-2'
 					}`}
@@ -302,10 +309,8 @@ export const CustomSearchSelect = ({
 				</label>
 				<label
 					htmlFor={`${label.toLowerCase()}-select`}
-					className={`w-fit absolute transition-all duration-300 ease-in-out text-[16px] font-bold ${
-						isOpen
-							? 'text-transparent top-9 left-2'
-							: 'top-9 left-2 text-[#4f4f4f]'
+					className={`w-fit absolute top-9 left-2 transition-all duration-300 ease-in-out text-[16px] font-bold ${
+						isOpen ? 'text-transparent ' : ' text-[#4f4f4f]'
 					}`}
 				>
 					{value || label}
@@ -337,7 +342,7 @@ export const CustomSearchSelect = ({
 					>
 						<div className='p-4 border-b border-transparent bg-transparent flex items-center justify-between'>
 							<div className='text-[16px] font-bold text-[#3486fe]'>
-								{label}
+								{value}
 							</div>
 							<div className='flex justify-center items-center w-6 h-6'>
 								<IconCustom
@@ -378,7 +383,7 @@ export const CustomSearchSelect = ({
 								)}
 							</div>
 						</div>
-						<div className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto'>
+						<div className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto rounded-b-[13px]'>
 							{renderOptionsView()}
 						</div>
 					</motion.div>

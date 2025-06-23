@@ -17,18 +17,18 @@ import { handleApiError } from '@/helpers/functions/handle-api-error'
 
 export const LanguageModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-  
+
 	const [error, setError] = useState<string | null>(null)
 	const [cities, setCities] = useState<CityOption[]>([])
 	const { handleOverlayClick, closeModal } = useModal()
 	const {
-    languageOptions,
+		languageOptions,
 		currencyOptions,
 		settings,
 		updateSettings,
 		translateCity,
 	} = useLanguage()
-  const [tempSettings, setTempSettings] = useState(settings)
+	const [tempSettings, setTempSettings] = useState(settings)
 
 	const locale = useLocale() as 'en' | 'uk' | 'pl'
 	const tLanguageModal = useTranslations('LanguageModal')
@@ -106,39 +106,38 @@ export const LanguageModal = () => {
 	// 	}
 	// }
 
-  const handleLanguageChange = (languageCode: 'en' | 'uk' | 'pl') => {
-    setTempSettings(prev => ({
-      ...prev,
-      languageCode,
-      city: prev.city ? translateCity(prev.city, languageCode) : prev.city,
-    }))
-  }
-  
-  const handleCurrencyChange = (currencyCode: 'USD' | 'UAH' | 'EUR') => {
-    setTempSettings(prev => ({ ...prev, currencyCode }))
-  }
-  
-  const handleCityChange = (cityName: string) => {
-    setTempSettings(prev => ({ ...prev, city: cityName }))
-  }
-  
+	const handleLanguageChange = (languageCode: 'en' | 'uk' | 'pl') => {
+		setTempSettings(prev => ({
+			...prev,
+			languageCode,
+			city: prev.city ? translateCity(prev.city, languageCode) : prev.city,
+		}))
+	}
+
+	const handleCurrencyChange = (currencyCode: 'USD' | 'UAH' | 'EUR') => {
+		setTempSettings(prev => ({ ...prev, currencyCode }))
+	}
+
+	const handleCityChange = (cityName: string) => {
+		setTempSettings(prev => ({ ...prev, city: cityName }))
+	}
 
 	const handleClose = async () => {
-    setIsLoading(true)
-    try {
-      await updateSettings(tempSettings)
-      if (tempSettings.currencyCode !== settings.currencyCode) {
-        window.location.reload()
-      }
-    } catch (error: any) {
-      setError(handleApiError(error, tLanguageModal('errors.serverError')))
-    } finally {
-      setIsLoading(false)
-      closeModal()
-    }
-  }
-  
-console.log(cities);
+		setIsLoading(true)
+		try {
+			await updateSettings(tempSettings)
+			if (tempSettings.currencyCode !== settings.currencyCode) {
+				window.location.reload()
+			}
+		} catch (error: any) {
+			setError(handleApiError(error, tLanguageModal('errors.serverError')))
+		} finally {
+			setIsLoading(false)
+			closeModal()
+		}
+	}
+
+	console.log(cities)
 
 	if (error) {
 		console.log(error)

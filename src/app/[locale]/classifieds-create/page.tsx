@@ -178,7 +178,7 @@ export default function ClassifiedsCreate() {
 				const res = await apiService.createClassified(formDataToSend)
 				console.log('Response from createClassified:', res)
 				setClassified(res)
-				router.push(`/selling-classifieds/${res.id}`)
+				router.push(`/my-classifieds`)
 			} catch (error: any) {
 				console.error('Create classified error:', error)
 				console.error('Error response data:', error.response?.data)

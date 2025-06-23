@@ -160,40 +160,38 @@ export const CustomLanguageSelect = ({
 
 	const renderNormalDropdown = () => (
 		<motion.div
-			className={`relative h-[102px] ${
-				isOpen ? 'shadow-custom-xl rounded-[13px] w-[316px]' : 'w-full pt-8'
+			className={`relative py-2 mt-8 h-[78px] ${
+				isOpen ? 'shadow-custom-xl rounded-t-[13px] w-[316px]' : 'w-full'
 			}`}
 			transition={{ duration: 0.3 }}
 			ref={containerRef}
 		>
-			<label
-				htmlFor={`${label.toLowerCase()}-select`}
-				className={`w-fit absolute transition-all duration-300 ease-in-out text-[16px] font-bold ${
-					isOpen
-						? 'text-[#3486fe] left-[18px] top-4'
-						: 'top-9 left-2 text-[#4f4f4f]'
-				}`}
-			>
-				{selectedOption ? (
-					<p className='font-bold text-[16px]'>
-						{selectedOption.language} -{' '}
-						<span className='font-normal text-[14px]'>
-							{selectedOption.country}
-						</span>
-					</p>
-				) : (
-					label
-				)}
-			</label>
 			<div
 				id={`${label.toLowerCase()}-select`}
-				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-end items-center ${
+				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group ${
 					isOpen
-						? 'w-[316px] h-14 py-[18px] px-4 border-transparent'
-						: 'w-full h-[38px] px-2 border-[#bdbdbd]'
+						? 'w-[316px] pr-6 border-transparent'
+						: 'w-full border-[#bdbdbd]'
 				}`}
 				onClick={handleToggle}
 			>
+				<label
+					htmlFor={`${label.toLowerCase()}-select`}
+					className={`w-fit transition-all duration-300 ease-in-out text-[16px] font-bold ${
+						isOpen ? 'text-[#3486fe]' : 'text-[#4f4f4f]'
+					}`}
+				>
+					{selectedOption ? (
+						<p className='font-bold text-[16px]'>
+							{selectedOption.language} -{' '}
+							<span className='font-normal text-[14px]'>
+								{selectedOption.country}
+							</span>
+						</p>
+					) : (
+						label
+					)}
+				</label>
 				<div className='flex justify-center items-center w-6 h-6'>
 					<IconCustom
 						name='arrow-down-select'
@@ -204,7 +202,7 @@ export const CustomLanguageSelect = ({
 			{isOpen && !isOpening && (
 				<div
 					ref={dropdownRef}
-					className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-[13px] z-40'
+					className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-b-[13px] z-40'
 				>
 					{renderOptionsView()}
 				</div>

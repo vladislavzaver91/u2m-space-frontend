@@ -413,6 +413,7 @@ export const ProfileSettingsForm = ({
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, currency: isOpen }))
 					}
+					showLabel
 				/>
 				{!formData.advancedUser && (
 					<Tooltip
@@ -440,6 +441,7 @@ export const ProfileSettingsForm = ({
 					onOpenChange={isOpen =>
 						setIsComponentOpen(prev => ({ ...prev, city: isOpen }))
 					}
+					showLabel
 				/>
 				{!formData.advancedUser && (
 					<Tooltip

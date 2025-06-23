@@ -1421,15 +1421,7 @@
 		},
 		"countryCode": "UA"
 	},
-	{
-		"id": 159,
-		"name": {
-			"en": "Radekhiv",
-			"uk": "Делятин",
-			"pl": "Delatyn"
-		},
-		"countryCode": "UA"
-	},
+
 	{
 		"id": 160,
 		"name": {
@@ -1790,15 +1782,7 @@
 		},
 		"countryCode": "UA"
 	},
-	{
-		"id": 200,
-		"name": {
-			"en": "Horodok",
-			"uk": "Городок",
-			"pl": "Gródek"
-		},
-		"countryCode": "UA"
-	},
+	
 	{
 		"id": 201,
 		"name": {
@@ -1916,15 +1900,7 @@
 		},
 		"countryCode": "UA"
 	},
-	{
-		"id": 214,
-		"name": {
-			"en": "Radekhiv",
-			"uk": "Радехів",
-			"pl": "Radziechów"
-		},
-		"countryCode": "UA"
-	},
+
 	{
 		"id": 215,
 		"name": {

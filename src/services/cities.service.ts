@@ -37,26 +37,34 @@ export class CityService {
 			throw new Error('Failed to load cities')
 		}
 	}
-
-	searchCities(
-		searchTerm: string,
-		languageCode: 'en' | 'uk' | 'pl'
-	): CityOption[] {
-		try {
-			const lowerCaseSearch = searchTerm.toLowerCase()
-			return this.allCities
-				.filter(city =>
-					city.name[languageCode].toLowerCase().includes(lowerCaseSearch)
-				)
-				.map(city => ({
-					id: city.id,
-					name: city.name[languageCode],
-				}))
-		} catch (error) {
-			console.error('Error searching cities:', error)
-			throw new Error('Failed to search cities')
-		}
-	}
+  searchCities(searchTerm: string, languageCode: 'en' | 'uk' | 'pl'): CityOption[] {
+    try {
+      const lowerCaseSearch = searchTerm.toLowerCase()
+      return this.allCities
+        .filter(city => city.name[languageCode].toLowerCase().includes(lowerCaseSearch))
+        .sort((a, b) => {
+          const aName = a.name[languageCode].toLowerCase();
+          const bName = b.name[languageCode].toLowerCase();
+  
+          // Приоритет для совпадений в начале строки
+          const aStartsWith = aName.startsWith(lowerCaseSearch);
+          const bStartsWith = bName.startsWith(lowerCaseSearch);
+  
+          if (aStartsWith && !bStartsWith) return -1;
+          if (!aStartsWith && bStartsWith) return 1;
+  
+          // Если оба начинаются или не начинаются с запроса, сортируем по алфавиту
+          return aName.localeCompare(bName);
+        })
+        .map(city => ({
+          id: city.id,
+          name: city.name[languageCode],
+        }));
+    } catch (error) {
+      console.error('Error searching cities:', error);
+      throw new Error('Failed to search cities');
+    }
+  }
 
 	getTranslatedCityName(
 		cityName: string,

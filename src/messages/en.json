@@ -151,7 +151,7 @@
 			"legalSurname": "Legal surname",
 			"gender": "Gender",
 			"male": "Male",
-			"female": "female",
+			"female": "Female",
 			"birthday": "Date of Birth",
 			"emailAddress": "Email Address",
 			"errorEmailRequired": "Email is required",

@@ -356,7 +356,7 @@ export const Header = () => {
 								</div>
 								<div className='hidden md:flex'>
 									<ButtonCustom
-										href={`/my-classifieds/`}
+										href={`/my-classifieds`}
 										textParts={[
 											{ text: 'U ', color: '[#f9329c]' },
 											{ text: '33', color: '[#3486fe]' },

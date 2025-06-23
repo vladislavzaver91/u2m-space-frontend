@@ -476,7 +476,7 @@ export const CustomDatePicker = ({
 								onClick={e =>
 									dayObj.isCurrentMonth && handleDaySelect(dayObj.date, e)
 								}
-								className={`text-[16px] font-bold transition-colors text-center md:px-3 md:py-2.5 max-md:w-full md:w-[50px] h-11 rounded-md border border-transparent ${
+								className={`text-[16px] cursor-pointer font-bold transition-colors text-center md:px-3 md:py-2.5 max-md:w-full md:w-[50px] h-11 rounded-md border border-transparent ${
 									dayObj.isCurrentMonth
 										? 'text-black hover:bg-[#F7F7F7] hover:border-[#3486FE]'
 										: 'text-[#BDBDBD]'
@@ -501,7 +501,7 @@ export const CustomDatePicker = ({
 		<motion.div
 			className={`relative h-[102px] ${
 				isOpen
-					? 'absolute h-[102px] shadow-custom-xl rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
+					? 'absolute h-[102px]  rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
 					: 'w-full pt-8'
 			}`}
 			transition={{ duration: 0.2 }}

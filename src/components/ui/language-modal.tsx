@@ -17,16 +17,18 @@ import { handleApiError } from '@/helpers/functions/handle-api-error'
 
 export const LanguageModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
+  
 	const [error, setError] = useState<string | null>(null)
 	const [cities, setCities] = useState<CityOption[]>([])
 	const { handleOverlayClick, closeModal } = useModal()
 	const {
-		languageOptions,
+    languageOptions,
 		currencyOptions,
 		settings,
 		updateSettings,
 		translateCity,
 	} = useLanguage()
+  const [tempSettings, setTempSettings] = useState(settings)
 
 	const locale = useLocale() as 'en' | 'uk' | 'pl'
 	const tLanguageModal = useTranslations('LanguageModal')
@@ -57,56 +59,86 @@ export const LanguageModal = () => {
 	}, [locale, tLanguageModal])
 
 	// Обработка выбора языка
-	const handleLanguageChange = async (languageCode: 'en' | 'uk' | 'pl') => {
-		setIsLoading(true)
-		try {
-			closeModal()
-			await updateSettings({
-				languageCode,
-				city: settings.city
-					? translateCity(settings.city, languageCode)
-					: settings.city,
-			})
-		} catch (error: any) {
-			setError(handleApiError(error, tLanguageModal('errors.serverError')))
-		} finally {
-			setIsLoading(false)
-		}
-	}
+	// const handleLanguageChange = async (languageCode: 'en' | 'uk' | 'pl') => {
+	// 	setIsLoading(true)
+	// 	try {
+	// 		closeModal()
+	// 		await updateSettings({
+	// 			languageCode,
+	// 			city: settings.city
+	// 				? translateCity(settings.city, languageCode)
+	// 				: settings.city,
+	// 		})
+	// 	} catch (error: any) {
+	// 		setError(handleApiError(error, tLanguageModal('errors.serverError')))
+	// 	} finally {
+	// 		setIsLoading(false)
+	// 	}
+	// }
 
-	// Обработка выбора валюты
-	const handleCurrencyChange = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
-		setIsLoading(true)
-		try {
-			closeModal()
-			await updateSettings({ currencyCode })
-			window.location.reload()
-		} catch (error: any) {
-			setError(handleApiError(error, tLanguageModal('errors.serverError')))
-		} finally {
-			setIsLoading(false)
-		}
-	}
+	// // Обработка выбора валюты
+	// const handleCurrencyChange = async (currencyCode: 'USD' | 'UAH' | 'EUR') => {
+	// 	setIsLoading(true)
+	// 	try {
+	// 		closeModal()
+	// 		await updateSettings({ currencyCode })
+	// 		window.location.reload()
+	// 	} catch (error: any) {
+	// 		setError(handleApiError(error, tLanguageModal('errors.serverError')))
+	// 	} finally {
+	// 		setIsLoading(false)
+	// 	}
+	// }
 
-	// Обработка выбора города
-	const handleCityChange = async (cityName: string) => {
-		setIsLoading(true)
-		try {
-			closeModal()
-			await updateSettings({
-				city: cityName,
-			})
-			console.log('updatedCity', cityName)
-		} catch (error: any) {
-			setError(handleApiError(error, tLanguageModal('errors.serverError')))
-		} finally {
-			setIsLoading(false)
-		}
-	}
+	// // Обработка выбора города
+	// const handleCityChange = async (cityName: string) => {
+	// 	setIsLoading(true)
+	// 	try {
+	// 		closeModal()
+	// 		await updateSettings({
+	// 			city: cityName,
+	// 		})
+	// 		console.log('updatedCity', cityName)
+	// 	} catch (error: any) {
+	// 		setError(handleApiError(error, tLanguageModal('errors.serverError')))
+	// 	} finally {
+	// 		setIsLoading(false)
+	// 	}
+	// }
 
-	const handleClose = () => {
-		closeModal()
-	}
+  const handleLanguageChange = (languageCode: 'en' | 'uk' | 'pl') => {
+    setTempSettings(prev => ({
+      ...prev,
+      languageCode,
+      city: prev.city ? translateCity(prev.city, languageCode) : prev.city,
+    }))
+  }
+  
+  const handleCurrencyChange = (currencyCode: 'USD' | 'UAH' | 'EUR') => {
+    setTempSettings(prev => ({ ...prev, currencyCode }))
+  }
+  
+  const handleCityChange = (cityName: string) => {
+    setTempSettings(prev => ({ ...prev, city: cityName }))
+  }
+  
+
+	const handleClose = async () => {
+    setIsLoading(true)
+    try {
+      await updateSettings(tempSettings)
+      if (tempSettings.currencyCode !== settings.currencyCode) {
+        window.location.reload()
+      }
+    } catch (error: any) {
+      setError(handleApiError(error, tLanguageModal('errors.serverError')))
+    } finally {
+      setIsLoading(false)
+      closeModal()
+    }
+  }
+  
+console.log(cities);
 
 	if (error) {
 		console.log(error)
@@ -144,7 +176,7 @@ export const LanguageModal = () => {
 										key={index}
 										onClick={() => handleLanguageChange(item.languageCode)}
 										className={`min-w-[216px] w-fit h-[74px] text-[16px] p-4 font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${
-											settings.languageCode === item.languageCode
+											tempSettings.languageCode === item.languageCode
 												? 'border-[#f9329c]'
 												: ''
 										}`}
@@ -176,7 +208,7 @@ export const LanguageModal = () => {
 										key={index}
 										onClick={() => handleCurrencyChange(item.code)}
 										className={`min-w-[216px] w-fit min-h-[74px] max-h-[94px] p-4 text-[16px] font-bold text-[#4f4f4f] border border-[#bdbdbd] rounded-[13px] active:border-[#f9329c] hover:bg-[#F7F7F7] transition-colors cursor-pointer ${
-											settings.currencyCode === item.code
+											tempSettings.currencyCode === item.code
 												? 'border-[#f9329c]'
 												: ''
 										} `}
@@ -202,9 +234,9 @@ export const LanguageModal = () => {
 						<CustomSearchSelect
 							label={tLanguageModal('chooseCity.city')}
 							options={cities.map(city => city.name)}
-							value={settings.city || ''}
+							value={tempSettings.city || ''}
 							onChange={handleCityChange}
-							languageCode={settings.languageCode}
+							languageCode={tempSettings.languageCode}
 						/>
 					</div>
 

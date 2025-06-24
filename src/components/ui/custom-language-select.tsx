@@ -161,25 +161,25 @@ export const CustomLanguageSelect = ({
 	const renderNormalDropdown = () => (
 		<motion.div
 			className={`relative py-2 mt-8 h-[78px] ${
-				isOpen ? 'shadow-custom-xl rounded-t-[13px] w-[316px]' : 'w-full'
-			}`}
+				isOpen ? 'rounded-t-[13px] w-full sm:w-[316px]' : 'w-full'
+			} cursor-pointer`}
 			transition={{ duration: 0.3 }}
 			ref={containerRef}
+			onClick={handleToggle}
 		>
 			<div
 				id={`${label.toLowerCase()}-select`}
 				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group ${
 					isOpen
-						? 'w-[316px] pr-6 border-transparent'
+						? 'w-full sm:w-[316px] sm:pr-6 border-transparent'
 						: 'w-full border-[#bdbdbd]'
 				}`}
-				onClick={handleToggle}
 			>
 				<label
 					htmlFor={`${label.toLowerCase()}-select`}
 					className={`w-fit transition-all duration-300 ease-in-out text-[16px] font-bold ${
 						isOpen ? 'text-[#3486fe]' : 'text-[#4f4f4f]'
-					}`}
+					} cursor-pointer`}
 				>
 					{selectedOption ? (
 						<p className='font-bold text-[16px]'>
@@ -195,14 +195,14 @@ export const CustomLanguageSelect = ({
 				<div className='flex justify-center items-center w-6 h-6'>
 					<IconCustom
 						name='arrow-down-select'
-						className='w-2.5 h-1.5 fill-none text-[#3486fe]'
+						className='w-6 h-6 fill-none text-[#3486fe]'
 					/>
 				</div>
 			</div>
 			{isOpen && !isOpening && (
 				<div
 					ref={dropdownRef}
-					className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto w-full max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-b-[13px] z-40'
+					className='bg-white max-h-[200px] custom-scrollbar overflow-y-auto w-full sm:max-w-[316px] absolute top-[60px] left-0 shadow-custom-xl rounded-b-[13px] z-40'
 				>
 					{renderOptionsView()}
 				</div>
@@ -217,6 +217,7 @@ export const CustomLanguageSelect = ({
 				className='relative h-[102px] w-full pt-8'
 				transition={{ duration: 0.3 }}
 				ref={containerRef}
+				onClick={handleToggle}
 			>
 				{/* Label */}
 				<label
@@ -241,12 +242,11 @@ export const CustomLanguageSelect = ({
 				<div
 					id={`${label.toLowerCase()}-select`}
 					className='relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-end items-center w-full h-[38px] px-2 border-[#bdbdbd]'
-					onClick={handleToggle}
 				>
 					<div className='flex justify-center items-center w-6 h-6'>
 						<IconCustom
 							name='arrow-down-select'
-							className='w-2.5 h-1.5 fill-none text-[#3486fe]'
+							className='w-6 h-6 fill-none text-[#3486fe]'
 						/>
 					</div>
 				</div>
@@ -259,7 +259,7 @@ export const CustomLanguageSelect = ({
 					onClick={handleOverlayClick}
 				>
 					<motion.div
-						className='bg-white shadow-custom-xl rounded-[13px] w-full max-w-[316px] max-h-[60vh]'
+						className='bg-white shadow-custom-xl rounded-[13px] w-full sm:max-w-[316px] max-h-[60vh]'
 						transition={{ duration: 0.3 }}
 						ref={modalContainerRef}
 						onClick={handleToggle}
@@ -272,7 +272,7 @@ export const CustomLanguageSelect = ({
 							<div className='flex justify-center items-center w-6 h-6'>
 								<IconCustom
 									name='arrow-down-select'
-									className='w-2.5 h-1.5 fill-none text-[#3486fe]'
+									className='w-6 h-6 fill-none text-[#3486fe]'
 								/>
 							</div>
 						</div>

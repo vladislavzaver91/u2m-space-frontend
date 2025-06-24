@@ -147,7 +147,7 @@ export const CustomDatePicker = ({
 			baseClasses += ' w-full max-w-[410px]'
 		} else {
 			// Для десктопов
-			baseClasses += ' w-full max-w-[410px] absolute top-[60px] left-0'
+			baseClasses += ' w-full max-w-[410px] absolute top-[60px] -left-8'
 		}
 
 		return baseClasses
@@ -501,38 +501,33 @@ export const CustomDatePicker = ({
 		<motion.div
 			className={`relative h-[102px] ${
 				isOpen
-					? 'absolute h-[102px]  rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
+					? 'absolute h-[102px] rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
 					: 'w-full pt-8'
-			}`}
+			} cursor-pointer`}
 			transition={{ duration: 0.2 }}
 			ref={buttonRef}
+			onClick={handleToggleOpen}
 		>
-			<label
-				htmlFor={`${label.toLowerCase()}-datepicker`}
-				className={`w-fit absolute transition-all duration-300 ease-in-out text-[16px] font-bold ${
-					isOpen
-						? 'text-[#3486fe] left-[18px] top-4'
-						: 'top-9 left-2 text-[#4f4f4f]'
-				}`}
-			>
-				{value || label}
-			</label>
-			<div
-				id={`${label.toLowerCase()}-datepicker`}
-				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-end items-center ${
-					isOpen
-						? 'absolute max-md:w-full md:w-[410px] h-14 py-[18px] px-4 border-transparent z-40'
-						: 'w-full h-[38px] px-2 border-[#bdbdbd]'
-				}`}
-				onClick={handleToggleOpen}
-			>
-				<div className='flex justify-center items-center w-6 h-6'>
-					<IconCustom
-						name='arrow-down-select'
-						className='w-2.5 h-1.5 fill-none text-[#3486fe]'
-					/>
+			{!isOpen && (
+				<div
+					id={`${label.toLowerCase()}-datepicker`}
+					className='relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group w-full border-[#bdbdbd]'
+				>
+					<label
+						htmlFor={`${label.toLowerCase()}-datepicker`}
+						className='w-fit transition-all duration-300 ease-in-out text-[16px] font-bold text-[#4f4f4f] cursor-pointer'
+					>
+						{value || label}
+					</label>
+					<div className='flex justify-center items-center w-6 h-6'>
+						<IconCustom
+							name='arrow-down-select'
+							className='w-6 h-6 fill-none text-[#3486fe]'
+						/>
+					</div>
 				</div>
-			</div>
+			)}
+
 			{isOpen && (
 				<>
 					{isMobile ? (

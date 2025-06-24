@@ -333,8 +333,8 @@ export function ClientClassifiedDetail({
 														/>
 													</div>
 													<div className='flex flex-col-reverse items-center mt-2 sm:hidden'>
-														<p className='text-[16px] font-bold text-[#4f4f4f] text-center'>
-															{tClassified('userButtons.trustRating')}
+														<p className='text-[16px] font-bold text-[#4f4f4f] text-center uppercase'>
+															{tClassified('userButtons.tr')}
 														</p>
 														<p className='text-[16px] font-bold text-[#3486fe]'>
 															{classified.user.bonuses}

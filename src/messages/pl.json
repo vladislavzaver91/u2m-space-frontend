@@ -70,7 +70,8 @@
 			"price": {
 				"required": "Cena jest wymagana",
 				"message1": "Cena musi być liczbą dodatnią",
-				"message2": "Cena musi być prawidłową liczbą"
+				"message2": "Cena musi być prawidłową liczbą",
+				"message3": "Nie udało się załadować kursów walut"
 			}
 		},
 		"tooltips": {

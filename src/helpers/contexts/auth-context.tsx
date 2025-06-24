@@ -25,6 +25,7 @@ interface AuthContextType {
 	authUser: User | null
 	accessToken: string | null
 	refreshToken: string | null
+	isLoading: boolean
 	handleAuthSuccess: (
 		data: {
 			user: User
@@ -51,22 +52,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [authUser, setAuthUser] = useState<User | null>(null)
 	const [accessToken, setAccessToken] = useState<string | null>(null)
 	const [refreshToken, setRefreshToken] = useState<string | null>(null)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const router = useRouter()
 
 	// Проверяем токены при загрузке приложения
 	useEffect(() => {
-		const storedAccessToken = localStorage.getItem('accessToken')
-		const storedRefreshToken = localStorage.getItem('refreshToken')
-		const storedUser = localStorage.getItem('user')
-		if (storedAccessToken && storedRefreshToken && storedUser) {
-			setAccessToken(storedAccessToken)
-			setRefreshToken(storedRefreshToken)
-			setAuthUser(JSON.parse(storedUser) as User)
-			console.log('Loaded tokens from localStorage:', {
-				accessToken: storedAccessToken,
-				refreshToken: storedRefreshToken,
-			})
+		const loadTokens = () => {
+			const storedAccessToken = localStorage.getItem('accessToken')
+			const storedRefreshToken = localStorage.getItem('refreshToken')
+			const storedUser = localStorage.getItem('user')
+
+			if (storedAccessToken && storedRefreshToken && storedUser) {
+				try {
+					setAccessToken(storedAccessToken)
+					setRefreshToken(storedRefreshToken)
+					setAuthUser(JSON.parse(storedUser) as User)
+					console.log('Loaded tokens from localStorage:', {
+						accessToken: storedAccessToken,
+						refreshToken: storedRefreshToken,
+					})
+				} catch (error) {
+					console.error('Failed to parse user data:', error)
+					localStorage.removeItem('accessToken')
+					localStorage.removeItem('refreshToken')
+					localStorage.removeItem('user')
+				}
+			}
+			setIsLoading(false)
 		}
+
+		loadTokens()
 	}, [])
 
 	useEffect(() => {
@@ -127,6 +142,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.setItem('accessToken', accessToken)
 		localStorage.setItem('refreshToken', refreshToken)
 		localStorage.setItem('user', JSON.stringify(user))
+		setIsLoading(false)
 	}
 
 	// Функция для выхода
@@ -137,12 +153,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		localStorage.removeItem('accessToken')
 		localStorage.removeItem('refreshToken')
 		localStorage.removeItem('user')
+		setIsLoading(false)
 		router.push(`/selling-classifieds`)
 	}
 
 	return (
 		<AuthContext.Provider
-			value={{ authUser, accessToken, refreshToken, handleAuthSuccess, logout }}
+			value={{
+				authUser,
+				accessToken,
+				refreshToken,
+				handleAuthSuccess,
+				isLoading,
+				logout,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

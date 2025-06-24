@@ -16,7 +16,7 @@ export default function ClientLayout({
 }) {
 	const shouldRender = useVisitRedirect()
 	useScrollStyle()
-	const { authUser, handleAuthSuccess } = useAuth()
+	const { authUser, handleAuthSuccess, isLoading: authLoading } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
 	const locale = useLocale()
@@ -24,6 +24,8 @@ export default function ClientLayout({
 
 	useEffect(() => {
 		const checkLogin = async () => {
+			if (authLoading || authUser) return
+
 			if (process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop' && !authUser) {
 				console.log(
 					'Attempting to login with environment:',
@@ -52,15 +54,15 @@ export default function ClientLayout({
 			}
 		}
 		checkLogin()
-	}, [authUser, handleAuthSuccess, router])
+	}, [authUser, authLoading, handleAuthSuccess, router])
 
-	if (!shouldRender) {
-		return (
-			<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
-				<Loader />
-			</div>
-		)
-	}
+	// if (authLoading || !shouldRender) {
+	// 	return (
+	// 		<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
+	// 			<Loader />
+	// 		</div>
+	// 	)
+	// }
 
 	if (error) {
 		return (

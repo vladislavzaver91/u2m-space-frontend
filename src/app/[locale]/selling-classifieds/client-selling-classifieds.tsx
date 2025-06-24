@@ -106,7 +106,7 @@ export default function ClientSellingClassifieds() {
 				<AuthExchangeWrapper />
 			</Suspense>
 
-			<div className='flex-1 pt-14 md:pt-[88px] 2-5xl:pt-40!'>
+			<div className='flex-1 pt-14 pb-16 md:pt-[88px] 2-5xl:pt-40!'>
 				{/* Поиск и категории */}
 				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 items-center justify-between'>
 					<SearchInput

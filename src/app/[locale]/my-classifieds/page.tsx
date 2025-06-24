@@ -167,7 +167,7 @@ export default function MyClassifieds() {
 					<Loader />
 				</div>
 			) : (
-				<div className='flex-1 pt-14 pb-10 md:pt-[88px] 2-5xl:pt-40!'>
+				<div className='flex-1 pt-14 pb-16 md:pt-[88px] 2-5xl:pt-40!'>
 					<NavigationButtons
 						activePage={tMyClassifieds('buttons.myClassifieds')}
 					/>

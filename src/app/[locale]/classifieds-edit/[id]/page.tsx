@@ -335,7 +335,6 @@ export default function ClassifiedsEdit() {
 					error.response?.data || error.message
 				)
 				setError(error.response?.data?.error || 'Failed to update classified')
-			} finally {
 				setIsLoading(false)
 			}
 		},

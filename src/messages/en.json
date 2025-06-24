@@ -70,7 +70,8 @@
 			"price": {
 				"required": "Price is required",
 				"message1": "Price must be a positive number",
-				"message2": "Price must be a valid number"
+				"message2": "Price must be a valid number",
+				"message3": "Failed to load currency rates"
 			}
 		},
 		"tooltips": {

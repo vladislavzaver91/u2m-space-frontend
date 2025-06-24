@@ -113,7 +113,7 @@ export const ClassifiedForm = ({
 				)
 				setConvertedPrices(response)
 			} catch (error: any) {
-				setConversionError('Не удалось загрузить курсы валют')
+				setConversionError(tCreateEditClassified('errorInputs.price.message3'))
 				setConvertedPrices(null)
 			}
 		}

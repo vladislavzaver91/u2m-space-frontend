@@ -147,7 +147,7 @@ export const CustomDatePicker = ({
 			baseClasses += ' w-full max-w-[410px]'
 		} else {
 			// Для десктопов
-			baseClasses += ' w-full max-w-[410px] absolute top-[60px] -left-8'
+			baseClasses += ' w-full max-w-[410px] absolute top-[50px] -left-8'
 		}
 
 		return baseClasses
@@ -499,40 +499,43 @@ export const CustomDatePicker = ({
 	// элемент датапикер
 	return (
 		<motion.div
-			className={`relative h-[102px] ${
+			className={`relative py-2 mt-8 h-[78px] ${
 				isOpen
-					? 'absolute h-[102px] rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
-					: 'w-full pt-8'
+					? 'absolute h-[78px] rounded-[13px] w-full max-w-[410px] md:w-[410px] z-40'
+					: 'w-full'
 			} cursor-pointer`}
 			transition={{ duration: 0.2 }}
 			ref={buttonRef}
 			onClick={handleToggleOpen}
 		>
-			{!isOpen && (
-				<div
-					id={`${label.toLowerCase()}-datepicker`}
-					className='relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group w-full border-[#bdbdbd]'
+			<div
+				id={`${label.toLowerCase()}-datepicker`}
+				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group ${
+					isOpen
+						? 'absolute w-full md:max-w-[300px] border-transparent z-40'
+						: 'w-full border-[#bdbdbd]'
+				}`}
+			>
+				<label
+					htmlFor={`${label.toLowerCase()}-datepicker`}
+					className={`w-fit transition-all duration-300 ease-in-out text-[16px] font-bold ${
+						isOpen ? 'text-[#3486fe]' : 'text-[#4f4f4f]'
+					} cursor-pointer`}
 				>
-					<label
-						htmlFor={`${label.toLowerCase()}-datepicker`}
-						className='w-fit transition-all duration-300 ease-in-out text-[16px] font-bold text-[#4f4f4f] cursor-pointer'
-					>
-						{value || label}
-					</label>
-					<div className='flex justify-center items-center w-6 h-6'>
-						<IconCustom
-							name='arrow-down-select'
-							className='w-6 h-6 fill-none text-[#3486fe]'
-						/>
-					</div>
+					{value || label}
+				</label>
+				<div className='flex justify-center items-center w-6 h-6'>
+					<IconCustom
+						name='arrow-down-select'
+						className='w-6 h-6 fill-none text-[#3486fe]'
+					/>
 				</div>
-			)}
+			</div>
 
 			{isOpen && (
-				<>
+				<div onClick={handleOverlayClick}>
 					{isMobile ? (
 						<div
-							onClick={handleOverlayClick}
 							className={`fixed inset-0 z-50 flex px-4 max-sm:justify-start sm:justify-end ${
 								dropdownPosition === 'bottom'
 									? 'items-end pb-4'
@@ -552,7 +555,7 @@ export const CustomDatePicker = ({
 							{viewMode === 'days' && renderDaysView()}
 						</div>
 					)}
-				</>
+				</div>
 			)}
 		</motion.div>
 	)

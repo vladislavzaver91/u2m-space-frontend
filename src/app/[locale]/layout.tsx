@@ -6,7 +6,6 @@ import { ModalProvider } from '@/helpers/contexts/modal-context'
 import { routing } from '@/i18n/routing'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { notFound } from 'next/navigation'
-import { Header } from '@/components/header'
 import ClientLayout from './client-layout'
 import { ClassifiedFormProvider } from '@/helpers/contexts/classified-form-context'
 import { LanguageProvider } from '@/helpers/contexts/language-context'
@@ -65,7 +64,6 @@ export default async function RootLayout({
 									<ModalProvider>
 										<ClassifiedFormProvider>
 											<ProfileFormProvider>
-												<Header />
 												<ClientLayout>{children}</ClientLayout>
 											</ProfileFormProvider>
 										</ClassifiedFormProvider>

@@ -8,6 +8,7 @@ import { useAuth } from '../../helpers/contexts/auth-context'
 import { Loader } from '@/components/ui/loader'
 import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
+import { Header } from '@/components/header'
 
 export default function ClientLayout({
 	children,
@@ -16,7 +17,7 @@ export default function ClientLayout({
 }) {
 	const shouldRender = useVisitRedirect()
 	useScrollStyle()
-	const { authUser, handleAuthSuccess, isLoading: authLoading } = useAuth()
+	const { authUser, handleAuthSuccess, isLoading, setIsLoading } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
 	const locale = useLocale()
@@ -24,7 +25,9 @@ export default function ClientLayout({
 
 	useEffect(() => {
 		const checkLogin = async () => {
-			if (authLoading || authUser) return
+			if (authUser) return
+
+			setIsLoading(true)
 
 			if (process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop' && !authUser) {
 				console.log(
@@ -45,24 +48,25 @@ export default function ClientLayout({
 					})
 					console.log('Success login:', res)
 					if (pathname === `/${locale}` || pathname === '/') {
-						router.replace(`${locale}/selling-classifieds`)
+						router.push(`${locale}/selling-classifieds`)
 					}
 				} catch (error: any) {
 					console.error('Login error:', error)
 					setError(error.response?.data?.error || 'Failed to login')
+					setIsLoading(false)
 				}
 			}
 		}
 		checkLogin()
-	}, [authUser, authLoading, handleAuthSuccess, router])
+	}, [authUser, isLoading, handleAuthSuccess, router])
 
-	// if (authLoading || !shouldRender) {
-	// 	return (
-	// 		<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
-	// 			<Loader />
-	// 		</div>
-	// 	)
-	// }
+	if (isLoading || !shouldRender) {
+		return (
+			<div className='flex-1 flex items-center justify-center min-h-[calc(100vh-88px)]'>
+				<Loader />
+			</div>
+		)
+	}
 
 	if (error) {
 		return (
@@ -74,5 +78,10 @@ export default function ClientLayout({
 		)
 	}
 
-	return <main className='flex-1 min-h-[calc(105vh)]'>{children}</main>
+	return (
+		<>
+			<Header />
+			<main className='flex-1 min-h-[calc(105vh)]'>{children}</main>
+		</>
+	)
 }

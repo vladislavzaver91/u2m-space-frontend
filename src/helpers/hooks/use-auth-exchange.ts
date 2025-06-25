@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { useRouter } from '@/i18n/routing'
 
 export function useAuthExchange() {
-	const { handleAuthSuccess } = useAuth()
+	const { handleAuthSuccess, isLoading, setIsLoading } = useAuth()
 	const router = useRouter()
 	const searchParams = useSearchParams()
 	const [handled, setHandled] = useState(false)
@@ -16,6 +16,7 @@ export function useAuthExchange() {
 		const handleAuthResult = async () => {
 			if (handled) return
 			setHandled(true)
+			setIsLoading(true)
 
 			const state = searchParams.get('state')
 			console.log('Search params:', searchParams.toString())
@@ -40,8 +41,9 @@ export function useAuthExchange() {
 				console.error('Invalid parameter of state')
 				router.push('/selling-classifieds')
 			}
+			setIsLoading(false)
 		}
 
 		handleAuthResult()
-	}, [searchParams, handleAuthSuccess, router, handled])
+	}, [searchParams, isLoading, handleAuthSuccess, router, handled])
 }

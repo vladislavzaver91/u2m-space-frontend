@@ -26,6 +26,7 @@ interface AuthContextType {
 	accessToken: string | null
 	refreshToken: string | null
 	isLoading: boolean
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 	handleAuthSuccess: (
 		data: {
 			user: User
@@ -52,12 +53,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [authUser, setAuthUser] = useState<User | null>(null)
 	const [accessToken, setAccessToken] = useState<string | null>(null)
 	const [refreshToken, setRefreshToken] = useState<string | null>(null)
-	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const router = useRouter()
 
 	// Проверяем токены при загрузке приложения
 	useEffect(() => {
 		const loadTokens = () => {
+			setIsLoading(true)
 			const storedAccessToken = localStorage.getItem('accessToken')
 			const storedRefreshToken = localStorage.getItem('refreshToken')
 			const storedUser = localStorage.getItem('user')
@@ -76,9 +78,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 					localStorage.removeItem('accessToken')
 					localStorage.removeItem('refreshToken')
 					localStorage.removeItem('user')
+				} finally {
+					setIsLoading(false)
 				}
 			}
-			setIsLoading(false)
 		}
 
 		loadTokens()
@@ -136,6 +139,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		},
 		isInitialLogin: boolean = true
 	) => {
+		setIsLoading(true)
 		setAuthUser(user)
 		setAccessToken(accessToken)
 		setRefreshToken(refreshToken)
@@ -147,6 +151,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 	// Функция для выхода
 	const logout = () => {
+		setIsLoading(true)
 		setAuthUser(null)
 		setAccessToken(null)
 		setRefreshToken(null)
@@ -165,6 +170,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 				refreshToken,
 				handleAuthSuccess,
 				isLoading,
+				setIsLoading,
 				logout,
 			}}
 		>

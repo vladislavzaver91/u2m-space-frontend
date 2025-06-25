@@ -6,7 +6,7 @@ import { useAuth } from '../helpers/contexts/auth-context'
 import { useModal } from '../helpers/contexts/modal-context'
 import { LoginModal } from './login-modal'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { SearchInput } from './ui/search-input'
 import { IconCustom } from './ui/icon-custom'
 import { LanguageModal } from './ui/language-modal'
@@ -61,7 +61,7 @@ export const Header = () => {
 		router.push(`/selling-classifieds`)
 	}
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const handleResize = () => {
 			setIsMobile(window.innerWidth < 768)
 		}
@@ -74,7 +74,7 @@ export const Header = () => {
 	console.log('authUser', authUser)
 
 	// Отслеживание прокрутки
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const handleScroll = () => {
 			const scrollPosition = window.scrollY
 			setIsSearchVisible(scrollPosition > 120) // Показывать SearchInput после 100px прокрутки

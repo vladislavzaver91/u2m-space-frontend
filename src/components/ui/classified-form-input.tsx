@@ -7,34 +7,36 @@ import { UseFormRegisterReturn } from 'react-hook-form'
 interface ClassifiedFormInputProps {
 	label: string
 	register: UseFormRegisterReturn
-	maxLength: number
-	value: string
+	maxLength?: number
 	type?: string
 	error?: string
 	prefix?: string
+	fieldValue: string // Новый проп для значения поля
 }
 
 export const ClassifiedFormInput = ({
 	label,
 	register,
 	maxLength,
-	value,
-	type,
+	type = 'text',
 	error,
 	prefix,
+	fieldValue,
 }: ClassifiedFormInputProps) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const [isFilled, setIsFilled] = useState<boolean>(false)
 	const tComponents = useTranslations('Components')
 
+	// Используем fieldValue для проверки заполненности
 	useEffect(() => {
-		setIsFilled(!!value)
-	}, [value])
+		setIsFilled(!!fieldValue)
+	}, [fieldValue])
 
 	const handleFocus = () => setIsFocused(true)
 	const handleBlur = () => setIsFocused(false)
 
-	const isMaxLengthReached = value?.length >= maxLength
+	const isMaxLengthReached =
+		maxLength && type !== 'number' && fieldValue?.length >= maxLength
 	const showPrefix = prefix && (isFocused || isFilled)
 
 	return (
@@ -64,7 +66,14 @@ export const ClassifiedFormInput = ({
 					type={type}
 					{...register}
 					onFocus={handleFocus}
-					onBlur={handleBlur}
+					onBlur={e => {
+						handleBlur()
+						register.onBlur(e) // Передаем событие onBlur в react-hook-form
+					}}
+					onChange={e => {
+						console.log('Input onChange:', e.target.value)
+						register.onChange(e) // Передаем событие onChange в react-hook-form
+					}}
 					className={`w-full h-[38px] mt-[22px] px-2 text-[#4f4f4f] outline-none border-b border-[#bdbdbd] ${
 						error ? 'text-[#F9329C]' : ''
 					} bg-transparent ${
@@ -85,9 +94,9 @@ export const ClassifiedFormInput = ({
 						{error}
 					</span>
 				)}
-				{label !== 'Price' && (
+				{label !== 'Price' && maxLength && type !== 'number' && (
 					<span className='text-[13px] font-normal text-[#4f4f4f]'>
-						{value?.length || 0}/{maxLength}
+						{fieldValue?.length || 0}/{maxLength}
 					</span>
 				)}
 			</div>

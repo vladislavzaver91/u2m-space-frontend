@@ -154,6 +154,8 @@ export default function ClassifiedsCreate() {
 				formData,
 				new Date().toISOString()
 			)
+			console.log('Raw price value:', formData.price)
+			console.log('Parsed price value:', parseFloat(formData.price))
 
 			setIsLoading(true)
 			setError('')
@@ -163,6 +165,10 @@ export default function ClassifiedsCreate() {
 				formDataToSend.append('title', formData.title)
 				formDataToSend.append('description', formData.description)
 				formDataToSend.append('price', formData.price)
+				console.log(
+					`formDataToSend.append('price', formData.price)`,
+					formData.price
+				)
 				if (tags.length > 0) {
 					tags.forEach(tag => formDataToSend.append('tags[]', tag))
 				}
@@ -174,7 +180,6 @@ export default function ClassifiedsCreate() {
 					console.log(`FormData: ${key} =`, value)
 				}
 
-				console.log('Sending request to /api/classifieds')
 				const res = await apiService.createClassified(formDataToSend)
 				console.log('Response from createClassified:', res)
 				setClassified(res)
@@ -256,7 +261,9 @@ export default function ClassifiedsCreate() {
 			formData,
 			submit: handleSubmit,
 		})
-	}, [isFormValid, imageFiles, setFormState, handleSubmit])
+		console.log('formData', formData)
+		console.log('initialFormData', initialFormData)
+	}, [isFormValid, imageFiles, setFormState, handleSubmit, initialFormData])
 
 	if (!authUser) {
 		return <div className='text-center mt-20'>Authorization required</div>

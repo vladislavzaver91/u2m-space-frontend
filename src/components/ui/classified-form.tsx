@@ -56,6 +56,7 @@ export const ClassifiedForm = ({
 	const titleValue = watch('title')
 	const descriptionValue = watch('description')
 	const priceValue = watch('price')
+	console.log('watch price:', priceValue)
 
 	const { settings } = useLanguage()
 	const { user, loading } = useUser()
@@ -104,27 +105,35 @@ export const ClassifiedForm = ({
 				return
 			}
 
+			console.log('priceValue', priceValue)
+
 			try {
 				setConversionError('')
 				const amount = parseFloat(priceValue)
+				console.log(`const amount = parseFloat(priceValue)`, amount)
 				const response = await apiService.convertCurrency(
 					amount,
 					settings.currencyCode
 				)
 				setConvertedPrices(response)
+				console.log(`setConvertedPrices(response)`, response)
 			} catch (error: any) {
 				setConversionError(tCreateEditClassified('errorInputs.price.message3'))
 				setConvertedPrices(null)
 			}
 		}
 
-		// Добавляем debounce для предотвращения частых запросов
 		if (tooltipVisible.price) {
 			timeoutId = setTimeout(fetchConvertedPrices, 300)
 		}
 
 		return () => clearTimeout(timeoutId)
-	}, [tooltipVisible.price, priceValue])
+	}, [
+		tooltipVisible.price,
+		priceValue,
+		settings.currencyCode,
+		tCreateEditClassified,
+	])
 
 	useEffect(() => {
 		if (onFormStateChange) {
@@ -159,7 +168,7 @@ export const ClassifiedForm = ({
 							message: tCreateEditClassified('errorInputs.title.message'),
 						},
 					})}
-					value={titleValue}
+					fieldValue={titleValue} // Передаем значение через fieldValue
 					error={errors.title?.message}
 					maxLength={60}
 				/>
@@ -185,7 +194,7 @@ export const ClassifiedForm = ({
 							message: tCreateEditClassified('errorInputs.title.message'),
 						},
 					})}
-					value={descriptionValue}
+					fieldValue={descriptionValue} // Передаем значение через fieldValue
 					error={errors.description?.message}
 					maxLength={300}
 				/>
@@ -211,16 +220,18 @@ export const ClassifiedForm = ({
 							value: 0,
 							message: tCreateEditClassified('errorInputs.price.message1'),
 						},
+						max: {
+							value: 9999999999,
+							message: tCreateEditClassified('errorInputs.price.message2'),
+						},
 						validate: value =>
 							!isNaN(parseFloat(value)) ||
 							tCreateEditClassified('errorInputs.price.message1'),
 					})}
-					value={priceValue}
+					fieldValue={priceValue} // Передаем значение через fieldValue
 					error={errors.price?.message}
-					maxLength={10}
 					prefix={CURRENCY_SYMBOLS[settings.currencyCode]}
 				/>
-
 				<Tooltip
 					title={tCreateEditClassified('tooltips.price.name')}
 					text={tCreateEditClassified('tooltips.price.description')}
@@ -232,7 +243,11 @@ export const ClassifiedForm = ({
 				/>
 			</div>
 			{convertedPrices && (
-				<div className='xl:hidden bg-[#f7f7f7] rounded-[13px] p-5 w-full'>
+				<div
+					className='xl:hidden bgπου
+
+System: hidden bg-[#f7f7f7] rounded-[13px] p-5 w-full'
+				>
 					<div className='flex items-center gap-2.5 mb-3'>
 						<IconCustom
 							name='arrow-up-left'
@@ -242,7 +257,6 @@ export const ClassifiedForm = ({
 							{tCreateEditClassified('tooltips.description.name')}
 						</p>
 					</div>
-
 					<div className='text-[16px] text-[#4f4f4f]'>
 						{conversionError ? (
 							<p className='text-[#F9329C]'>{conversionError}</p>

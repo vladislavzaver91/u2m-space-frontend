@@ -25,7 +25,7 @@ export interface LanguageOption {
 	defaultCurrency: 'USD' | 'UAH' | 'EUR'
 }
 
-interface CurrencyOption {
+export interface CurrencyOption {
 	name: string
 	symbol: string
 	code: 'USD' | 'UAH' | 'EUR'

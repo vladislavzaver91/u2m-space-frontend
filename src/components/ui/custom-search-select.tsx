@@ -16,6 +16,7 @@ interface CustomSearchSelectProps {
 	onOpenChange?: (isOpen: boolean) => void
 	onClick?: () => void
 	showLabel?: boolean
+	failedToLoadCitiesError?: string
 }
 
 export const CustomSearchSelect = ({
@@ -27,6 +28,7 @@ export const CustomSearchSelect = ({
 	onOpenChange,
 	onClick,
 	showLabel = false,
+	failedToLoadCitiesError,
 }: CustomSearchSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
@@ -194,7 +196,7 @@ export const CustomSearchSelect = ({
 				))
 			) : (
 				<div className='p-4 text-[16px] font-normal text-[#4f4f4f]'>
-					{tComponents('inputs.noCitiesFound')}
+					{failedToLoadCitiesError}
 				</div>
 			)}
 		</>

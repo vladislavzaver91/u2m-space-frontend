@@ -245,6 +245,9 @@
 				"kharkiv": "Харків",
 				"warsaw": "Варшава"
 			}
+		},
+		"errors": {
+			"failedToLoadCities": "Міста не знайдено"
 		}
 	},
 
@@ -271,8 +274,7 @@
 			"imLookingFor": "Я шукаю..."
 		},
 		"inputs": {
-			"error": "Досягнуто ліміту символів",
-			"noCitiesFound": "Міста не знайдено"
+			"error": "Досягнуто ліміту символів"
 		}
 	},
 	"DatePicker": {

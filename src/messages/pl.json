@@ -245,6 +245,9 @@
 				"kharkiv": "Charków",
 				"warsaw": "Warszawa"
 			}
+		},
+		"errors": {
+			"failedToLoadCities": "Nie znaleziono miasta"
 		}
 	},
 
@@ -271,8 +274,7 @@
 			"imLookingFor": "Szukam..."
 		},
 		"inputs": {
-			"error": "Osiągnięto limit znaków",
-			"noCitiesFound": "Nie znaleziono miast"
+			"error": "Osiągnięto limit znaków"
 		}
 	},
 	"DatePicker": {

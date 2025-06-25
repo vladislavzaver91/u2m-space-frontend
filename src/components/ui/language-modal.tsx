@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Loader } from './loader'
 import { ButtonCustom } from './button-custom'
@@ -14,6 +14,10 @@ import { useLanguage } from '@/helpers/contexts/language-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { CityOption } from '@/types'
 import { handleApiError } from '@/helpers/functions/handle-api-error'
+
+import enTranslations from '@/messages/en.json'
+import ukTranslations from '@/messages/uk.json'
+import plTranslations from '@/messages/pl.json'
 
 export const LanguageModal = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -30,21 +34,43 @@ export const LanguageModal = () => {
 	} = useLanguage()
 	const [tempSettings, setTempSettings] = useState(settings)
 
-	const locale = useLocale() as 'en' | 'uk' | 'pl'
 	const tLanguageModal = useTranslations('LanguageModal')
+
+	const translationsMap = useMemo(
+		() => ({
+			en: enTranslations.LanguageModal,
+			uk: ukTranslations.LanguageModal,
+			pl: plTranslations.LanguageModal,
+		}),
+		[]
+	)
+
+	const dynamicTranslations = useMemo(
+		() => ({
+			chooseLanguageRegionTitle:
+				translationsMap[tempSettings.languageCode].chooseLanguageRegion.title,
+			chooseCurrencyTitle:
+				translationsMap[tempSettings.languageCode].chooseCurrency.title,
+			chooseCityTitle:
+				translationsMap[tempSettings.languageCode].chooseCity.title,
+			failedToLoadCities:
+				translationsMap[tempSettings.languageCode].errors.failedToLoadCities,
+		}),
+		[tempSettings.languageCode, translationsMap]
+	)
 
 	// Загрузка городов и блокировка скролла
 	useEffect(() => {
 		const loadCities = async () => {
 			try {
 				setIsLoading(true)
-				const fetchedCities = await cityService.fetchAllCities(locale)
+				const fetchedCities = await cityService.fetchAllCities(
+					tempSettings.languageCode
+				)
 				setCities(fetchedCities)
 				setError(null)
 			} catch (error: any) {
-				setError(
-					handleApiError(error, tLanguageModal('errors.failedToLoadCities'))
-				)
+				setError(handleApiError(error, dynamicTranslations.failedToLoadCities))
 			} finally {
 				setIsLoading(false)
 			}
@@ -56,7 +82,7 @@ export const LanguageModal = () => {
 		return () => {
 			document.body.style.overflow = ''
 		}
-	}, [locale, tLanguageModal])
+	}, [tempSettings.languageCode, tLanguageModal])
 
 	// Обработка выбора языка
 	// const handleLanguageChange = async (languageCode: 'en' | 'uk' | 'pl') => {
@@ -162,7 +188,7 @@ export const LanguageModal = () => {
 				>
 					{/* language and region */}
 					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
-						{tLanguageModal('chooseLanguageRegion.title')}
+						{dynamicTranslations.chooseLanguageRegionTitle}
 					</h2>
 
 					<div className='relative w-full min-h-[74px] flex items-center justify-center'>
@@ -194,7 +220,7 @@ export const LanguageModal = () => {
 
 					{/* currency */}
 					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
-						{tLanguageModal('chooseCurrency.title')}
+						{dynamicTranslations.chooseCurrencyTitle}
 					</h2>
 
 					<div className='relative w-full min-h-[74px] flex items-center justify-center'>
@@ -226,7 +252,7 @@ export const LanguageModal = () => {
 
 					{/* city */}
 					<h2 className='text-[18px] font-bold uppercase text-[#4f4f4f] text-center'>
-						{tLanguageModal('chooseCity.title')}
+						{dynamicTranslations.chooseCityTitle}
 					</h2>
 
 					<div className='w-full mx-auto sm:w-[300px]'>
@@ -236,6 +262,7 @@ export const LanguageModal = () => {
 							value={tempSettings.city || ''}
 							onChange={handleCityChange}
 							languageCode={tempSettings.languageCode}
+							failedToLoadCitiesError={dynamicTranslations.failedToLoadCities}
 						/>
 					</div>
 

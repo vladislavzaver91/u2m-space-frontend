@@ -246,6 +246,9 @@
 				"kharkiv": "Kharkiv",
 				"warsaw": "Warsaw"
 			}
+		},
+		"errors": {
+			"failedToLoadCities": "City not found"
 		}
 	},
 
@@ -272,8 +275,7 @@
 			"imLookingFor": "I'm looking for..."
 		},
 		"inputs": {
-			"error": "Character limit reached",
-			"noCitiesFound": "No cities found"
+			"error": "Character limit reached"
 		}
 	},
 	"DatePicker": {

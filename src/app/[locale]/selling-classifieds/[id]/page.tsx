@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		const canonicalUrl = `https://u2m.space/${locale}/selling-classifieds/${id}`
 		const alternateUrls = [
 			{
-				hrefLang: 'uk',
+				hrefLang: 'ua',
 				href: `https://u2m.space/uk/selling-classifieds/${id}`,
 			},
 			{
@@ -47,9 +47,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			robots: {
 				index: false,
 				follow: false,
-			},
-			other: {
-				google: 'notranslate',
 			},
 			icons: {
 				icon: '/favicon.ico',
@@ -81,6 +78,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 					en: alternateUrls[1].href,
 					pl: alternateUrls[2].href,
 				},
+			},
+			other: {
+				...{
+					google: 'notranslate',
+				},
+				// Кастомные link теги для правильных hrefLang
+				'link:alternate:ua': `<link rel="alternate" hrefLang="ua" href="${alternateUrls[0].href}" />`,
+				'link:alternate:en': `<link rel="alternate" hrefLang="en" href="${alternateUrls[1].href}" />`,
+				'link:alternate:pl': `<link rel="alternate" hrefLang="pl" href="${alternateUrls[2].href}" />`,
 			},
 		}
 	} catch (error) {

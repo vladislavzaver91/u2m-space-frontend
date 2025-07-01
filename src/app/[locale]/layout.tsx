@@ -25,6 +25,24 @@ export const metadata: Metadata = {
 		icon: '/favicon.ico',
 		apple: '/favicon.png',
 	},
+	openGraph: {
+		siteName: 'Маркетплейс для обмена и продажи', // Default value
+		title: 'U2M SPACE',
+		description: 'Your new simpler, reliable way to exchange.',
+		type: 'website',
+		url: typeof window === 'undefined' ? '' : window.location.href,
+		images: [
+			{
+				url: '/og-image.jpg', // спросить у Дениса за изображение
+				width: 1200,
+				height: 630,
+				alt: 'U2M SPACE Marketplace',
+			},
+		],
+	},
+	twitter: {
+		creator: '@exxtremum',
+	},
 }
 
 interface RootLayoutProps {
@@ -47,6 +65,21 @@ export default async function RootLayout({
 	} catch (error) {
 		notFound()
 	}
+
+	// Динамическое обновление og:siteName в зависимости от локали
+	const siteNameByLocale: Record<string, string> = {
+		ua: 'Маркетплейс для обмена и продажи',
+		en: 'Marketplace for exchange and sale',
+		pl: 'Rynek wymiany i sprzedaży',
+	}
+	const ogSiteName = siteNameByLocale[locale] || siteNameByLocale.ua
+
+	// Обновляем metadata для текущей локали
+	metadata.openGraph = {
+		...metadata.openGraph,
+		siteName: ogSiteName,
+	}
+
 	const isHomePage =
 		typeof window === 'undefined' ? false : window.location.pathname === '/'
 	const bodyClass = `${

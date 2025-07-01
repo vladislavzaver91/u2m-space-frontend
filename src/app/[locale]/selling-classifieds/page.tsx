@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		const canonicalUrl = `https://u2m.space/${locale}/selling-classifieds`
 
 		const alternateUrls = [
-			{ hrefLang: 'uk', href: `https://u2m.space/uk/selling-classifieds` },
+			{ hrefLang: 'ua', href: `https://u2m.space/uk/selling-classifieds` },
 			{ hrefLang: 'en', href: `https://u2m.space/en/selling-classifieds` },
 			{ hrefLang: 'pl', href: `https://u2m.space/pl/selling-classifieds` },
 		]
@@ -28,9 +28,6 @@ export async function generateMetadata(): Promise<Metadata> {
 			robots: {
 				index: true, // Разрешаем индексацию для списка
 				follow: true, // Разрешаем следование по ссылкам
-			},
-			other: {
-				google: 'notranslate', // Запрещаем Google переводить страницу
 			},
 			icons: {
 				icon: '/favicon.ico', // Favicon для страницы
@@ -63,6 +60,15 @@ export async function generateMetadata(): Promise<Metadata> {
 					en: alternateUrls[1].href,
 					pl: alternateUrls[2].href,
 				},
+			},
+			other: {
+				...{
+					google: 'notranslate',
+				},
+				// Кастомные link теги для правильных hrefLang
+				'link:alternate:ua': `<link rel="alternate" hrefLang="ua" href="${alternateUrls[0].href}" />`,
+				'link:alternate:en': `<link rel="alternate" hrefLang="en" href="${alternateUrls[1].href}" />`,
+				'link:alternate:pl': `<link rel="alternate" hrefLang="pl" href="${alternateUrls[2].href}" />`,
 			},
 		}
 	} catch (error) {

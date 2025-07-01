@@ -169,9 +169,9 @@ export const CustomSelect = ({
 
 			<div
 				id={`${label.toLowerCase()}-select`}
-				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-transparent cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group ${
+				className={`relative text-[16px] font-bold text-[#4f4f4f] outline-none border-b bg-white cursor-pointer flex justify-between items-center h-[38px] pl-2 pr-2 group ${
 					isOpen
-						? 'w-full sm:w-[316px] sm:pr-6 border-transparent'
+						? 'w-full sm:w-[316px] sm:pl-4 sm:pr-6 border-transparent'
 						: 'w-full border-[#bdbdbd]'
 				}`}
 			>

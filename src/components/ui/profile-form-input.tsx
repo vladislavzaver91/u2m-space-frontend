@@ -91,24 +91,28 @@ export const ProfileFormInput = ({
 				)}
 			</div>
 			{maxLength && (
-				<div className='absolute bottom-0 flex items-center justify-between gap-2 w-full'>
-					{isMaxLengthReached && (
-						<span className='text-[13px] font-normal text-[#F9329C]'>
-							{tComponents('inputs.error')}
-						</span>
-					)}
-					{error && (
-						<span className='text-[13px] font-normal text-[#F9329C]'>
-							{error}
-						</span>
-					)}
+				<>
+					<div className='absolute bottom-0 flex items-center justify-between gap-2 w-full'>
+						{isMaxLengthReached && (
+							<span className='text-[13px] font-normal text-[#F9329C]'>
+								{tComponents('inputs.error')}
+							</span>
+						)}
+						{error && (
+							<span className='text-[13px] font-normal text-[#F9329C]'>
+								{error}
+							</span>
+						)}
+					</div>
 
-					{label !== 'Price' && (
-						<span className='text-[13px] font-normal text-[#4f4f4f]'>
-							{value?.length || 0}/{maxLength}
-						</span>
-					)}
-				</div>
+					<div className='absolute bottom-0 flex items-center justify-end gap-2 w-full'>
+						{label !== 'Price' && (
+							<span className='text-[13px] font-normal text-[#4f4f4f]'>
+								{value?.length || 0}/{maxLength}
+							</span>
+						)}
+					</div>
+				</>
 			)}
 		</div>
 	)

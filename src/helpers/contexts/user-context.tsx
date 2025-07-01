@@ -11,6 +11,7 @@ import { User } from '@/types'
 import { useAuth } from './auth-context'
 import { apiService } from '@/services/api.service'
 import { useRouter } from '@/i18n/routing'
+import { usePathname } from 'next/navigation'
 
 interface UserContextType {
 	user: User | null
@@ -31,6 +32,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 	const [isFetching, setIsFetching] = useState<boolean>(false)
 
 	const router = useRouter()
+	const pathname = usePathname()
 
 	const fetchUser = useCallback(
 		async (id: string) => {
@@ -54,7 +56,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 				if (!userData.nickname && authUser) {
 					router.push(`/profile/${id}`)
 				} else {
-					router.push('/selling-classifieds')
+					if (
+						pathname.includes('/auth') ||
+						pathname.includes('/login') ||
+						pathname === '/'
+					) {
+						router.push('/selling-classifieds')
+					}
 				}
 			} catch (err: any) {
 				setError(err.message || 'Failed to fetch user profile')

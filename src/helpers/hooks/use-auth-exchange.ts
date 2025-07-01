@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/auth-context'
 import { apiService } from '@/services/api.service'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/routing'
 
 export function useAuthExchange() {
 	const { handleAuthSuccess, isLoading, setIsLoading } = useAuth()
 	const router = useRouter()
 	const searchParams = useSearchParams()
+	const pathname = usePathname()
 	const [handled, setHandled] = useState(false)
 
 	useEffect(() => {
@@ -35,15 +36,35 @@ export function useAuthExchange() {
 					handleAuthSuccess({ user, accessToken, refreshToken }, true)
 				} catch (err) {
 					console.error('Failed to exchange state:', err)
-					router.push('/selling-classifieds')
+					// Если произошла ошибка при обмене состояния, остаемся на текущей странице
+					// Только если мы не на странице авторизации, перенаправляем на /selling-classifieds
+					if (pathname.includes('/auth') || pathname.includes('/login')) {
+						// Попытаемся вернуть пользователя на страницу, с которой он начал авторизацию
+						const returnUrl =
+							localStorage.getItem('returnUrl') || '/selling-classifieds'
+						localStorage.removeItem('returnUrl')
+						router.push(returnUrl)
+					}
+					// Иначе остаемся на текущей странице
 				}
 			} else {
-				console.error('Invalid parameter of state')
-				router.push('/selling-classifieds')
+				// Если нет параметра state, это может быть обычная загрузка страницы
+				// Не перенаправляем пользователя, если он не на странице авторизации
+				if (pathname.includes('/auth') || pathname.includes('/login')) {
+					console.log(
+						'No state parameter on auth page, redirecting to selling-classifieds'
+					)
+					// Попытаемся вернуть пользователя на страницу, с которой он начал авторизацию
+					const returnUrl =
+						localStorage.getItem('returnUrl') || '/selling-classifieds'
+					localStorage.removeItem('returnUrl')
+					router.push(returnUrl)
+				}
+				// Если пользователь на обычной странице без параметра state, ничего не делаем
 			}
 			setIsLoading(false)
 		}
 
 		handleAuthResult()
-	}, [searchParams, isLoading, handleAuthSuccess, router, handled])
+	}, [searchParams, isLoading, handleAuthSuccess, router, handled, pathname])
 }

@@ -71,12 +71,27 @@ interface GuestSettings {
 	city: string | null
 }
 
+export interface PriceRange {
+	min: number
+	max: number
+	currency: string
+	convertedMin: number
+	convertedMax: number
+	convertedCurrency: string
+}
+
+export interface FilterClassifiedsResponse extends ClassifiedsResponse {
+	priceRange: PriceRange
+	availableTags: string[]
+}
+
 export class ApiService {
 	async getClassifieds(params: {
 		page: number
 		limit: number
 		tags?: string[]
 		currency?: 'USD' | 'UAH' | 'EUR'
+		category?: string
 	}): Promise<ClassifiedsResponse> {
 		const offset = (params.page - 1) * params.limit
 		const res = await $api.get('/api/classifieds', {
@@ -85,6 +100,47 @@ export class ApiService {
 				offset,
 				tags: params.tags,
 				currency: params.currency,
+				category: params.category || '',
+			},
+		})
+		return res.data
+	}
+
+	async searchClassifieds(params: {
+		query: string
+		category?: string
+		limit?: number
+	}): Promise<ClassifiedsResponse> {
+		const res = await $api.post('/api/classifieds/search', {
+			query: params.query,
+			category: params.category,
+			limit: params.limit || 5,
+		})
+		return res.data
+	}
+
+	async filterClassifieds(params: {
+		search?: string
+		tags?: string[]
+		minPrice?: string
+		maxPrice?: string
+		currency?: 'USD' | 'UAH' | 'EUR'
+		sortBy?: 'price' | 'createdAt'
+		sortOrder?: 'asc' | 'desc'
+		limit?: number
+		offset?: number
+	}): Promise<FilterClassifiedsResponse> {
+		const res = await $api.get('/api/classifieds/filter', {
+			params: {
+				search: params.search,
+				tags: params.tags,
+				minPrice: params.minPrice,
+				maxPrice: params.maxPrice,
+				currency: params.currency || 'USD',
+				sortBy: params.sortBy || 'createdAt',
+				sortOrder: params.sortOrder || 'desc',
+				limit: params.limit || 20,
+				offset: params.offset || 0,
 			},
 		})
 		return res.data

@@ -15,6 +15,7 @@ export interface Classified {
 	images: string[]
 	isActive: boolean
 	favoritesBool: boolean
+	category?: string
 	createdAt: string
 	user: {
 		id: string

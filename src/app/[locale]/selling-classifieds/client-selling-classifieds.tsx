@@ -15,6 +15,8 @@ import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 import { useTranslations } from 'next-intl'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { useLoading } from '@/helpers/contexts/loading-context'
+import { useSearchParams } from 'next/navigation'
+import { useSearch } from '@/helpers/contexts/search-context'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -23,7 +25,6 @@ function AuthExchangeWrapper() {
 
 export default function ClientSellingClassifieds() {
 	const [currentSlide, setCurrentSlide] = useState(0)
-	const [classifieds, setClassifieds] = useState<Classified[]>([])
 	const [isFetching, setIsFetching] = useState(true)
 	const [page, setPage] = useState(1)
 	const [hasMore, setHasMore] = useState(true)
@@ -35,6 +36,7 @@ export default function ClientSellingClassifieds() {
 	)
 	const { settings } = useLanguage()
 	const { isLoading } = useLoading()
+	const { searchQuery, setClassifieds, classifieds } = useSearch()
 
 	const limit = 20
 
@@ -42,13 +44,15 @@ export default function ClientSellingClassifieds() {
 		const fetchClassifieds = async () => {
 			try {
 				setIsFetching(true)
+				setClassifieds([])
 				const data = await apiService.getClassifieds({
 					page,
 					limit,
 					currency: settings.currencyCode,
+					category: activeCategory,
 				})
 				console.log(data)
-				setClassifieds(prev => [...prev, ...data.classifieds])
+				setClassifieds([...classifieds, ...data.classifieds])
 				setHasMore(data.hasMore)
 			} catch (error) {
 				console.error('Error fetching classifieds:', error)
@@ -58,7 +62,7 @@ export default function ClientSellingClassifieds() {
 		}
 
 		fetchClassifieds()
-	}, [page, settings.currencyCode])
+	}, [page, settings.currencyCode, activeCategory, searchQuery, setClassifieds])
 
 	// Обновление цен при смене валюты
 	// useEffect(() => {
@@ -111,7 +115,7 @@ export default function ClientSellingClassifieds() {
 				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 items-center justify-between'>
 					<SearchInput
 						className='w-full max-2xl:py-3 2xl:max-w-[770px] max-md:hidden'
-						disabled
+						activeCategory={activeCategory}
 					/>
 					<CategoryTabs
 						categories={[

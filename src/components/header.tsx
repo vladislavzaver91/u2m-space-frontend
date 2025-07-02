@@ -6,7 +6,7 @@ import { useAuth } from '../helpers/contexts/auth-context'
 import { useModal } from '../helpers/contexts/modal-context'
 import { LoginModal } from './login-modal'
 import Image from 'next/image'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { SearchInput } from './ui/search-input'
 import { IconCustom } from './ui/icon-custom'
 import { LanguageModal } from './ui/language-modal'
@@ -16,6 +16,8 @@ import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { useRouter } from '@/i18n/routing'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { useUser } from '@/helpers/contexts/user-context'
+import { useSearch } from '@/helpers/contexts/search-context'
+import { FilterModal } from './ui/filter-modal'
 
 export const Header = () => {
 	const { authUser } = useAuth()
@@ -24,13 +26,21 @@ export const Header = () => {
 		useModal()
 	const { isPublishDisabled, submitForm } = useClassifiedForm()
 	const { isSubmitDisabled, submitForm: submitProfileForm } = useProfileForm()
+	const { searchQuery, setSearchQuery } = useSearch()
+
 	const pathname = usePathname()
 	const locale = useLocale()
 	const router = useRouter()
+
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
 	const [isMobile, setIsMobile] = useState<boolean>(false)
+	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+
+	const filterButtonRef = useRef<HTMLButtonElement>(null)
+
 	const tButtons = useTranslations('Buttons')
 	const tComponents = useTranslations('Components')
+
 	const { id } = useParams<{ id: string }>()
 
 	const mySpaceRoutes = [
@@ -86,6 +96,8 @@ export const Header = () => {
 
 	console.log('User avatar URL:', authUser?.avatarUrl)
 
+	isFilterModalOpen && console.log('Filter modal is open')
+
 	return (
 		<>
 			<div className='fixed mr-2 px-4 md:px-8 min-h-14 md:min-h-[88px] py-3 md:py-7 top-0 left-0 w-full flex items-center bg-white/75 backdrop-blur-2xl z-20'>
@@ -135,7 +147,6 @@ export const Header = () => {
 								<SearchInput
 									className='lg:max-w-[770px]'
 									inputClass='bg-white'
-									disabled
 								/>
 							</div>
 						</>
@@ -233,6 +244,7 @@ export const Header = () => {
 								{/* language */}
 								{!isSearchVisible && (
 									<ButtonCustom
+										ref={filterButtonRef}
 										onClick={openModal}
 										iconWrapperClass='w-6 h-6'
 										icon={
@@ -245,6 +257,25 @@ export const Header = () => {
 										}
 										isHover
 										className='max-md:hidden flex p-8 min-w-[88px] w-fit'
+									/>
+								)}
+
+								{/* filters */}
+								{searchQuery && (
+									<ButtonCustom
+										onClick={() => setIsFilterModalOpen(true)}
+										text='Filters'
+										iconWrapperClass='w-6 h-6'
+										icon={
+											<IconCustom
+												name='filter'
+												hover={true}
+												hoverColor='#f9329c'
+												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c]'
+											/>
+										}
+										isHover
+										className='p-8 min-w-[157px] w-fit'
 									/>
 								)}
 
@@ -445,6 +476,13 @@ export const Header = () => {
 			</div>
 			{isLoginModalOpen && <LoginModal />}
 			{isModalOpen && <LanguageModal />}
+			{isFilterModalOpen && (
+				<FilterModal
+					isOpen={isFilterModalOpen}
+					onClose={() => setIsFilterModalOpen(false)}
+					buttonRef={filterButtonRef}
+				/>
+			)}
 		</>
 	)
 }

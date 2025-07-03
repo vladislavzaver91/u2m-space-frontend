@@ -244,7 +244,6 @@ export const Header = () => {
 								{/* language */}
 								{!isSearchVisible && (
 									<ButtonCustom
-										ref={filterButtonRef}
 										onClick={openModal}
 										iconWrapperClass='w-6 h-6'
 										icon={
@@ -263,6 +262,7 @@ export const Header = () => {
 								{/* filters */}
 								{searchQuery && (
 									<ButtonCustom
+										ref={filterButtonRef}
 										onClick={() => setIsFilterModalOpen(true)}
 										text='Filters'
 										iconWrapperClass='w-6 h-6'

@@ -17,6 +17,8 @@ export interface Classified {
 	favoritesBool: boolean
 	category?: string
 	createdAt: string
+	plan: 'light' | 'smart' | 'extremum'
+	lastPromoted: string
 	user: {
 		id: string
 		nickname: string

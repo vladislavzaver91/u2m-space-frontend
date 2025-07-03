@@ -29,7 +29,6 @@ export const FilterModal = ({
 	buttonRef,
 }: FilterModalProps) => {
 	const tComponents = useTranslations('Components')
-
 	const { searchQuery, setClassifieds } = useSearch()
 
 	const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
@@ -42,14 +41,74 @@ export const FilterModal = ({
 
 	const modalRef = useRef<HTMLDivElement>(null)
 
-	// Загрузка начальных данных (диапазон цен и теги)
-	useLayoutEffect(() => {
+	// Закрытие модального окна при клике вне
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				modalRef.current &&
+				!modalRef.current.contains(event.target as Node) &&
+				buttonRef.current &&
+				!buttonRef.current.contains(event.target as Node)
+			) {
+				onClose()
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside)
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [isOpen, onClose])
+
+	// Позиционирование модального окна
+	useEffect(() => {
+		const updatePosition = () => {
+			if (isOpen && buttonRef.current && modalRef.current) {
+				const buttonRect = buttonRef.current.getBoundingClientRect()
+				const modalRect = modalRef.current.getBoundingClientRect()
+				const viewportWidth = window.innerWidth
+				const viewportHeight = window.innerHeight
+
+				// Позиционируем под кнопкой
+				let top = buttonRect.bottom + window.scrollY + 8 // Отступ 8px от кнопки
+				let right = viewportWidth - buttonRect.right
+
+				// Проверяем, не выходит ли модалка за нижнюю границу экрана
+				if (top + modalRect.height > viewportHeight + window.scrollY) {
+					top = buttonRect.top + window.scrollY - modalRect.height - 8 // Позиционируем над кнопкой
+				}
+
+				// Проверяем, не выходит ли модалка за правую границу
+				if (right < 0) {
+					right = 8 // Минимальный отступ от края
+				}
+
+				modalRef.current.style.top = `${top}px`
+				modalRef.current.style.right = `${right}px`
+			}
+		}
+
+		if (isOpen) {
+			updatePosition()
+			window.addEventListener('resize', updatePosition)
+		}
+
+		return () => {
+			window.removeEventListener('resize', updatePosition)
+		}
+	}, [isOpen, buttonRef])
+
+	// Загрузка начальных данных
+	useEffect(() => {
 		if (isOpen) {
 			const fetchFilterData = async () => {
 				try {
 					const data = await apiService.filterClassifieds({
 						search: searchQuery,
-						currency: 'USD', // Можно заменить на валюту из useLanguage
+						currency: 'USD',
 					})
 					setPriceRange({
 						convertedMin: data.priceRange.convertedMin,
@@ -68,7 +127,7 @@ export const FilterModal = ({
 		}
 	}, [isOpen, searchQuery, setClassifieds])
 
-	// При применении фильтров
+	// Применение фильтров
 	const applyFilters = useCallback(async () => {
 		try {
 			const data = await apiService.filterClassifieds({
@@ -123,15 +182,6 @@ export const FilterModal = ({
 		}
 	}
 
-	// Позиционирование модального окна
-	useEffect(() => {
-		if (isOpen && buttonRef.current && modalRef.current) {
-			const buttonRect = buttonRef.current.getBoundingClientRect()
-			modalRef.current.style.top = `${buttonRect.bottom + window.scrollY}px`
-			modalRef.current.style.right = `${window.innerWidth - buttonRect.right}px`
-		}
-	}, [isOpen, buttonRef])
-
 	// Применение фильтров при изменении параметров
 	useEffect(() => {
 		if (isOpen) {
@@ -147,12 +197,13 @@ export const FilterModal = ({
 		isOpen,
 	])
 
-	if (!isOpen || !priceRange || !buttonRef) return null
+	if (!isOpen || !priceRange) return null
 
 	return (
 		<div
 			ref={modalRef}
-			className='absolute bg-white border border-[#bdbdbd] rounded-xl shadow-lg z-30 p-4 w-[300px] max-h-[400px] overflow-y-auto'
+			className='absolute bg-white border border-[#bdbdbd] rounded-xl shadow-lg z-30 p-4 w-[300px] max-h-[400px] overflow-y-auto transition-all duration-300 ease-in-out transform opacity-0 scale-95 data-[open=true]:opacity-100 data-[open=true]:scale-100'
+			data-open={isOpen}
 		>
 			{/* Диапазон цен */}
 			<div className='mb-4'>
@@ -213,7 +264,7 @@ export const FilterModal = ({
 								selectedTags.includes(tag)
 									? 'bg-[#3486fe] text-white border-[#3486fe]'
 									: 'bg-white text-[#4f4f4f] border-[#bdbdbd]'
-							}`}
+							} transition-colors duration-200`}
 						>
 							{tag}
 						</button>
@@ -228,7 +279,7 @@ export const FilterModal = ({
 				</h3>
 				<select
 					onChange={e => handleSortChange(e.target.value)}
-					className='w-full p-2 border border-[#bdbdbd] rounded-lg text-sm'
+					className='w-full p-2 border border-[#bdbdbd] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3486fe]'
 				>
 					<option value='createdAt-desc'>{tComponents('firstNew')}</option>
 					<option value='createdAt-asc'>{tComponents('firstOld')}</option>
@@ -240,7 +291,7 @@ export const FilterModal = ({
 			{/* Кнопка закрытия */}
 			<button
 				onClick={onClose}
-				className='mt-4 w-full bg-[#6FCF97] text-white py-2 rounded-lg text-sm font-medium'
+				className='mt-4 w-full bg-[#6FCF97] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#5BBF87] transition-colors duration-200'
 			>
 				{tComponents('apply')}
 			</button>

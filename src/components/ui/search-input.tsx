@@ -32,7 +32,8 @@ export const SearchInput = ({
 	const tComponents = useTranslations('Components')
 	const initPlaceholder = tComponents('placeholders.imLookingFor')
 
-	const { searchQuery, setSearchQuery, classifieds } = useSearch()
+	const { searchQuery, setSearchQuery, classifieds, setClassifieds } =
+		useSearch()
 
 	const [query, setQuery] = useState(searchQuery)
 	const [isFocused, setIsFocused] = useState(false)
@@ -55,7 +56,7 @@ export const SearchInput = ({
 		localStorage.setItem('searchHistory', JSON.stringify(newHistory))
 	}
 
-	// Фильтрация объявлений
+	// Фильтрация и сортировка объявлений
 	const filterClassifieds = useCallback(
 		(query: string, classifieds: Classified[]): Classified[] => {
 			if (query.trim().length < 2) return []
@@ -74,9 +75,55 @@ export const SearchInput = ({
 					)
 					return titleMatch || descriptionMatch || priceMatch || tagsMatch
 				})
-				.slice(0, 5) // Ограничиваем до 5 предложений
+				.sort((a, b) => {
+					// Сортировка по иерархии: extremum > smart > light
+					if (
+						a.plan === 'light' &&
+						a.lastPromoted &&
+						new Date(a.lastPromoted) > new Date(Date.now() - 5 * 60 * 1000)
+					) {
+						return -1
+					}
+					if (
+						b.plan === 'light' &&
+						b.lastPromoted &&
+						new Date(b.lastPromoted) > new Date(Date.now() - 5 * 60 * 1000)
+					) {
+						return 1
+					}
+					if (a.plan === 'extremum' && b.plan !== 'extremum') return -1
+					if (b.plan === 'extremum' && a.plan !== 'extremum') return 1
+					if (a.plan === 'smart' && b.plan === 'light') return -1
+					if (b.plan === 'smart' && a.plan === 'light') return 1
+					const dateA = a.lastPromoted ? new Date(a.lastPromoted).getTime() : 0
+					const dateB = b.lastPromoted ? new Date(b.lastPromoted).getTime() : 0
+					return dateB - dateA
+				})
+				.slice(0, 4) // Лимит 4 объявления
 		},
 		[]
+	)
+
+	// Обновление результатов поиска
+	const updateSearchResults = useCallback(
+		async (search: string) => {
+			if (search.trim().length < 2) return
+			setIsLoading(true)
+			try {
+				const data = await apiService.filterClassifieds({
+					search,
+					currency: 'USD', // Используем валюту по умолчанию, можно добавить выбор валюты
+					limit: 20, // Стандартный лимит для списка объявлений
+					offset: 0,
+				})
+				setClassifieds(data.classifieds)
+			} catch (error) {
+				console.error('Error updating search results:', error)
+			} finally {
+				setIsLoading(false)
+			}
+		},
+		[setClassifieds]
 	)
 
 	// Обработка изменения ввода
@@ -94,14 +141,15 @@ export const SearchInput = ({
 
 	// Обработка клика по предложению или истории
 	const handleSuggestionClick = useCallback(
-		(value: string, id?: string) => {
+		async (value: string, id?: string) => {
 			setQuery(value)
 			setSuggestions([])
 			if (!searchHistory.includes(value)) {
-				const newHistory = [value, ...searchHistory.slice(0, 4)] // Храним до 5 запросов
+				const newHistory = [value, ...searchHistory.slice(0, 4)]
 				saveHistory(newHistory)
 			}
 			setSearchQuery(value)
+			await updateSearchResults(value)
 			// if (id) {
 			// 	router.push(`/selling-classifieds/${id}`)
 			// } else {
@@ -109,17 +157,17 @@ export const SearchInput = ({
 			// }
 			inputRef.current?.focus()
 		},
-		[router, saveHistory, searchHistory, setSearchQuery]
+		[router, saveHistory, searchHistory, setSearchQuery, updateSearchResults]
 	)
 
 	// Очистка поля поиска
-	const handleClear = useCallback(() => {
+	const handleClear = useCallback(async () => {
 		setQuery('')
 		setSuggestions([])
 		setSearchQuery('')
-		router.push('/selling-classifieds')
+		await updateSearchResults('')
 		inputRef.current?.focus()
-	}, [router, setSearchQuery])
+	}, [router, setSearchQuery, updateSearchResults])
 
 	// Удаление запроса из истории
 	const handleDeleteHistory = useCallback(
@@ -239,7 +287,7 @@ export const SearchInput = ({
 							<div className='px-3 pt-2 text-sm text-gray-500 font-medium'>
 								История поиска
 							</div>
-							{searchHistory.slice(0, 5).map(item => (
+							{searchHistory.slice(0, 4).map(item => (
 								<div
 									key={item}
 									className='flex items-center justify-between p-3 hover:bg-gray-100 cursor-pointer'

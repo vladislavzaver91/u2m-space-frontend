@@ -9,6 +9,8 @@ interface SearchContextType {
 	setSearchQuery: (query: string) => void
 	classifieds: Classified[]
 	setClassifieds: (classifieds: Classified[]) => void
+	city: string | null
+	setCity: (city: string | null) => void
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined)
@@ -16,17 +18,29 @@ const SearchContext = createContext<SearchContextType | undefined>(undefined)
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 	const searchParams = useSearchParams()
 	const initialQuery = searchParams.get('query') || ''
+	const initialCity = searchParams.get('city') || null
+
 	const [searchQuery, setSearchQuery] = useState(initialQuery)
+	const [city, setCity] = useState<string | null>(initialCity)
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
 
 	useEffect(() => {
 		const query = searchParams.get('query') || ''
+		const cityParam = searchParams.get('city') || null
 		setSearchQuery(query)
+		setCity(cityParam)
 	}, [searchParams])
 
 	return (
 		<SearchContext.Provider
-			value={{ searchQuery, setSearchQuery, classifieds, setClassifieds }}
+			value={{
+				searchQuery,
+				setSearchQuery,
+				classifieds,
+				setClassifieds,
+				city,
+				setCity,
+			}}
 		>
 			{children}
 		</SearchContext.Provider>

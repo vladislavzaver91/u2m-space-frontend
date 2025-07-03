@@ -13,7 +13,11 @@ interface LoginData {
 }
 
 interface ClassifiedsResponse {
-	classifieds: Classified[]
+	classifieds: {
+		largeFirst: Classified[] // Первые 4 объявления (1-я строка)
+		largeSecond: Classified[] // Вторые 4 объявления (2-я строка)
+		small: Classified[] // Остальные объявления (3-я строка и ниже)
+	}
 	total: number
 	hasMore: boolean
 }
@@ -92,6 +96,7 @@ export class ApiService {
 		tags?: string[]
 		currency?: 'USD' | 'UAH' | 'EUR'
 		category?: string
+		city?: string
 	}): Promise<ClassifiedsResponse> {
 		const offset = (params.page - 1) * params.limit
 		const res = await $api.get('/api/classifieds', {
@@ -101,6 +106,7 @@ export class ApiService {
 				tags: params.tags,
 				currency: params.currency,
 				category: params.category || '',
+				city: params.city,
 			},
 		})
 		return res.data
@@ -114,7 +120,7 @@ export class ApiService {
 		const res = await $api.post('/api/classifieds/search', {
 			query: params.query,
 			category: params.category,
-			limit: params.limit || 5,
+			limit: params.limit || 4,
 		})
 		return res.data
 	}

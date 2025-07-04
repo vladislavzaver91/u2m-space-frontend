@@ -117,10 +117,16 @@ export default async function ClassifiedDetailPage({ params }: Props) {
 	let error: string | null = null
 
 	try {
-		;[classified, { classifieds }] = await Promise.all([
+		const [classifiedResult, classifiedsResult] = await Promise.all([
 			apiService.getClassifiedById(id),
 			apiService.getClassifieds({ page: 1, limit: 10 }),
 		])
+		classified = classifiedResult
+		classifieds = [
+			...classifiedsResult.classifieds.largeFirst,
+			...classifiedsResult.classifieds.largeSecond,
+			...classifiedsResult.classifieds.small,
+		]
 	} catch (err: any) {
 		console.error('Error fetching data:', err)
 		error =

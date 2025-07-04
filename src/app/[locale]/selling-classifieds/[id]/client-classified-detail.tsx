@@ -107,7 +107,15 @@ export function ClientClassifiedDetail({
 				currency: settings.currencyCode,
 			})
 			console.log(data)
-			setClassifieds(prev => [...prev, ...data.classifieds])
+			setClassifieds(prev => {
+				const newClassifieds = [
+					...prev,
+					...data.classifieds.largeFirst,
+					...data.classifieds.largeSecond,
+					...data.classifieds.small,
+				]
+				return newClassifieds
+			})
 		} catch (error) {
 			console.error('Error fetching classifieds:', error)
 		} finally {

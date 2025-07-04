@@ -112,19 +112,6 @@ export class ApiService {
 		return res.data
 	}
 
-	async searchClassifieds(params: {
-		query: string
-		category?: string
-		limit?: number
-	}): Promise<ClassifiedsResponse> {
-		const res = await $api.post('/api/classifieds/search', {
-			query: params.query,
-			category: params.category,
-			limit: params.limit || 4,
-		})
-		return res.data
-	}
-
 	async filterClassifieds(params: {
 		search?: string
 		tags?: string[]

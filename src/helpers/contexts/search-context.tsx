@@ -11,6 +11,9 @@ interface SearchContextType {
 	setClassifieds: (classifieds: Classified[]) => void
 	city: string | null
 	setCity: (city: string | null) => void
+	resetFilters: () => void
+	isFocused: boolean
+	setIsFocused: (focused: boolean) => void
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined)
@@ -21,8 +24,32 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 	const initialCity = searchParams.get('city') || null
 
 	const [searchQuery, setSearchQuery] = useState(initialQuery)
+	const [isFocused, setIsFocused] = useState(false)
 	const [city, setCity] = useState<string | null>(initialCity)
 	const [classifieds, setClassifieds] = useState<Classified[]>([])
+	const [filters, setFilters] = useState<{
+		tags: string[]
+		minPrice: number | null
+		maxPrice: number | null
+		sortBy: 'price' | 'createdAt'
+		sortOrder: 'asc' | 'desc'
+	}>({
+		tags: [],
+		minPrice: null,
+		maxPrice: null,
+		sortBy: 'createdAt',
+		sortOrder: 'desc',
+	})
+
+	const resetFilters = () => {
+		setFilters({
+			tags: [],
+			minPrice: null,
+			maxPrice: null,
+			sortBy: 'createdAt',
+			sortOrder: 'desc',
+		})
+	}
 
 	useEffect(() => {
 		const query = searchParams.get('query') || ''
@@ -40,6 +67,9 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 				setClassifieds,
 				city,
 				setCity,
+				resetFilters,
+				isFocused,
+				setIsFocused,
 			}}
 		>
 			{children}

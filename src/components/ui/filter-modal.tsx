@@ -29,7 +29,7 @@ export const FilterModal = ({
 	buttonRef,
 }: FilterModalProps) => {
 	const tComponents = useTranslations('Components')
-	const { searchQuery, setClassifieds } = useSearch()
+	const { searchQuery, setClassifieds, resetFilters } = useSearch()
 
 	const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
 	const [minPrice, setMinPrice] = useState<number | null>(null)
@@ -118,7 +118,15 @@ export const FilterModal = ({
 					setMinPrice(data.priceRange.convertedMin)
 					setMaxPrice(data.priceRange.convertedMax)
 					setAvailableTags(data.availableTags || [])
-					setClassifieds(data.classifieds)
+					setSelectedTags([])
+					setSortBy('createdAt')
+					setSortOrder('desc')
+					const newClassifieds = [
+						...data.classifieds.largeFirst,
+						...data.classifieds.largeSecond,
+						...data.classifieds.small,
+					]
+					setClassifieds(newClassifieds)
 				} catch (error) {
 					console.error('Error fetching filter data:', error)
 				}
@@ -143,7 +151,12 @@ export const FilterModal = ({
 				sortBy,
 				sortOrder,
 			})
-			setClassifieds(data.classifieds)
+			const newClassifieds = [
+				...data.classifieds.largeFirst,
+				...data.classifieds.largeSecond,
+				...data.classifieds.small,
+			]
+			setClassifieds(newClassifieds)
 		} catch (error) {
 			console.error('Error applying filters:', error)
 		}
@@ -196,6 +209,17 @@ export const FilterModal = ({
 		applyFilters,
 		isOpen,
 	])
+
+	// кнопка сброса фильтров
+	const resetModalFilters = useCallback(() => {
+		setMinPrice(priceRange?.convertedMin ?? null)
+		setMaxPrice(priceRange?.convertedMax ?? null)
+		setSelectedTags([])
+		setSortBy('createdAt')
+		setSortOrder('desc')
+		resetFilters() // Сбрасываем фильтры в контексте
+		applyFilters()
+	}, [priceRange, applyFilters, resetFilters])
 
 	if (!isOpen || !priceRange) return null
 

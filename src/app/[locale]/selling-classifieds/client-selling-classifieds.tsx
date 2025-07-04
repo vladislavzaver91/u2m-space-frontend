@@ -108,7 +108,7 @@ export default function ClientSellingClassifieds() {
 				observer.unobserve(loaderRef.current)
 			}
 		}
-	}, [hasMore, setIsFetching, isLoading])
+	}, [hasMore, setIsFetching])
 
 	if (isLoading || (isFetching && classifieds.length === 0)) {
 		return (
@@ -131,10 +131,9 @@ export default function ClientSellingClassifieds() {
 			<div className='flex-1 pt-14 pb-16 md:pt-[88px] 2-5xl:pt-40!'>
 				{/* Поиск и категории */}
 				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 items-center justify-between'>
-					<SearchInput
-						className='w-full max-2xl:py-3 2xl:max-w-[770px] max-md:hidden'
-						activeCategory={activeCategory}
-					/>
+					<div className='w-full 2xl:max-w-[770px] max-md:hidden max-2xl:py-3'>
+						<SearchInput activeCategory={activeCategory} />
+					</div>
 					<CategoryTabs
 						categories={[
 							tSellingClassifieds('tabs.selling'),

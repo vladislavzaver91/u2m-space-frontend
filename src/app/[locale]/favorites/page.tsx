@@ -49,7 +49,12 @@ export default function FavoritesPage() {
 				const data = await apiService.getUserFavorites({ page, limit })
 				console.log('User favorites:', data)
 				setClassifieds(prev => {
-					const newClassifieds = [...prev, ...data.classifieds].filter(
+					const newClassifieds = [
+						...prev,
+						...data.classifieds.largeFirst,
+						...data.classifieds.largeSecond,
+						...data.classifieds.small,
+					].filter(
 						(item, index, self) =>
 							index === self.findIndex(t => t.id === item.id)
 					)

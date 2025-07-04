@@ -52,7 +52,12 @@ export default function MyClassifieds() {
 				}
 
 				setClassifieds(prev => {
-					const newClassifieds = [...prev, ...data.classifieds].filter(
+					const newClassifieds = [
+						...prev,
+						...data.classifieds.largeFirst,
+						...data.classifieds.largeSecond,
+						...data.classifieds.small,
+					].filter(
 						(item, index, self) =>
 							index === self.findIndex(t => t.id === item.id)
 					)

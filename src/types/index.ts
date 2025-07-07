@@ -16,6 +16,7 @@ export interface Classified {
 	isActive: boolean
 	favoritesBool: boolean
 	category?: string
+	city?: string
 	createdAt: string
 	plan: 'light' | 'smart' | 'extremum'
 	lastPromoted: string

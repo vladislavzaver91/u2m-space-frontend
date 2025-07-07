@@ -6,7 +6,7 @@ import { useAuth } from '../helpers/contexts/auth-context'
 import { useModal } from '../helpers/contexts/modal-context'
 import { LoginModal } from './login-modal'
 import Image from 'next/image'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { SearchInput } from './ui/search-input'
 import { IconCustom } from './ui/icon-custom'
 import { LanguageModal } from './ui/language-modal'
@@ -26,7 +26,17 @@ export const Header = () => {
 		useModal()
 	const { isPublishDisabled, submitForm } = useClassifiedForm()
 	const { isSubmitDisabled, submitForm: submitProfileForm } = useProfileForm()
-	const { searchQuery, isFocused } = useSearch()
+	const {
+		searchQuery,
+		isFocused,
+		minPrice,
+		maxPrice,
+		tags,
+		city,
+		sortBy,
+		sortOrder,
+		priceRange,
+	} = useSearch()
 
 	const pathname = usePathname()
 	const locale = useLocale()
@@ -70,6 +80,29 @@ export const Header = () => {
 		}
 		router.push(`/selling-classifieds`)
 	}
+
+	// Программно устанавливаем фокус на кнопку Filters при открытии модалки
+	useEffect(() => {
+		if (isFilterModalOpen && filterButtonRef.current) {
+			filterButtonRef.current.focus()
+		}
+	}, [isFilterModalOpen])
+
+	// Проверяем, выбраны ли какие-либо настройки фильтра
+	const areFiltersApplied = useMemo(() => {
+		return (
+			(minPrice !== null &&
+				priceRange !== null &&
+				minPrice !== priceRange.convertedMin) ||
+			(maxPrice !== null &&
+				priceRange !== null &&
+				maxPrice !== priceRange.convertedMax) ||
+			(tags && tags.length > 0) ||
+			city !== null ||
+			sortBy !== 'createdAt' ||
+			sortOrder !== 'desc'
+		)
+	}, [minPrice, maxPrice, tags, city, sortBy, sortOrder, priceRange])
 
 	useLayoutEffect(() => {
 		const handleResize = () => {
@@ -272,17 +305,25 @@ export const Header = () => {
 										ref={filterButtonRef}
 										onClick={() => setIsFilterModalOpen(true)}
 										text='Filters'
-										iconWrapperClass='w-6 h-6'
+										iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 										icon={
-											<IconCustom
-												name='filter'
-												hover={true}
-												hoverColor='#f9329c'
-												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c]'
-											/>
+											<>
+												<IconCustom
+													name='filters'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+													aria-hidden='true'
+												/>
+												{areFiltersApplied && (
+													<span className='absolute top-0.5 right-0 w-1.5 h-1.5 border-2 border-[#F9329C] rounded-full' />
+												)}
+											</>
 										}
 										isHover
 										className='p-8 min-w-[157px] w-fit'
+										aria-label='Open filter modal'
+										aria-expanded={isFilterModalOpen}
 									/>
 								)}
 

@@ -87,6 +87,7 @@ export interface PriceRange {
 export interface FilterClassifiedsResponse extends ClassifiedsResponse {
 	priceRange: PriceRange
 	availableTags: string[]
+	availableCities: string[]
 }
 
 export class ApiService {
@@ -120,6 +121,7 @@ export class ApiService {
 		currency?: 'USD' | 'UAH' | 'EUR'
 		sortBy?: 'price' | 'createdAt'
 		sortOrder?: 'asc' | 'desc'
+		city?: string
 		limit?: number
 		offset?: number
 	}): Promise<FilterClassifiedsResponse> {
@@ -132,6 +134,7 @@ export class ApiService {
 				currency: params.currency || 'USD',
 				sortBy: params.sortBy || 'createdAt',
 				sortOrder: params.sortOrder || 'desc',
+				city: params.city,
 				limit: params.limit || 20,
 				offset: params.offset || 0,
 			},

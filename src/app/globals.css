@@ -316,3 +316,16 @@ a[href^='tel'] {
 	border-radius: 13px;
 	z-index: 0;
 }
+
+.react-range-track {
+	height: 8px;
+	border-radius: 4px;
+	position: relative;
+}
+
+.react-range-thumb {
+	outline: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

@@ -4,12 +4,13 @@ import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { ProfileInformationForm } from '@/components/ui/profile-information-form'
 import { ProfileSettingsForm } from '@/components/ui/profile-settings-form'
 import { ProfileTabs } from '@/components/ui/profile-tabs'
+import { ProfileRulesSection } from '@/components/ui/profile-rules-section'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { useRouter } from '@/i18n/routing'
 import { useLocale, useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export default function ProfilePage() {
 	const [infoTooltipVisible, setInfoTooltipVisible] = useState({
@@ -61,6 +62,15 @@ export default function ProfilePage() {
 	const tMyClassifieds = useTranslations('MyClassifieds')
 
 	const [activeTab, setActiveTab] = useState(tProfile('tabs.information'))
+
+	const tabs = useMemo(
+		() => [
+			tProfile('tabs.information'),
+			tProfile('tabs.setting'),
+			tProfile('tabs.rules'),
+		],
+		[tProfile]
+	)
 
 	useEffect(() => {
 		if (!authUser) {
@@ -134,9 +144,9 @@ export default function ProfilePage() {
 				/>
 
 				<div className='flex-1 flex sm:justify-center w-full'>
-					<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
+					<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-w-[768px] w-full'>
 						<ProfileTabs
-							tabs={[tProfile('tabs.information'), tProfile('tabs.setting')]}
+							tabs={tabs}
 							activeTab={activeTab}
 							onTabChange={handleTabChange}
 						/>
@@ -161,7 +171,7 @@ export default function ProfilePage() {
 											isTooltipClicked={isTooltipClicked}
 											externalNicknameError={nicknameError}
 										/>
-									) : (
+									) : activeTab === tProfile('tabs.setting') ? (
 										<ProfileSettingsForm
 											onMouseEnter={(
 												field: keyof typeof settingTooltipVisible
@@ -173,6 +183,8 @@ export default function ProfilePage() {
 											tooltipVisible={settingTooltipVisible}
 											isTooltipClicked={isTooltipClicked}
 										/>
+									) : (
+										<ProfileRulesSection />
 									)}
 								</div>
 							</div>

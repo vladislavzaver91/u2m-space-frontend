@@ -22,6 +22,12 @@ interface ClassifiedsResponse {
 	hasMore: boolean
 }
 
+interface UserClassifiedsResponse {
+	classifieds: Classified[]
+	total: number
+	hasMore: boolean
+}
+
 interface ClassifiedData {
 	title: string
 	description: string
@@ -153,7 +159,7 @@ export class ApiService {
 	async getUserClassifieds(params: {
 		page: number
 		limit: number
-	}): Promise<ClassifiedsResponse> {
+	}): Promise<UserClassifiedsResponse> {
 		const offset = (params.page - 1) * params.limit
 		const res = await $api.get('/api/classifieds/user', {
 			params: { limit: params.limit, offset },
@@ -164,7 +170,7 @@ export class ApiService {
 	async getUserFavorites(params: {
 		page: number
 		limit: number
-	}): Promise<ClassifiedsResponse> {
+	}): Promise<UserClassifiedsResponse> {
 		const offset = (params.page - 1) * params.limit
 		const res = await $api.get('/api/favorites/user', {
 			params: { limit: params.limit, offset },

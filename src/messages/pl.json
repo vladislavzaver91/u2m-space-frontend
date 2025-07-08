@@ -31,11 +31,14 @@
 		"tabs": {
 			"all": "Wszystkie",
 			"active": "Aktywne",
-			"hide": "Ukryj"
+			"hide": "Ukryj",
+			"onReview": "W recenzji"
 		},
 		"buttons": {
 			"myClassifieds": "Moje ogłoszenia",
+			"review": "Recenzja",
 			"favorites": "Ulubione",
+			"payment": "Zapłata",
 			"profile": "Profil",
 			"logout": "Wyloguj",
 			"addClassifieds": "Dodaj ogłoszenie",
@@ -102,7 +105,8 @@
 	"Profile": {
 		"tabs": {
 			"information": "Informacje",
-			"setting": "Ustawienia"
+			"setting": "Ustawienia",
+			"rules": "Zasady"
 		},
 		"bonuses": "Bonusy",
 		"trustRating": "Ocena zaufania",
@@ -214,6 +218,252 @@
 			"deleteAccountOption11": "Nie jestem zadowolony z polityki firmy",
 			"deleteAccountOption12": "Konto zostało zhakowane",
 			"deleteAccountOption13": "Inne powody osobiste"
+		},
+		"rules": {
+			"items": {
+				"privacyPolicy": {
+					"title": "Polityka prywatności",
+					"description": "Warunki i zasady"
+				},
+				"userDataDeletion": {
+					"title": "Usunięcie danych użytkownika",
+					"description": "Żądania usunięcia"
+				},
+				"moderation": {
+					"title": "Moderacja",
+					"description": "Zasady"
+				},
+				"basicPrinciples": {
+					"title": "Podstawowe zasady",
+					"description": "Wyjaśnienie"
+				}
+			}
+		}
+	},
+
+	"Rules": {
+		"privacyPolicy": {
+			"title": "Polityka prywatności",
+			"preTitle": "Witamy na U2M Space — platformie, która zapewnia bezpieczną i wygodną wymianę, sprzedaż i udział w aukcjach.",
+			"description": "Szanujemy Twoje prawo do prywatności oraz przejrzystość w przetwarzaniu danych osobowych. Niniejsza Polityka prywatności wyjaśnia, jakie dane zbieramy, jak je przetwarzamy i jak możesz nimi zarządzać. Korzystając z platformy U2M Space («Platforma», «my», «U2M»), akceptujesz niniejszą Politykę i wyrażasz zgodę na przetwarzanie danych zgodnie z obowiązującym prawem.",
+
+			"generalProvisions": {
+				"title": "I. Postanowienia ogólne",
+				"description": "Polityka reguluje zbieranie, przechowywanie, przetwarzanie i wykorzystywanie danych osobowych użytkowników U2M Space («użytkownicy», «Ty», «U2M»). \n\n Administracja Platformy (nasz zespół) przetwarza dane w celu:",
+				"items": {
+					"1": "Uzyskania dostępu do handlu, aukcji i wymiany",
+					"2": "Zapewnienia bezpieczeństwa",
+					"3": "Ulepszania usług i personalizacji doświadczenia użytkownika"
+				}
+			},
+			"informationWeCollect": {
+				"title": "II. Dane, które zbieramy",
+				"description": "Możemy otrzymać następujące dane osobowe:",
+				"items": {
+					"1": "Imię i nazwisko, adres e-mail, numer telefonu",
+					"2": "Adres sprzedawcy lub kupującego (w przypadku transakcji)",
+					"3": "Adres IP, typ przeglądarki, urządzenie",
+					"4": "Pliki cookies i dane sesji do analizy zachowania",
+					"5": "Historia korzystania z Platformy (wyszukiwania, przeglądanie produktów, oferty, wymiany itd.)",
+					"6": "Dane z narzędzi analitycznych (Google, Facebook itd.)",
+					"7": "Dane demograficzne lub inne dane publiczne dostępne w sieci"
+				}
+			},
+			"howWeUseYourInformation": {
+				"title": "III. Jak wykorzystujemy Twoje dane",
+				"description": "Wykorzystujemy Twoje dane osobowe w następujących celach:",
+				"items": {
+					"1": "Tworzenie i obsługa konta użytkownika",
+					"2": "Udział w sprzedaży, aukcjach, wymianach",
+					"3": "Wyświetlanie spersonalizowanych treści, produktów, ofert",
+					"4": "Obsługa zamówień i dostaw",
+					"5": "Informowanie o zmianach, promocjach",
+					"6": "Walka z oszustwami i spamem",
+					"7": "Przestrzeganie przepisów prawa"
+				}
+			},
+			"dataSharingAndDisclosure": {
+				"title": "IV. Udostępnianie danych stronom trzecim",
+				"description": "Nie przekazujemy danych osobom trzecim, z wyjątkiem przypadków:",
+				"items": {
+					"1": "Gdy jest to konieczne do realizacji usług (np. dostawa, płatności)",
+					"2": "Gdy wymagają tego przepisy prawa lub sądu",
+					"3": "W przypadku naruszeń zasad, w celu ochrony praw U2M Space i użytkowników"
+				}
+			},
+			"protectingYourInformation": {
+				"title": "V. Ochrona danych",
+				"description": "Stosujemy nowoczesne środki techniczne i organizacyjne do ochrony danych osobowych. Dane przechowywane są na bezpiecznych serwerach. Dostęp mają tylko upoważnieni pracownicy z podpisanymi umowami o poufności."
+			},
+			"managingYourData": {
+				"title": "VI. Zarządzanie danymi",
+				"description": "Masz prawo do:",
+				"items": {
+					"1": "Przeglądania, edycji lub usunięcia swoich danych",
+					"2": "Żądania całkowitego usunięcia danych poprzez kontakt ze wsparciem",
+					"3": "Wycofania zgody, co może ograniczyć dostęp do usług"
+				}
+			},
+			"policyUpdates": {
+				"title": "VII. Zmiany w Polityce",
+				"description": "Możemy aktualizować Politykę. W przypadku zmian powiadomimy Cię przez Platformę. Dalsze korzystanie z serwisu oznacza akceptację nowych warunków."
+			},
+			"additionalTerms": {
+				"title": "VIII. Postanowienia dodatkowe",
+				"description": "U2M Space nie odpowiada za utratę konta wynikającą z nieostrożnego działania użytkownika. \n\n Polityka podlega Warunkom korzystania z U2M Space."
+			},
+			"contactInformation": {
+				"title": "Kontakt",
+				"description": "W razie pytań lub uwag dotyczących prywatności skontaktuj się z nami:"
+			}
+		},
+		"userDataDeletion": {
+			"title": "Usunięcie danych użytkownika",
+			"preTitle": "Szanujemy Twoje prawo do prywatności i umożliwiamy usunięcie Twoich danych osobowych na Twoje żądanie.",
+			"howToRequestDataDeletion": {
+				"title": "Jak złożyć wniosek o usunięcie danych:",
+				"description": "Aby usunąć swoje konto i wszystkie powiązane z nim dane osobowe, wykonaj dwa kroki:",
+				"items": {
+					"1": "1. Zaloguj się na swoje konto, przejdź do sekcji <strong>«Ustawienia»</strong> i kliknij <strong>«Usuń konto»</strong>, wybierając powód usunięcia. Twoje konto zostanie ukryte przed publicznym dostępem. Pełne i trwałe usunięcie danych nastąpi automatycznie po 6 miesiącach.",
+					"2": "2. Jeśli chcesz przyspieszyć ten proces, wyślij e-mail na adres <a href='mailto:delete@u2m.space'>delete@u2m.space</a> z tematem <strong>«Usunięcie danych użytkownika»</strong>."
+				}
+			},
+			"whatWillBeDeleted": {
+				"title": "Co zostanie usunięte:",
+				"description": "Po potwierdzeniu Twojej tożsamości:",
+				"items": {
+					"1": "Usuniemy Twoje konto",
+					"2": "Usuniemy lub zanonimizujemy wszystkie dane osobowe powiązane z Twoim profilem",
+					"3": "Zakończymy dalsze przetwarzanie Twoich danych"
+				}
+			},
+			"processingTime": {
+				"title": "Czas realizacji:",
+				"description": "Wnioski o usunięcie danych są przetwarzane w ciągu 30 dni kalendarzowych od daty otrzymania.",
+				"info": "W razie dodatkowych pytań dotyczących usunięcia lub przetwarzania danych osobowych — zapraszamy do kontaktu w dowolnym momencie."
+			}
+		},
+		"corePrinciples": {
+			"title": "Główne zasady",
+			"nickname": {
+				"title": "Nick",
+				"description": "We wszystkich ogłoszeniach wyświetlany jest tylko nick użytkownika. \n\n Podczas pierwszego logowania system zaproponuje ustawienie unikalnego nicka (od 4 do 16 znaków). Bez tego użytkownik nie będzie mógł kontynuować."
+			},
+			"realName": {
+				"title": "Imię i nazwisko",
+				"description": "Imię i nazwisko są używane tylko opcjonalnie do weryfikacji tożsamości. Po weryfikacji dane te zwiększają «Poziom zaufania», a przesłane dokumenty są usuwane z systemu."
+			},
+			"trustLevel": {
+				"title": "Poziom zaufania",
+				"description": "Pokazuje zaufanie do użytkownika jako kupującego lub sprzedawcy. \n\n Skala: od 0 do 100 punktów. \n\n Wartość początkowa: 25 punktów. \n\n Ocena zmienia się automatycznie w zależności od działań użytkownika (szczegóły algorytmu pojawią się później)."
+			},
+			"bonuses": {
+				"title": "Bonusy (U)",
+				"description": "Wewnętrzna waluta platformy. \n\n Przyznawane za wysoką jakość ogłoszeń. Można je wykorzystać do promowania ogłoszeń."
+			},
+			"emailAndPhone": {
+				"title": "E-mail i telefon",
+				"description": "Mogą być zaimportowane z sieci społecznościowych. Jeśli nie — pola będą oznaczone jako obowiązkowe."
+			},
+			"afterAuthorization": {
+				"title": "Po autoryzacji",
+				"description": "Jeśli wszystkie obowiązkowe pola są wypełnione — użytkownik trafia do listy ogłoszeń. \n\n Jeśli są braki — otwiera się strona Mój profil, gdzie pokazane jest, co należy poprawić."
+			},
+			"languageRegionCurrencyLocation": {
+				"title": "Język i region, waluta, lokalizacja",
+				"description": "Dostępne przez ikonę [ICON:globe:] w górnym menu oraz w sekcji Mój profil. Funkcjonalności te się dublują dla wygody."
+			},
+			"notifications": {
+				"title": "Powiadomienia",
+				"description": "Osobny przycisk w górnym menu [ICON:chat:]. Odpowiada za alerty o ważnych zdarzeniach. Powiadomienia są też wysyłane na e-mail."
+			},
+			"experiencedUser": {
+				"title": "Doświadczony użytkownik",
+				"description": "Jeśli wyłączone — interfejs pokazuje podpowiedzi, menu tekstowe i ikony. \n\n Jeśli włączone — uproszczony interfejs: tylko ikony, bez tekstu."
+			},
+			"deleteAccount": {
+				"title": "Usunięcie konta",
+				"description": "Opcja ta usuwa konto użytkownika. \n\n Dane przechowywane są przez 6 miesięcy (ograniczony dostęp), po czym są trwale usuwane. Obok znajduje się rozwijana lista z możliwymi powodami usunięcia. Jeśli konto jest zablokowane, nie jest usuwane przez 1 rok. Przy ponownym naruszeniu — blokada na stałe, bez możliwości odzyskania."
+			},
+			"hiddenDataAfterVerification": {
+				"title": "Ukryte dane po weryfikacji",
+				"description": "Po potwierdzeniu tożsamości pola Imię, Nazwisko, Płeć, Data urodzenia stają się ukryte i niedostępne do edycji lub przeglądania przez innych."
+			}
+		},
+		"moderationRules": {
+			"title": "Instrukcja dla moderatorów ogłoszeń",
+			"moderationGoal": {
+				"title": "Cel moderacji",
+				"description": "Zapewnić, że wszystkie ogłoszenia na platformie są aktualne, bezpieczne, zgodne z zasadami serwisu i nie naruszają przepisów prawa."
+			},
+			"mainReviewCriteria": {
+				"title": "Główne kryteria weryfikacji",
+				"adContent": {
+					"title": "1. Treść ogłoszenia",
+					"description": {
+						"title": "Tytuł — krótki, precyzyjny, bez zbędnych znaków (!!!, $$$) lub emotikonów (🔥, TOP, supercena).",
+						"description": "Opis — rzeczowy, bez wulgaryzmów, spamu, danych kontaktowych (jeśli są zabronione).",
+						"photos": {
+							"title": "Zdjęcia:",
+							"items": {
+								"1": "Autentyczne, nie z internetu (sprawdzane przez wyszukiwanie obrazem).",
+								"2": "Bez znaków wodnych z innych stron.",
+								"3": "Bez treści zakazanych (np. erotyka, przemoc)."
+							}
+						}
+					}
+				},
+				"categoryTags": {
+					"title": "2. Kategoria i tagi",
+					"description": "Prawidłowo wybrana kategoria produktu/usługi. \n\n Odpowiednie tagi oddające sens ogłoszenia."
+				},
+				"postingRules": {
+					"title": "3. Zasady dopuszczenia",
+					"description": "Ogłoszenia nie są dopuszczone, jeśli:",
+					"items": {
+						"1": "Naruszają prawo (broń, narkotyki, pirackie oprogramowanie, zwierzęta bez pozwolenia itp.)",
+						"2": "Oferują usługi oszukańcze",
+						"3": "Zawierają nieprawdziwe informacje",
+						"4": "Powtarzają się (te same ogłoszenia w różnych kategoriach lub kontach)",
+						"5": "Mają charakter reklamowy, nie są ogłoszeniami w ramach handlu P2P"
+					}
+				}
+			},
+			"moderatorWorkflow": {
+				"title": "Algorytm działań moderatora",
+				"description": "Otrzymać listę nowych/zmodyfikowanych ogłoszeń. \n\n Otworzyć każde ogłoszenie i sprawdzić:",
+				"items": {
+					"1": "Tytuł i opis",
+					"2": "Zdjęcia",
+					"3": "Wybór kategorii",
+					"4": "Brak zakazanych treści"
+				},
+				"makeDecision": {
+					"title": "Podjąć decyzję:",
+					"items": {
+						"1": "Zatwierdzić — ogłoszenie spełnia wszystkie wymagania",
+						"2": "Zwrócić do poprawy — napisać komentarz, co należy zmienić",
+						"3": "Odrzucić — podać jasny powód odmowy (z szablonu lub własny)"
+					}
+				}
+			},
+			"examplesOfRejectionReasons": {
+				"title": "Przykłady powodów odrzucenia",
+				"items": {
+					"1": "Zdjęcie nie pasuje do produktu lub jest cudze",
+					"2": "W ogłoszeniu zawarto zakazany temat (np. sprzedaż dokumentów)",
+					"3": "Opis zawiera dane kontaktowe, co jest zabronione",
+					"4": "Ogłoszenie jest duplikatem już opublikowanego"
+				}
+			},
+			"important": {
+				"title": "Ważne",
+				"items": {
+					"1": "Poufność: nie udostępniać żadnych danych osobowych użytkowników.",
+					"2": "Bezstronność: oceniać tylko zgodnie z zasadami, nie według własnych opinii.",
+					"3": "Rejestrowanie działań: wszystkie działania moderatora muszą być zapisane (do historii / audytu)."
+				}
+			}
 		}
 	},
 

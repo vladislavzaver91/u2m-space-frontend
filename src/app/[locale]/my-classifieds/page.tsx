@@ -34,6 +34,7 @@ export default function MyClassifieds() {
 		tMyClassifieds('tabs.all'),
 		tMyClassifieds('tabs.active'),
 		tMyClassifieds('tabs.hide'),
+		tMyClassifieds('tabs.onReview'),
 	]
 
 	useEffect(() => {
@@ -52,12 +53,7 @@ export default function MyClassifieds() {
 				}
 
 				setClassifieds(prev => {
-					const newClassifieds = [
-						...prev,
-						...data.classifieds.largeFirst,
-						...data.classifieds.largeSecond,
-						...data.classifieds.small,
-					].filter(
+					const newClassifieds = [...prev, ...data.classifieds].filter(
 						(item, index, self) =>
 							index === self.findIndex(t => t.id === item.id)
 					)

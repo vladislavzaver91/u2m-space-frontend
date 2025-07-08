@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
@@ -21,7 +21,11 @@ export const NavigationButtons = ({
 	const { authUser, logout } = useAuth()
 	const { user } = useUser()
 	const router = useRouter()
+
+	const [isMobile, setIsMobile] = useState(false)
+
 	const swiperRef = useRef<SwiperRef | null>(null)
+
 	const tMyClassifieds = useTranslations('MyClassifieds')
 	const tProfile = useTranslations('Profile')
 
@@ -37,7 +41,18 @@ export const NavigationButtons = ({
 			className: 'max-w-fit px-4 h-10',
 			activeBtnClass: 'max-w-fit px-4 h-10',
 			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			iconSize: 'w-[18px] h-[18px]',
 			type: 'myClassifieds',
+		},
+		{
+			text: tMyClassifieds('buttons.review'),
+			path: `/my-classifieds`,
+			iconName: 'dummy-circle-small',
+			className: 'max-w-fit px-4 h-10',
+			activeBtnClass: 'max-w-fit px-4 h-10',
+			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			iconSize: 'w-6 h-6',
+			type: 'review',
 		},
 		{
 			text: tMyClassifieds('buttons.favorites'),
@@ -46,7 +61,18 @@ export const NavigationButtons = ({
 			className: 'max-w-fit px-4 h-10',
 			activeBtnClass: 'max-w-fit px-4 h-10',
 			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			iconSize: 'w-[18px] h-[18px]',
 			type: 'favorites',
+		},
+		{
+			text: tMyClassifieds('buttons.payment'),
+			path: `/payment`,
+			iconName: 'credit-card',
+			className: 'max-w-fit px-4 h-10',
+			activeBtnClass: 'max-w-fit px-4 h-10',
+			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			iconSize: 'w-[18px] h-[18px]',
+			type: 'payment',
 		},
 		{
 			text: tMyClassifieds('buttons.profile'),
@@ -55,6 +81,7 @@ export const NavigationButtons = ({
 			className: 'max-w-fit px-4 h-10',
 			activeBtnClass: 'max-w-fit px-4 h-10',
 			iconWrapperClass: 'w-6 h-6 flex items-center justify-center',
+			iconSize: 'w-[18px] h-[18px]',
 			type: 'profile',
 		},
 		{
@@ -62,7 +89,7 @@ export const NavigationButtons = ({
 			path: null,
 			iconName: null,
 			className: 'max-w-fit px-4 h-10',
-			iconWrapperClass: null,
+			iconWrapperClass: undefined,
 			type: 'logout',
 		},
 	]
@@ -92,6 +119,15 @@ export const NavigationButtons = ({
 	}
 
 	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768)
+		}
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
+
+	useEffect(() => {
 		if (swiperRef.current?.swiper) {
 			const activeIndex = BUTTONS.findIndex(
 				btn => btn.text.toLowerCase() === activePage.toLowerCase()
@@ -100,8 +136,8 @@ export const NavigationButtons = ({
 	}, [activePage])
 
 	return (
-		<div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-sm:pl-0 max-sm:py-[11px] sm:pl-8 max-2-5xl:py-6 2-5xl:fixed 2-5xl:pl-40! 2-5xl:flex-col gap-4'>
-			<div className='navigation-btn-slider block w-full sm:hidden'>
+		<div className='flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start max-sm:mb-4 max-[880px]:pl-0 max-sm:py-[11px] min-[880px]:pl-8 max-2-5xl:py-6 2-5xl:fixed 2-5xl:pl-40! 2-5xl:flex-col gap-4'>
+			<div className='navigation-btn-slider block w-full lg:hidden'>
 				<Swiper
 					slidesPerView='auto'
 					spaceBetween={16}
@@ -128,24 +164,66 @@ export const NavigationButtons = ({
 							key={index}
 							className={`transition-transform duration-300 select-none`}
 						>
-							<ButtonCustom
-								text={btn.text}
-								onClick={() =>
-									handleBtnClick(btn.path, btn.type === 'logout', btn.type)
-								}
-								className={
-									activePage.toLowerCase() === btn.text.toLowerCase() &&
-									btn.type !== 'logout'
-										? `min-w-full! rounded-lg text-white bg-[#3486fe]! ${btn.className}`
-										: `min-w-full! border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
-								}
-							/>
+							{isMobile ? (
+								<ButtonCustom
+									text={btn.text}
+									onClick={() =>
+										handleBtnClick(btn.path, btn.type === 'logout', btn.type)
+									}
+									className={
+										activePage.toLowerCase() === btn.text.toLowerCase() &&
+										btn.type !== 'logout' &&
+										btn.type !== 'review'
+											? `min-w-full! rounded-lg text-white bg-[#3486fe]! ${btn.className}`
+											: `min-w-full! border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
+									}
+								/>
+							) : (
+								<ButtonCustom
+									key={index}
+									text={btn.text}
+									onClick={() =>
+										handleBtnClick(btn.path, btn.type === 'logout', btn.type)
+									}
+									className={
+										activePage.toLowerCase() === btn.text.toLowerCase() &&
+										btn.type !== 'logout' &&
+										btn.type !== 'review'
+											? `flex flex-row-reverse items-center rounded-lg text-white bg-[#3486fe]! ${btn.activeBtnClass}`
+											: `${
+													btn.type === 'review' &&
+													'flex flex-row-reverse items-center'
+											  } border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${
+													btn.className
+											  }`
+									}
+									iconWrapperClass={
+										(activePage.toLowerCase() === btn.text.toLowerCase() &&
+											btn.iconName !== null &&
+											btn.type !== 'logout') ||
+										btn.type === 'review'
+											? btn.iconWrapperClass
+											: undefined
+									}
+									icon={
+										(activePage.toLowerCase() === btn.text.toLowerCase() &&
+											btn.iconName !== null &&
+											btn.type !== 'logout') ||
+										btn.type === 'review' ? (
+											<IconCustom
+												name={btn.iconName as string}
+												className={`${btn.iconSize} fill-none text-white`}
+											/>
+										) : undefined
+									}
+								/>
+							)}
 						</SwiperSlide>
 					))}
 				</Swiper>
 			</div>
 
-			<div className='hidden sm:flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start 2-5xl:flex-col gap-4'>
+			<div className='hidden lg:flex max-2-5xl:flex-wrap max-2-5xl:items-center max-2-5xl:justify-start 2-5xl:flex-col gap-4'>
 				{BUTTONS.map((btn, index) => (
 					<ButtonCustom
 						key={index}
@@ -155,24 +233,32 @@ export const NavigationButtons = ({
 						}
 						className={
 							activePage.toLowerCase() === btn.text.toLowerCase() &&
-							btn.type !== 'logout'
+							btn.type !== 'logout' &&
+							btn.type !== 'review'
 								? `flex flex-row-reverse items-center rounded-lg text-white bg-[#3486fe]! ${btn.activeBtnClass}`
-								: `border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${btn.className}`
+								: `${
+										btn.type === 'review' &&
+										'flex flex-row-reverse items-center'
+								  } border border-[#4f4f4f] rounded-lg hover:border-[#f9329c] active:text-white active:bg-[#3486fe] active:border-[#3486fe] ${
+										btn.className
+								  }`
 						}
 						iconWrapperClass={
-							activePage.toLowerCase() === btn.text.toLowerCase() &&
-							btn.iconName &&
-							btn.type !== 'logout'
+							(activePage.toLowerCase() === btn.text.toLowerCase() &&
+								btn.iconName !== null &&
+								btn.type !== 'logout') ||
+							btn.type === 'review'
 								? btn.iconWrapperClass
 								: undefined
 						}
 						icon={
-							activePage.toLowerCase() === btn.text.toLowerCase() &&
-							btn.iconName &&
-							btn.type !== 'logout' ? (
+							(activePage.toLowerCase() === btn.text.toLowerCase() &&
+								btn.iconName !== null &&
+								btn.type !== 'logout') ||
+							btn.type === 'review' ? (
 								<IconCustom
-									name={btn.iconName}
-									className='w-[18px] h-[18px] fill-none text-white'
+									name={btn.iconName as string}
+									className={`${btn.iconSize} fill-none text-white`}
 								/>
 							) : undefined
 						}

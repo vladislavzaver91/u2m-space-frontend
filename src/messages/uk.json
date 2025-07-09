@@ -467,6 +467,48 @@
 		}
 	},
 
+	"Payment": {
+		"tabs": {
+			"plan": "План",
+			"paymentHistory": "Історія платежів"
+		},
+		"toggle": {
+			"monthly": "Помісячно",
+			"yearly": "Щорічно",
+			"info": "ви Заощаджуєте 50%"
+		},
+		"generalItems": {
+			"maxClassifieds": "Макс оголошень",
+			"liftInterval": "Інтервал підйому",
+			"liftingType": "Тип підйому",
+			"searchVisibility": "Видимість у пошуку",
+			"price": "Ціна"
+		},
+		"buttons": {
+			"active": "Активний",
+			"choose": "Обрати"
+		},
+		"light": {
+			"title": "Light",
+			"liftInterval": "Безлімітно",
+			"liftingType": "Ручний",
+			"searchVisibility": "Стандартний"
+		},
+		"smart": {
+			"title": "Smart",
+			"liftInterval": "дні",
+			"liftingType": "Автоматично",
+			"searchVisibility": "Підвищений"
+		},
+		"extremum": {
+			"title": "Extremum",
+			"maxClassifieds": "Безлімітно",
+			"liftInterval": "годин",
+			"liftingType": "Автоматично",
+			"searchVisibility": "Пріоритет"
+		}
+	},
+
 	"LanguageModal": {
 		"chooseLanguageRegion": {
 			"title": "Виберіть мову та регіон",

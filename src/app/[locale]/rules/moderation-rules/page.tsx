@@ -106,9 +106,10 @@ export default function ModerationRulesPage() {
 							</p>
 							<ul className='space-y-2'>
 								{adContentPhotosItems.map((item, index) => (
-									<li key={index} className='flex items-center gap-2'>
+									<li key={index} className='flex gap-2'>
 										<IconCustom
 											name='check'
+											iconThumb={true}
 											className='w-6 h-6 text-[#6FCF97] fill-none'
 										/>
 										<p className='text-[16px] font-normal leading-[22px]'>
@@ -144,11 +145,11 @@ export default function ModerationRulesPage() {
 					</p>
 					<ul className='space-y-2'>
 						{postingRulesItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='close'
 									iconThumb={true}
-									className='w-3 h-3 text-[#F9329C] fill-none'
+									className='w-6 h-6 text-[#F9329C] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
 							</li>
@@ -170,6 +171,7 @@ export default function ModerationRulesPage() {
 							<li key={index} className='flex items-center gap-2'>
 								<IconCustom
 									name='check'
+									iconThumb={true}
 									className='w-6 h-6 text-[#6FCF97] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
@@ -181,13 +183,11 @@ export default function ModerationRulesPage() {
 					</p>
 					<ul className='space-y-2'>
 						{makeDecisionItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name={item.icon}
 									iconThumb={item.icon === 'close'}
-									className={`${
-										item.icon === 'close' ? 'w-3 h-3' : 'w-6 h-6'
-									} text-[${item.iconColor}] fill-none`}
+									className={`'w-6 h-6' text-[${item.iconColor}] fill-none`}
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>
 									{item.label}
@@ -204,11 +204,11 @@ export default function ModerationRulesPage() {
 					</p>
 					<ul className='space-y-2'>
 						{examplesOfRejectionReasonsItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='close'
 									iconThumb={true}
-									className='w-3 h-3 text-[#F9329C] fill-none'
+									className='w-6 h-6 text-[#F9329C] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
 							</li>
@@ -223,9 +223,10 @@ export default function ModerationRulesPage() {
 					</p>
 					<ul className='space-y-2'>
 						{importantItems.map((item, index) => (
-							<li key={index} className='flex items-start gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='circle-small'
+									iconThumb={true}
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>

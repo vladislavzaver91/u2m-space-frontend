@@ -63,9 +63,10 @@ export default function UserDataDeletionPage() {
 					</p>
 					<ul className='space-y-2'>
 						{whatWillBeDeletedItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='check'
+									iconThumb
 									className='w-6 h-6 text-[#6FCF97] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>

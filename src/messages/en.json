@@ -468,6 +468,64 @@
 		}
 	},
 
+	"Payment": {
+		"tabs": {
+			"plan": "Plan",
+			"paymentHistory": "Payment history"
+		},
+		"planSection": {
+			"toggle": {
+				"monthly": "Monthly",
+				"yearly": "Yearly",
+				"info": "you Save 50%"
+			},
+			"generalItems": {
+				"maxClassifieds": "Max classifieds",
+				"liftInterval": "Lift interval",
+				"liftingType": "Lifting type",
+				"searchVisibility": "Search visibility",
+				"price": "Price"
+			},
+			"buttons": {
+				"active": "Active",
+				"choose": "Choose"
+			},
+			"light": {
+				"title": "Light",
+				"liftInterval": "Unlimited",
+				"liftingType": "Manual",
+				"searchVisibility": "Standard"
+			},
+			"smart": {
+				"title": "Smart",
+				"liftInterval": "3 days",
+				"liftingType": "Auto",
+				"searchVisibility": "Increased"
+			},
+			"extremum": {
+				"title": "Extremum",
+				"maxClassifieds": "Unlimited",
+				"liftInterval": "8 hours",
+				"liftingType": "Auto",
+				"searchVisibility": "Priority"
+			}
+		},
+		"paymentHistory": {
+			"columns": {
+				"dateStart": "Date start",
+				"operationId": "Operation ID",
+				"type": "Type",
+				"heading": "Heading",
+				"endDate": "End date",
+				"amount": "Amount"
+			},
+			"types": {
+				"monthlyRise": "Monthly Rise",
+				"yearlyPlan": "Yearly Plan"
+			}
+		}
+	},
+
 	"LanguageModal": {
 		"chooseLanguageRegion": {
 			"title": "Choose language and region",

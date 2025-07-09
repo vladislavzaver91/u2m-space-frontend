@@ -180,6 +180,7 @@ export default function MyClassifieds() {
 								activeCategory={activeCategory}
 								onCategoryChange={setActiveCategory}
 								isHideDisabled={!hasHiddenClassifieds}
+								mySpacePages
 							/>
 						</div>
 					</div>

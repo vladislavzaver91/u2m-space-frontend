@@ -74,9 +74,10 @@ export default function PrivacyPolicyPage() {
 					/>
 					<ul className='space-y-2'>
 						{generalProvisionsItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='circle-small'
+									iconThumb
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
@@ -95,9 +96,10 @@ export default function PrivacyPolicyPage() {
 					</p>
 					<ul className='space-y-2'>
 						{informationWeCollectItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='circle-small'
+									iconThumb
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
@@ -116,9 +118,10 @@ export default function PrivacyPolicyPage() {
 					</p>
 					<ul className='space-y-2'>
 						{howWeUseYourInformationItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='circle-small'
+									iconThumb
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
@@ -137,9 +140,10 @@ export default function PrivacyPolicyPage() {
 					</p>
 					<ul className='space-y-2'>
 						{dataSharingAndDisclosureItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='circle-small'
+									iconThumb
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>
@@ -168,9 +172,10 @@ export default function PrivacyPolicyPage() {
 					</p>
 					<ul className='space-y-2'>
 						{managingYourDataItems.map((item, index) => (
-							<li key={index} className='flex items-center gap-2'>
+							<li key={index} className='flex gap-2'>
 								<IconCustom
 									name='circle-small'
+									iconThumb
 									className='w-6 h-6 text-[#4F4F4F] fill-none'
 								/>
 								<p className='text-[16px] font-normal leading-[22px]'>{item}</p>

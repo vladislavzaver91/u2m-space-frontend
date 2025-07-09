@@ -3,19 +3,19 @@
 import { useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react'
 
-interface ProfileTabsProps {
+interface PaymentTabsProps {
 	tabs: string[]
 	activeTab: string
 	onTabChange: (tab: string) => void
 	containerClass?: string
 }
 
-export const ProfileTabs = ({
+export const PaymentTabs = ({
 	tabs,
 	activeTab,
 	onTabChange,
 	containerClass,
-}: ProfileTabsProps) => {
+}: PaymentTabsProps) => {
 	const swiperRef = useRef<SwiperRef | null>(null)
 
 	useEffect(() => {

@@ -467,6 +467,48 @@
 		}
 	},
 
+	"Payment": {
+		"tabs": {
+			"plan": "Plan",
+			"paymentHistory": "Historia płatności"
+		},
+		"toggle": {
+			"monthly": "Miesięczny",
+			"yearly": "Rocznie",
+			"info": "Oszczędzasz 50%"
+		},
+		"generalItems": {
+			"maxClassifieds": "Maks liczba reklam",
+			"liftInterval": "Interwał podnoszenia",
+			"liftingType": "Typ podnoszenia",
+			"searchVisibility": "Widoczność wyszukiwania",
+			"price": "Cena"
+		},
+		"buttons": {
+			"active": "Aktywny",
+			"choose": "Wybierać"
+		},
+		"light": {
+			"title": "Light",
+			"liftInterval": "Nieograniczony",
+			"liftingType": "Podręcznik",
+			"searchVisibility": "Sztandar"
+		},
+		"smart": {
+			"title": "Smart",
+			"liftInterval": "dni",
+			"liftingType": "Automatycznie",
+			"searchVisibility": "Zwiększony"
+		},
+		"extremum": {
+			"title": "Extremum",
+			"maxClassifieds": "Nieograniczony",
+			"liftInterval": "godziny",
+			"liftingType": "Automatycznie",
+			"searchVisibility": "Priorytet"
+		}
+	},
+
 	"LanguageModal": {
 		"chooseLanguageRegion": {
 			"title": "Wybierz język i region",

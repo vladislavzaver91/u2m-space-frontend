@@ -2,6 +2,7 @@
 interface IconCustomProps {
 	name: string
 	className?: string
+	iconThumbStyle?: string
 	size?: number
 	hover?: boolean
 	hoverColor?: string
@@ -12,6 +13,7 @@ interface IconCustomProps {
 export const IconCustom = ({
 	name,
 	className = '',
+	iconThumbStyle = '',
 	size = 24,
 	hover = false,
 	hoverColor = '#3486fe',
@@ -21,7 +23,9 @@ export const IconCustom = ({
 	return (
 		<>
 			{iconThumb ? (
-				<div className='w-6 h-6 flex items-center justify-center'>
+				<div
+					className={`${iconThumbStyle} w-6 h-6 flex items-center justify-center`}
+				>
 					<svg
 						className={[
 							className,

@@ -60,6 +60,7 @@ export const Header = () => {
 		`/${locale}/classifieds-edit`,
 		`/${locale}/favorites`,
 		`/${locale}/profile/${id}`,
+		`/${locale}/rules`,
 	]
 	const isMySpaceLabel = mySpaceRoutes.some(route => pathname.startsWith(route))
 
@@ -78,7 +79,7 @@ export const Header = () => {
 		if (isProfileLabel && !user?.nickname) {
 			return
 		}
-		router.push(`/selling-classifieds`)
+		router.back()
 	}
 
 	// Программно устанавливаем фокус на кнопку Filters при открытии модалки

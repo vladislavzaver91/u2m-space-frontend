@@ -10,6 +10,7 @@ interface CategoryTabsProps {
 	disabled?: boolean
 	isHideDisabled?: boolean
 	shouldSlider?: boolean
+	mySpacePages?: boolean
 	containerClass?: string
 }
 
@@ -20,6 +21,7 @@ export const CategoryTabs = ({
 	disabled,
 	isHideDisabled,
 	shouldSlider,
+	mySpacePages,
 	containerClass,
 }: CategoryTabsProps) => {
 	const swiperRef = useRef<SwiperRef | null>(null)
@@ -119,7 +121,9 @@ export const CategoryTabs = ({
 				</div>
 			) : (
 				<div
-					className={`flex flex-wrap gap-3 2xs:gap-4 sm:gap-20 max-md:px-4 py-4 md:py-8 ${containerClass}`}
+					className={`flex flex-wrap gap-3 2xs:gap-4 ${
+						mySpacePages ? 'sm:gap-16' : 'sm:gap-20'
+					} max-md:px-4 py-4 md:py-8 ${containerClass}`}
 				>
 					{categories.map((category, index) => {
 						const isDisabled = category === 'Hide' && isHideDisabled

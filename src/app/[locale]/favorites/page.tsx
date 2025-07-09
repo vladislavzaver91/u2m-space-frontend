@@ -152,6 +152,7 @@ export default function FavoritesPage() {
 								activeCategory={activeCategory}
 								onCategoryChange={setActiveCategory}
 								disabled={!hasHiddenClassifieds}
+								mySpacePages
 								containerClass='max-md:pl-4! max-md:pr-2!'
 							/>
 						</div>

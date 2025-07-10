@@ -12,7 +12,8 @@
 	"SellingClassifieds": {
 		"tabs": {
 			"selling": "Sprzedaż",
-			"category": "Kategoria"
+			"bidding": "Licytacja",
+			"barter": "Wymieniam"
 		}
 	},
 
@@ -548,9 +549,61 @@
 		"logInWith": "Zaloguj się za pomocą"
 	},
 
+	"Notifications": {
+		"empty": "Obecnie nie masz żadnych powiadomień",
+		"types": {
+			"TRUST_RATING_CHANGED": {
+				"title": "Ocena zaufania",
+				"message": "Otrzymałeś podwyżkę poziomu zaufania: +{value}"
+			},
+			"BONUSES_CHANGED": {
+				"title": "Bonusy",
+				"message": "Na Twoje konto dodano {value} JEDNOSTEK"
+			},
+			"PLAN_CHANGED": {
+				"title": "Plan",
+				"message": "Twój plan {value} wygasa za 1 dzień"
+			},
+			"CLASSIFIED_ADDED": {
+				"title": "Ogłoszenia",
+				"message": "Pomyślnie opublikowano na stronie"
+			},
+			"CLASSIFIED_UPDATED": {
+				"title": "Ogłoszenia",
+				"message": "Twoje ogłoszenie \"{title}\" zostało zaktualizowane"
+			},
+			"CLASSIFIED_DELETED": {
+				"title": "Ogłoszenia",
+				"message": "Twoje ogłoszenie \"{title}\" zostało usunięte"
+			},
+			"CLASSIFIED_FAVORITED": {
+				"title": "Ogłoszenia",
+				"message": "Użytkownik dodał twoje ogłoszenie \"{title}\" do ulubionych"
+			},
+			"MESSAGE_RECEIVED": {
+				"title": "Wiadomości",
+				"message": "Otrzymałeś nową wiadomość dla ogłoszenia \"{title}\""
+			},
+			"DEAL_PROPOSED": {
+				"title": "Ogłoszenia",
+				"message": "Zaproponowano transakcję dla twojego ogłoszenia \"{title}\""
+			},
+			"RULES_CHANGED": {
+				"title": "Zasady marketplace’u",
+				"message": "Zasady marketplace’u zostały zaktualizowane"
+			},
+			"OFFICIAL_NAME_CONFIRMED": {
+				"title": "Profil",
+				"message": "Twoje oficjalne imię zostało potwierdzone {value}"
+			}
+		}
+	},
+
 	"Buttons": {
 		"add": "Dodaj",
 		"favorites": "Ulubione",
+		"filters": "Filtry",
+		"notifications": "Powiadomienia",
 		"letsStart": "Zacznijmy",
 		"login": "Zaloguj się",
 		"next": "Następny",

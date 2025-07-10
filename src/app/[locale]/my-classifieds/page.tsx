@@ -174,7 +174,7 @@ export default function MyClassifieds() {
 					/>
 
 					<div className='flex-1 flex sm:justify-center w-full'>
-						<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
+						<div className='pb-4 md:pb-8 flex flex-col sm:items-center justify-center max-md:max-w-[768px] max-md:min-w-fit md:w-[768px] min-w-full'>
 							<CategoryTabs
 								categories={categories.map(category => category)}
 								activeCategory={activeCategory}

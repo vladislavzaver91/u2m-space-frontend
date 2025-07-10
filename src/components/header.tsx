@@ -18,6 +18,9 @@ import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { useUser } from '@/helpers/contexts/user-context'
 import { useSearch } from '@/helpers/contexts/search-context'
 import { FilterModal } from './ui/filter-modal'
+import { IconBasicComponent } from './ui/icon-basic-component'
+import { NotificationsModal } from './ui/notifications-modal'
+import { useNotifications } from '@/helpers/contexts/notification-context'
 
 export const Header = () => {
 	const { authUser } = useAuth()
@@ -37,6 +40,7 @@ export const Header = () => {
 		sortOrder,
 		priceRange,
 	} = useSearch()
+	const { notifications } = useNotifications()
 
 	const pathname = usePathname()
 	const locale = useLocale()
@@ -44,9 +48,13 @@ export const Header = () => {
 
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
 	const [isMobile, setIsMobile] = useState<boolean>(false)
+	// const [isSmallMobile, setIsSmallMobile] = useState<boolean>(false)
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+	const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false)
 
 	const filterButtonRef = useRef<HTMLButtonElement>(null)
+	const notificationDesktopButtonRef = useRef<HTMLButtonElement>(null)
+	const notificationMobileButtonRef = useRef<HTMLButtonElement>(null)
 
 	const tButtons = useTranslations('Buttons')
 	const tComponents = useTranslations('Components')
@@ -60,6 +68,7 @@ export const Header = () => {
 		`/${locale}/classifieds-edit`,
 		`/${locale}/favorites`,
 		`/${locale}/profile/${id}`,
+		`/${locale}/payment`,
 		`/${locale}/rules`,
 	]
 	const isMySpaceLabel = mySpaceRoutes.some(route => pathname.startsWith(route))
@@ -80,6 +89,14 @@ export const Header = () => {
 			return
 		}
 		router.back()
+	}
+
+	// Устанавливаем hasNotifications на основе длины notifications из контекста
+	const hasNotifications = notifications.length > 0
+
+	// Обработчик клика на кнопку уведомлений
+	const handleNotificationClick = () => {
+		setIsNotificationModalOpen(prev => !prev)
 	}
 
 	// Программно устанавливаем фокус на кнопку Filters при открытии модалки
@@ -107,6 +124,7 @@ export const Header = () => {
 
 	useLayoutEffect(() => {
 		const handleResize = () => {
+			// setIsSmallMobile(window.innerWidth < 640)
 			setIsMobile(window.innerWidth < 768)
 		}
 
@@ -302,33 +320,65 @@ export const Header = () => {
 
 								{/* filters */}
 								{searchQuery && (
+									<div className='hidden lg:flex'>
+										<ButtonCustom
+											ref={filterButtonRef}
+											onClick={() => setIsFilterModalOpen(true)}
+											text={tButtons('filters')}
+											iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+											icon={
+												areFiltersApplied ? (
+													<IconBasicComponent name='filters-notify' iconThumb />
+												) : (
+													<IconCustom
+														name='filters'
+														hover={true}
+														hoverColor='#f9329c'
+														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+														aria-hidden='true'
+													/>
+												)
+											}
+											isHover
+											className='p-8 min-w-[157px] w-fit'
+											aria-label='Open filter modal'
+											aria-expanded={isFilterModalOpen}
+										/>
+									</div>
+								)}
+
+								{/* notifications */}
+								<div className='hidden lg:flex'>
 									<ButtonCustom
-										ref={filterButtonRef}
-										onClick={() => setIsFilterModalOpen(true)}
-										text='Filters'
+										ref={notificationDesktopButtonRef}
+										onClick={() => setIsNotificationModalOpen(prev => !prev)}
+										text={tButtons('notifications')}
 										iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 										icon={
-											<>
+											hasNotifications ? (
+												<IconBasicComponent name='chat-notify' iconThumb />
+											) : (
 												<IconCustom
-													name='filters'
+													name='chat'
 													hover={true}
 													hoverColor='#f9329c'
 													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 													aria-hidden='true'
 												/>
-												{areFiltersApplied && (
-													<span className='absolute top-0.5 right-0 w-1.5 h-1.5 border-2 border-[#F9329C] rounded-full' />
-												)}
-											</>
+											)
 										}
 										isHover
 										className='p-8 min-w-[157px] w-fit'
-										aria-label='Open filter modal'
-										aria-expanded={isFilterModalOpen}
+										aria-label={
+											isNotificationModalOpen
+												? 'Close notifications modal'
+												: 'Open notifications modal'
+										}
+										aria-expanded={isNotificationModalOpen}
 									/>
-								)}
+								</div>
 
-								{/* favorites */}
+								{/* favorites & add */}
 								<div className='hidden lg:flex'>
 									<ButtonCustom
 										href={`/favorites/`}
@@ -367,9 +417,68 @@ export const Header = () => {
 									/>
 								</div>
 
-								{!isFocused && isMobile && (
+								{!isFocused && (
 									<>
 										<div className='flex lg:hidden'>
+											{/* filters */}
+											{searchQuery && (
+												<ButtonCustom
+													ref={filterButtonRef}
+													onClick={() => setIsFilterModalOpen(true)}
+													iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+													icon={
+														areFiltersApplied ? (
+															<IconBasicComponent
+																name='filters-notify'
+																iconThumb
+															/>
+														) : (
+															<IconCustom
+																name='filters'
+																hover={true}
+																hoverColor='#f9329c'
+																className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+																aria-hidden='true'
+															/>
+														)
+													}
+													isHover
+													className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+													aria-label='Open filter modal'
+													aria-expanded={isFilterModalOpen}
+												/>
+											)}
+											{/* notifications */}
+											<ButtonCustom
+												ref={notificationMobileButtonRef}
+												onClick={() =>
+													setIsNotificationModalOpen(prev => !prev)
+												}
+												iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+												icon={
+													hasNotifications ? (
+														<IconBasicComponent name='chat-notify' iconThumb />
+													) : (
+														<IconCustom
+															name='chat'
+															hover={true}
+															hoverColor='#f9329c'
+															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+															aria-hidden='true'
+														/>
+													)
+												}
+												isHover
+												className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+												aria-label={
+													isNotificationModalOpen
+														? 'Close notifications modal'
+														: 'Open notifications modal'
+												}
+												aria-expanded={isNotificationModalOpen}
+											/>
+
+											{/* favorites */}
 											<ButtonCustom
 												href={`/favorites/`}
 												iconWrapperClass='relative flex items-center justify-center w-6 h-6'
@@ -389,6 +498,7 @@ export const Header = () => {
 												isHover
 												className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
 											/>
+											{/* add */}
 											<ButtonCustom
 												href={`/classifieds-create/`}
 												iconWrapperClass='w-6 h-6'
@@ -535,6 +645,18 @@ export const Header = () => {
 					isOpen={isFilterModalOpen}
 					onClose={() => setIsFilterModalOpen(false)}
 					buttonRef={filterButtonRef}
+				/>
+			)}
+			{authUser && authUser.id && (
+				<NotificationsModal
+					isOpen={isNotificationModalOpen}
+					onClose={() => setIsNotificationModalOpen(false)}
+					userId={authUser.id}
+					buttonRef={
+						isMobile
+							? notificationMobileButtonRef
+							: notificationDesktopButtonRef
+					}
 				/>
 			)}
 		</>

@@ -114,19 +114,19 @@ export const ProfileSettingsForm = ({
 		advancedUser: boolean
 		deleteReason: string | null
 	}>({
-		language: 'en',
-		currency: 'USD',
-		city: user!.city,
-		notifications: true,
-		showPhone: false,
-		advancedUser: false,
-		deleteReason: null,
+		language: user?.language || 'en',
+		currency: user?.currency || 'USD',
+		city: user?.city || null,
+		notifications: user?.notifications ?? true,
+		showPhone: user?.showPhone ?? false,
+		advancedUser: user?.advancedUser ?? false,
+		deleteReason: user?.deleteReason || null,
 	})
 
 	const router = useRouter()
 	const localeActive = useLocale() as 'en' | 'uk' | 'pl'
+
 	const tProfile = useTranslations('Profile')
-	const tLanguageModal = useTranslations('LanguageModal')
 
 	const currencyOptionsMapped = currencyOptions.map(opt => ({
 		code: opt.code,
@@ -265,6 +265,26 @@ export const ProfileSettingsForm = ({
 			city: cityName || null,
 		}))
 		setErrors({ server: '' })
+	}
+
+	const handleNotificationsChange = async (checked: boolean) => {
+		if (!user) return
+		setFormData(prev => ({ ...prev, notifications: checked }))
+		try {
+			const updatedUser = await apiService.updateUserProfile(user.id, {
+				notifications: checked,
+			})
+			updateUser(updatedUser)
+		} catch (error: any) {
+			console.error('Failed to update notifications:', error)
+			setFormData(prev => ({
+				...prev,
+				notifications: user.notifications ?? true,
+			}))
+			setErrors({
+				server: error.response?.data?.error || tProfile('errors.serverError'),
+			})
+		}
 	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -462,9 +482,7 @@ export const ProfileSettingsForm = ({
 				<CustomToggle
 					label={tProfile('settingFormInputs.notifications')}
 					checked={formData.notifications}
-					onChange={checked =>
-						setFormData({ ...formData, notifications: checked })
-					}
+					onChange={handleNotificationsChange}
 					onClick={() =>
 						!formData.advancedUser && onTooltipClick('notifications')
 					}

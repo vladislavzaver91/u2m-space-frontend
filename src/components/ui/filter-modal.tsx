@@ -89,48 +89,18 @@ export const FilterModal = ({
 	}, [isOpen, onClose])
 
 	// Позиционирование модального окна
-	useEffect(() => {
-		const updatePosition = () => {
-			if (isOpen && buttonRef.current && modalRef.current) {
-				const buttonRect = buttonRef.current.getBoundingClientRect()
-				const modalRect = modalRef.current.getBoundingClientRect()
-				const viewportWidth = window.innerWidth
-				const viewportHeight = window.innerHeight
-
-				// Позиционируем под кнопкой
-				let top = buttonRect.bottom + window.scrollY + 8 // Отступ 8px от кнопки
-				let left = buttonRect.left + window.scrollX
-
-				// Проверяем, не выходит ли модалка за нижнюю границу
-				if (top + modalRect.height > viewportHeight + window.scrollY) {
-					top = buttonRect.top + window.scrollY - modalRect.height - 8 // Позиционируем над кнопкой
-				}
-
-				// Проверяем, не выходит ли модалка за правую границу
-				if (left + modalRect.width > viewportWidth) {
-					left = viewportWidth - modalRect.width - 8 // Сдвигаем влево с отступом 8px
-				}
-
-				// Проверяем, не выходит ли модалка за левую границу
-				if (left < 0) {
-					left = 8 // Минимальный отступ от левого края
-				}
-
-				modalRef.current.style.top = `${top}px`
-				modalRef.current.style.left = `${left}px`
-				modalRef.current.style.right = 'auto' // Убираем right, чтобы избежать конфликтов
+	const getModalPosition = () => {
+		if (buttonRef.current) {
+			const rect = buttonRef.current.getBoundingClientRect()
+			return {
+				top: rect.bottom + window.scrollY,
+				left: rect.left, // Позиционируем по левой стороне кнопки
 			}
 		}
+		return { top: 0, left: 0 }
+	}
 
-		if (isOpen) {
-			updatePosition()
-			window.addEventListener('resize', updatePosition)
-		}
-
-		return () => {
-			window.removeEventListener('resize', updatePosition)
-		}
-	}, [isOpen, buttonRef])
+	const { top, left } = getModalPosition()
 
 	// Загрузка начальных данных
 	useEffect(() => {
@@ -269,7 +239,8 @@ export const FilterModal = ({
 	return (
 		<div
 			ref={modalRef}
-			className='absolute top-[80px] right-40 bg-white rounded-b-[13px] shadow-custom-xl z-50 w-[550px] h-auto overflow-hidden transition-all duration-300 ease-in-out transform opacity-0 scale-95 data-[open=true]:opacity-100 data-[open=true]:scale-100'
+			className='fixed top-[80px] right-40 bg-white rounded-b-[13px] shadow-custom-xl z-50 w-[550px] h-auto overflow-hidden transition-all duration-300 ease-in-out transform opacity-0 scale-95 data-[open=true]:opacity-100 data-[open=true]:scale-100'
+			style={{ top: `${top}px`, left: `${left}px` }}
 			data-open={isOpen}
 		>
 			{/* Диапазон цен */}

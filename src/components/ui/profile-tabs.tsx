@@ -60,7 +60,7 @@ export const ProfileTabs = ({
 								className={`relative pb-2 md:pb-3 tracking-[0.022em] text-[16px] 2xs:text-[18px] md:text-[24px] font-bold uppercase cursor-pointer transition-colors border-b-2 border-transparent select-none ${
 									activeTab === tab
 										? 'text-[#3486fe] border-[#f9329c]'
-										: 'text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
+										: 'text-[#BDBDBD] sm:text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
 								}`}
 							>
 								{tab}
@@ -86,7 +86,7 @@ export const ProfileTabs = ({
 						className={`relative pb-2 md:pb-3 tracking-[0.022em] text-[16px] 2xs:text-[18px] md:text-[24px] font-bold uppercase cursor-pointer transition-colors border-b-2 border-transparent select-none ${
 							activeTab === tab
 								? 'text-[#3486fe] border-[#f9329c]'
-								: 'text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
+								: 'text-[#BDBDBD] sm:text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
 						}`}
 					>
 						{tab}

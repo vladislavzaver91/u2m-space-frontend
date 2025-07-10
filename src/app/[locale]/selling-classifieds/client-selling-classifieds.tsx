@@ -130,15 +130,15 @@ export default function ClientSellingClassifieds() {
 
 			<div className='flex-1 pt-14 pb-16 md:pt-[88px] 2-5xl:pt-40!'>
 				{/* Поиск и категории */}
-				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 items-center justify-between'>
+				<div className='pb-4 md:pb-8 md:px-4 flex flex-col 2xl:gap-8 sm:items-center justify-between'>
 					<div className='w-full 2xl:max-w-[770px] max-md:hidden max-2xl:py-3'>
 						<SearchInput activeCategory={activeCategory} />
 					</div>
 					<CategoryTabs
 						categories={[
 							tSellingClassifieds('tabs.selling'),
-							tSellingClassifieds('tabs.category'),
-							tSellingClassifieds('tabs.category'),
+							tSellingClassifieds('tabs.bidding'),
+							tSellingClassifieds('tabs.barter'),
 						]}
 						activeCategory={activeCategory}
 						onCategoryChange={setActiveCategory}

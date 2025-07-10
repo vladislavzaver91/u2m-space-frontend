@@ -106,3 +106,11 @@ export type CityOption = {
 	id: number
 	name: string
 }
+
+export interface Notification {
+	id: string
+	type: string
+	messageData: { [key: string]: string }
+	isRead: boolean
+	createdAt: string
+}

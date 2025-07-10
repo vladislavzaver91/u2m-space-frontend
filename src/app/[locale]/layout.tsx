@@ -13,6 +13,7 @@ import { UserProvider } from '@/helpers/contexts/user-context'
 import { ProfileFormProvider } from '@/helpers/contexts/profile-form-context'
 import { LoadingProvider } from '@/helpers/contexts/loading-context'
 import { SearchProvider } from '@/helpers/contexts/search-context'
+import { NotificationProvider } from '@/helpers/contexts/notification-context'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -96,13 +97,15 @@ export default async function RootLayout({
 							<UserProvider>
 								<LanguageProvider>
 									<ModalProvider>
-										<SearchProvider>
-											<ClassifiedFormProvider>
-												<ProfileFormProvider>
-													<ClientLayout>{children}</ClientLayout>
-												</ProfileFormProvider>
-											</ClassifiedFormProvider>
-										</SearchProvider>
+										<NotificationProvider>
+											<SearchProvider>
+												<ClassifiedFormProvider>
+													<ProfileFormProvider>
+														<ClientLayout>{children}</ClientLayout>
+													</ProfileFormProvider>
+												</ClassifiedFormProvider>
+											</SearchProvider>
+										</NotificationProvider>
 									</ModalProvider>
 								</LanguageProvider>
 							</UserProvider>

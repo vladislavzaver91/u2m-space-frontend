@@ -67,7 +67,7 @@ export const CategoryTabs = ({
 													? 'text-[#3486fe] border-[#f9329c]'
 													: isDisabled
 													? 'text-[#bdbdbd]'
-													: 'text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
+													: 'text-[#BDBDBD] sm:text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
 											}`}
 										>
 											{category}
@@ -101,7 +101,7 @@ export const CategoryTabs = ({
 											? 'text-[#3486fe] border-[#f9329c]'
 											: isDisabled
 											? 'text-[#bdbdbd]'
-											: 'text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
+											: 'text-[#BDBDBD] sm:text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
 									}`}
 								>
 									{category}
@@ -137,7 +137,7 @@ export const CategoryTabs = ({
 										? 'text-[#3486fe] border-[#f9329c]'
 										: isDisabled
 										? 'text-[#bdbdbd]'
-										: 'text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
+										: 'text-[#BDBDBD] sm:text-[#4f4f4f] hover:text-[#3486fe] hover:border-[#f9329c]'
 								}`}
 							>
 								{category}

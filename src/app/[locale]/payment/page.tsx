@@ -46,7 +46,7 @@ export default function PaymentPage() {
 				<NavigationButtons activePage={tMyClassifieds('buttons.payment')} />
 
 				<div className='flex-1 flex sm:justify-center w-full'>
-					<div className='pb-4 md:pb-8 flex flex-col items-center justify-center max-w-[768px] w-full'>
+					<div className='pb-4 md:pb-8 flex flex-col sm:items-center justify-center max-w-[768px] w-full'>
 						<PaymentTabs
 							tabs={tabs}
 							activeTab={activeTab}

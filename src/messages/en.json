@@ -12,7 +12,8 @@
 	"SellingClassifieds": {
 		"tabs": {
 			"selling": "Selling",
-			"category": "Category"
+			"bidding": "Bidding",
+			"barter": "Barter"
 		}
 	},
 
@@ -565,9 +566,61 @@
 		"logInWith": "Log in with"
 	},
 
+	"Notifications": {
+		"empty": "You currently have no notifications",
+		"types": {
+			"TRUST_RATING_CHANGED": {
+				"title": "Trust rating",
+				"message": "You received a raise of +{value}"
+			},
+			"BONUSES_CHANGED": {
+				"title": "Bonuses",
+				"message": "You have been credited with {value} UNITS"
+			},
+			"PLAN_CHANGED": {
+				"title": "Plan",
+				"message": "Your {value} plan expires in 1 day."
+			},
+			"CLASSIFIED_ADDED": {
+				"title": "Classifieds",
+				"message": "Successfully posted on the website"
+			},
+			"CLASSIFIED_UPDATED": {
+				"title": "Classifieds",
+				"message": "Your classified \"{title}\" has been updated"
+			},
+			"CLASSIFIED_DELETED": {
+				"title": "Classifieds",
+				"message": "Your classified \"{title}\" has been deleted"
+			},
+			"CLASSIFIED_TO_FAVORITE": {
+				"title": "Classifieds",
+				"message": "A user added your classified \"{title}\" to favorites"
+			},
+			"MESSAGE_RECEIVED": {
+				"title": "Messages",
+				"message": "You received a new message for classified \"{title}\""
+			},
+			"DEAL_PROPOSED": {
+				"title": "Classifieds",
+				"message": "A deal has been proposed for your classified \"{title}\""
+			},
+			"RULES_CHANGED": {
+				"title": "Marketplace Rules",
+				"message": "Marketplace rules have been updated"
+			},
+			"OFFICIAL_NAME_CONFIRMED": {
+				"title": "Profile",
+				"message": "Your official name has been confirmed {value}"
+			}
+		}
+	},
+
 	"Buttons": {
 		"add": "Add",
 		"favorites": "Favorites",
+		"filters": "Filters",
+		"notifications": "Notifications",
 		"letsStart": "Let's start",
 		"login": "Log in",
 		"next": "Next",
@@ -586,6 +639,7 @@
 			"error": "Character limit reached"
 		}
 	},
+
 	"DatePicker": {
 		"month": "Month",
 		"year": "Year",
@@ -627,6 +681,7 @@
 			"sunday": "Sa"
 		}
 	},
+
 	"Metadata": {
 		"title": "Marketplace for Trading, Selling & Auctions of Items",
 		"description": "A universal marketplace to sell, trade or auction new and used items. Safe, easy and profitable — join now and start exchanging!"

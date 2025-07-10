@@ -12,7 +12,8 @@
 	"SellingClassifieds": {
 		"tabs": {
 			"selling": "Продаж",
-			"category": "Категорія"
+			"bidding": "Торги",
+			"barter": "Бартер"
 		}
 	},
 
@@ -548,9 +549,61 @@
 		"logInWith": "Увійти за допомогою"
 	},
 
+	"Notifications": {
+		"empty": "У Вас наразі не має сповіщень",
+		"types": {
+			"TRUST_RATING_CHANGED": {
+				"title": "Рейтинг довіри",
+				"message": "Ваш рейтинг довіри підвищено на +{value}"
+			},
+			"BONUSES_CHANGED": {
+				"title": "Бонуси",
+				"message": "Вам нараховано {value} ОДИНИЦЬ"
+			},
+			"PLAN_CHANGED": {
+				"title": "План",
+				"message": "Ваш тарифний план {value} закінчується через 1 день"
+			},
+			"CLASSIFIED_ADDED": {
+				"title": "Оголошення",
+				"message": "Успішно додано на сайт"
+			},
+			"CLASSIFIED_UPDATED": {
+				"title": "Оголошення",
+				"message": "Ваше оголошення \"{title}\" оновлено"
+			},
+			"CLASSIFIED_DELETED": {
+				"title": "Оголошення",
+				"message": "Ваше оголошення \"{title}\" видалено"
+			},
+			"CLASSIFIED_FAVORITED": {
+				"title": "Оголошення",
+				"message": "Користувач додав ваше оголошення \"{title}\" до обраного"
+			},
+			"MESSAGE_RECEIVED": {
+				"title": "Повідомлення",
+				"message": "Ви отримали нове повідомлення для оголошення \"{title}\""
+			},
+			"DEAL_PROPOSED": {
+				"title": "Оголошення",
+				"message": "Запропоновано угоду для вашого оголошення \"{title}\""
+			},
+			"RULES_CHANGED": {
+				"title": "Правила маркетплейсу",
+				"message": "Правила маркетплейсу оновлено"
+			},
+			"OFFICIAL_NAME_CONFIRMED": {
+				"title": "Профіль",
+				"message": "Ваше офіційне ім’я підтверджено {value}"
+			}
+		}
+	},
+
 	"Buttons": {
 		"add": "Додати",
 		"favorites": "Улюблені",
+		"filters": "Фільтри",
+		"notifications": "Сповіщення",
 		"letsStart": "Почнемо",
 		"login": "Увійти",
 		"next": "Далі",

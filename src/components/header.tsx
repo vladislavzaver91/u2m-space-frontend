@@ -6,7 +6,7 @@ import { useAuth } from '../helpers/contexts/auth-context'
 import { useModal } from '../helpers/contexts/modal-context'
 import { LoginModal } from './login-modal'
 import Image from 'next/image'
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { SearchInput } from './ui/search-input'
 import { IconCustom } from './ui/icon-custom'
 import { LanguageModal } from './ui/language-modal'
@@ -21,6 +21,8 @@ import { FilterModal } from './ui/filter-modal'
 import { IconBasicComponent } from './ui/icon-basic-component'
 import { NotificationsModal } from './ui/notifications-modal'
 import { useNotifications } from '@/helpers/contexts/notification-context'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
+import { is } from 'date-fns/locale'
 
 export const Header = () => {
 	const { authUser } = useAuth()
@@ -31,7 +33,9 @@ export const Header = () => {
 	const { isSubmitDisabled, submitForm: submitProfileForm } = useProfileForm()
 	const {
 		searchQuery,
+		setSearchQuery,
 		isFocused,
+		setIsFocused,
 		minPrice,
 		maxPrice,
 		tags,
@@ -39,21 +43,24 @@ export const Header = () => {
 		sortBy,
 		sortOrder,
 		priceRange,
+		resetFilters,
 	} = useSearch()
 	const { notifications } = useNotifications()
+	const { isMobile, isTablet } = useScreenResize()
 
 	const pathname = usePathname()
 	const locale = useLocale()
 	const router = useRouter()
 
 	const [isSearchVisible, setIsSearchVisible] = useState(false)
-	const [isMobile, setIsMobile] = useState<boolean>(false)
-	// const [isSmallMobile, setIsSmallMobile] = useState<boolean>(false)
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 	const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false)
 
-	const filterButtonRef = useRef<HTMLButtonElement>(null)
+	const filterDesktopButtonRef = useRef<HTMLButtonElement>(null)
+	const filterTabletButtonRef = useRef<HTMLButtonElement>(null)
+	const filterMobileButtonRef = useRef<HTMLButtonElement>(null)
 	const notificationDesktopButtonRef = useRef<HTMLButtonElement>(null)
+	const notificationTabletButtonRef = useRef<HTMLButtonElement>(null)
 	const notificationMobileButtonRef = useRef<HTMLButtonElement>(null)
 
 	const tButtons = useTranslations('Buttons')
@@ -73,6 +80,8 @@ export const Header = () => {
 	]
 	const isMySpaceLabel = mySpaceRoutes.some(route => pathname.startsWith(route))
 
+	const isMyClassifiedsRoute = `/${locale}/my-classifieds`.startsWith(pathname)
+
 	const addClassifiedsRoutes = [
 		`/${locale}/classifieds-create`,
 		`/${locale}/classifieds-edit`,
@@ -88,23 +97,33 @@ export const Header = () => {
 		if (isProfileLabel && !user?.nickname) {
 			return
 		}
-		router.back()
+		if (isMyClassifiedsRoute) {
+			router.push('/selling-classifieds')
+		} else {
+			router.back()
+		}
 	}
 
 	// Устанавливаем hasNotifications на основе длины notifications из контекста
 	const hasNotifications = notifications.length > 0
+
+	// Обработчик клика на кнопку фильтров
+	const handleFiltersClick = () => {
+		setIsFilterModalOpen(prev => !prev)
+	}
 
 	// Обработчик клика на кнопку уведомлений
 	const handleNotificationClick = () => {
 		setIsNotificationModalOpen(prev => !prev)
 	}
 
-	// Программно устанавливаем фокус на кнопку Filters при открытии модалки
-	useEffect(() => {
-		if (isFilterModalOpen && filterButtonRef.current) {
-			filterButtonRef.current.focus()
-		}
-	}, [isFilterModalOpen])
+	// Обработчик закрытия фильтров и поиска
+	const handleCloseAll = () => {
+		setIsFilterModalOpen(false)
+		setSearchQuery('')
+		setIsFocused(false)
+		resetFilters()
+	}
 
 	// Проверяем, выбраны ли какие-либо настройки фильтра
 	const areFiltersApplied = useMemo(() => {
@@ -121,17 +140,6 @@ export const Header = () => {
 			sortOrder !== 'desc'
 		)
 	}, [minPrice, maxPrice, tags, city, sortBy, sortOrder, priceRange])
-
-	useLayoutEffect(() => {
-		const handleResize = () => {
-			// setIsSmallMobile(window.innerWidth < 640)
-			setIsMobile(window.innerWidth < 768)
-		}
-
-		handleResize() // Проверка при монтировании
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
 
 	console.log('authUser', authUser)
 
@@ -154,7 +162,22 @@ export const Header = () => {
 		<>
 			<div className='fixed mr-2 px-4 md:px-8 min-h-14 md:min-h-[88px] py-3 md:py-7 top-0 left-0 w-full flex items-center bg-white/75 backdrop-blur-2xl z-20'>
 				{/* Контент слева */}
-				{isMySpaceLabel ? (
+				{isMobile && isFilterModalOpen ? (
+					<ButtonCustom
+						onClick={handleCloseAll}
+						iconWrapperClass='w-6 h-6'
+						icon={
+							<IconCustom
+								name='arrow-prev'
+								hover={true}
+								hoverColor='#f9329c'
+								className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+							/>
+						}
+						isHover
+						className='absolute p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+					/>
+				) : isMySpaceLabel ? (
 					<div className='absolute left-0 top-0'>
 						<ButtonCustom
 							onClick={handleBack}
@@ -208,95 +231,117 @@ export const Header = () => {
 							</div>
 						</>
 					) : (
-						<div className='md:hidden'>
-							<SearchInput
-								className={`${
-									isFocused ? 'min-w-full' : 'max-w-[200px] sm:max-w-[460px]'
-								}`}
-								inputClass='pr-4!'
-								smallWidth
-								logoActive={true}
-								placeholder={tComponents('placeholders.search')}
-							/>
-						</div>
+						!isFilterModalOpen && (
+							<div className='md:hidden'>
+								<SearchInput
+									className={`${
+										isFocused ? 'min-w-full' : 'max-w-[200px] sm:max-w-[460px]'
+									}`}
+									inputClass='pr-4!'
+									smallWidth
+									logoActive={true}
+									placeholder={tComponents('placeholders.search')}
+								/>
+							</div>
+						)
 					)}
 				</div>
 
 				{/* Контент справа */}
 				{!shouldShowPublishBtn && !isProfileLabel && (
 					<div className='flex items-center absolute top-0 right-0'>
-						{/* все страницы без авторизации */}
-						{pathname !== `/` && !authUser && (
+						{isMobile && isFilterModalOpen ? (
+							<ButtonCustom
+								onClick={handleCloseAll}
+								iconWrapperClass='w-6 h-6'
+								icon={
+									<IconCustom
+										name='close'
+										hover={true}
+										hoverColor='#f9329c'
+										className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+									/>
+								}
+								isHover
+								className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+							/>
+						) : (
 							<>
-								<div className='hidden md:flex lg:hidden'>
-									{!isSearchVisible && (
-										<ButtonCustom
-											onClick={openModal}
-											iconWrapperClass='w-6 h-6'
-											icon={
-												<IconCustom
-													name='globe'
-													hover={true}
-													hoverColor='#f9329c'
-													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+								{/* все страницы без авторизации */}
+								{pathname !== `/` && !authUser && (
+									<>
+										<div className='hidden md:flex lg:hidden'>
+											{!isSearchVisible && (
+												<ButtonCustom
+													onClick={openModal}
+													iconWrapperClass='w-6 h-6'
+													icon={
+														<IconCustom
+															name='globe'
+															hover={true}
+															hoverColor='#f9329c'
+															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+														/>
+													}
+													isHover
+													className='p-4 md:p-8 min-w-[88px] w-fit'
 												/>
-											}
-											isHover
-											className='p-4 md:p-8 min-w-[88px] w-fit'
-										/>
-									)}
+											)}
 
-									<ButtonCustom
-										onClick={openLoginModal}
-										iconWrapperClass='w-6 h-6'
-										icon={
-											<IconCustom
-												name='add_plus'
-												hover={true}
-												hoverColor='#f9329c'
-												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+											<ButtonCustom
+												onClick={openLoginModal}
+												iconWrapperClass='w-6 h-6'
+												icon={
+													<IconCustom
+														name='add_plus'
+														hover={true}
+														hoverColor='#f9329c'
+														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+													/>
+												}
+												isHover
+												className='p-4 md:p-8 min-w-[88px] w-fit'
 											/>
-										}
-										isHover
-										className='p-4 md:p-8 min-w-[88px] w-fit'
-									/>
-								</div>
-								<div className='hidden lg:flex'>
-									{!isSearchVisible && (
-										<ButtonCustom
-											onClick={openModal}
-											iconWrapperClass='w-6 h-6'
-											icon={
-												<IconCustom
-													name='globe'
-													hover={true}
-													hoverColor='#f9329c'
-													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+										</div>
+										<div className='hidden lg:flex'>
+											{!isSearchVisible && (
+												<ButtonCustom
+													onClick={openModal}
+													iconWrapperClass='w-6 h-6'
+													icon={
+														<IconCustom
+															name='globe'
+															hover={true}
+															hoverColor='#f9329c'
+															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+														/>
+													}
+													isHover
+													className='p-4 md:p-8 min-w-[88px] w-fit'
 												/>
-											}
-											isHover
-											className='p-4 md:p-8 min-w-[88px] w-fit'
-										/>
-									)}
+											)}
 
-									<ButtonCustom
-										onClick={openLoginModal}
-										text={tButtons('add')}
-										iconWrapperClass='w-6 h-6'
-										icon={
-											<IconCustom
-												name='add_plus'
-												hover={true}
-												hoverColor='#f9329c'
-												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+											<ButtonCustom
+												onClick={openLoginModal}
+												text={tButtons('add')}
+												iconWrapperClass='w-6 h-6'
+												icon={
+													<IconCustom
+														name='add_plus'
+														hover={true}
+														hoverColor='#f9329c'
+														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+													/>
+												}
+												isHover
+												className='p-8 min-w-[139px] w-fit'
 											/>
-										}
-										isHover
-										className='p-8 min-w-[139px] w-fit'
-									/>
-								</div>
+										</div>
+									</>
+								)}
 							</>
 						)}
+
 						{/* с авторизацией */}
 						{authUser ? (
 							<>
@@ -322,8 +367,8 @@ export const Header = () => {
 								{searchQuery && (
 									<div className='hidden lg:flex'>
 										<ButtonCustom
-											ref={filterButtonRef}
-											onClick={() => setIsFilterModalOpen(true)}
+											ref={filterDesktopButtonRef}
+											onClick={handleFiltersClick}
 											text={tButtons('filters')}
 											iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 											icon={
@@ -334,14 +379,22 @@ export const Header = () => {
 														name='filters'
 														hover={true}
 														hoverColor='#f9329c'
-														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+														className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+															isFilterModalOpen ? 'text-[#3486fe]!' : ''
+														}`}
 														aria-hidden='true'
 													/>
 												)
 											}
 											isHover
-											className='p-8 min-w-[157px] w-fit'
-											aria-label='Open filter modal'
+											className={`p-8 min-w-[157px] w-fit ${
+												isFilterModalOpen ? 'bg-[#F7F7F7]!' : ''
+											}`}
+											aria-label={
+												isFilterModalOpen
+													? 'Close filter modal'
+													: 'Open filter modal'
+											}
 											aria-expanded={isFilterModalOpen}
 										/>
 									</div>
@@ -351,7 +404,7 @@ export const Header = () => {
 								<div className='hidden lg:flex'>
 									<ButtonCustom
 										ref={notificationDesktopButtonRef}
-										onClick={() => setIsNotificationModalOpen(prev => !prev)}
+										onClick={handleNotificationClick}
 										text={tButtons('notifications')}
 										iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 										icon={
@@ -362,13 +415,17 @@ export const Header = () => {
 													name='chat'
 													hover={true}
 													hoverColor='#f9329c'
-													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+													className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+														isNotificationModalOpen ? 'text-[#3486fe]!' : ''
+													}`}
 													aria-hidden='true'
 												/>
 											)
 										}
 										isHover
-										className='p-8 min-w-[157px] w-fit'
+										className={`p-8 min-w-[157px] w-fit ${
+											isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
+										}`}
 										aria-label={
 											isNotificationModalOpen
 												? 'Close notifications modal'
@@ -419,65 +476,161 @@ export const Header = () => {
 
 								{!isFocused && (
 									<>
-										<div className='flex lg:hidden'>
-											{/* filters */}
-											{searchQuery && (
+										{isMobile && (
+											<>
+												{/* filters */}
+												{searchQuery && (
+													<ButtonCustom
+														ref={filterMobileButtonRef}
+														onClick={handleFiltersClick}
+														iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+														icon={
+															areFiltersApplied ? (
+																<IconBasicComponent
+																	name='filters-notify'
+																	iconThumb
+																/>
+															) : (
+																<IconCustom
+																	name='filters'
+																	hover={true}
+																	hoverColor='#f9329c'
+																	className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+																		isFilterModalOpen ? 'text-[#3486fe]!' : ''
+																	}`}
+																	aria-hidden='true'
+																/>
+															)
+														}
+														isHover
+														className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
+															isFilterModalOpen ? 'bg-[#F7F7F7]!' : ''
+														}`}
+														aria-label={
+															isFilterModalOpen
+																? 'Close filters modal'
+																: 'Open filters modal'
+														}
+														aria-expanded={isFilterModalOpen}
+													/>
+												)}
+												{/* notifications */}
 												<ButtonCustom
-													ref={filterButtonRef}
-													onClick={() => setIsFilterModalOpen(true)}
+													ref={notificationMobileButtonRef}
+													onClick={handleNotificationClick}
 													iconWrapperClass='relative flex items-center justify-center w-6 h-6'
 													icon={
-														areFiltersApplied ? (
+														hasNotifications ? (
 															<IconBasicComponent
-																name='filters-notify'
+																name='chat-notify'
 																iconThumb
 															/>
 														) : (
 															<IconCustom
-																name='filters'
+																name='chat'
 																hover={true}
 																hoverColor='#f9329c'
-																className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+																className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+																	isNotificationModalOpen
+																		? 'text-[#3486fe]!'
+																		: ''
+																}`}
 																aria-hidden='true'
 															/>
 														)
 													}
 													isHover
-													className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
-													aria-label='Open filter modal'
-													aria-expanded={isFilterModalOpen}
+													className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
+														isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
+													}`}
+													aria-label={
+														isNotificationModalOpen
+															? 'Close notifications modal'
+															: 'Open notifications modal'
+													}
+													aria-expanded={isNotificationModalOpen}
 												/>
-											)}
-											{/* notifications */}
-											<ButtonCustom
-												ref={notificationMobileButtonRef}
-												onClick={() =>
-													setIsNotificationModalOpen(prev => !prev)
-												}
-												iconWrapperClass='relative flex items-center justify-center w-6 h-6'
-												icon={
-													hasNotifications ? (
-														<IconBasicComponent name='chat-notify' iconThumb />
-													) : (
-														<IconCustom
-															name='chat'
-															hover={true}
-															hoverColor='#f9329c'
-															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-															aria-hidden='true'
-														/>
-													)
-												}
-												isHover
-												className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
-												aria-label={
-													isNotificationModalOpen
-														? 'Close notifications modal'
-														: 'Open notifications modal'
-												}
-												aria-expanded={isNotificationModalOpen}
-											/>
+											</>
+										)}
 
+										{isTablet && (
+											<>
+												{/* filters */}
+												{searchQuery && (
+													<ButtonCustom
+														ref={filterTabletButtonRef}
+														onClick={handleFiltersClick}
+														iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+														icon={
+															areFiltersApplied ? (
+																<IconBasicComponent
+																	name='filters-notify'
+																	iconThumb
+																/>
+															) : (
+																<IconCustom
+																	name='filters'
+																	hover={true}
+																	hoverColor='#f9329c'
+																	className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+																		isFilterModalOpen ? 'text-[#3486fe]!' : ''
+																	}`}
+																	aria-hidden='true'
+																/>
+															)
+														}
+														isHover
+														className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
+															isFilterModalOpen ? 'bg-[#F7F7F7]!' : ''
+														}`}
+														aria-label={
+															isFilterModalOpen
+																? 'Close filters modal'
+																: 'Open filters modal'
+														}
+														aria-expanded={isFilterModalOpen}
+													/>
+												)}
+												{/* notifications */}
+												<ButtonCustom
+													ref={notificationTabletButtonRef}
+													onClick={handleNotificationClick}
+													iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+													icon={
+														hasNotifications ? (
+															<IconBasicComponent
+																name='chat-notify'
+																iconThumb
+															/>
+														) : (
+															<IconCustom
+																name='chat'
+																hover={true}
+																hoverColor='#f9329c'
+																className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+																	isNotificationModalOpen
+																		? 'text-[#3486fe]!'
+																		: ''
+																}`}
+																aria-hidden='true'
+															/>
+														)
+													}
+													isHover
+													className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
+														isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
+													}`}
+													aria-label={
+														isNotificationModalOpen
+															? 'Close notifications modal'
+															: 'Open notifications modal'
+													}
+													aria-expanded={isNotificationModalOpen}
+												/>
+											</>
+										)}
+
+										<div className='flex lg:hidden'>
 											{/* favorites */}
 											<ButtonCustom
 												href={`/favorites/`}
@@ -644,7 +797,13 @@ export const Header = () => {
 				<FilterModal
 					isOpen={isFilterModalOpen}
 					onClose={() => setIsFilterModalOpen(false)}
-					buttonRef={filterButtonRef}
+					buttonRef={
+						isMobile
+							? filterMobileButtonRef
+							: isTablet
+							? filterTabletButtonRef
+							: filterDesktopButtonRef
+					}
 				/>
 			)}
 			{authUser && authUser.id && (
@@ -655,6 +814,8 @@ export const Header = () => {
 					buttonRef={
 						isMobile
 							? notificationMobileButtonRef
+							: isTablet
+							? notificationTabletButtonRef
 							: notificationDesktopButtonRef
 					}
 				/>

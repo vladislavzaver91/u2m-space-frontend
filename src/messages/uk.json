@@ -473,40 +473,56 @@
 			"plan": "План",
 			"paymentHistory": "Історія платежів"
 		},
-		"toggle": {
-			"monthly": "Помісячно",
-			"yearly": "Щорічно",
-			"info": "ви Заощаджуєте 50%"
+		"planSection": {
+			"toggle": {
+				"monthly": "Помісячно",
+				"yearly": "Щорічно",
+				"info": "ви Заощаджуєте 50%"
+			},
+			"generalItems": {
+				"maxClassifieds": "Макс оголошень",
+				"liftInterval": "Інтервал підйому",
+				"liftingType": "Тип підйому",
+				"searchVisibility": "Видимість у пошуку",
+				"price": "Ціна"
+			},
+			"buttons": {
+				"active": "Активний",
+				"choose": "Обрати"
+			},
+			"light": {
+				"title": "Light",
+				"liftInterval": "Безлімітно",
+				"liftingType": "Ручний",
+				"searchVisibility": "Стандартний"
+			},
+			"smart": {
+				"title": "Smart",
+				"liftInterval": "дні",
+				"liftingType": "Автоматично",
+				"searchVisibility": "Підвищений"
+			},
+			"extremum": {
+				"title": "Extremum",
+				"maxClassifieds": "Безлімітно",
+				"liftInterval": "годин",
+				"liftingType": "Автоматично",
+				"searchVisibility": "Пріоритет"
+			}
 		},
-		"generalItems": {
-			"maxClassifieds": "Макс оголошень",
-			"liftInterval": "Інтервал підйому",
-			"liftingType": "Тип підйому",
-			"searchVisibility": "Видимість у пошуку",
-			"price": "Ціна"
-		},
-		"buttons": {
-			"active": "Активний",
-			"choose": "Обрати"
-		},
-		"light": {
-			"title": "Light",
-			"liftInterval": "Безлімітно",
-			"liftingType": "Ручний",
-			"searchVisibility": "Стандартний"
-		},
-		"smart": {
-			"title": "Smart",
-			"liftInterval": "дні",
-			"liftingType": "Автоматично",
-			"searchVisibility": "Підвищений"
-		},
-		"extremum": {
-			"title": "Extremum",
-			"maxClassifieds": "Безлімітно",
-			"liftInterval": "годин",
-			"liftingType": "Автоматично",
-			"searchVisibility": "Пріоритет"
+		"paymentHistory": {
+			"columns": {
+				"dateStart": "Дата початку",
+				"operationId": "ID операції",
+				"type": "Тип",
+				"heading": "Заголовок",
+				"endDate": "Дата завершення",
+				"amount": "Сума"
+			},
+			"types": {
+				"monthlyRise": "Місячне підвищення",
+				"yearlyPlan": "Річний план"
+			}
 		}
 	},
 
@@ -596,6 +612,21 @@
 				"title": "Профіль",
 				"message": "Ваше офіційне ім’я підтверджено {value}"
 			}
+		}
+	},
+
+	"Filters": {
+		"price": "Ціна",
+		"tags": "Теги",
+		"sortByRegionAndCity": "Сортувати за регіоном і містом",
+		"sort": "Сортування",
+		"errorPrice": "Ціновий діапазон не доступний",
+		"buttons": {
+			"firstNew": "Спочатку нові",
+			"firstOld": "Спочатку старі",
+			"highPrice": "Висока ціна",
+			"lowPrice": "Низька ціна",
+			"apply": "Застосувати"
 		}
 	},
 

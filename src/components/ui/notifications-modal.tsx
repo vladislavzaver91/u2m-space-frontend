@@ -7,6 +7,7 @@ import { IconCustom } from './icon-custom'
 import { useNotifications } from '@/helpers/contexts/notification-context'
 import { Loader } from './loader'
 import { Notification } from '@/types'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 interface NotificationsModalProps {
 	isOpen: boolean
@@ -25,9 +26,9 @@ export const NotificationsModal = ({
 
 	const { notifications, setNotifications, markNotificationAsRead } =
 		useNotifications()
+	const { isMobile } = useScreenResize()
 
 	const [loading, setLoading] = useState(false)
-	const [isSmallMobile, setIsSmallMobile] = useState<boolean>(false)
 
 	const modalRef = useRef<HTMLDivElement>(null)
 
@@ -47,11 +48,11 @@ export const NotificationsModal = ({
 					<React.Fragment key={index}>
 						{part}
 						{index < parts.length - 1 && (
-							<span className='font-bold text-blue-600'>
+							<p className='font-bold text-blue-600'>
 								{message.startsWith('+{value}') && index === 0
 									? `+${value}`
 									: value}
-							</span>
+							</p>
 						)}
 					</React.Fragment>
 				))}
@@ -128,16 +129,6 @@ export const NotificationsModal = ({
 		}
 	}
 
-	useLayoutEffect(() => {
-		const handleResize = () => {
-			setIsSmallMobile(window.innerWidth < 768)
-		}
-
-		handleResize() // Проверка при монтировании
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
-
 	// Вычисление позиции модального окна относительно кнопки
 	const getModalPosition = () => {
 		if (buttonRef.current) {
@@ -159,7 +150,7 @@ export const NotificationsModal = ({
 			ref={modalRef}
 			className='fixed z-50 bg-white shadow-custom-xl rounded-b-[13px] md:max-w-[393px] w-full h-[200px]'
 			style={
-				!isSmallMobile
+				!isMobile
 					? { top: `${top}px`, left: `${left}px` }
 					: { top: `${top}px`, left: 0, right: 0 }
 			}

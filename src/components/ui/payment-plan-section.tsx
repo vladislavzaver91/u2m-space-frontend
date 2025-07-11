@@ -1,8 +1,14 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CustomToggle } from './custom-toggle'
+import { useAuth } from '@/helpers/contexts/auth-context'
+import { useRouter } from '@/i18n/routing'
+import { useNotifications } from '@/helpers/contexts/notification-context'
+import { planService } from '@/services/plan.service'
+import { Loader } from './loader'
+import { useUser } from '@/helpers/contexts/user-context'
 
 interface Plan {
 	id: string
@@ -17,8 +23,15 @@ interface Plan {
 export const PaymentPlanSection = () => {
 	const tPlan = useTranslations('Payment.planSection')
 
+	const { authUser, handleAuthSuccess } = useAuth()
+	const { user, updateUser } = useUser()
+	const { fetchNotifications } = useNotifications()
+	const router = useRouter()
+
 	const [isYearly, setIsYearly] = useState(false)
-	const [selectedPlan, setSelectedPlan] = useState('light')
+	const [selectedPlan, setSelectedPlan] = useState<string>('light')
+	const [isLoading, setIsLoading] = useState(false)
+	const [error, setError] = useState<string | null>(null)
 
 	const plans: Plan[] = useMemo(
 		() => [
@@ -63,8 +76,44 @@ export const PaymentPlanSection = () => {
 		[plans, isYearly, tPlan]
 	)
 
-	const handleChoosePlan = (planId: string) => {
-		setSelectedPlan(planId)
+	// Устанавливаем текущий план пользователя
+	useEffect(() => {
+		if (user?.plan) {
+			setSelectedPlan(user.plan)
+		}
+		console.log(selectedPlan, 'selectedPlan')
+	}, [user, selectedPlan])
+
+	const handleChoosePlan = async (planId: string) => {
+		if (!authUser) {
+			console.log('authUser not found')
+			router.push('/selling-classifieds')
+			return
+		}
+
+		setIsLoading(true)
+		setError(null)
+
+		try {
+			const res = await planService.purchasePlan(planId)
+			if (res.paymentIntent.status === 'succeeded') {
+				setSelectedPlan(planId)
+				updateUser({
+					...authUser,
+					plan: planId as 'light' | 'smart' | 'extremum',
+				})
+
+				await fetchNotifications(authUser.id)
+			} else {
+				throw new Error('Payment failed')
+			}
+		} catch (error: any) {
+			console.error('Error purchasing plan:', error)
+			const errorMessage = error.response?.data?.error
+			setError(errorMessage)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	return (
@@ -140,17 +189,23 @@ export const PaymentPlanSection = () => {
 						</div>
 
 						<button
-							className={`max-sm:max-w-[296px] w-full px-4 py-2 h-10 rounded-lg text-white font-bold text-[16px] ${
-								selectedPlan === plan.id
+							className={`relative max-sm:max-w-[296px] w-full px-4 py-2 h-10 rounded-lg text-white font-bold text-[16px] ${
+								selectedPlan === plan.id || isLoading
 									? 'bg-[#BDBDBD] cursor-not-allowed'
 									: 'bg-[#6FCF97] cursor-pointer'
 							}`}
-							disabled={selectedPlan === plan.id}
+							disabled={selectedPlan === plan.id || isLoading}
 							onClick={() => handleChoosePlan(plan.id)}
 						>
-							{selectedPlan === plan.id
-								? tPlan('buttons.active')
-								: tPlan('buttons.choose')}
+							{isLoading && selectedPlan === plan.id ? (
+								<div className='flex items-center justify-center'>
+									<Loader size='6' />
+								</div>
+							) : selectedPlan === plan.id ? (
+								tPlan('buttons.active')
+							) : (
+								tPlan('buttons.choose')
+							)}
 						</button>
 					</div>
 				))}

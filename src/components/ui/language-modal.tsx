@@ -272,7 +272,7 @@ export const LanguageModal = () => {
 						icon={
 							<IconCustom
 								name='close'
-								className='w-3 h-3 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+								className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 								hover={true}
 								hoverColor='#f9329c'
 							/>

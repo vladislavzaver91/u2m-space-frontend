@@ -473,40 +473,56 @@
 			"plan": "Plan",
 			"paymentHistory": "Historia płatności"
 		},
-		"toggle": {
-			"monthly": "Miesięczny",
-			"yearly": "Rocznie",
-			"info": "Oszczędzasz 50%"
+		"planSection": {
+			"toggle": {
+				"monthly": "Miesięczny",
+				"yearly": "Rocznie",
+				"info": "Oszczędzasz 50%"
+			},
+			"generalItems": {
+				"maxClassifieds": "Maks liczba reklam",
+				"liftInterval": "Interwał podnoszenia",
+				"liftingType": "Typ podnoszenia",
+				"searchVisibility": "Widoczność wyszukiwania",
+				"price": "Cena"
+			},
+			"buttons": {
+				"active": "Aktywny",
+				"choose": "Wybierać"
+			},
+			"light": {
+				"title": "Light",
+				"liftInterval": "Nieograniczony",
+				"liftingType": "Podręcznik",
+				"searchVisibility": "Sztandar"
+			},
+			"smart": {
+				"title": "Smart",
+				"liftInterval": "dni",
+				"liftingType": "Automatycznie",
+				"searchVisibility": "Zwiększony"
+			},
+			"extremum": {
+				"title": "Extremum",
+				"maxClassifieds": "Nieograniczony",
+				"liftInterval": "godziny",
+				"liftingType": "Automatycznie",
+				"searchVisibility": "Priorytet"
+			}
 		},
-		"generalItems": {
-			"maxClassifieds": "Maks liczba reklam",
-			"liftInterval": "Interwał podnoszenia",
-			"liftingType": "Typ podnoszenia",
-			"searchVisibility": "Widoczność wyszukiwania",
-			"price": "Cena"
-		},
-		"buttons": {
-			"active": "Aktywny",
-			"choose": "Wybierać"
-		},
-		"light": {
-			"title": "Light",
-			"liftInterval": "Nieograniczony",
-			"liftingType": "Podręcznik",
-			"searchVisibility": "Sztandar"
-		},
-		"smart": {
-			"title": "Smart",
-			"liftInterval": "dni",
-			"liftingType": "Automatycznie",
-			"searchVisibility": "Zwiększony"
-		},
-		"extremum": {
-			"title": "Extremum",
-			"maxClassifieds": "Nieograniczony",
-			"liftInterval": "godziny",
-			"liftingType": "Automatycznie",
-			"searchVisibility": "Priorytet"
+		"paymentHistory": {
+			"columns": {
+				"dateStart": "Data rozpoczęcia",
+				"operationId": "ID operacji",
+				"type": "Typ",
+				"heading": "Nagłówek",
+				"endDate": "Data zakończenia",
+				"amount": "Kwota"
+			},
+			"types": {
+				"monthlyRise": "Miesięczny wzrost",
+				"yearlyPlan": "Plan roczny"
+			}
 		}
 	},
 
@@ -596,6 +612,21 @@
 				"title": "Profil",
 				"message": "Twoje oficjalne imię zostało potwierdzone {value}"
 			}
+		}
+	},
+
+	"Filters": {
+		"price": "Cena",
+		"tags": "Tagi",
+		"sortByRegionAndCity": "Sortuj według regionu i miasta",
+		"sort": "Sortowanie",
+		"errorPrice": "Zakres cen nie jest dostępny",
+		"buttons": {
+			"firstNew": "Najpierw nowe",
+			"firstOld": "Najpierw stare",
+			"highPrice": "Wysoka cena",
+			"lowPrice": "Niska cena",
+			"apply": "Zastosuj"
 		}
 	},
 

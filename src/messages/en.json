@@ -616,6 +616,21 @@
 		}
 	},
 
+	"Filters": {
+		"price": "Price",
+		"tags": "Tags",
+		"sortByRegionAndCity": "Sort by Region and City",
+		"sort": "Sort",
+		"errorPrice": "Price range not available",
+		"buttons": {
+			"firstNew": "First new",
+			"firstOld": "First old",
+			"highPrice": "High price",
+			"lowPrice": "Low price",
+			"apply": "Apply"
+		}
+	},
+
 	"Buttons": {
 		"add": "Add",
 		"favorites": "Favorites",

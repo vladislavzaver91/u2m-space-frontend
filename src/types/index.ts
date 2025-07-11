@@ -40,6 +40,7 @@ export interface User {
 	id: string
 	email: string
 	name: string
+	plan: 'light' | 'smart' | 'extremum'
 	favorites?: string[]
 	legalSurname: string | null
 	nickname: string
@@ -113,4 +114,11 @@ export interface Notification {
 	messageData: { [key: string]: string }
 	isRead: boolean
 	createdAt: string
+}
+
+export interface PaymentIntent {
+	paymentIntent: {
+		id: string
+		status: string
+	}
 }

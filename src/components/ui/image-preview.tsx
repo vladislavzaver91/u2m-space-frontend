@@ -1,11 +1,10 @@
 'use client'
 
-import { Dispatch, SetStateAction, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useWindowSize } from '@/helpers/hooks/use-window-size'
-import { Loader } from './loader'
 
 const ItemTypes = {
 	IMAGE: 'image',

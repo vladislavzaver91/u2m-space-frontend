@@ -13,6 +13,7 @@ import {
 } from 'react'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 interface FilterModalProps {
 	isOpen: boolean
@@ -31,7 +32,7 @@ export const FilterModal = ({
 	onClose,
 	buttonRef,
 }: FilterModalProps) => {
-	const tComponents = useTranslations('Components')
+	const tFilters = useTranslations('Filters')
 	const {
 		searchQuery,
 		setClassifieds,
@@ -41,6 +42,7 @@ export const FilterModal = ({
 		availableCities,
 		setAvailableCities,
 	} = useSearch()
+	const { isMobile } = useScreenResize()
 
 	const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
 	const [minPrice, setMinPrice] = useState<number | null>(null)
@@ -52,18 +54,11 @@ export const FilterModal = ({
 
 	const modalRef = useRef<HTMLDivElement>(null)
 
-	// const sortOptions = [
-	// 	{ value: 'createdAt-desc', label: tComponents('First new') },
-	// 	{ value: 'createdAt-asc', label: tComponents('First old') },
-	// 	{ value: 'price-desc', label: tComponents('High price') },
-	// 	{ value: 'price-asc', label: tComponents('Low price') },
-	// ]
-
 	const sortOptions = [
-		{ value: 'createdAt-desc', label: 'First new' },
-		{ value: 'createdAt-asc', label: 'First old' },
-		{ value: 'price-desc', label: 'High price' },
-		{ value: 'price-asc', label: 'Low price' },
+		{ value: 'createdAt-desc', label: tFilters('buttons.firstNew') },
+		{ value: 'createdAt-asc', label: tFilters('buttons.firstOld') },
+		{ value: 'price-desc', label: tFilters('buttons.highPrice') },
+		{ value: 'price-asc', label: tFilters('buttons.lowPrice') },
 	]
 
 	// Закрытие модального окна при клике вне
@@ -239,13 +234,19 @@ export const FilterModal = ({
 	return (
 		<div
 			ref={modalRef}
-			className='fixed top-[80px] right-40 bg-white rounded-b-[13px] shadow-custom-xl z-50 w-[550px] h-auto overflow-hidden transition-all duration-300 ease-in-out transform opacity-0 scale-95 data-[open=true]:opacity-100 data-[open=true]:scale-100'
-			style={{ top: `${top}px`, left: `${left}px` }}
+			className='fixed top-[80px] right-40 bg-white rounded-b-[13px] shadow-custom-xl z-50 w-full md:max-w-[768px] lg:w-[550px] h-auto overflow-hidden transition-all duration-300 ease-in-out transform opacity-0 scale-95 data-[open=true]:opacity-100 data-[open=true]:scale-100'
+			style={
+				!isMobile
+					? { top: `${top}px`, left: `${left}px` }
+					: { top: `${top}px`, left: 0, right: 0 }
+			}
 			data-open={isOpen}
 		>
 			{/* Диапазон цен */}
 			<div className='p-8'>
-				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>Price</p>
+				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>
+					{tFilters('price')}
+				</p>
 				<div className='relative' style={{ height: '46px' }}>
 					{priceRange && priceRange.convertedMin < priceRange.convertedMax ? (
 						<Range
@@ -316,14 +317,18 @@ export const FilterModal = ({
 							)}
 						/>
 					) : (
-						<p className='text-sm text-gray-500'>Price range not available</p>
+						<p className='text-[16px] text-[#4F4F4F] font-bold'>
+							{tFilters('errorPrice')}
+						</p>
 					)}
 				</div>
 			</div>
 
 			{/* Теги */}
 			<div className='p-8'>
-				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>Tags</p>
+				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>
+					{tFilters('tags')}
+				</p>
 				<div className='flex flex-wrap gap-4'>
 					{availableTags.map(tag => (
 						<ButtonCustom
@@ -356,7 +361,7 @@ export const FilterModal = ({
 			{/* Сортировка по региону */}
 			<div className='p-8'>
 				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>
-					Sort by Region and City
+					{tFilters('sortByRegionAndCity')}
 				</p>
 				<div className='flex flex-wrap gap-4'>
 					{availableCities.map(cityItem => (
@@ -385,7 +390,9 @@ export const FilterModal = ({
 
 			{/* Сортировка */}
 			<div className='p-8'>
-				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>Sort</p>
+				<p className='text-[16px] font-bold text-[#4F4F4F] mb-4'>
+					{tFilters('sort')}
+				</p>
 				<div className='grid grid-cols-2 gap-4 w-fit'>
 					{sortOptions.map(option => (
 						<ButtonCustom
@@ -416,7 +423,7 @@ export const FilterModal = ({
 			<div className='flex justify-end p-8'>
 				<ButtonCustom
 					onClick={onClose}
-					text='Apply'
+					text={tFilters('buttons.apply')}
 					className='min-w-[81px] h-10 px-4 md:px-4 py-2 md:py-2.5 text-white bg-[#6FCF97]! rounded-lg'
 				/>
 			</div>

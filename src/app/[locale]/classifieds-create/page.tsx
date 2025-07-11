@@ -169,6 +169,7 @@ export default function ClassifiedsCreate() {
 					`formDataToSend.append('price', formData.price)`,
 					formData.price
 				)
+
 				if (tags.length > 0) {
 					tags.forEach(tag => formDataToSend.append('tags[]', tag))
 				}

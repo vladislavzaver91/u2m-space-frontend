@@ -90,6 +90,11 @@ a[href^='tel'] {
 	& .swiper-slide {
 		will-change: transform;
 	}
+	& .swiper-wrapper {
+		@media screen and (max-width: 767px) {
+			height: 385px !important;
+		}
+	}
 	/* & .swiper-wrapper {
 		height: 418px !important;
 		@media screen and (min-width: 768px) {

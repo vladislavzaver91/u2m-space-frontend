@@ -8,16 +8,21 @@ import { useModal } from '../helpers/contexts/modal-context'
 import { IconCustom } from './ui/icon-custom'
 import { useAuth } from '../helpers/contexts/auth-context'
 import { useLocale, useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 export const LoginModal = () => {
-	const router = useRouter()
 	const { logout } = useAuth()
+
+	const router = useRouter()
 	const searchParams = useSearchParams()
 	const { closeLoginModal } = useModal()
+	const { isMobile } = useScreenResize()
+	const locale = useLocale()
+	const tLoginModal = useTranslations('LoginModal')
+
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
-	const tLoginModal = useTranslations('LoginModal')
-	const locale = useLocale()
 
 	const AUTH_LINK_ITEMS = [
 		{
@@ -40,6 +45,19 @@ export const LoginModal = () => {
 			}/api/auth/google?prompt=${encodeURIComponent(
 				'select_account'
 			)}&locale=${encodeURIComponent(locale)}`,
+		},
+	]
+
+	const PRIVACY_POLICY_ITEMS = [
+		{
+			icon: 'check',
+			text: tLoginModal('privacyPolicy'),
+			href: '/rules/privacy-policy',
+		},
+		{
+			icon: 'check',
+			text: tLoginModal('userDataDeletion'),
+			href: '/rules/user-data-deletion',
 		},
 	]
 
@@ -185,6 +203,33 @@ export const LoginModal = () => {
 							)}
 						</div>
 					</div>
+
+					{!isMobile && (
+						<div className='w-full flex flex-col items-center justify-center'>
+							<h2 className='text-[18px] font-normal text-[#4F4F4F]'>
+								{tLoginModal('terms')}
+							</h2>
+							<div className='flex items-center justify-center gap-4'>
+								{PRIVACY_POLICY_ITEMS.map((item, index) => (
+									<div key={index} className='flex items-center'>
+										<IconCustom
+											name={item.icon}
+											iconThumb
+											iconThumbStyle='w-10 h-10 px-2 flex items-center justify-center'
+											className='text-[#6FCF97] fill-none w-6 h-6'
+										/>
+										<Link
+											href={item.href}
+											onClick={handleClose}
+											className='font-normal text-[16px] text-[#3486FE] leading-[22px] underline'
+										>
+											{item.text}
+										</Link>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
 
 					<button
 						onClick={handleClose}

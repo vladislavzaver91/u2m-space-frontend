@@ -4,13 +4,7 @@ import { useSearch } from '@/helpers/contexts/search-context'
 import { apiService } from '@/services/api.service'
 import { useTranslations } from 'next-intl'
 import { Range } from 'react-range'
-import {
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useRef,
-	useState,
-} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
@@ -42,7 +36,7 @@ export const FilterModal = ({
 		availableCities,
 		setAvailableCities,
 	} = useSearch()
-	const { isMobile } = useScreenResize()
+	const { isMobile, isTablet } = useScreenResize()
 
 	const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
 	const [minPrice, setMinPrice] = useState<number | null>(null)
@@ -236,7 +230,7 @@ export const FilterModal = ({
 			ref={modalRef}
 			className='fixed top-[80px] right-40 bg-white rounded-b-[13px] shadow-custom-xl z-50 w-full md:max-w-[768px] lg:w-[550px] h-auto overflow-hidden transition-all duration-300 ease-in-out transform opacity-0 scale-95 data-[open=true]:opacity-100 data-[open=true]:scale-100'
 			style={
-				!isMobile
+				!isMobile && !isTablet
 					? { top: `${top}px`, left: `${left}px` }
 					: { top: `${top}px`, left: 0, right: 0 }
 			}

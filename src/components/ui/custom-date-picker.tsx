@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 interface CustomDatePickerProps {
 	label: string
@@ -26,7 +27,6 @@ export const CustomDatePicker = ({
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
 	const [viewMode, setViewMode] = useState<ViewMode>('days')
-	const [isMobile, setIsMobile] = useState(false)
 	const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>(
 		'top'
 	)
@@ -39,6 +39,7 @@ export const CustomDatePicker = ({
 	const buttonRef = useRef<HTMLDivElement>(null)
 
 	const tDatePicker = useTranslations('DatePicker')
+	const { isMobile } = useScreenResize()
 
 	const months = [
 		tDatePicker('months.january'),
@@ -98,16 +99,6 @@ export const CustomDatePicker = ({
 
 		document.addEventListener('mousedown', handleClickOutside)
 		return () => document.removeEventListener('mousedown', handleClickOutside)
-	}, [])
-
-	// Обработчик изменения размера окна
-	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768)
-		}
-		handleResize()
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
 	// Измерение высоты календаря

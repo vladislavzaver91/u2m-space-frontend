@@ -12,14 +12,16 @@ interface LoginData {
 	password: string
 }
 
-interface ClassifiedsResponse {
-	classifieds: {
-		largeFirst: Classified[] // Первые 4 объявления (1-я строка)
-		largeSecond: Classified[] // Вторые 4 объявления (2-я строка)
-		small: Classified[] // Остальные объявления (3-я строка и ниже)
-	}
+export interface Classifieds {
+	largeFirst: Classified[]
+	largeSecond: Classified[]
+	small: Classified[]
+}
+
+export interface ClassifiedsResponse {
+	classifieds: Classifieds
 	total: number
-	hasMore: boolean
+	hasMoreSmall: boolean
 }
 
 interface UserClassifiedsResponse {
@@ -98,18 +100,19 @@ export interface FilterClassifiedsResponse extends ClassifiedsResponse {
 
 export class ApiService {
 	async getClassifieds(params: {
-		page: number
-		limit: number
+		limit?: number
+		smallLimit?: number
+		smallOffset?: number
 		tags?: string[]
 		currency?: 'USD' | 'UAH' | 'EUR'
 		category?: string
 		city?: string
 	}): Promise<ClassifiedsResponse> {
-		const offset = (params.page - 1) * params.limit
 		const res = await $api.get('/api/classifieds', {
 			params: {
-				limit: params.limit,
-				offset,
+				limit: params.limit || 20,
+				smallLimit: params.smallLimit || 12,
+				smallOffset: params.smallOffset || 0,
 				tags: params.tags,
 				currency: params.currency,
 				category: params.category || '',

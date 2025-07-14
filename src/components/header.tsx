@@ -250,95 +250,76 @@ export const Header = () => {
 				{/* Контент справа */}
 				{!shouldShowPublishBtn && !isProfileLabel && (
 					<div className='flex items-center absolute top-0 right-0'>
-						{isMobile && isFilterModalOpen ? (
-							<ButtonCustom
-								onClick={handleCloseAll}
-								iconWrapperClass='w-6 h-6'
-								icon={
-									<IconCustom
-										name='close'
-										hover={true}
-										hoverColor='#f9329c'
-										className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-									/>
-								}
-								isHover
-								className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
-							/>
-						) : (
+						{/* все страницы без авторизации */}
+						{pathname !== `/` && !authUser && (
 							<>
-								{/* все страницы без авторизации */}
-								{pathname !== `/` && !authUser && (
-									<>
-										<div className='hidden md:flex lg:hidden'>
-											{!isSearchVisible && (
-												<ButtonCustom
-													onClick={openModal}
-													iconWrapperClass='w-6 h-6'
-													icon={
-														<IconCustom
-															name='globe'
-															hover={true}
-															hoverColor='#f9329c'
-															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-														/>
-													}
-													isHover
-													className='p-4 md:p-8 min-w-[88px] w-fit'
+								<div className='hidden md:flex lg:hidden'>
+									{!isSearchVisible && (
+										<ButtonCustom
+											onClick={openModal}
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='globe'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 												/>
-											)}
+											}
+											isHover
+											className='p-4 md:p-8 min-w-[88px] w-fit'
+										/>
+									)}
 
-											<ButtonCustom
-												onClick={openLoginModal}
-												iconWrapperClass='w-6 h-6'
-												icon={
-													<IconCustom
-														name='add_plus'
-														hover={true}
-														hoverColor='#f9329c'
-														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-													/>
-												}
-												isHover
-												className='p-4 md:p-8 min-w-[88px] w-fit'
+									<ButtonCustom
+										onClick={openLoginModal}
+										iconWrapperClass='w-6 h-6'
+										icon={
+											<IconCustom
+												name='add_plus'
+												hover={true}
+												hoverColor='#f9329c'
+												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 											/>
-										</div>
-										<div className='hidden lg:flex'>
-											{!isSearchVisible && (
-												<ButtonCustom
-													onClick={openModal}
-													iconWrapperClass='w-6 h-6'
-													icon={
-														<IconCustom
-															name='globe'
-															hover={true}
-															hoverColor='#f9329c'
-															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-														/>
-													}
-													isHover
-													className='p-4 md:p-8 min-w-[88px] w-fit'
+										}
+										isHover
+										className='p-4 md:p-8 min-w-[88px] w-fit'
+									/>
+								</div>
+								<div className='hidden lg:flex'>
+									{!isSearchVisible && (
+										<ButtonCustom
+											onClick={openModal}
+											iconWrapperClass='w-6 h-6'
+											icon={
+												<IconCustom
+													name='globe'
+													hover={true}
+													hoverColor='#f9329c'
+													className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 												/>
-											)}
+											}
+											isHover
+											className='p-4 md:p-8 min-w-[88px] w-fit'
+										/>
+									)}
 
-											<ButtonCustom
-												onClick={openLoginModal}
-												text={tButtons('add')}
-												iconWrapperClass='w-6 h-6'
-												icon={
-													<IconCustom
-														name='add_plus'
-														hover={true}
-														hoverColor='#f9329c'
-														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-													/>
-												}
-												isHover
-												className='p-8 min-w-[139px] w-fit'
+									<ButtonCustom
+										onClick={openLoginModal}
+										text={tButtons('add')}
+										iconWrapperClass='w-6 h-6'
+										icon={
+											<IconCustom
+												name='add_plus'
+												hover={true}
+												hoverColor='#f9329c'
+												className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 											/>
-										</div>
-									</>
-								)}
+										}
+										isHover
+										className='p-8 min-w-[139px] w-fit'
+									/>
+								</div>
 							</>
 						)}
 
@@ -514,42 +495,63 @@ export const Header = () => {
 														aria-expanded={isFilterModalOpen}
 													/>
 												)}
-												{/* notifications */}
-												<ButtonCustom
-													ref={notificationMobileButtonRef}
-													onClick={handleNotificationClick}
-													iconWrapperClass='relative flex items-center justify-center w-6 h-6'
-													icon={
-														hasNotifications ? (
-															<IconBasicComponent
-																name='chat-notify'
-																iconThumb
-															/>
-														) : (
+
+												{/* close filterModal button */}
+												{isFilterModalOpen && (
+													<ButtonCustom
+														onClick={handleCloseAll}
+														iconWrapperClass='w-6 h-6'
+														icon={
 															<IconCustom
-																name='chat'
+																name='close'
 																hover={true}
 																hoverColor='#f9329c'
-																className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
-																	isNotificationModalOpen
-																		? 'text-[#3486fe]!'
-																		: ''
-																}`}
-																aria-hidden='true'
+																className='w-6 h-6 text-[#3486FE] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 															/>
-														)
-													}
-													isHover
-													className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
-														isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
-													}`}
-													aria-label={
-														isNotificationModalOpen
-															? 'Close notifications modal'
-															: 'Open notifications modal'
-													}
-													aria-expanded={isNotificationModalOpen}
-												/>
+														}
+														isHover
+														className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+													/>
+												)}
+
+												{/* notifications */}
+												{!isFilterModalOpen && (
+													<ButtonCustom
+														ref={notificationMobileButtonRef}
+														onClick={handleNotificationClick}
+														iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+														icon={
+															hasNotifications ? (
+																<IconBasicComponent
+																	name='chat-notify'
+																	iconThumb
+																/>
+															) : (
+																<IconCustom
+																	name='chat'
+																	hover={true}
+																	hoverColor='#f9329c'
+																	className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+																		isNotificationModalOpen
+																			? 'text-[#3486fe]!'
+																			: ''
+																	}`}
+																	aria-hidden='true'
+																/>
+															)
+														}
+														isHover
+														className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
+															isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
+														}`}
+														aria-label={
+															isNotificationModalOpen
+																? 'Close notifications modal'
+																: 'Open notifications modal'
+														}
+														aria-expanded={isNotificationModalOpen}
+													/>
+												)}
 											</>
 										)}
 
@@ -630,75 +632,82 @@ export const Header = () => {
 											</>
 										)}
 
-										<div className='flex lg:hidden'>
-											{/* favorites */}
-											<ButtonCustom
-												href={`/favorites/`}
-												iconWrapperClass='relative flex items-center justify-center w-6 h-6'
-												icon={
-													<>
+										{/* favorites & add mobile */}
+										{!isFilterModalOpen && (
+											<div className='flex lg:hidden'>
+												{/* favorites */}
+												<ButtonCustom
+													href={`/favorites/`}
+													iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+													icon={
+														<>
+															<IconCustom
+																name='heart'
+																hover={true}
+																hoverColor='#f9329c'
+																className='w-[21px] h-[18px] text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+															/>
+															{user?.favorites &&
+																user?.favorites?.length > 0 && (
+																	<span className='absolute top-0 right-0 w-2 h-2 border-2 border-white rounded-full bg-[#F9329C]' />
+																)}
+														</>
+													}
+													isHover
+													className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+												/>
+												{/* add */}
+												<ButtonCustom
+													href={`/classifieds-create/`}
+													iconWrapperClass='w-6 h-6'
+													icon={
 														<IconCustom
-															name='heart'
+															name='add_plus'
 															hover={true}
 															hoverColor='#f9329c'
-															className='w-[21px] h-[18px] text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
+															className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 														/>
-														{user?.favorites && user?.favorites?.length > 0 && (
-															<span className='absolute top-0 right-0 w-2 h-2 border-2 border-white rounded-full bg-[#F9329C]' />
-														)}
-													</>
-												}
-												isHover
-												className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
-											/>
-											{/* add */}
-											<ButtonCustom
-												href={`/classifieds-create/`}
-												iconWrapperClass='w-6 h-6'
-												icon={
-													<IconCustom
-														name='add_plus'
-														hover={true}
-														hoverColor='#f9329c'
-														className='w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
-													/>
-												}
-												isHover
-												className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
-											/>
-										</div>
+													}
+													isHover
+													className='p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit'
+												/>
+											</div>
+										)}
 
-										<div className='flex md:hidden'>
-											<ButtonCustom
-												href={`/my-classifieds/`}
-												iconWrapperClass='w-8 h-8'
-												icon={
-													<Image
-														src={authUser.avatarUrl || '/avatar-lg.png'}
-														alt={`${authUser.name} avatar`}
-														width={32}
-														height={32}
-														priority
-														unoptimized
-														onError={e => {
-															const defaultAvatarUrl =
-																process.env.NEXT_PUBLIC_ENVIRONMENT_URL ===
-																'develop'
-																	? 'http://localhost:3000/public/avatar-lg.png'
-																	: 'https://u2m-space-frontend.vercel.app/public/avatar-lg.png'
-															e.currentTarget.src = defaultAvatarUrl
-															console.log(
-																'Fallback to default avatar URL:',
-																e.currentTarget.src
-															)
-														}}
-														className='flex-row-reverse rounded-[13px] object-cover'
-													/>
-												}
-												isHover
-												className='p-3 min-w-[56px] w-fit'
-											/>
-										</div>
+										{/* user icon-button */}
+										{!isFilterModalOpen && (
+											<div className='flex md:hidden'>
+												<ButtonCustom
+													href={`/my-classifieds/`}
+													iconWrapperClass='w-8 h-8'
+													icon={
+														<Image
+															src={authUser.avatarUrl || '/avatar-lg.png'}
+															alt={`${authUser.name} avatar`}
+															width={32}
+															height={32}
+															priority
+															unoptimized
+															onError={e => {
+																const defaultAvatarUrl =
+																	process.env.NEXT_PUBLIC_ENVIRONMENT_URL ===
+																	'develop'
+																		? 'http://localhost:3000/public/avatar-lg.png'
+																		: 'https://u2m-space-frontend.vercel.app/public/avatar-lg.png'
+																e.currentTarget.src = defaultAvatarUrl
+																console.log(
+																	'Fallback to default avatar URL:',
+																	e.currentTarget.src
+																)
+															}}
+															className='flex-row-reverse rounded-[13px] object-cover'
+														/>
+													}
+													isHover
+													className='p-3 min-w-[56px] w-fit'
+												/>
+											</div>
+										)}
 									</>
 								)}
 								{/* аватарка пользователя */}

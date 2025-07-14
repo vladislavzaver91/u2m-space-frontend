@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { IconCustom } from './icon-custom'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 interface CustomSelectProps {
 	label: string
@@ -25,9 +26,10 @@ export const CustomSelect = ({
 }: CustomSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
-	const [isMobile, setIsMobile] = useState(false)
 	const [showAsModal, setShowAsModal] = useState(false)
 	const [isOpening, setIsOpening] = useState(false)
+
+	const { isMobile } = useScreenResize()
 
 	const containerRef = useRef<HTMLDivElement>(null)
 	const modalContainerRef = useRef<HTMLDivElement>(null)
@@ -54,16 +56,6 @@ export const CustomSelect = ({
 		document.addEventListener('mousedown', handleClickOutside)
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [onOpenChange, onClick, showAsModal])
-
-	// Обработчик изменения размера окна
-	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768)
-		}
-		handleResize()
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
 
 	const checkShouldShowModal = useCallback(() => {
 		if (isMobile && containerRef.current) {

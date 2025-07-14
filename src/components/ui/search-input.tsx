@@ -157,6 +157,7 @@ export const SearchInput = ({
 		async (value: string, id?: string) => {
 			setQuery(value)
 			setSuggestions([])
+			setIsFocused(false)
 			if (!searchHistory.includes(value)) {
 				const newHistory = [value, ...searchHistory.slice(0, 4)]
 				saveHistory(newHistory)
@@ -168,7 +169,7 @@ export const SearchInput = ({
 			// } else {
 			// 	router.push(`/selling-classifieds?query=${encodeURIComponent(value)}`)
 			// }
-			inputRef.current?.focus()
+			inputRef.current?.blur()
 		},
 		[router, saveHistory, searchHistory, setSearchQuery, updateSearchResults]
 	)
@@ -177,6 +178,7 @@ export const SearchInput = ({
 	const handleClear = useCallback(async () => {
 		setQuery('')
 		setSuggestions([])
+		setIsFocused(false)
 		setSearchQuery('')
 		resetFilters()
 
@@ -196,7 +198,7 @@ export const SearchInput = ({
 			console.error('Error resetting classifieds:', error)
 		}
 
-		inputRef.current?.focus()
+		inputRef.current?.blur()
 	}, [setSearchQuery, setClassifieds, resetFilters])
 
 	// Удаление запроса из истории

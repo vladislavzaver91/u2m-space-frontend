@@ -6,6 +6,7 @@ import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useTranslations } from 'next-intl'
 import { cityService } from '@/services/cities.service'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 interface CustomSearchSelectProps {
 	label: string
@@ -32,7 +33,6 @@ export const CustomSearchSelect = ({
 }: CustomSearchSelectProps) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isFocused, setIsFocused] = useState(false)
-	const [isMobile, setIsMobile] = useState(false)
 	const [showAsModal, setShowAsModal] = useState(false)
 	const [isOpening, setIsOpening] = useState(false)
 	const [searchTerm, setSearchTerm] = useState('')
@@ -44,6 +44,7 @@ export const CustomSearchSelect = ({
 	const dropdownRef = useRef<HTMLDivElement>(null)
 
 	const tComponents = useTranslations('Components')
+	const { isMobile } = useScreenResize()
 
 	// Закрытие списка при клике вне селекта
 	useEffect(() => {
@@ -83,16 +84,6 @@ export const CustomSearchSelect = ({
 			setFilteredOptions(options)
 		}
 	}, [searchTerm, options, languageCode])
-
-	// Обработчик изменения размера окна
-	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768)
-		}
-		handleResize()
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
 
 	const checkShouldShowModal = useCallback(() => {
 		if (isMobile && containerRef.current) {

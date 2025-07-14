@@ -6,7 +6,11 @@ import '../../globals.css'
 import { Pagination } from 'swiper/modules'
 import { useAuthExchange } from '@/helpers/hooks/use-auth-exchange'
 import { Classified } from '@/types'
-import { apiService } from '@/services/api.service'
+import {
+	apiService,
+	Classifieds,
+	ClassifiedsResponse,
+} from '@/services/api.service'
 import { SearchInput } from '@/components/ui/search-input'
 import { CategoryTabs } from '@/components/ui/category-tabs'
 import { Loader } from '@/components/ui/loader'
@@ -26,7 +30,7 @@ function AuthExchangeWrapper() {
 export default function ClientSellingClassifieds() {
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [isFetching, setIsFetching] = useState(true)
-	const [page, setPage] = useState(1)
+	const [smallOffset, setSmallOffset] = useState(0)
 	const [hasMore, setHasMore] = useState(true)
 	const loaderRef = useRef<HTMLDivElement>(null)
 	const swiperRef = useRef<SwiperClass | null>(null)
@@ -40,43 +44,35 @@ export default function ClientSellingClassifieds() {
 
 	const limit = 20
 
-	useEffect(() => {
-		const fetchClassifieds = async () => {
-			try {
-				setIsFetching(true)
-				const data = await apiService.getClassifieds({
-					page,
-					limit,
-					currency: settings.currencyCode,
-					category: activeCategory,
-					city: city ?? undefined,
-				})
-				console.log(data)
-				const newClassifieds = [
-					...data.classifieds.largeFirst,
-					...data.classifieds.largeSecond,
-					...data.classifieds.small,
-				]
-				setClassifieds(
-					page === 1 ? newClassifieds : [...classifieds, ...newClassifieds]
-				)
-				setHasMore(data.hasMore)
-			} catch (error) {
-				console.error('Error fetching classifieds:', error)
-			} finally {
-				setIsFetching(false)
-			}
+	const fetchClassifieds = async (isLoadMore = false) => {
+		try {
+			setIsFetching(true)
+			const data: ClassifiedsResponse = await apiService.getClassifieds({
+				currency: settings.currencyCode,
+				category: activeCategory,
+				city: city ?? undefined,
+				smallOffset,
+				smallLimit: 12,
+			})
+			console.log('Fetched data:', data)
+			setClassifieds({
+				largeFirst: isLoadMore
+					? classifieds.largeFirst ?? []
+					: data.classifieds.largeFirst ?? [],
+				largeSecond: isLoadMore
+					? classifieds.largeSecond ?? []
+					: data.classifieds.largeSecond ?? [],
+				small: isLoadMore
+					? [...(classifieds.small ?? []), ...(data.classifieds.small ?? [])]
+					: data.classifieds.small ?? [],
+			})
+			setHasMore(data.hasMoreSmall ?? false)
+		} catch (error) {
+			console.error('Error fetching classifieds:', error)
+		} finally {
+			setIsFetching(false)
 		}
-
-		fetchClassifieds()
-	}, [
-		page,
-		settings.currencyCode,
-		activeCategory,
-		searchQuery,
-		city,
-		setClassifieds,
-	])
+	}
 
 	// Обновление цен при смене валюты
 	// useEffect(() => {
@@ -90,10 +86,30 @@ export default function ClientSellingClassifieds() {
 
 	// Infinite Scroll
 	useEffect(() => {
+		setSmallOffset(0)
+		fetchClassifieds(false)
+	}, [settings.currencyCode, activeCategory, searchQuery, city, setClassifieds])
+
+	// Загрузка дополнительных small объявлений
+	useEffect(() => {
+		if (smallOffset > 0) {
+			fetchClassifieds(true)
+		}
+	}, [
+		smallOffset,
+		settings.currencyCode,
+		activeCategory,
+		searchQuery,
+		city,
+		setClassifieds,
+	])
+
+	// IntersectionObserver для бесконечного скролла
+	useEffect(() => {
 		const observer = new IntersectionObserver(
 			entries => {
-				if (entries[0].isIntersecting && hasMore) {
-					setPage(prev => prev + 1)
+				if (entries[0].isIntersecting && hasMore && !isFetching) {
+					setSmallOffset(prev => prev + 12)
 				}
 			},
 			{ threshold: 0.1 }
@@ -108,9 +124,15 @@ export default function ClientSellingClassifieds() {
 				observer.unobserve(loaderRef.current)
 			}
 		}
-	}, [hasMore, setIsFetching])
+	}, [hasMore, isFetching])
 
-	if (isLoading || (isFetching && classifieds.length === 0)) {
+	if (
+		isLoading ||
+		isLoading ||
+		(isFetching &&
+			(!Array.isArray(classifieds.largeFirst) ||
+				classifieds.largeFirst.length === 0))
+	) {
 		return (
 			<div className='min-h-screen flex flex-col items-center justify-center'>
 				<Loader />
@@ -118,9 +140,10 @@ export default function ClientSellingClassifieds() {
 		)
 	}
 
-	const largeFirstAds = classifieds.slice(0, 4)
-	const largeSecondAds = classifieds.slice(4, 8)
-	const smallAds = classifieds.slice(8)
+	const topAds = [
+		...(classifieds.largeFirst ?? []),
+		...(classifieds.largeSecond ?? []),
+	]
 
 	return (
 		<div className='min-h-screen flex flex-col'>
@@ -148,32 +171,7 @@ export default function ClientSellingClassifieds() {
 				</div>
 
 				<>
-					{/* Первые 4 карточки (largeFirst, предпочтительно extremum) */}
-					<div className='max-[1513px]:hidden w-full px-0 mb-32'>
-						<div className='hidden min-[1513px]:grid custom-container mx-auto'>
-							<div className='grid grid-cols-12 gap-[60px]'>
-								<div className='col-start-1 col-end-13'>
-									<div className='grid grid-cols-12 lg:gap-[60px] gap-4 select-none'>
-										{largeFirstAds.map((item, index) => (
-											<div key={index} className='col-span-3'>
-												<ClassifiedCard
-													classifiedId={item.id}
-													title={item.title}
-													convertedPrice={item.convertedPrice}
-													convertedCurrency={item.convertedCurrency}
-													image={item.images[0]}
-													favoritesBool={item.favoritesBool}
-													favorites={item.favorites}
-													href={`/selling-classifieds/${item.id}`}
-													isSmall={false}
-												/>
-											</div>
-										))}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					{/* Слайдер для topAds (первые 8 карточек) при ширине <1513px */}
 					<div className='slider-for-card mb-4 md:mb-16 min-[1513px]:hidden'>
 						<Swiper
 							initialSlide={2}
@@ -229,7 +227,7 @@ export default function ClientSellingClassifieds() {
 								},
 							}}
 						>
-							{largeFirstAds.map((item, index) => (
+							{topAds.map((item, index) => (
 								<SwiperSlide
 									key={index}
 									className='min-w-[295px] max-w-[355px] h-[383px] transition-transform duration-300 overflow-visible'
@@ -250,100 +248,74 @@ export default function ClientSellingClassifieds() {
 						</Swiper>
 					</div>
 
-					{/* Вторые 4 карточки (largeSecond, предпочтительно smart) */}
-					<div className='max-[1513px]:hidden w-full px-0 mb-32'>
-						<div className='hidden min-[1513px]:grid custom-container mx-auto'>
-							<div className='grid grid-cols-12 gap-[60px]'>
-								<div className='col-start-1 col-end-13'>
-									<div className='grid grid-cols-12 lg:gap-[60px] gap-4 select-none'>
-										{largeSecondAds.map((item, index) => (
-											<div key={item.id} className='col-span-3'>
-												<ClassifiedCard
-													classifiedId={item.id}
-													title={item.title}
-													convertedPrice={item.convertedPrice}
-													convertedCurrency={item.convertedCurrency}
-													image={item.images[0]}
-													favoritesBool={item.favoritesBool}
-													favorites={item.favorites}
-													href={`/selling-classifieds/${item.id}`}
-													isSmall={false}
-												/>
+					{/* Первые 4 карточки (largeFirst, предпочтительно extremum) для ≥1513px */}
+					{Array.isArray(classifieds.largeFirst) &&
+						classifieds.largeFirst.length > 0 && (
+							<div className='max-[1513px]:hidden w-full px-0 mb-32'>
+								<div className='hidden min-[1513px]:grid custom-container mx-auto'>
+									<div className='grid grid-cols-12 gap-[60px]'>
+										<div className='col-start-1 col-end-13'>
+											<div className='grid grid-cols-12 lg:gap-[60px] gap-4 select-none'>
+												{classifieds.largeFirst.map((item, index) => (
+													<div key={index} className='col-span-3'>
+														<ClassifiedCard
+															classifiedId={item.id}
+															title={item.title}
+															convertedPrice={item.convertedPrice}
+															convertedCurrency={item.convertedCurrency}
+															image={item.images[0]}
+															favoritesBool={item.favoritesBool}
+															favorites={item.favorites}
+															href={`/selling-classifieds/${item.id}`}
+															isSmall={false}
+														/>
+													</div>
+												))}
 											</div>
-										))}
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div className='slider-for-card mb-4 md:mb-16 min-[1513px]:hidden'>
-						<Swiper
-							initialSlide={2}
-							slidesPerView={1}
-							spaceBetween={60}
-							centeredSlides
-							grabCursor={true}
-							speed={500}
-							freeMode={true}
-							touchRatio={1.5}
-							touchReleaseOnEdges
-							modules={[Pagination]}
-							pagination={SwiperPaginationService.paginationForCard}
-							onInit={swiper => {
-								swiperRef.current = swiper
-								SwiperPaginationService.updateForCard(swiper)
-							}}
-							onSwiper={swiper => {
-								swiperRef.current = swiper
-								SwiperPaginationService.updateForCard(swiper)
-							}}
-							onSlideChange={swiper => {
-								setCurrentSlide(swiper.activeIndex)
-								SwiperPaginationService.updateForCard(swiper)
-							}}
-							className='w-full !h-auto select-none'
-							breakpoints={{
-								320: { slidesPerView: 1.2, spaceBetween: 16 },
-								420: { slidesPerView: 1.5, spaceBetween: 16 },
-								640: { slidesPerView: 2.5, spaceBetween: 16 },
-								769: { slidesPerView: 4, spaceBetween: 32 },
-								1024: { initialSlide: 2, slidesPerView: 5, spaceBetween: 60 },
-								1280: {
-									initialSlide: 2,
-									slidesPerView: 'auto',
-									spaceBetween: 60,
-								},
-							}}
-						>
-							{largeSecondAds.map((item, index) => (
-								<SwiperSlide
-									key={item.id}
-									className='min-w-[295px] max-w-[355px] h-[383px] transition-transform duration-300 overflow-visible'
-								>
-									<ClassifiedCard
-										classifiedId={item.id}
-										title={item.title}
-										convertedPrice={item.convertedPrice}
-										convertedCurrency={item.convertedCurrency}
-										image={item.images[0]}
-										favoritesBool={item.favoritesBool}
-										favorites={item.favorites}
-										href={`/selling-classifieds/${item.id}`}
-										isSmall={false}
-									/>
-								</SwiperSlide>
-							))}
-						</Swiper>
-					</div>
+						)}
+
+					{/* Вторые 4 карточки (largeSecond, предпочтительно smart) для ≥1513px */}
+					{Array.isArray(classifieds.largeSecond) &&
+						classifieds.largeSecond.length > 0 && (
+							<div className='max-[1513px]:hidden w-full px-0 mb-32'>
+								<div className='hidden min-[1513px]:grid custom-container mx-auto'>
+									<div className='grid grid-cols-12 gap-[60px]'>
+										<div className='col-start-1 col-end-13'>
+											<div className='grid grid-cols-12 lg:gap-[60px] gap-4 select-none'>
+												{classifieds.largeSecond.map((item, index) => (
+													<div key={item.id} className='col-span-3'>
+														<ClassifiedCard
+															classifiedId={item.id}
+															title={item.title}
+															convertedPrice={item.convertedPrice}
+															convertedCurrency={item.convertedCurrency}
+															image={item.images[0]}
+															favoritesBool={item.favoritesBool}
+															favorites={item.favorites}
+															href={`/selling-classifieds/${item.id}`}
+															isSmall={false}
+														/>
+													</div>
+												))}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						)}
 
 					{/* Остальные карточки - small */}
-					{smallAds.length > 0 && (
+					{Array.isArray(classifieds.small) && classifieds.small.length > 0 && (
 						<div className='w-full px-0'>
 							<div className='custom-container mx-auto'>
 								<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
 									<div className='col-start-1 col-end-13'>
 										<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
-											{smallAds.map((item, index) => (
+											{classifieds.small.map((item, index) => (
 												<div
 													key={index}
 													className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
@@ -369,11 +341,13 @@ export default function ClientSellingClassifieds() {
 					)}
 				</>
 
-				{isFetching && classifieds.length > 0 && (
-					<div className='my-4'>
-						<Loader />
-					</div>
-				)}
+				{isFetching &&
+					Array.isArray(classifieds.small) &&
+					classifieds.small.length > 0 && (
+						<div className='my-4 flex justify-center'>
+							<Loader />
+						</div>
+					)}
 				<div ref={loaderRef} className='h-10' />
 			</div>
 		</div>

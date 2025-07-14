@@ -562,7 +562,10 @@
 
 	"LoginModal": {
 		"welcome": "Witamy",
-		"logInWith": "Zaloguj się za pomocą"
+		"logInWith": "Zaloguj się za pomocą",
+		"terms": "Autoryzując akceptujesz warunki",
+		"privacyPolicy": "Polityka prywatności",
+		"userDataDeletion": "Usuwanie danych użytkownika"
 	},
 
 	"Notifications": {

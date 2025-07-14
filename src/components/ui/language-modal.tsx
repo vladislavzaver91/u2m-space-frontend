@@ -271,7 +271,7 @@ export const LanguageModal = () => {
 						iconWrapperClass='w-6 h-6 flex items-center justify-center'
 						icon={
 							<IconCustom
-								name='close'
+								name='check'
 								className='w-6 h-6 fill-none text-[#4f4f4f] group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 								hover={true}
 								hoverColor='#f9329c'

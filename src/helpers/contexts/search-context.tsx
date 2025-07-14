@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Classified } from '@/types'
+import { Classifieds } from '@/services/api.service'
 
 interface PriceRange {
 	convertedMin: number
@@ -13,8 +14,8 @@ interface PriceRange {
 interface SearchContextType {
 	searchQuery: string
 	setSearchQuery: (query: string) => void
-	classifieds: Classified[]
-	setClassifieds: (classifieds: Classified[]) => void
+	classifieds: Classifieds
+	setClassifieds: (classifieds: Classifieds) => void
 	city: string | null
 	setCity: (city: string | null) => void
 	availableCities: string[]
@@ -47,7 +48,11 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 	const [isFocused, setIsFocused] = useState(false)
 	const [city, setCity] = useState<string | null>(initialCity)
 	const [availableCities, setAvailableCities] = useState<string[]>([])
-	const [classifieds, setClassifieds] = useState<Classified[]>([])
+	const [classifieds, setClassifieds] = useState<Classifieds>({
+		largeFirst: [],
+		largeSecond: [],
+		small: [],
+	})
 	const [filters, setFilters] = useState<{
 		tags: string[]
 		minPrice: number | null

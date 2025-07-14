@@ -563,7 +563,10 @@
 
 	"LoginModal": {
 		"welcome": "Welcome",
-		"logInWith": "Log in with"
+		"logInWith": "Log in with",
+		"terms": "By authorizing you accept the terms",
+		"privacyPolicy": "Privacy Policy",
+		"userDataDeletion": "User Data Deletion"
 	},
 
 	"Notifications": {

@@ -8,6 +8,7 @@ import { useAuth } from '@/helpers/contexts/auth-context'
 import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/routing'
 import { useUser } from '@/helpers/contexts/user-context'
+import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 
 interface NavigationButtonsProps {
 	activePage: string
@@ -21,8 +22,7 @@ export const NavigationButtons = ({
 	const { authUser, logout } = useAuth()
 	const { user } = useUser()
 	const router = useRouter()
-
-	const [isMobile, setIsMobile] = useState(false)
+	const { isMobile } = useScreenResize()
 
 	const swiperRef = useRef<SwiperRef | null>(null)
 
@@ -117,15 +117,6 @@ export const NavigationButtons = ({
 			router.push(path)
 		}
 	}
-
-	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768)
-		}
-		handleResize()
-		window.addEventListener('resize', handleResize)
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
 
 	useEffect(() => {
 		if (swiperRef.current?.swiper) {

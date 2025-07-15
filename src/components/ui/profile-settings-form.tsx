@@ -12,7 +12,6 @@ import { CustomToggle } from './custom-toggle'
 import { useLocale, useTranslations } from 'next-intl'
 import { Tooltip } from './tooltip'
 import { CityOption, UpdateUserProfileData, User } from '@/types'
-import { apiService } from '@/services/api.service'
 import { useUser } from '@/helpers/contexts/user-context'
 import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { Loader } from './loader'
@@ -21,6 +20,7 @@ import { useLanguage } from '@/helpers/contexts/language-context'
 import { CustomLanguageSelect } from './custom-language-select'
 import { useRouter } from 'next/navigation'
 import { CustomSearchSelect } from './custom-search-select'
+import { userService } from '@/services/api/user.service'
 
 interface ProfileSettingsFormProps {
 	onMouseEnter: (
@@ -271,7 +271,7 @@ export const ProfileSettingsForm = ({
 		if (!user) return
 		setFormData(prev => ({ ...prev, notifications: checked }))
 		try {
-			const updatedUser = await apiService.updateUserProfile(user.id, {
+			const updatedUser = await userService.updateUserProfile(user.id, {
 				notifications: checked,
 			})
 			updateUser(updatedUser)
@@ -310,7 +310,7 @@ export const ProfileSettingsForm = ({
 			}
 
 			console.log('Submitting:', updateData)
-			const updatedUser = await apiService.updateUserProfile(
+			const updatedUser = await userService.updateUserProfile(
 				user.id,
 				updateData
 			)
@@ -343,7 +343,7 @@ export const ProfileSettingsForm = ({
 			setIsLoading(true)
 			setErrors({ server: '' })
 			try {
-				await apiService.deleteUserProfile(user.id, { deleteReason: reason })
+				await userService.deleteUserProfile(user.id, { deleteReason: reason })
 				router.push(`/${localeActive}/selling-classifieds`)
 			} catch (error: any) {
 				console.error('Delete account error:', error)

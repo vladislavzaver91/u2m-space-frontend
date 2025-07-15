@@ -5,12 +5,7 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import '../../globals.css'
 import { Pagination } from 'swiper/modules'
 import { useAuthExchange } from '@/helpers/hooks/use-auth-exchange'
-import { Classified } from '@/types'
-import {
-	apiService,
-	Classifieds,
-	ClassifiedsResponse,
-} from '@/services/api.service'
+import { ClassifiedsResponse } from '@/types'
 import { SearchInput } from '@/components/ui/search-input'
 import { CategoryTabs } from '@/components/ui/category-tabs'
 import { Loader } from '@/components/ui/loader'
@@ -19,8 +14,8 @@ import { SwiperPaginationService } from '@/services/swiper-pagination.service'
 import { useTranslations } from 'next-intl'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { useLoading } from '@/helpers/contexts/loading-context'
-import { useSearchParams } from 'next/navigation'
 import { useSearch } from '@/helpers/contexts/search-context'
+import { classifiedsService } from '@/services/api/classifieds.service'
 
 function AuthExchangeWrapper() {
 	useAuthExchange()
@@ -47,13 +42,15 @@ export default function ClientSellingClassifieds() {
 	const fetchClassifieds = async (isLoadMore = false) => {
 		try {
 			setIsFetching(true)
-			const data: ClassifiedsResponse = await apiService.getClassifieds({
-				currency: settings.currencyCode,
-				category: activeCategory,
-				city: city ?? undefined,
-				smallOffset,
-				smallLimit: 12,
-			})
+			const data: ClassifiedsResponse = await classifiedsService.getClassifieds(
+				{
+					currency: settings.currencyCode,
+					category: activeCategory,
+					city: city ?? undefined,
+					smallOffset,
+					smallLimit: 12,
+				}
+			)
 			console.log('Fetched data:', data)
 			setClassifieds({
 				largeFirst: isLoadMore
@@ -309,36 +306,38 @@ export default function ClientSellingClassifieds() {
 						)}
 
 					{/* Остальные карточки - small */}
-					{Array.isArray(classifieds.small) && classifieds.small.length > 0 && (
-						<div className='w-full px-0'>
-							<div className='custom-container mx-auto'>
-								<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
-									<div className='col-start-1 col-end-13'>
-										<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
-											{classifieds.small.map((item, index) => (
-												<div
-													key={index}
-													className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
-												>
-													<ClassifiedCard
-														classifiedId={item.id}
-														title={item.title}
-														convertedPrice={item.convertedPrice}
-														convertedCurrency={item.convertedCurrency}
-														image={item.images[0]}
-														favoritesBool={item.favoritesBool}
-														favorites={item.favorites}
-														href={`/selling-classifieds/${item.id}`}
-														isSmall={true}
-													/>
-												</div>
-											))}
+					{Array.isArray(classifieds.small) &&
+						classifieds.small.length > 0 &&
+						!searchQuery && (
+							<div className='w-full px-0'>
+								<div className='custom-container mx-auto'>
+									<div className='grid grid-cols-4 sm:grid-cols-12 gap-0'>
+										<div className='col-start-1 col-end-13'>
+											<div className='grid grid-cols-4 sm:grid-cols-12 2xl:gap-[60px] xl:gap-[60px] lg:gap-[60px] min-[769px]:gap-8 gap-4 select-none'>
+												{classifieds.small.map((item, index) => (
+													<div
+														key={index}
+														className='col-span-2 sm:col-span-4 lg:col-span-3 xl:col-span-3 2xl:col-span-2'
+													>
+														<ClassifiedCard
+															classifiedId={item.id}
+															title={item.title}
+															convertedPrice={item.convertedPrice}
+															convertedCurrency={item.convertedCurrency}
+															image={item.images[0]}
+															favoritesBool={item.favoritesBool}
+															favorites={item.favorites}
+															href={`/selling-classifieds/${item.id}`}
+															isSmall={true}
+														/>
+													</div>
+												))}
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					)}
+						)}
 				</>
 
 				{isFetching &&

@@ -4,9 +4,10 @@ import Image from 'next/image'
 import { ButtonCustom } from './button-custom'
 import { useState } from 'react'
 import { IconCustom } from './icon-custom'
-import { apiService } from '@/services/api.service'
 import { Link, useRouter } from '@/i18n/routing'
 import { useUser } from '@/helpers/contexts/user-context'
+import { favoritesService } from '@/services/api/favorites.service'
+import { ApiError } from '@/types'
 
 interface MyFavoritesCardProps {
 	id: string
@@ -18,16 +19,6 @@ interface MyFavoritesCardProps {
 	favoritesBool: boolean
 	favorites?: number
 	onFavoriteToggle: (id: string, isFavorite: boolean) => void
-}
-
-interface ApiError {
-	response?: {
-		status?: number
-		data?: {
-			error?: string
-		}
-	}
-	message?: string
 }
 
 export const MyFavoritesCard = ({
@@ -52,7 +43,7 @@ export const MyFavoritesCard = ({
 		e.stopPropagation()
 
 		try {
-			const res = await apiService.toggleFavorite(id)
+			const res = await favoritesService.toggleFavorite(id)
 			setFavoritesBool(res.favoritesBool)
 			setFavorites(res.favorites)
 			updateFavorites(id, res.favoritesBool)

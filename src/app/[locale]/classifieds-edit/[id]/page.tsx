@@ -3,15 +3,11 @@
 import { useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
-import imageCompression from 'browser-image-compression'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useAuth } from '@/helpers/contexts/auth-context'
-import { apiService } from '@/services/api.service'
 import { Loader } from '@/components/ui/loader'
 import { ImageSlider } from '@/components/ui/image-slider'
 import { AddPhotoButton } from '@/components/ui/add-photo-button'
-import { ImagePreview } from '@/components/ui/image-preview'
-import { AddPhotoSmallButton } from '@/components/ui/add-photo-small-button'
 import { ClassifiedForm } from '@/components/ui/classified-form'
 import { TagsManager } from '@/components/ui/tags-manager'
 import { SliderImagesModal } from '@/components/ui/slider-images-modal'
@@ -22,17 +18,43 @@ import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { CurrencyConversionResponse } from '@/types'
+import { classifiedsService } from '@/services/api/classifieds.service'
+import { currencyService } from '@/services/api/currency.service'
+import { ImageGrid } from '@/components/ui/image-grid'
+import {
+	useImageManagement,
+	useModalManagement,
+} from '@/helpers/hooks/use-create-classified-hooks'
 
 export default function ClassifiedsEdit() {
 	const { authUser } = useAuth()
 	const { settings } = useLanguage()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
-	const [imagePreviews, setImagePreviews] = useState<string[]>([])
-	const [loadingIndices, setLoadingIndices] = useState<number[]>([])
-	const [existingImages, setExistingImages] = useState<string[]>([])
-	const [imageFiles, setImageFiles] = useState<File[]>([])
+	const {
+		imagePreviews,
+		setImagePreviews,
+		imageFiles,
+		existingImages,
+		setExistingImages,
+		loadingIndices,
+		handleImageChange,
+		moveImageAtEdit,
+		deleteImageAtEdit,
+		makeMainImageAtEdit,
+		error,
+		setError,
+	} = useImageManagement()
+	const {
+		isModalOpen,
+		isContextMenuOpen,
+		selectedImageIndex,
+		handleOpenModal,
+		handleCloseModal,
+		handleOpenContextMenu,
+		handleCloseContextMenu,
+	} = useModalManagement()
+
 	const [tags, setTags] = useState<string[]>([])
-	const [error, setError] = useState<string>('')
 	const [initialData, setInitialData] = useState<{
 		title: string
 		description: string
@@ -51,11 +73,6 @@ export default function ClassifiedsEdit() {
 	const [originalCurrency, setOriginalCurrency] = useState<
 		'USD' | 'UAH' | 'EUR' | null
 	>(null)
-	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
-	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
-		null
-	)
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [tooltipVisible, setTooltipVisible] = useState({
@@ -76,7 +93,7 @@ export default function ClassifiedsEdit() {
 		const fetchClassified = async () => {
 			try {
 				setIsLoading(true)
-				const classified = await apiService.getClassifiedById(id)
+				const classified = await classifiedsService.getClassifiedById(id)
 				console.log('classified on edit page:', classified)
 
 				const initial = {
@@ -91,7 +108,7 @@ export default function ClassifiedsEdit() {
 				// Если валюта пользователя отличается от валюты объявления, конвертируем цену
 				if (settings.currencyCode !== classified.currency) {
 					try {
-						const res = await apiService.convertCurrency(
+						const res = await currencyService.convertCurrency(
 							classified.price,
 							classified.currency
 						)
@@ -119,165 +136,6 @@ export default function ClassifiedsEdit() {
 	}, [id, settings.currencyCode])
 
 	console.log('Initial data tags: ', tags)
-
-	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const files = e.target.files
-		if (!files) return
-
-		const maxFileSize = 5 * 1024 * 1024 // 5 МБ
-		const options = {
-			maxSizeMB: 5,
-			maxWidthOrHeight: 1024,
-			useWebWorker: true,
-		}
-
-		const newFiles: File[] = []
-		const newPreviews: string[] = []
-
-		for (const file of Array.from(files)) {
-			try {
-				setLoadingIndices(prev => [
-					...prev,
-					imagePreviews.length + newPreviews.length,
-				])
-
-				const compressedFile = await imageCompression(file, options)
-				if (compressedFile.size > maxFileSize) {
-					setError(`The file ${file.name} is larger than 5MB after compression`)
-					setLoadingIndices(prev => prev.slice(0, -1))
-					return
-				}
-
-				newFiles.push(compressedFile)
-				const preview = await imageCompression.getDataUrlFromFile(
-					compressedFile
-				)
-				newPreviews.push(preview)
-			} catch (err) {
-				setError(`Failed to compress ${file.name}`)
-				setLoadingIndices(prev => prev.slice(0, -1))
-				return
-			}
-		}
-
-		const totalImages = imagePreviews.length + newFiles.length
-		if (totalImages > 8) {
-			setError('Maximum 8 images')
-			setLoadingIndices(prev => prev.slice(0, imagePreviews.length))
-			return
-		}
-
-		setImagePreviews(prev => [...prev, ...newPreviews])
-		setImageFiles(prev => [...prev, ...newFiles])
-		// Удаляем лоадеры
-		setLoadingIndices(prev => prev.slice(0, prev.length - newPreviews.length))
-		setError('')
-	}
-
-	const moveImage = (dragIndex: number, hoverIndex: number) => {
-		setImagePreviews(prev => {
-			const updated = [...prev]
-			const [dragged] = updated.splice(dragIndex, 1)
-			updated.splice(hoverIndex, 0, dragged)
-			return updated
-		})
-
-		setExistingImages(prev => {
-			const updated = [...prev]
-			const [dragged] = updated.splice(dragIndex, 1)
-			updated.splice(hoverIndex, 0, dragged)
-			return updated
-		})
-
-		setImageFiles(prev => {
-			const updated = [...prev]
-			const adjustedDragIndex = dragIndex - existingImages.length
-			const adjustedHoverIndex = hoverIndex - existingImages.length
-			if (adjustedDragIndex >= 0 && adjustedHoverIndex >= 0) {
-				const [dragged] = updated.splice(adjustedDragIndex, 1)
-				updated.splice(adjustedHoverIndex, 0, dragged)
-			}
-			return updated
-		})
-	}
-
-	const makeMainImage = (index: number) => {
-		if (index === 0) return // Уже главное фото
-		setImagePreviews(prev => {
-			const updated = [...prev]
-			const [selected] = updated.splice(index, 1)
-			updated.unshift(selected)
-			return updated
-		})
-		setImageFiles(prev => {
-			const updated = [...prev]
-			const [selected] = updated.splice(index, 1)
-			updated.unshift(selected)
-			return updated
-		})
-		setExistingImages(prev => {
-			const updated = [...prev]
-			const [selected] = updated.splice(index, 1)
-			updated.unshift(selected)
-			return updated
-		})
-	}
-
-	const deleteImage = (index: number) => {
-		setImagePreviews(prev => prev.filter((_, i) => i !== index))
-		setImageFiles(prev => prev.filter((_, i) => i !== index))
-		setExistingImages(prev => prev.filter((_, i) => i !== index))
-		setLoadingIndices(prev =>
-			prev.filter(i => i !== index).map(i => (i > index ? i - 1 : i))
-		)
-	}
-
-	// const moveImage = (dragIndex: number, hoverIndex: number) => {
-	// 	setImagePreviews(prev => {
-	// 		const updated = [...prev]
-	// 		const [dragged] = updated.splice(dragIndex, 1)
-	// 		updated.splice(hoverIndex, 0, dragged)
-	// 		return updated
-	// 	})
-
-	// 	// Синхронизация
-	// 	setExistingImages(prev => {
-	// 		const updated = [...prev]
-	// 		const [dragged] = updated.splice(dragIndex, 1)
-	// 		updated.splice(hoverIndex, 0, dragged)
-	// 		return updated
-	// 	})
-
-	// 	setImageFiles(prev => {
-	// 		const updated = [...prev]
-	// 		const adjustedDragIndex = dragIndex - existingImages.length
-	// 		const adjustedHoverIndex = hoverIndex - existingImages.length
-	// 		if (adjustedDragIndex >= 0 && adjustedHoverIndex >= 0) {
-	// 			const [dragged] = updated.splice(adjustedDragIndex, 1)
-	// 			updated.splice(adjustedHoverIndex, 0, dragged)
-	// 		}
-	// 		return updated
-	// 	})
-	// }
-
-	// const handleRemoveImage = (index: number) => {
-	// 	setImagePreviews(prev => prev.filter((_, i) => i !== index))
-
-	// 	setExistingImages(prev => {
-	// 		if (index < prev.length) {
-	// 			return prev.filter((_, i) => i !== index)
-	// 		}
-	// 		return prev
-	// 	})
-
-	// 	setImageFiles(prev => {
-	// 		const adjustedIndex = index - existingImages.length
-	// 		if (adjustedIndex >= 0) {
-	// 			return prev.filter((_, i) => i !== adjustedIndex)
-	// 		}
-	// 		return prev
-	// 	})
-	// }
 
 	const handleSubmit = useCallback(
 		async (formData: { title: string; description: string; price: string }) => {
@@ -325,7 +183,10 @@ export default function ClassifiedsEdit() {
 					console.log(`FormData: ${key} =`, value)
 				}
 
-				const res = await apiService.updateClassified(id, formDataToSend)
+				const res = await classifiedsService.updateClassified(
+					id,
+					formDataToSend
+				)
 				console.log('Update response:', res)
 				setTags(res.tags || [])
 				router.push(`/my-classifieds`)
@@ -353,7 +214,7 @@ export default function ClassifiedsEdit() {
 
 	const handleDelete = useCallback(async () => {
 		try {
-			await apiService.deleteClassified(id)
+			await classifiedsService.deleteClassified(id)
 			router.push('/my-classifieds')
 		} catch (error: any) {
 			console.error(
@@ -363,24 +224,6 @@ export default function ClassifiedsEdit() {
 			setError(error.response?.data?.error || 'Failed to delete classified')
 		}
 	}, [id, router])
-
-	const handleOpenModal = () => {
-		setIsModalOpen(true)
-	}
-
-	const handleCloseModal = () => {
-		setIsModalOpen(false)
-	}
-
-	const handleOpenContextMenu = (index: number) => {
-		setSelectedImageIndex(index)
-		setIsContextMenuOpen(true)
-	}
-
-	const handleCloseContextMenu = () => {
-		setIsContextMenuOpen(false)
-		setSelectedImageIndex(null)
-	}
 
 	const handleMouseEnter = (field: keyof typeof tooltipVisible) => {
 		setTooltipVisible(prev => ({ ...prev, [field]: true }))
@@ -485,76 +328,14 @@ export default function ClassifiedsEdit() {
 														)}
 												</div>
 
-												<div className='max-md:px-4'>
-													<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-4 max-sm:px-3.5 max-sm:py-4 sm:p-8 gap-8'>
-														{/* моб */}
-														<div className='col-start-1 col-end-5 sm:col-start-3 sm:col-end-11 gap-8 lg:hidden'>
-															<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 md:gap-8'>
-																{Array.from({ length: 8 }).map((_, idx) => {
-																	if (loadingIndices.includes(idx)) {
-																		return (
-																			<div
-																				key={`loading-${idx}`}
-																				className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD]'
-																			>
-																				<div className='absolute inset-0 flex items-center justify-center rounded-[13px]'>
-																					<Loader />
-																				</div>
-																			</div>
-																		)
-																	}
-																	return idx < imagePreviews.length ? (
-																		<ImagePreview
-																			key={idx}
-																			src={imagePreviews[idx]}
-																			index={idx}
-																			moveImage={moveImage}
-																			onRemove={() => deleteImage(idx)}
-																			onClick={() => handleOpenContextMenu(idx)}
-																		/>
-																	) : (
-																		<AddPhotoSmallButton
-																			key={`btn-${idx}`}
-																			onChange={handleImageChange}
-																		/>
-																	)
-																})}
-															</div>
-														</div>
-
-														{/* десктоп */}
-														<div className='max-lg:hidden contents'>
-															{Array.from({ length: 8 }).map((_, idx) => {
-																if (loadingIndices.includes(idx)) {
-																	return (
-																		<div
-																			key={`loading-${idx}`}
-																			className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD]'
-																		>
-																			<div className='absolute inset-0 flex items-center justify-center rounded-[13px]'>
-																				<Loader />
-																			</div>
-																		</div>
-																	)
-																}
-																return idx < imagePreviews.length ? (
-																	<ImagePreview
-																		key={idx}
-																		src={imagePreviews[idx]}
-																		index={idx}
-																		moveImage={moveImage}
-																		onRemove={() => deleteImage(idx)}
-																	/>
-																) : (
-																	<AddPhotoSmallButton
-																		key={`btn-${idx}`}
-																		onChange={handleImageChange}
-																	/>
-																)
-															})}
-														</div>
-													</div>
-												</div>
+												<ImageGrid
+													imagePreviews={imagePreviews}
+													loadingIndices={loadingIndices}
+													handleImageChange={handleImageChange}
+													moveImage={moveImageAtEdit}
+													deleteImage={deleteImageAtEdit}
+													handleOpenContextMenu={handleOpenContextMenu}
+												/>
 											</div>
 
 											<div className='grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4 lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
@@ -597,10 +378,11 @@ export default function ClassifiedsEdit() {
 					isOpen={isContextMenuOpen}
 					onClose={handleCloseContextMenu}
 					onMakeMain={() =>
-						selectedImageIndex !== null && makeMainImage(selectedImageIndex)
+						selectedImageIndex !== null &&
+						makeMainImageAtEdit(selectedImageIndex)
 					}
 					onDelete={() =>
-						selectedImageIndex !== null && deleteImage(selectedImageIndex)
+						selectedImageIndex !== null && deleteImageAtEdit(selectedImageIndex)
 					}
 				/>
 			</div>

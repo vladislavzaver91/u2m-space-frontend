@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/auth-context'
-import { apiService } from '@/services/api.service'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/routing'
+import { authService } from '@/services/api/auth.service'
 
 export function useAuthExchange() {
 	const { handleAuthSuccess, isLoading, setIsLoading } = useAuth()
@@ -25,7 +25,7 @@ export function useAuthExchange() {
 			if (state) {
 				try {
 					console.log('Fetching auth data with state:', state)
-					const res = await apiService.exchangeAuthState(state)
+					const res = await authService.exchangeAuthState(state)
 					console.log('Auth data received:', res)
 					const { user, accessToken, refreshToken } = res
 

@@ -6,7 +6,7 @@ import { MyFavoritesCard } from '@/components/ui/my-favorites-card'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { useLanguage } from '@/helpers/contexts/language-context'
-import { apiService } from '@/services/api.service'
+import { favoritesService } from '@/services/api/favorites.service'
 import { Classified } from '@/types'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
@@ -46,7 +46,7 @@ export default function FavoritesPage() {
 		const fetchFavorites = async () => {
 			try {
 				setIsLoading(true)
-				const data = await apiService.getUserFavorites({ page, limit })
+				const data = await favoritesService.getUserFavorites({ page, limit })
 				console.log('User favorites:', data)
 				setClassifieds(prev => {
 					const newClassifieds = [...prev, ...data.classifieds].filter(

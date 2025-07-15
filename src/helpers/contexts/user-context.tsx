@@ -9,9 +9,9 @@ import {
 } from 'react'
 import { User } from '@/types'
 import { useAuth } from './auth-context'
-import { apiService } from '@/services/api.service'
 import { useRouter } from '@/i18n/routing'
 import { usePathname } from 'next/navigation'
+import { userService } from '@/services/api/user.service'
 
 interface UserContextType {
 	user: User | null
@@ -49,7 +49,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 			console.log('Fetching user with id:', id)
 
 			try {
-				const userData = await apiService.getUserProfile(id)
+				const userData = await userService.getUserProfile(id)
 				setUser(userData)
 				console.log('User fetched:', userData)
 

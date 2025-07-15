@@ -1,5 +1,5 @@
 import { Notification } from '@/types'
-import $api from '../lib/http'
+import $api from '../../lib/http'
 
 export class NotificationService {
 	async fetchNotifications(userId: string): Promise<Notification[]> {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { TagsSection } from './tags-section'
 import { TagsRecommendedSection } from './tags-recommended-section'
-import { apiService } from '@/services/api.service'
+import { tagsService } from '@/services/api/tags.service'
 
 interface TagsManagerProps {
 	initialTags?: string[]
@@ -21,7 +21,7 @@ export const TagsManager = ({
 	useEffect(() => {
 		const fetchRecommendedTags = async () => {
 			try {
-				const serverTags = await apiService.getTags()
+				const serverTags = await tagsService.getTags()
 				const recommended = serverTags
 					.map(tag => tag.name)
 					.filter(tag => !tags.includes(tag))

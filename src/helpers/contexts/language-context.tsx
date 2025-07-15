@@ -12,10 +12,10 @@ import {
 import { useLocale, useTranslations } from 'next-intl'
 import { useAuth } from './auth-context'
 import { useUser } from './user-context'
-import { apiService } from '@/services/api.service'
 import { cityService } from '@/services/cities.service'
 import { handleApiError } from '@/helpers/functions/handle-api-error'
 import { usePathname, useRouter } from 'next/navigation'
+import { userService } from '@/services/api/user.service'
 
 export interface LanguageOption {
 	language: string
@@ -180,7 +180,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 				}
 
 				// Получаем данные профиля с сервера
-				const userData = await apiService.getUserProfile(userId)
+				const userData = await userService.getUserProfile(userId)
 				console.log('Fetched user data:', userData)
 
 				// Формируем новые настройки, отдавая приоритет localStorage
@@ -226,7 +226,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 						city: newSettings.city || null,
 					}
 					console.log('Updating user profile with:', updateData)
-					const updatedUser = await apiService.updateUserProfile(
+					const updatedUser = await userService.updateUserProfile(
 						userId,
 						updateData
 					)
@@ -332,7 +332,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 					city: updatedSettings.city || null,
 				}
 				console.log('Updating user profile with:', updateData)
-				const updatedUser = await apiService.updateUserProfile(
+				const updatedUser = await userService.updateUserProfile(
 					userId,
 					updateData
 				)
@@ -343,7 +343,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 					currency: updatedSettings.currencyCode,
 					city: updatedSettings.city || null,
 				})
-				await apiService.updateGuestSettings({
+				await userService.updateGuestSettings({
 					language: updatedSettings.languageCode,
 					currency: updatedSettings.currencyCode,
 					city: updatedSettings.city || null,

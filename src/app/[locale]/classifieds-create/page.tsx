@@ -3,15 +3,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import imageCompression from 'browser-image-compression'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { Classified } from '@/types'
-import { apiService } from '@/services/api.service'
 import { Loader } from '@/components/ui/loader'
 import { ImageSlider } from '@/components/ui/image-slider'
 import { AddPhotoButton } from '@/components/ui/add-photo-button'
-import { ImagePreview } from '@/components/ui/image-preview'
-import { AddPhotoSmallButton } from '@/components/ui/add-photo-small-button'
 import { ClassifiedForm } from '@/components/ui/classified-form'
 import { TagsManager } from '@/components/ui/tags-manager'
 import { SliderImagesModal } from '@/components/ui/slider-images-modal'
@@ -20,23 +16,41 @@ import { useTranslations } from 'next-intl'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useClassifiedForm } from '@/helpers/contexts/classified-form-context'
 import { ImageContextMenuModal } from '@/components/ui/image-context-menu-modal'
+import { classifiedsService } from '@/services/api/classifieds.service'
+import { ImageGrid } from '@/components/ui/image-grid'
+import {
+	useImageManagement,
+	useModalManagement,
+} from '@/helpers/hooks/use-create-classified-hooks'
 
 export default function ClassifiedsCreate() {
 	const { authUser } = useAuth()
 	const { setFormState, isFormValid, setIsFormValid } = useClassifiedForm()
-	const [imagePreviews, setImagePreviews] = useState<string[]>([])
-	const [loadingIndices, setLoadingIndices] = useState<number[]>([])
+	const {
+		imagePreviews,
+		imageFiles,
+		loadingIndices,
+		handleImageChange,
+		moveImageAtCreate,
+		deleteImageAtCreate,
+		makeMainImageAtCreate,
+		error,
+		setError,
+	} = useImageManagement()
+	const {
+		isModalOpen,
+		isContextMenuOpen,
+		selectedImageIndex,
+		handleOpenModal,
+		handleCloseModal,
+		handleOpenContextMenu,
+		handleCloseContextMenu,
+	} = useModalManagement()
+
 	const [classified, setClassified] = useState<Classified | null>(null)
-	const [imageFiles, setImageFiles] = useState<File[]>([])
 	const [tags, setTags] = useState<string[]>([])
-	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
-	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
-		null
-	)
 	const [isLoading, setIsLoading] = useState(false)
 	const [currentSlide, setCurrentSlide] = useState(0)
-	const [error, setError] = useState<string>('')
 	const [tooltipVisible, setTooltipVisible] = useState({
 		title: false,
 		description: false,
@@ -53,99 +67,6 @@ export default function ClassifiedsCreate() {
 	})
 	const tMyClassifieds = useTranslations('MyClassifieds')
 	const router = useRouter()
-
-	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const files = e.target.files
-		if (!files) return
-
-		const maxFileSize = 5 * 1024 * 1024 // 5 МБ
-		const options = {
-			maxSizeMB: 5,
-			maxWidthOrHeight: 1024,
-			useWebWorker: true,
-		}
-
-		const newFiles: File[] = []
-		const newPreviews: string[] = []
-
-		for (const file of Array.from(files)) {
-			try {
-				setLoadingIndices(prev => [
-					...prev,
-					imagePreviews.length + newPreviews.length,
-				])
-
-				const compressedFile = await imageCompression(file, options)
-				if (compressedFile.size > maxFileSize) {
-					setError(`The file ${file.name} is larger than 5MB after compression`)
-					setLoadingIndices(prev => prev.slice(0, -1))
-					return
-				}
-
-				newFiles.push(compressedFile)
-				const preview = await imageCompression.getDataUrlFromFile(
-					compressedFile
-				)
-				newPreviews.push(preview)
-			} catch (err) {
-				setError(`Failed to compress ${file.name}`)
-				setLoadingIndices(prev => prev.slice(0, -1))
-				return
-			}
-		}
-
-		const totalImages = imagePreviews.length + newFiles.length
-		if (totalImages > 8) {
-			setError('Maximum 8 images')
-			setLoadingIndices(prev => prev.slice(0, imagePreviews.length))
-			return
-		}
-
-		setImagePreviews(prev => [...prev, ...newPreviews])
-		setImageFiles(prev => [...prev, ...newFiles])
-		// Удаляем лоадеры
-		setLoadingIndices(prev => prev.slice(0, prev.length - newPreviews.length))
-		setError('')
-	}
-
-	const moveImage = (dragIndex: number, hoverIndex: number) => {
-		setImagePreviews(prev => {
-			const updated = [...prev]
-			const [dragged] = updated.splice(dragIndex, 1)
-			updated.splice(hoverIndex, 0, dragged)
-			return updated
-		})
-		setImageFiles(prev => {
-			const updated = [...prev]
-			const [dragged] = updated.splice(dragIndex, 1)
-			updated.splice(hoverIndex, 0, dragged)
-			return updated
-		})
-	}
-
-	const makeMainImage = (index: number) => {
-		if (index === 0) return // Уже главное фото
-		setImagePreviews(prev => {
-			const updated = [...prev]
-			const [selected] = updated.splice(index, 1)
-			updated.unshift(selected)
-			return updated
-		})
-		setImageFiles(prev => {
-			const updated = [...prev]
-			const [selected] = updated.splice(index, 1)
-			updated.unshift(selected)
-			return updated
-		})
-	}
-
-	const deleteImage = (index: number) => {
-		setImagePreviews(prev => prev.filter((_, i) => i !== index))
-		setImageFiles(prev => prev.filter((_, i) => i !== index))
-		setLoadingIndices(prev =>
-			prev.filter(i => i !== index).map(i => (i > index ? i - 1 : i))
-		)
-	}
 
 	const handleSubmit = useCallback(
 		async (formData: { title: string; description: string; price: string }) => {
@@ -181,7 +102,7 @@ export default function ClassifiedsCreate() {
 					console.log(`FormData: ${key} =`, value)
 				}
 
-				const res = await apiService.createClassified(formDataToSend)
+				const res = await classifiedsService.createClassified(formDataToSend)
 				console.log('Response from createClassified:', res)
 				setClassified(res)
 				router.push(`/my-classifieds`)
@@ -199,24 +120,6 @@ export default function ClassifiedsCreate() {
 		},
 		[tags, imageFiles, router]
 	)
-
-	const handleOpenModal = () => {
-		setIsModalOpen(true)
-	}
-
-	const handleCloseModal = () => {
-		setIsModalOpen(false)
-	}
-
-	const handleOpenContextMenu = (index: number) => {
-		setSelectedImageIndex(index)
-		setIsContextMenuOpen(true)
-	}
-
-	const handleCloseContextMenu = () => {
-		setIsContextMenuOpen(false)
-		setSelectedImageIndex(null)
-	}
 
 	const handleMouseEnter = (field: keyof typeof tooltipVisible) => {
 		setTooltipVisible(prev => ({ ...prev, [field]: true }))
@@ -322,76 +225,14 @@ export default function ClassifiedsCreate() {
 														)}
 												</div>
 
-												<div className='max-md:px-4'>
-													<div className='grid grid-cols-4 sm:grid-cols-12 lg:grid-cols-4 max-sm:px-3.5 max-sm:py-4 sm:p-8 gap-8'>
-														{/* моб */}
-														<div className='col-start-1 col-end-5 sm:col-start-3 sm:col-end-11 gap-8 lg:hidden'>
-															<div className='grid grid-cols-4 sm:grid-cols-12 gap-4 md:gap-8'>
-																{Array.from({ length: 8 }).map((_, idx) => {
-																	if (loadingIndices.includes(idx)) {
-																		return (
-																			<div
-																				key={`loading-${idx}`}
-																				className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD]'
-																			>
-																				<div className='absolute inset-0 flex items-center justify-center rounded-[13px]'>
-																					<Loader />
-																				</div>
-																			</div>
-																		)
-																	}
-																	return idx < imagePreviews.length ? (
-																		<ImagePreview
-																			key={idx}
-																			src={imagePreviews[idx]}
-																			index={idx}
-																			moveImage={moveImage}
-																			onRemove={() => deleteImage(idx)}
-																			onClick={() => handleOpenContextMenu(idx)}
-																		/>
-																	) : (
-																		<AddPhotoSmallButton
-																			key={`btn-${idx}`}
-																			onChange={handleImageChange}
-																		/>
-																	)
-																})}
-															</div>
-														</div>
-
-														{/* десктоп */}
-														<div className='max-lg:hidden contents'>
-															{Array.from({ length: 8 }).map((_, idx) => {
-																if (loadingIndices.includes(idx)) {
-																	return (
-																		<div
-																			key={`loading-${idx}`}
-																			className='relative max-sm:w-full max-sm:min-w-16 max-sm:h-16 sm:max-w-20 h-20 cursor-pointer rounded-[13px] transition-all duration-300 max-lg:grid max-sm:col-span-1 max-lg:col-span-3 border border-[#BDBDBD]'
-																		>
-																			<div className='absolute inset-0 flex items-center justify-center rounded-[13px]'>
-																				<Loader />
-																			</div>
-																		</div>
-																	)
-																}
-																return idx < imagePreviews.length ? (
-																	<ImagePreview
-																		key={idx}
-																		src={imagePreviews[idx]}
-																		index={idx}
-																		moveImage={moveImage}
-																		onRemove={() => deleteImage(idx)}
-																	/>
-																) : (
-																	<AddPhotoSmallButton
-																		key={`btn-${idx}`}
-																		onChange={handleImageChange}
-																	/>
-																)
-															})}
-														</div>
-													</div>
-												</div>
+												<ImageGrid
+													imagePreviews={imagePreviews}
+													loadingIndices={loadingIndices}
+													handleImageChange={handleImageChange}
+													moveImage={moveImageAtCreate}
+													deleteImage={deleteImageAtCreate}
+													handleOpenContextMenu={handleOpenContextMenu}
+												/>
 											</div>
 
 											<div className='grid col-start-1 col-end-13 sm:col-start-4 sm:col-end-10 max-md:w-full max-[769px]:min-w-[300px] max-[769px]:w-fit max-md:ml-0! max-[769px]:ml-5 max-sm:px-4 lg:col-start-5 lg:col-end-8 lg:w-[300px] lg:min-w-fit'>
@@ -432,10 +273,12 @@ export default function ClassifiedsCreate() {
 					isOpen={isContextMenuOpen}
 					onClose={handleCloseContextMenu}
 					onMakeMain={() =>
-						selectedImageIndex !== null && makeMainImage(selectedImageIndex)
+						selectedImageIndex !== null &&
+						makeMainImageAtCreate(selectedImageIndex)
 					}
 					onDelete={() =>
-						selectedImageIndex !== null && deleteImage(selectedImageIndex)
+						selectedImageIndex !== null &&
+						deleteImageAtCreate(selectedImageIndex)
 					}
 				/>
 			</div>

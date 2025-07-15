@@ -9,17 +9,7 @@ import {
 } from 'react'
 import axios from 'axios'
 import { useRouter } from '@/i18n/routing'
-import { User } from '@/types'
-
-interface ApiError {
-	response?: {
-		status?: number
-		data?: {
-			error?: string
-		}
-	}
-	message?: string
-}
+import { ApiError, User } from '@/types'
 
 interface AuthContextType {
 	authUser: User | null

@@ -12,9 +12,10 @@ import React, {
 	useState,
 } from 'react'
 import { Classified } from '@/types'
-import { apiService } from '@/services/api.service'
 import { useSearch } from '@/helpers/contexts/search-context'
 import { ButtonCustom } from './button-custom'
+import { combineClassifieds } from '@/helpers/functions/combine-classifieds'
+import { classifiedsService } from '@/services/api/classifieds.service'
 
 interface SearchInputProps {
 	placeholder?: string
@@ -43,6 +44,7 @@ export const SearchInput = ({
 		setSearchQuery,
 		classifieds,
 		setClassifieds,
+		combinedClassifieds,
 		resetFilters,
 		isFocused,
 		setIsFocused,
@@ -88,7 +90,6 @@ export const SearchInput = ({
 					return titleMatch || descriptionMatch || priceMatch || tagsMatch
 				})
 				.sort((a, b) => {
-					// Приоритет по плану: extremum > smart > light
 					const planPriority = {
 						extremum: 3,
 						smart: 2,
@@ -99,15 +100,14 @@ export const SearchInput = ({
 					const priorityB = planPriority[b.plan] || 1
 
 					if (priorityA !== priorityB) {
-						return priorityB - priorityA // Высший приоритет выше
+						return priorityB - priorityA
 					}
 
-					// Если планы одинаковые, сортируем по lastPromoted (от новых к старым)
 					const dateA = a.lastPromoted ? new Date(a.lastPromoted).getTime() : 0
 					const dateB = b.lastPromoted ? new Date(b.lastPromoted).getTime() : 0
 					return dateB - dateA
 				})
-				.slice(0, 4) // Лимит 4 объявления
+				.slice(0, 4)
 		},
 		[]
 	)
@@ -118,18 +118,18 @@ export const SearchInput = ({
 			if (search.trim().length < 2) return
 			setIsLoading(true)
 			try {
-				const data = await apiService.filterClassifieds({
+				const data = await classifiedsService.filterClassifieds({
 					search,
-					currency: 'USD', // Используем валюту по умолчанию, можно добавить выбор валюты
-					limit: 20, // Стандартный лимит для списка объявлений
+					currency: 'USD',
+					limit: 20,
 					offset: 0,
 				})
-				const newClassifieds = [
-					...data.classifieds.largeFirst,
-					...data.classifieds.largeSecond,
-					...data.classifieds.small,
-				]
-				setClassifieds(newClassifieds)
+				setClassifieds(data.classifieds) // Сохраняем в формате Classifieds
+				const filtered = filterClassifieds(
+					search,
+					combineClassifieds(data.classifieds)
+				)
+				setSuggestions(filtered)
 			} catch (error) {
 				console.error('Error updating search results:', error)
 			} finally {
@@ -144,12 +144,10 @@ export const SearchInput = ({
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value
 			setQuery(value)
-			if (classifieds) {
-				const filtered = filterClassifieds(value, classifieds)
-				setSuggestions(filtered)
-			}
+			const filtered = filterClassifieds(value, combinedClassifieds)
+			setSuggestions(filtered)
 		},
-		[classifieds, filterClassifieds]
+		[combinedClassifieds, filterClassifieds]
 	)
 
 	// Обработка клика по предложению или истории
@@ -164,11 +162,6 @@ export const SearchInput = ({
 			}
 			setSearchQuery(value)
 			await updateSearchResults(value)
-			// if (id) {
-			// 	router.push(`/selling-classifieds/${id}`)
-			// } else {
-			// 	router.push(`/selling-classifieds?query=${encodeURIComponent(value)}`)
-			// }
 			inputRef.current?.blur()
 		},
 		[router, saveHistory, searchHistory, setSearchQuery, updateSearchResults]
@@ -183,17 +176,11 @@ export const SearchInput = ({
 		resetFilters()
 
 		try {
-			const data = await apiService.getClassifieds({
-				page: 1,
+			const data = await classifiedsService.getClassifieds({
 				limit: 20,
-				currency: 'USD', // Используем валюту по умолчанию
+				currency: 'USD',
 			})
-			const newClassifieds = [
-				...data.classifieds.largeFirst,
-				...data.classifieds.largeSecond,
-				...data.classifieds.small,
-			]
-			setClassifieds(newClassifieds)
+			setClassifieds(data.classifieds)
 		} catch (error) {
 			console.error('Error resetting classifieds:', error)
 		}

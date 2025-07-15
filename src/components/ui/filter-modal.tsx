@@ -1,13 +1,13 @@
 'use client'
 
 import { useSearch } from '@/helpers/contexts/search-context'
-import { apiService } from '@/services/api.service'
 import { useTranslations } from 'next-intl'
 import { Range } from 'react-range'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
+import { classifiedsService } from '@/services/api/classifieds.service'
 
 interface FilterModalProps {
 	isOpen: boolean
@@ -35,16 +35,23 @@ export const FilterModal = ({
 		setCity,
 		availableCities,
 		setAvailableCities,
+		minPrice,
+		setMinPrice,
+		maxPrice,
+		setMaxPrice,
+		tags,
+		setTags,
+		sortBy,
+		setSortBy,
+		sortOrder,
+		setSortOrder,
+		priceRange,
+		setPriceRange,
 	} = useSearch()
 	const { isMobile, isTablet } = useScreenResize()
 
-	const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
-	const [minPrice, setMinPrice] = useState<number | null>(null)
-	const [maxPrice, setMaxPrice] = useState<number | null>(null)
 	const [availableTags, setAvailableTags] = useState<string[]>([])
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
-	const [sortBy, setSortBy] = useState<'price' | 'createdAt'>('createdAt')
-	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
 	const modalRef = useRef<HTMLDivElement>(null)
 
@@ -96,14 +103,14 @@ export const FilterModal = ({
 		if (isOpen) {
 			const fetchFilterData = async () => {
 				try {
-					const data = await apiService.filterClassifieds({
+					const data = await classifiedsService.filterClassifieds({
 						search: searchQuery,
 						currency: 'USD',
 					})
 					const minPriceValue = data.priceRange.convertedMin
 					const maxPriceValue =
 						data.priceRange.convertedMax === data.priceRange.convertedMin
-							? data.priceRange.convertedMin + 1 // Добавляем 1, если min === max
+							? data.priceRange.convertedMin + 1
 							: data.priceRange.convertedMax
 					setPriceRange({
 						convertedMin: minPriceValue,
@@ -112,32 +119,37 @@ export const FilterModal = ({
 					})
 					setMinPrice(minPriceValue)
 					setMaxPrice(maxPriceValue)
-					setAvailableTags(data.availableTags || [])
 					setAvailableCities(data.availableCities || [])
-					setSelectedTags([])
+					setTags([])
 					setCity(null)
 					setSortBy('createdAt')
 					setSortOrder('desc')
-					const newClassifieds = [
-						...data.classifieds.largeFirst,
-						...data.classifieds.largeSecond,
-						...data.classifieds.small,
-					]
-					setClassifieds(newClassifieds)
+					setClassifieds(data.classifieds)
 				} catch (error) {
 					console.error('Error fetching filter data:', error)
 				}
 			}
 			fetchFilterData()
 		}
-	}, [isOpen, searchQuery, setClassifieds, setAvailableCities])
+	}, [
+		isOpen,
+		searchQuery,
+		setClassifieds,
+		setAvailableCities,
+		setTags,
+		setCity,
+		setSortBy,
+		setSortOrder,
+		setPriceRange,
+		setMinPrice,
+		setMaxPrice,
+	])
 
-	// Применение фильтров
 	const applyFilters = useCallback(async () => {
 		try {
-			const data = await apiService.filterClassifieds({
+			const data = await classifiedsService.filterClassifieds({
 				search: searchQuery,
-				tags: selectedTags,
+				tags,
 				minPrice: minPrice !== null ? minPrice.toString() : undefined,
 				maxPrice: maxPrice !== null ? maxPrice.toString() : undefined,
 				currency: (['USD', 'UAH', 'EUR'].includes(
@@ -149,18 +161,13 @@ export const FilterModal = ({
 				sortOrder,
 				city: city ?? undefined,
 			})
-			const newClassifieds = [
-				...data.classifieds.largeFirst,
-				...data.classifieds.largeSecond,
-				...data.classifieds.small,
-			]
-			setClassifieds(newClassifieds)
+			setClassifieds(data.classifieds)
 		} catch (error) {
 			console.error('Error applying filters:', error)
 		}
 	}, [
 		searchQuery,
-		selectedTags,
+		tags,
 		minPrice,
 		maxPrice,
 		priceRange,

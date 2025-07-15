@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useScrollStyle } from '../../helpers/hooks/use-scroll-style'
 import { useVisitRedirect } from '../../helpers/hooks/use-visit-redirect'
-import { apiService } from '../../services/api.service'
 import { useAuth } from '../../helpers/contexts/auth-context'
 import { Loader } from '@/components/ui/loader'
 import { usePathname, useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { Header } from '@/components/header'
+import { authService } from '@/services/api/auth.service'
 
 export default function ClientLayout({
 	children,
@@ -37,7 +37,7 @@ export default function ClientLayout({
 					process.env.NEXT_PUBLIC_API_URL
 				)
 				try {
-					const res = await apiService.login({
+					const res = await authService.login({
 						email: 'user@user.com',
 						password: '1234qwer',
 					})

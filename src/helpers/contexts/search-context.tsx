@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Classified } from '@/types'
-import { Classifieds } from '@/services/api.service'
+import { Classified, Classifieds } from '@/types'
+import { combineClassifieds } from '../functions/combine-classifieds'
 
 interface PriceRange {
 	convertedMin: number
@@ -16,6 +16,7 @@ interface SearchContextType {
 	setSearchQuery: (query: string) => void
 	classifieds: Classifieds
 	setClassifieds: (classifieds: Classifieds) => void
+	combinedClassifieds: Classified[]
 	city: string | null
 	setCity: (city: string | null) => void
 	availableCities: string[]
@@ -35,6 +36,8 @@ interface SearchContextType {
 	resetFilters: () => void
 	isFocused: boolean
 	setIsFocused: (focused: boolean) => void
+	isFiltered: boolean // Новый флаг
+	setIsFiltered: (isFiltered: boolean) => void
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined)
@@ -67,6 +70,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 		sortOrder: 'desc',
 	})
 	const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
+	const [isFiltered, setIsFiltered] = useState(false)
 
 	const resetFilters = () => {
 		setFilters({
@@ -77,6 +81,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 			sortOrder: 'desc',
 		})
 		setCity(null)
+		setIsFiltered(false)
 	}
 
 	useEffect(() => {
@@ -86,6 +91,8 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 		setCity(cityParam)
 	}, [searchParams])
 
+	const combinedClassifieds = combineClassifieds(classifieds)
+
 	return (
 		<SearchContext.Provider
 			value={{
@@ -93,6 +100,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 				setSearchQuery,
 				classifieds,
 				setClassifieds,
+				combinedClassifieds,
 				city,
 				setCity,
 				availableCities,
@@ -114,6 +122,8 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 				resetFilters,
 				isFocused,
 				setIsFocused,
+				isFiltered,
+				setIsFiltered,
 			}}
 		>
 			{children}

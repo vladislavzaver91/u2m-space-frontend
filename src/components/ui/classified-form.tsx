@@ -5,13 +5,13 @@ import { Tooltip } from './tooltip'
 import { useEffect, useState } from 'react'
 import { ClassifiedFormInput } from './classified-form-input'
 import { useTranslations } from 'next-intl'
-import { apiService } from '@/services/api.service'
 import { useLanguage } from '@/helpers/contexts/language-context'
 import { convertedCurrencyItems, CurrencyConversionResponse } from '@/types'
 import { IconCustom } from './icon-custom'
 import { useUser } from '@/helpers/contexts/user-context'
 import { Loader } from './loader'
 import { CURRENCY_SYMBOLS } from '@/helpers/constants/currency'
+import { currencyService } from '@/services/api/currency.service'
 
 interface ClassifiedFormData {
 	title: string
@@ -111,7 +111,7 @@ export const ClassifiedForm = ({
 				setConversionError('')
 				const amount = parseFloat(priceValue)
 				console.log(`const amount = parseFloat(priceValue)`, amount)
-				const response = await apiService.convertCurrency(
+				const response = await currencyService.convertCurrency(
 					amount,
 					settings.currencyCode
 				)

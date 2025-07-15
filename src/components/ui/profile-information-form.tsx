@@ -14,7 +14,6 @@ import { UpdateUserProfileData, User } from '@/types'
 import { useTranslations } from 'next-intl'
 import { Tooltip } from './tooltip'
 import { CustomDatePicker } from './custom-date-picker'
-import { apiService } from '@/services/api.service'
 import { IconCustom } from './icon-custom'
 import { useUser } from '@/helpers/contexts/user-context'
 import { Loader } from './loader'
@@ -23,6 +22,7 @@ import { useProfileForm } from '@/helpers/contexts/profile-form-context'
 import { formatPhoneNumber } from '@/helpers/functions/format-phone-number'
 import { useRouter } from '@/i18n/routing'
 import { useAuth } from '@/helpers/contexts/auth-context'
+import { userService } from '@/services/api/user.service'
 
 interface ProfileInformationFormProps {
 	onMouseEnter: (
@@ -381,7 +381,7 @@ export const ProfileInformationForm = ({
 
 			console.log('User:', user)
 
-			const updatedUser = await apiService.updateUserProfile(
+			const updatedUser = await userService.updateUserProfile(
 				user!.id,
 				updateData
 			)

@@ -7,7 +7,7 @@ import { MyClassifiedCard } from '@/components/ui/my-classified-card'
 import { NavigationButtons } from '@/components/ui/navigation-buttons'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { useLanguage } from '@/helpers/contexts/language-context'
-import { apiService } from '@/services/api.service'
+import { classifiedsService } from '@/services/api/classifieds.service'
 import { Classified } from '@/types'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
@@ -46,7 +46,10 @@ export default function MyClassifieds() {
 		const fetchClassifieds = async () => {
 			try {
 				setIsLoading(true)
-				const data = await apiService.getUserClassifieds({ page, limit })
+				const data = await classifiedsService.getUserClassifieds({
+					page,
+					limit,
+				})
 
 				if (process.env.NODE_ENV !== 'production') {
 					console.log('User classifieds:', data)
@@ -135,7 +138,7 @@ export default function MyClassifieds() {
 			console.log('Toggling classified:', { id, currentIsActive })
 		}
 		try {
-			const updated = await apiService.toggleClassifiedActive(
+			const updated = await classifiedsService.toggleClassifiedActive(
 				id,
 				!currentIsActive
 			)

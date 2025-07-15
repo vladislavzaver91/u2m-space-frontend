@@ -1,5 +1,5 @@
 import { PaymentIntent } from '@/types'
-import $api from '../lib/http'
+import $api from '../../lib/http'
 
 export class PlanService {
 	async purchasePlan(plan: string): Promise<PaymentIntent> {

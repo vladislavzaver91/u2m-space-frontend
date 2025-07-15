@@ -2,13 +2,13 @@
 
 import Image from 'next/image'
 import { ButtonCustom } from './button-custom'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import { IconCustom } from './icon-custom'
-import { apiService } from '@/services/api.service'
 import { Link } from '@/i18n/routing'
 import { useUser } from '@/helpers/contexts/user-context'
-import { Loader } from './loader'
 import { useLoading } from '@/helpers/contexts/loading-context'
+import { favoritesService } from '@/services/api/favorites.service'
+import { ApiError } from '@/types'
 
 interface ClassifiedCardProps {
 	classifiedId: string
@@ -20,16 +20,6 @@ interface ClassifiedCardProps {
 	favoritesBool: boolean
 	href: string
 	isSmall?: boolean
-}
-
-interface ApiError {
-	response?: {
-		status?: number
-		data?: {
-			error?: string
-		}
-	}
-	message?: string
 }
 
 export const ClassifiedCard = ({
@@ -54,7 +44,7 @@ export const ClassifiedCard = ({
 		e.stopPropagation()
 
 		try {
-			const res = await apiService.toggleFavorite(classifiedId)
+			const res = await favoritesService.toggleFavorite(classifiedId)
 			setFavoritesBool(res.favoritesBool)
 			setFavorites(res.favorites)
 			updateFavorites(classifiedId, res.favoritesBool)

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import { ClientClassifiedDetail } from './client-classified-detail'
-import { apiService } from '@/services/api.service'
 import { Classified } from '@/types'
 import { getLocale } from 'next-intl/server'
 import { Suspense } from 'react'
 import { Loader } from '@/components/ui/loader'
+import { classifiedsService } from '@/services/api/classifieds.service'
 
 type Props = {
 	params: Promise<{ id: string }>
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const locale = await getLocale()
 
 	try {
-		const classified = await apiService.getClassifiedById(id)
+		const classified = await classifiedsService.getClassifiedById(id)
 		const title =
 			classified.title.length > 50
 				? `${classified.title.slice(0, 50)}...`
@@ -118,8 +118,8 @@ export default async function ClassifiedDetailPage({ params }: Props) {
 
 	try {
 		const [classifiedResult, classifiedsResult] = await Promise.all([
-			apiService.getClassifiedById(id),
-			apiService.getClassifieds({ page: 1, limit: 10 }),
+			classifiedsService.getClassifiedById(id),
+			classifiedsService.getClassifieds({ limit: 10 }),
 		])
 		classified = classifiedResult
 		classifieds = [

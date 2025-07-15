@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './auth-context'
-import { notificationService } from '@/services/notification.service'
+import { notificationService } from '@/services/api/notification.service'
 import { Notification } from '@/types'
 
 interface NotificationContextType {

@@ -1,7 +1,34 @@
+export interface ApiError {
+	response?: {
+		status?: number
+		data?: {
+			error?: string
+		}
+	}
+	message?: string
+}
+
+export interface AuthTokens {
+	accessToken: string
+	refreshToken: string
+}
+
 export interface AuthLinkItem {
 	icon: string
 	name: string
 	href?: string /* временно, пока не настроим apple */
+}
+
+export interface Classifieds {
+	largeFirst: Classified[]
+	largeSecond: Classified[]
+	small: Classified[]
+}
+
+export interface ClassifiedsResponse {
+	classifieds: Classifieds
+	total: number
+	hasMoreSmall: boolean
 }
 
 export interface Classified {
@@ -36,6 +63,74 @@ export interface Classified {
 	favorites?: number
 }
 
+export interface PriceRange {
+	min: number
+	max: number
+	currency: string
+	convertedMin: number
+	convertedMax: number
+	convertedCurrency: string
+}
+
+export interface FilterClassifiedsResponse extends ClassifiedsResponse {
+	priceRange: PriceRange
+	availableTags: string[]
+	availableCities: string[]
+}
+
+export interface ClassifiedData {
+	title: string
+	description: string
+	price: string
+	images?: File[] | string[]
+	tags: string[]
+}
+
+export interface PartialUpdateClassifiedData {
+	isActive?: boolean
+	title?: string
+	description?: string
+	price?: string
+	tags?: string[]
+	images?: File[] | string[]
+}
+
+export interface UserClassifiedsResponse {
+	classifieds: Classified[]
+	total: number
+	hasMore: boolean
+}
+
+export interface ToggleFavoriteResponse {
+	id: string
+	favorites: number
+	favoritesBool: boolean
+}
+
+export interface Tag {
+	id: string
+	name: string
+	createdAt: string
+	updatedAt: string
+}
+
+export interface CurrencyConversionResponse {
+	USD: number
+	UAH: number
+	EUR: number
+}
+
+export interface AuthResponse {
+	user: User
+	accessToken: string
+	refreshToken: string
+}
+
+export interface LoginData {
+	email: string
+	password: string
+}
+
 export interface User {
 	id: string
 	email: string
@@ -64,6 +159,12 @@ export interface User {
 	updatedAt: string
 }
 
+export interface GuestSettings {
+	language: 'en' | 'uk' | 'pl'
+	currency: 'USD' | 'UAH' | 'EUR'
+	city: string | null
+}
+
 export interface UpdateUserProfileData {
 	email?: string
 	name?: string | null
@@ -82,19 +183,6 @@ export interface UpdateUserProfileData {
 	deleteReason?: string | null
 	removeAvatar?: boolean
 	avatar?: File
-}
-
-export interface Tag {
-	id: string
-	name: string
-	createdAt: string
-	updatedAt: string
-}
-
-export interface CurrencyConversionResponse {
-	USD: number
-	UAH: number
-	EUR: number
 }
 
 export interface convertedCurrencyItems {

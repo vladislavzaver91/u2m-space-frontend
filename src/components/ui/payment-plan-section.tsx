@@ -6,7 +6,7 @@ import { CustomToggle } from './custom-toggle'
 import { useAuth } from '@/helpers/contexts/auth-context'
 import { useRouter } from '@/i18n/routing'
 import { useNotifications } from '@/helpers/contexts/notification-context'
-import { planService } from '@/services/plan.service'
+import { planService } from '@/services/api/plan.service'
 import { Loader } from './loader'
 import { useUser } from '@/helpers/contexts/user-context'
 
@@ -198,7 +198,7 @@ export const PaymentPlanSection = () => {
 							onClick={() => handleChoosePlan(plan.id)}
 						>
 							{isLoading && selectedPlan === plan.id ? (
-								<div className='flex items-center justify-center'>
+								<div className='absolute inset-0 flex items-center justify-center'>
 									<Loader size='6' />
 								</div>
 							) : selectedPlan === plan.id ? (

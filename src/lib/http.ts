@@ -1,23 +1,9 @@
+import { ApiError, AuthTokens } from '@/types'
 import axios, {
 	AxiosInstance,
 	AxiosResponse,
 	InternalAxiosRequestConfig,
 } from 'axios'
-
-interface AuthTokens {
-	accessToken: string
-	refreshToken: string
-}
-
-interface ApiError {
-	response?: {
-		status?: number
-		data?: {
-			error?: string
-		}
-	}
-	message?: string
-}
 
 const API_URL =
 	process.env.NEXT_PUBLIC_ENVIRONMENT_URL === 'develop'

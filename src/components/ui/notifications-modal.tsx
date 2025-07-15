@@ -1,8 +1,8 @@
 'use client'
 
-import { notificationService } from '@/services/notification.service'
+import { notificationService } from '@/services/api/notification.service'
 import { useTranslations } from 'next-intl'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IconCustom } from './icon-custom'
 import { useNotifications } from '@/helpers/contexts/notification-context'
 import { Loader } from './loader'

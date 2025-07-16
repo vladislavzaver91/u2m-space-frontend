@@ -578,7 +578,7 @@
 			},
 			"BONUSES_CHANGED": {
 				"title": "Bonuses",
-				"message": "You have been credited with {value} UNITS"
+				"message": "You have been credited with {value} {units}"
 			},
 			"PLAN_CHANGED": {
 				"title": "Plan",
@@ -590,23 +590,23 @@
 			},
 			"CLASSIFIED_UPDATED": {
 				"title": "Classifieds",
-				"message": "Your classified \"{title}\" has been updated"
+				"message": "Your classified has been updated"
 			},
 			"CLASSIFIED_DELETED": {
 				"title": "Classifieds",
-				"message": "Your classified \"{title}\" has been deleted"
+				"message": "Your classified has been deleted"
 			},
 			"CLASSIFIED_TO_FAVORITE": {
 				"title": "Classifieds",
-				"message": "A user added your classified \"{title}\" to favorites"
+				"message": "A user added your classified to favorites"
 			},
 			"MESSAGE_RECEIVED": {
 				"title": "Messages",
-				"message": "You received a new message for classified \"{title}\""
+				"message": "You received a new message for classified"
 			},
 			"DEAL_PROPOSED": {
 				"title": "Classifieds",
-				"message": "A deal has been proposed for your classified \"{title}\""
+				"message": "A deal has been proposed for your classified"
 			},
 			"RULES_CHANGED": {
 				"title": "Marketplace Rules",

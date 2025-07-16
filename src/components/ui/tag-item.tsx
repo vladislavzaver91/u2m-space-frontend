@@ -77,7 +77,7 @@ export const TagItem = ({ text, onClick, onAddTag, type }: TagItemProps) => {
 					icon={
 						<IconCustom
 							name='close'
-							className='w-3.5 h-3.5 text-[#F9329C] fill-none'
+							className='w-6 h-6 text-[#F9329C] fill-none'
 						/>
 					}
 					isHover

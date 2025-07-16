@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useTranslations } from 'next-intl'
 import { Classified, User } from '@/types'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'

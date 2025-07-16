@@ -577,7 +577,7 @@
 			},
 			"BONUSES_CHANGED": {
 				"title": "Bonusy",
-				"message": "Na Twoje konto dodano {value} JEDNOSTEK"
+				"message": "Na Twoje konto dodano {value} {units}"
 			},
 			"PLAN_CHANGED": {
 				"title": "Plan",
@@ -589,23 +589,23 @@
 			},
 			"CLASSIFIED_UPDATED": {
 				"title": "Ogłoszenia",
-				"message": "Twoje ogłoszenie \"{title}\" zostało zaktualizowane"
+				"message": "Twoje ogłoszenie zostało zaktualizowane"
 			},
 			"CLASSIFIED_DELETED": {
 				"title": "Ogłoszenia",
-				"message": "Twoje ogłoszenie \"{title}\" zostało usunięte"
+				"message": "Twoje ogłoszenie zostało usunięte"
 			},
 			"CLASSIFIED_FAVORITED": {
 				"title": "Ogłoszenia",
-				"message": "Użytkownik dodał twoje ogłoszenie \"{title}\" do ulubionych"
+				"message": "Użytkownik dodał twoje ogłoszenie do ulubionych"
 			},
 			"MESSAGE_RECEIVED": {
 				"title": "Wiadomości",
-				"message": "Otrzymałeś nową wiadomość dla ogłoszenia \"{title}\""
+				"message": "Otrzymałeś nową wiadomość dla ogłoszenia"
 			},
 			"DEAL_PROPOSED": {
 				"title": "Ogłoszenia",
-				"message": "Zaproponowano transakcję dla twojego ogłoszenia \"{title}\""
+				"message": "Zaproponowano transakcję dla twojego ogłoszenia"
 			},
 			"RULES_CHANGED": {
 				"title": "Zasady marketplace’u",

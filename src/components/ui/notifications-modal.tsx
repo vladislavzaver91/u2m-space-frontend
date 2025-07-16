@@ -1,13 +1,13 @@
 'use client'
 
-import { notificationService } from '@/services/api/notification.service'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
-import React, { useEffect, useRef, useState } from 'react'
-import { IconCustom } from './icon-custom'
-import { useNotifications } from '@/helpers/contexts/notification-context'
-import { Loader } from './loader'
 import { Notification } from '@/types'
 import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
+import { useNotifications } from '@/helpers/contexts/notification-context'
+import { notificationService } from '@/services/api/notification.service'
+import { Loader } from './loader'
+import { IconCustom } from './icon-custom'
 
 interface NotificationsModalProps {
 	isOpen: boolean
@@ -23,81 +23,70 @@ export const NotificationsModal = ({
 	buttonRef,
 }: NotificationsModalProps) => {
 	const t = useTranslations('Notifications')
-
-	const { notifications, setNotifications, markNotificationAsRead } =
-		useNotifications()
+	const { notifications, setNotifications } = useNotifications()
 	const { isMobile } = useScreenResize()
-
 	const [loading, setLoading] = useState(false)
-
 	const modalRef = useRef<HTMLDivElement>(null)
 
-	// Форматирование сообщения с выделением {value} или +{value}
+	// Форматирование сообщения с выделением плейсхолдеров
 	const formatMessage = (
 		message: string,
 		messageData: { [key: string]: string }
 	) => {
-		const valueRegex = /\+?\{value\}/g
-		const parts = message.split(valueRegex)
-		const value = messageData.value || ''
-		const isValuePresent = message.includes('{value}')
-
-		return (
-			<>
-				{parts.map((part, index) => (
-					<React.Fragment key={index}>
-						{part}
-						{index < parts.length - 1 && (
-							<p className='font-bold text-blue-600'>
-								{message.startsWith('+{value}') && index === 0
-									? `+${value}`
-									: value}
-							</p>
-						)}
-					</React.Fragment>
-				))}
-			</>
-		)
-	}
-
-	// Перевод уведомления
-	const translateNotification = (notification: Notification) => {
-		const { title, message } = t.raw(`types.${notification.type}`)
-		let formattedTitle = title
-		let formattedMessage = message
-
-		Object.keys(notification.messageData).forEach(key => {
-			const regex = new RegExp(`\\{${key}\\}`, 'g')
-			formattedTitle = formattedTitle.replace(
-				regex,
-				notification.messageData[key]
-			)
-			formattedMessage = formattedMessage.replace(
-				regex,
-				notification.messageData[key]
-			)
+		const parts = message.split(/(\{[^}]+\})/g)
+		return parts.map((part, index) => {
+			if (part.match(/^\{[^}]+\}$/)) {
+				const key = part.slice(1, -1) // Удаляем { и }
+				const value = messageData[key] || ''
+				return (
+					<span
+						key={index}
+						className='font-bold text-[13px] uppercase text-[#3486FE]'
+					>
+						{key === 'value' && message.includes('+{value}')
+							? `+${value}`
+							: value}
+					</span>
+				)
+			}
+			return <span key={index}>{part}</span>
 		})
-
-		return { title: formattedTitle, message: formattedMessage }
 	}
 
-	// // Отмечаем непрочитанные уведомления как прочитанные при открытии модалки
-	// useEffect(() => {
-	// 	if (isOpen && userId) {
-	// 		setLoading(true)
-	// 		try {
-	// 			notifications.forEach(async notification => {
-	// 				if (!notification.isRead) {
-	// 					await markNotificationAsRead(userId, notification.id)
-	// 				}
-	// 			})
-	// 		} catch (error) {
-	// 			console.error('Failed to mark notifications as read:', error)
-	// 		} finally {
-	// 			setLoading(false)
-	// 		}
-	// 	}
-	// }, [isOpen, userId, notifications, markNotificationAsRead])
+	// Получение перевода уведомления
+	const translateNotification = (notification: Notification) => {
+		const { title } = t.raw(`types.${notification.type}`) as {
+			title: string
+			message: string
+		}
+
+		// Для BONUSES_CHANGED используем t.rich для выделения {units}
+		if (notification.type === 'BONUSES_CHANGED') {
+			const message = t.rich(`types.${notification.type}.message`, {
+				value: () => (
+					<span className='font-bold text-[13px] uppercase text-[#3486FE]'>
+						{notification.messageData.value || ''}
+					</span>
+				),
+				units: () => (
+					<span className='font-bold text-[13px] uppercase text-[#F9329C]'>
+						{t('types.BONUSES_CHANGED.units')}
+					</span>
+				),
+			})
+			return { title, message }
+		}
+
+		// Для остальных типов используем formatMessage
+		const { message: rawMessage } = t.raw(`types.${notification.type}`) as {
+			title: string
+			message: string
+		}
+		return {
+			title,
+			message: formatMessage(rawMessage, notification.messageData),
+		}
+	}
 
 	// Закрытие модального окна по клику за его пределами
 	useEffect(() => {
@@ -129,13 +118,13 @@ export const NotificationsModal = ({
 		}
 	}
 
-	// Вычисление позиции модального окна относительно кнопки
+	// Вычисление позиции модального окна
 	const getModalPosition = () => {
 		if (buttonRef.current) {
 			const rect = buttonRef.current.getBoundingClientRect()
 			return {
 				top: rect.bottom + window.scrollY,
-				left: rect.left, // Позиционируем по левой стороне кнопки
+				left: rect.left,
 			}
 		}
 		return { top: 0, left: 0 }
@@ -163,7 +152,7 @@ export const NotificationsModal = ({
 						{t('empty')}
 					</p>
 				) : (
-					<ul className=''>
+					<ul>
 						{notifications.map(notification => {
 							const { title, message } = translateNotification(notification)
 							return (
@@ -188,16 +177,9 @@ export const NotificationsModal = ({
 													: 'text-[#4F4F4F]'
 											}`}
 										>
-											{[
-												'BONUSES_CHANGED',
-												'TRUST_RATING_CHANGED',
-												'PLAN_CHANGED',
-											].includes(notification.type)
-												? formatMessage(message, notification.messageData)
-												: message}
+											{message}
 										</p>
 									</div>
-
 									<button
 										onClick={() => handleDelete(notification.id)}
 										className='hidden w-10 h-10 cursor-pointer group-hover:flex items-center justify-center rounded-lg'

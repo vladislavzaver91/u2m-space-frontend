@@ -431,7 +431,7 @@ export const Header = () => {
 													className='w-[21px] h-[18px] text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c]'
 												/>
 												{user?.favorites && user?.favorites?.length > 0 && (
-													<span className='absolute top-0 right-0 w-2 h-2 border-2 border-white rounded-full bg-[#F9329C]' />
+													<IconBasicComponent name='heart_notify' iconThumb />
 												)}
 											</>
 										}
@@ -649,7 +649,10 @@ export const Header = () => {
 															/>
 															{user?.favorites &&
 																user?.favorites?.length > 0 && (
-																	<span className='absolute top-0 right-0 w-2 h-2 border-2 border-white rounded-full bg-[#F9329C]' />
+																	<IconBasicComponent
+																		name='heart_notify'
+																		iconThumb
+																	/>
 																)}
 														</>
 													}

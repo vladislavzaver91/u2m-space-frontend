@@ -5,6 +5,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useWindowSize } from '@/helpers/hooks/use-window-size'
+import { IconBasicComponent } from './icon-basic-component'
 
 const ItemTypes = {
 	IMAGE: 'image',
@@ -73,10 +74,7 @@ export const ImagePreview = ({
 
 			{index === 0 && (
 				<div className='absolute top-0 right-0 w-6 h-6 bg-white rounded-bl-[13px] rounded-tr-[13px] flex items-center justify-center'>
-					<IconCustom
-						name='star'
-						className='w-3 h-3 text-[#f9329c] fill-none'
-					/>
+					<IconBasicComponent name='star' iconThumb />
 				</div>
 			)}
 			{isHovered && width >= 1024 && (

@@ -1,5 +1,4 @@
-import { Classifieds } from '@/services/api.service'
-import { Classified } from '@/types'
+import { Classified, Classifieds } from '@/types'
 
 export const combineClassifieds = (classifieds: Classifieds): Classified[] => {
 	return [

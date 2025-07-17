@@ -16,12 +16,6 @@ interface FilterModalProps {
 	buttonRef: React.RefObject<HTMLButtonElement | null>
 }
 
-interface PriceRange {
-	convertedMin: number
-	convertedMax: number
-	convertedCurrency: string
-}
-
 export const FilterModal = ({
 	isOpen,
 	onClose,

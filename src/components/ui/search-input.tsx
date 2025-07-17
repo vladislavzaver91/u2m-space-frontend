@@ -4,13 +4,7 @@ import Image from 'next/image'
 import { IconCustom } from './icon-custom'
 import { useTranslations } from 'next-intl'
 import { Link, useRouter } from '@/i18n/routing'
-import React, {
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useRef,
-	useState,
-} from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Classified } from '@/types'
 import { useSearch } from '@/helpers/contexts/search-context'
 import { ButtonCustom } from './button-custom'
@@ -48,6 +42,7 @@ export const SearchInput = ({
 		resetFilters,
 		isFocused,
 		setIsFocused,
+		setIsFiltered,
 	} = useSearch()
 
 	const [query, setQuery] = useState(searchQuery)
@@ -112,6 +107,10 @@ export const SearchInput = ({
 		[]
 	)
 
+	useEffect(() => {
+		setQuery(searchQuery)
+	}, [searchQuery])
+
 	// Обновление результатов поиска
 	const updateSearchResults = useCallback(
 		async (search: string) => {
@@ -161,10 +160,18 @@ export const SearchInput = ({
 				saveHistory(newHistory)
 			}
 			setSearchQuery(value)
+			setIsFiltered(true) // Устанавливаем флаг фильтрации
 			await updateSearchResults(value)
 			inputRef.current?.blur()
 		},
-		[router, saveHistory, searchHistory, setSearchQuery, updateSearchResults]
+		[
+			router,
+			saveHistory,
+			searchHistory,
+			setSearchQuery,
+			updateSearchResults,
+			setIsFiltered,
+		]
 	)
 
 	// Очистка поля поиска
@@ -174,11 +181,15 @@ export const SearchInput = ({
 		setIsFocused(false)
 		setSearchQuery('')
 		resetFilters()
+		setIsFiltered(false) // Добавляем сброс флага фильтрации
 
 		try {
 			const data = await classifiedsService.getClassifieds({
 				limit: 20,
+				smallLimit: 12,
+				smallOffset: 0,
 				currency: 'USD',
+				category: activeCategory,
 			})
 			setClassifieds(data.classifieds)
 		} catch (error) {
@@ -186,7 +197,13 @@ export const SearchInput = ({
 		}
 
 		inputRef.current?.blur()
-	}, [setSearchQuery, setClassifieds, resetFilters])
+	}, [
+		setSearchQuery,
+		resetFilters,
+		setClassifieds,
+		activeCategory,
+		setIsFiltered,
+	])
 
 	// Удаление запроса из истории
 	const handleDeleteHistory = useCallback(
@@ -199,17 +216,14 @@ export const SearchInput = ({
 
 	// Обработка отправки поиска
 	const handleSearch = useCallback(
-		(e: React.KeyboardEvent<HTMLInputElement>) => {
+		async (e: React.KeyboardEvent<HTMLInputElement>) => {
 			if (e.key === 'Enter' && query.trim().length >= 2) {
-				const firstSuggestion = suggestions[0]
-				if (firstSuggestion) {
-					handleSuggestionClick(firstSuggestion.title, firstSuggestion.id)
-				} else {
-					handleSuggestionClick(query)
-				}
+				setSearchQuery(query)
+				setIsFiltered(true) // Устанавливаем флаг фильтрации
+				await handleSuggestionClick(query)
 			}
 		},
-		[handleSuggestionClick, query, suggestions]
+		[query, handleSuggestionClick, setSearchQuery, setIsFiltered]
 	)
 
 	const highlightMatch = (text: string, query: string) => {

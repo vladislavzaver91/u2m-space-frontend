@@ -8,6 +8,7 @@ import { IconCustom } from './icon-custom'
 import { ButtonCustom } from './button-custom'
 import { useScreenResize } from '@/helpers/hooks/use-screen-resize'
 import { classifiedsService } from '@/services/api/classifieds.service'
+import { debounce } from 'lodash'
 
 interface FilterModalProps {
 	isOpen: boolean
@@ -47,6 +48,7 @@ export const FilterModal = ({
 		setSortOrder,
 		priceRange,
 		setPriceRange,
+		setIsFiltered,
 	} = useSearch()
 	const { isMobile, isTablet } = useScreenResize()
 
@@ -66,6 +68,7 @@ export const FilterModal = ({
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
+				isOpen &&
 				modalRef.current &&
 				!modalRef.current.contains(event.target as Node) &&
 				buttonRef.current &&
@@ -75,12 +78,22 @@ export const FilterModal = ({
 			}
 		}
 
+		const handleScroll = () => {
+			if (isOpen) {
+				onClose()
+			}
+		}
+
 		if (isOpen) {
 			document.addEventListener('mousedown', handleClickOutside)
+			window.addEventListener('scroll', handleScroll)
+			window.addEventListener('touchmove', handleScroll) // Для сенсорных устройств
 		}
 
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside)
+			window.removeEventListener('scroll', handleScroll)
+			window.removeEventListener('touchmove', handleScroll)
 		}
 	}, [isOpen, onClose])
 
@@ -109,7 +122,7 @@ export const FilterModal = ({
 					})
 					const minPriceValue = data.priceRange.convertedMin
 					const maxPriceValue =
-						data.priceRange.convertedMax === data.priceRange.convertedMin
+						data.priceRange.convertedMin === data.priceRange.convertedMax
 							? data.priceRange.convertedMin + 1
 							: data.priceRange.convertedMax
 					setPriceRange({
@@ -117,13 +130,8 @@ export const FilterModal = ({
 						convertedMax: maxPriceValue,
 						convertedCurrency: data.priceRange.convertedCurrency,
 					})
-					setMinPrice(minPriceValue)
-					setMaxPrice(maxPriceValue)
 					setAvailableCities(data.availableCities || [])
-					setTags([])
-					setCity(null)
-					setSortBy('createdAt')
-					setSortOrder('desc')
+					setAvailableTags(data.availableTags || []) // Добавляем загрузку тегов
 					setClassifieds(data.classifieds)
 				} catch (error) {
 					console.error('Error fetching filter data:', error)
@@ -131,58 +139,64 @@ export const FilterModal = ({
 			}
 			fetchFilterData()
 		}
-	}, [
-		isOpen,
-		searchQuery,
-		setClassifieds,
-		setAvailableCities,
-		setTags,
-		setCity,
-		setSortBy,
-		setSortOrder,
-		setPriceRange,
-		setMinPrice,
-		setMaxPrice,
-	])
+	}, [isOpen, searchQuery, setClassifieds, setAvailableCities, setPriceRange])
 
-	const applyFilters = useCallback(async () => {
-		try {
-			const data = await classifiedsService.filterClassifieds({
-				search: searchQuery,
-				tags,
-				minPrice: minPrice !== null ? minPrice.toString() : undefined,
-				maxPrice: maxPrice !== null ? maxPrice.toString() : undefined,
-				currency: (['USD', 'UAH', 'EUR'].includes(
-					priceRange?.convertedCurrency ?? ''
-				)
-					? priceRange?.convertedCurrency
-					: 'USD') as 'USD' | 'UAH' | 'EUR',
-				sortBy,
-				sortOrder,
-				city: city ?? undefined,
-			})
-			setClassifieds(data.classifieds)
-		} catch (error) {
-			console.error('Error applying filters:', error)
-		}
-	}, [
-		searchQuery,
-		tags,
-		minPrice,
-		maxPrice,
-		priceRange,
-		sortBy,
-		sortOrder,
-		city,
-		setClassifieds,
-	])
+	const debouncedApplyFilters = useCallback(
+		debounce(async () => {
+			try {
+				const data = await classifiedsService.filterClassifieds({
+					search: searchQuery,
+					tags: tags.length > 0 ? tags : undefined, // Отправляем tags только если они выбраны
+					minPrice: minPrice !== null ? minPrice.toString() : undefined,
+					maxPrice: maxPrice !== null ? maxPrice.toString() : undefined,
+					currency: (['USD', 'UAH', 'EUR'].includes(
+						priceRange?.convertedCurrency ?? ''
+					)
+						? priceRange?.convertedCurrency
+						: 'USD') as 'USD' | 'UAH' | 'EUR',
+					sortBy,
+					sortOrder,
+					city: city ?? undefined,
+				})
+				setClassifieds(data.classifieds)
+				setIsFiltered(true)
+			} catch (error) {
+				console.error('Error applying filters:', error)
+			}
+		}, 300),
+		[
+			searchQuery,
+			tags,
+			minPrice,
+			maxPrice,
+			priceRange,
+			sortBy,
+			sortOrder,
+			city,
+			setClassifieds,
+			setIsFiltered,
+		]
+	)
 
 	// Обработка изменения тегов
-	const toggleTag = useCallback((tag: string) => {
-		setSelectedTags(prev =>
-			prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-		)
-	}, [])
+	const toggleTag = useCallback(
+		(tag: string) => {
+			const newTags = tags.includes(tag)
+				? tags.filter(t => t !== tag)
+				: [...tags, tag]
+			const newSelectedTags = selectedTags.includes(tag)
+				? selectedTags.filter(t => t !== tag)
+				: [...selectedTags, tag]
+
+			setTags(newTags)
+			setSelectedTags(newSelectedTags)
+		},
+		[tags, selectedTags, setTags, setSelectedTags]
+	)
+
+	useEffect(() => {
+		setSelectedTags(tags)
+	}, [tags])
 
 	// Обработка выбора города
 	const toggleCity = useCallback(
@@ -205,30 +219,54 @@ export const FilterModal = ({
 	// Применение фильтров при изменении параметров
 	useEffect(() => {
 		if (isOpen) {
-			applyFilters()
+			debouncedApplyFilters()
 		}
 	}, [
-		selectedTags,
 		minPrice,
 		maxPrice,
 		sortBy,
 		sortOrder,
 		city,
-		applyFilters,
+		tags,
 		isOpen,
+		debouncedApplyFilters,
 	])
 
 	// кнопка сброса фильтров
 	const resetModalFilters = useCallback(() => {
 		setMinPrice(priceRange?.convertedMin ?? null)
 		setMaxPrice(priceRange?.convertedMax ?? null)
+		setTags([])
 		setSelectedTags([])
 		setCity(null)
 		setSortBy('createdAt')
 		setSortOrder('desc')
-		resetFilters() // Сбрасываем фильтры в контексте
-		applyFilters()
-	}, [priceRange, applyFilters, resetFilters])
+		setIsFiltered(false) // Сбрасываем флаг фильтрации
+		// Вызываем начальную загрузку без фильтров
+		const fetchInitialData = async () => {
+			try {
+				const data = await classifiedsService.getClassifieds({
+					limit: 20,
+					smallLimit: 12,
+					smallOffset: 0,
+					currency: 'USD',
+				})
+				setClassifieds(data.classifieds)
+			} catch (error) {
+				console.error('Error fetching initial classifieds:', error)
+			}
+		}
+		fetchInitialData()
+	}, [
+		priceRange,
+		setTags,
+		setSelectedTags,
+		setCity,
+		setSortBy,
+		setSortOrder,
+		setIsFiltered,
+		setClassifieds,
+	])
 
 	if (!isOpen || !priceRange) return null
 
@@ -420,6 +458,7 @@ export const FilterModal = ({
 					))}
 				</div>
 			</div>
+
 			{/* Кнопка закрытия */}
 			<div className='flex justify-end p-8'>
 				<ButtonCustom

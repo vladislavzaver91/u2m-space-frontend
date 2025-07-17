@@ -206,7 +206,7 @@ export const Header = () => {
 					className={`absolute left-0 md:left-4 2xl:left-1/2 2xl:transform 2xl:-translate-x-1/2 w-full ${
 						isFocused
 							? 'max-[1023px]:min-w-full'
-							: 'max-[1023px]:max-w-[500px] '
+							: 'max-[824px]:max-w-[400px] max-[1023px]:max-w-[500px]'
 					} 
 						min-[1024px]:max-w-[430px] min-[1120px]:max-w-[500px] min-[1370px]:max-w-[500px] min-[1669px]:max-w-[770px] transition-all duration-300 ease-in-out ${
 							isSearchVisible
@@ -345,7 +345,7 @@ export const Header = () => {
 								)}
 
 								{/* filters */}
-								{searchQuery && (
+								{!isSearchVisible && searchQuery && (
 									<div className='hidden lg:flex'>
 										<ButtonCustom
 											ref={filterDesktopButtonRef}
@@ -382,39 +382,41 @@ export const Header = () => {
 								)}
 
 								{/* notifications */}
-								<div className='hidden lg:flex'>
-									<ButtonCustom
-										ref={notificationDesktopButtonRef}
-										onClick={handleNotificationClick}
-										text={tButtons('notifications')}
-										iconWrapperClass='relative flex items-center justify-center w-6 h-6'
-										icon={
-											hasNotifications ? (
-												<IconBasicComponent name='chat-notify' iconThumb />
-											) : (
-												<IconCustom
-													name='chat'
-													hover={true}
-													hoverColor='#f9329c'
-													className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
-														isNotificationModalOpen ? 'text-[#3486fe]!' : ''
-													}`}
-													aria-hidden='true'
-												/>
-											)
-										}
-										isHover
-										className={`p-8 min-w-[157px] w-fit ${
-											isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
-										}`}
-										aria-label={
-											isNotificationModalOpen
-												? 'Close notifications modal'
-												: 'Open notifications modal'
-										}
-										aria-expanded={isNotificationModalOpen}
-									/>
-								</div>
+								{!isSearchVisible && (
+									<div className='hidden lg:flex'>
+										<ButtonCustom
+											ref={notificationDesktopButtonRef}
+											onClick={handleNotificationClick}
+											text={tButtons('notifications')}
+											iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+											icon={
+												hasNotifications ? (
+													<IconBasicComponent name='chat-notify' iconThumb />
+												) : (
+													<IconCustom
+														name='chat'
+														hover={true}
+														hoverColor='#f9329c'
+														className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+															isNotificationModalOpen ? 'text-[#3486fe]!' : ''
+														}`}
+														aria-hidden='true'
+													/>
+												)
+											}
+											isHover
+											className={`p-8 min-w-[157px] w-fit ${
+												isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
+											}`}
+											aria-label={
+												isNotificationModalOpen
+													? 'Close notifications modal'
+													: 'Open notifications modal'
+											}
+											aria-expanded={isNotificationModalOpen}
+										/>
+									</div>
+								)}
 
 								{/* favorites & add */}
 								<div className='hidden lg:flex'>
@@ -460,7 +462,7 @@ export const Header = () => {
 										{isMobile && (
 											<>
 												{/* filters */}
-												{searchQuery && (
+												{!isSearchVisible && searchQuery && (
 													<ButtonCustom
 														ref={filterMobileButtonRef}
 														onClick={handleFiltersClick}
@@ -515,7 +517,7 @@ export const Header = () => {
 												)}
 
 												{/* notifications */}
-												{!isFilterModalOpen && (
+												{!isSearchVisible && !isFilterModalOpen && (
 													<ButtonCustom
 														ref={notificationMobileButtonRef}
 														onClick={handleNotificationClick}
@@ -558,7 +560,7 @@ export const Header = () => {
 										{isTablet && (
 											<>
 												{/* filters */}
-												{searchQuery && (
+												{!isSearchVisible && searchQuery && (
 													<ButtonCustom
 														ref={filterTabletButtonRef}
 														onClick={handleFiltersClick}
@@ -594,41 +596,43 @@ export const Header = () => {
 													/>
 												)}
 												{/* notifications */}
-												<ButtonCustom
-													ref={notificationTabletButtonRef}
-													onClick={handleNotificationClick}
-													iconWrapperClass='relative flex items-center justify-center w-6 h-6'
-													icon={
-														hasNotifications ? (
-															<IconBasicComponent
-																name='chat-notify'
-																iconThumb
-															/>
-														) : (
-															<IconCustom
-																name='chat'
-																hover={true}
-																hoverColor='#f9329c'
-																className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
-																	isNotificationModalOpen
-																		? 'text-[#3486fe]!'
-																		: ''
-																}`}
-																aria-hidden='true'
-															/>
-														)
-													}
-													isHover
-													className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
-														isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
-													}`}
-													aria-label={
-														isNotificationModalOpen
-															? 'Close notifications modal'
-															: 'Open notifications modal'
-													}
-													aria-expanded={isNotificationModalOpen}
-												/>
+												{!isSearchVisible && (
+													<ButtonCustom
+														ref={notificationTabletButtonRef}
+														onClick={handleNotificationClick}
+														iconWrapperClass='relative flex items-center justify-center w-6 h-6'
+														icon={
+															hasNotifications ? (
+																<IconBasicComponent
+																	name='chat-notify'
+																	iconThumb
+																/>
+															) : (
+																<IconCustom
+																	name='chat'
+																	hover={true}
+																	hoverColor='#f9329c'
+																	className={`w-6 h-6 text-[#3486fe] fill-none group-hover:text-[#f9329c] group-focus:text-[#f9329c] ${
+																		isNotificationModalOpen
+																			? 'text-[#3486fe]!'
+																			: ''
+																	}`}
+																	aria-hidden='true'
+																/>
+															)
+														}
+														isHover
+														className={`p-4 min-w-14 md:p-8 md:min-w-[88px] w-fit ${
+															isNotificationModalOpen ? 'bg-[#F7F7F7]!' : ''
+														}`}
+														aria-label={
+															isNotificationModalOpen
+																? 'Close notifications modal'
+																: 'Open notifications modal'
+														}
+														aria-expanded={isNotificationModalOpen}
+													/>
+												)}
 											</>
 										)}
 

@@ -81,6 +81,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 			sortOrder: 'desc',
 		})
 		setCity(null)
+		setSearchQuery('')
 		setIsFiltered(false)
 	}
 

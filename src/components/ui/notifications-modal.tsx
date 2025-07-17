@@ -102,9 +102,22 @@ export const NotificationsModal = ({
 			}
 		}
 
-		document.addEventListener('mousedown', handleClickOutside)
+		const handleScroll = () => {
+			if (isOpen) {
+				onClose()
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside)
+			window.addEventListener('scroll', handleScroll)
+			window.addEventListener('touchmove', handleScroll) // Для сенсорных устройств
+		}
+
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside)
+			window.removeEventListener('scroll', handleScroll)
+			window.removeEventListener('touchmove', handleScroll)
 		}
 	}, [isOpen, onClose])
 

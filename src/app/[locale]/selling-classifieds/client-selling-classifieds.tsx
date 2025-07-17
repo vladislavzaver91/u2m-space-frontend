@@ -35,23 +35,49 @@ export default function ClientSellingClassifieds() {
 	)
 	const { settings } = useLanguage()
 	const { isLoading } = useLoading()
-	const { searchQuery, setClassifieds, classifieds, city } = useSearch()
+	const {
+		searchQuery,
+		setClassifieds,
+		classifieds,
+		city,
+		isFiltered,
+		tags,
+		minPrice,
+		maxPrice,
+		sortBy,
+		sortOrder,
+	} = useSearch()
 
 	const limit = 20
 
 	const fetchClassifieds = async (isLoadMore = false) => {
 		try {
 			setIsFetching(true)
-			const data: ClassifiedsResponse = await classifiedsService.getClassifieds(
-				{
+			let data: ClassifiedsResponse
+			if (isFiltered) {
+				// Используем filterClassifieds для подгрузки с учетом фильтров
+				data = await classifiedsService.filterClassifieds({
+					search: searchQuery || undefined,
+					currency: settings.currencyCode,
+					city: city ?? undefined,
+					offset: smallOffset,
+					limit: 12, // Используем limit вместо smallLimit для согласованности
+					tags: tags?.length > 0 ? tags : undefined,
+					minPrice: minPrice !== null ? minPrice.toString() : undefined,
+					maxPrice: maxPrice !== null ? maxPrice.toString() : undefined,
+					sortBy,
+					sortOrder,
+				})
+			} else {
+				// Используем getClassifieds для начальной загрузки или без фильтров
+				data = await classifiedsService.getClassifieds({
 					currency: settings.currencyCode,
 					category: activeCategory,
 					city: city ?? undefined,
 					smallOffset,
 					smallLimit: 12,
-				}
-			)
-			console.log('Fetched data:', data)
+				})
+			}
 			setClassifieds({
 				largeFirst: isLoadMore
 					? classifieds.largeFirst ?? []
@@ -64,6 +90,9 @@ export default function ClientSellingClassifieds() {
 					: data.classifieds.small ?? [],
 			})
 			setHasMore(data.hasMoreSmall ?? false)
+			if (!isLoadMore) {
+				setSmallOffset(0) // Сбрасываем offset при начальной загрузке
+			}
 		} catch (error) {
 			console.error('Error fetching classifieds:', error)
 		} finally {
@@ -71,34 +100,26 @@ export default function ClientSellingClassifieds() {
 		}
 	}
 
-	// Обновление цен при смене валюты
-	// useEffect(() => {
-	// 	setClassifieds(prev =>
-	// 		prev.map(item => ({
-	// 			...item,
-	// 			convertedCurrency: selectedCurrency.code,
-	// 		}))
-	// 	)
-	// }, [selectedCurrency.code])
-
-	// Infinite Scroll
 	useEffect(() => {
-		setSmallOffset(0)
-		fetchClassifieds(false)
-	}, [settings.currencyCode, activeCategory, searchQuery, city, setClassifieds])
-
-	// Загрузка дополнительных small объявлений
-	useEffect(() => {
-		if (smallOffset > 0) {
+		if (smallOffset > 0 && hasMore && !isFetching) {
 			fetchClassifieds(true)
 		}
+	}, [smallOffset, hasMore])
+
+	// Обновляем useEffect для fetchClassifieds
+	useEffect(() => {
+		if (!isFiltered) {
+			setSmallOffset(0)
+			setHasMore(true)
+			fetchClassifieds(false)
+		}
 	}, [
-		smallOffset,
 		settings.currencyCode,
 		activeCategory,
 		searchQuery,
 		city,
 		setClassifieds,
+		isFiltered,
 	])
 
 	// IntersectionObserver для бесконечного скролла
